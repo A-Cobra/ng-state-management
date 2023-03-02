@@ -1,11 +1,26 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { getEnvPath } from './common/utils/env-path';
+import { validate } from './common/utils/env-validate';
+import { DBModule } from './database/database.module';
+import { DBConfigService } from './database/database-config.service';
 
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+const envFilePath = getEnvPath(process.env.WORKDIR)
 
 @Module({
-  imports: [],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [
+    ConfigModule.forRoot({
+      envFilePath,
+      validate,
+      isGlobal: true,      
+    }),
+    TypeOrmModule.forRootAsync({
+      imports: [DBModule],
+      useExisting: DBConfigService,
+    })
+  ],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}
