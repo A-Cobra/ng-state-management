@@ -5,7 +5,11 @@
   "scripts": {
     "be:serve": "npx nx serve state-management-backend",
     "fe:serve": "npx nx serve state-management-frontend",
-    "app:serve": ""
+    "typeorm": "typeorm-ts-node-esm",
+    "typeorm:run-migrations": "npm run typeorm migration:run -- -d ./packages/state-management-backend/src/app/database/typeorm.config.ts",
+    "typeorm:generate-migration": "npm run typeorm -- -d ./packages/state-management-backend/src/app/database/typeorm.config.ts migration:generate ./packages/state-management-backend/src/app/database/migrations/$npm_config_name -p",
+    "typeorm:create-migration": "npm run typeorm -- migration:create ./packages/state-management-backend/src/app/database/migrations/$npm_config_name",
+    "typeorm:revert-migration": "npm run typeorm -- -d ./packages/state-management-backend/src/app/database/typeorm.config.ts migration:revert"
   },
   "private": true,
   "devDependencies": {
