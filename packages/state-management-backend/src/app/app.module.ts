@@ -4,7 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { getEnvPath } from './common/utils/env-path';
 import { validate } from './common/utils/env-validate';
 import { DBModule } from './database/database.module';
-import { DBConfigService } from './database/database-config.service';
+import { DBConfigService } from './database/services/database-config.service';
 import { UsersModule } from './users/users.module';
 
 const envFilePath = getEnvPath(process.env.WORKDIR);
