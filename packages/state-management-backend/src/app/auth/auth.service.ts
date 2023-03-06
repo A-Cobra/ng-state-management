@@ -62,7 +62,7 @@ export class AuthService {
       return this.userService.updateRole(user, newRole);
     } else {
       throw new ConflictException(
-        `Can't change your own role, ask another admin for help`,
+        "Can't change your own role, ask another admin for help",
       );
     }
   }

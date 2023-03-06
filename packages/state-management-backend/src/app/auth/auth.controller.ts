@@ -22,7 +22,7 @@ import { Role } from './interfaces/role.enum';
 export class AuthController {
   constructor(private authService: AuthService) {}
 
-  @Post('signin')
+  @Post('/local/signin')
   async signIn(@Body() credentials: SignInDto) {
     return this.authService.signIn(credentials);
   }
@@ -33,7 +33,7 @@ export class AuthController {
     return this.authService.signOut(userInfo);
   }
 
-  @Post('signup')
+  @Post('/local/signup')
   async signUp(@Body() userInfo: CreateUserDto) {
     return this.authService.signUp(userInfo);
   }

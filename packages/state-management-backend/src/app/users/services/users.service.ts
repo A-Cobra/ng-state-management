@@ -50,7 +50,7 @@ export class UsersService {
     }
   }
 
-  async logInUser(user: User){
+  async logInUser(user: User): Promise<User>{
     return this.userRepository.updateLogInStatus(user, true);
   }
 
