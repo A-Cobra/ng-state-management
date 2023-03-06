@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AuthModule } from './auth/auth.module';
 import { getEnvPath } from './common/utils/env-path';
 import { validate } from './common/utils/env-validate';
 import { DBModule } from './database/database.module';
@@ -21,6 +22,7 @@ const envFilePath = getEnvPath(process.env.WORKDIR);
       useExisting: DBConfigService,
     }),
     UsersModule,
+    AuthModule
   ],
   controllers: [],
   providers: [],
