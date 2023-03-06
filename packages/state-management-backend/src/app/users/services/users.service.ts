@@ -12,7 +12,7 @@ export class UsersService {
   async create(userInfo: CreateUserDto){
     return this.userRepository.createOneUser(userInfo);
   }
-  
+
   async findAll(): Promise<User[]> {
     return this.userRepository.findAllUsers();
   }
@@ -20,10 +20,10 @@ export class UsersService {
   async findOne(userId: string | SignInDto) {
 
     const user = await this.userRepository.findOneUser(userId);
-  
+
     if (!user) {
       throw new NotFoundException(
-        `user not found`,
+        'user not found',
       );
     }
 
@@ -51,11 +51,11 @@ export class UsersService {
   }
 
   async logInUser(user: User){
-    return this.userRepository.updateLogInStatus(user, true)
+    return this.userRepository.updateLogInStatus(user, true);
   }
 
   async logOutUser(user: User){
-    return this.userRepository.updateLogInStatus(user, false)
+    return this.userRepository.updateLogInStatus(user, false);
   }
 
   async updateRole(user: User, newRole: string){

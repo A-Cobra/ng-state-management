@@ -9,6 +9,7 @@ import { DBConfigService } from './database/services/database-config.service';
 import { UsersModule } from './users/users.module';
 
 const envFilePath = getEnvPath(process.env.WORKDIR);
+const envFilePath = getEnvPath(process.env.WORKDIR);
 
 @Module({
   imports: [
