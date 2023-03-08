@@ -1,9 +1,9 @@
-import { Injectable } from "@nestjs/common";
-import {ConfigService} from "@nestjs/config";
+import { Injectable } from '@nestjs/common';
+import {ConfigService} from '@nestjs/config';
 import{
     TypeOrmModuleOptions,
     TypeOrmOptionsFactory
-} from "@nestjs/typeorm"
+} from '@nestjs/typeorm';
 
 @Injectable()
 export class DBConfigService implements TypeOrmOptionsFactory{
@@ -29,6 +29,6 @@ export class DBConfigService implements TypeOrmOptionsFactory{
             autoLoadEntities: true,
             migrations: [`${__dirname}/migrations/*.ts`],
             migrationsRun: true,
-        }
+        };
     }
 }

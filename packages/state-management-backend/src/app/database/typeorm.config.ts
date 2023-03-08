@@ -4,9 +4,9 @@ import { DataSource, DataSourceOptions } from 'typeorm';
 import { ConfigService } from '@nestjs/config';
 import { config } from 'dotenv';
 import { getEnvPath } from '../common/utils/env-path';
+import { User } from '../users/entities/user.entity';
 
 const envFilePath: string = getEnvPath(`${__dirname}/../../../../..`);
-console.log(envFilePath)
 config({ path: envFilePath });
 
 const configService = new ConfigService();
@@ -17,7 +17,7 @@ const options: DataSourceOptions = {
   username: configService.get('DB_USER'),
   password: configService.get('DB_PASS'),
   database: configService.get('DB_NAME'),
-  entities: [`${__dirname}/../**/*.entity.{js,ts}`],
+  entities: [User],
   migrations: [`${__dirname}/migrations/*.ts`],
 };
 

@@ -56,6 +56,33 @@
           "codeCoverage": true
         }
       }
+    },
+    "build-migration-config": {
+      "executor": "@nrwl/node:webpack",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "./dist/database/",
+        "main": "./packages/state-management-backend/src/app/database/typeorm.config.ts",
+        "tsConfig": "./packages/state-management-backend/tsconfig.app.json"
+      }
+    },
+    "typeorm-generate-migrations": {
+      "executor": "@nrwl/workspace:run-commands",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "cwd": "packages/state-management-backend",
+        "commands": ["typeorm -d ../../dist/database/main.js migration:generate"]
+      },
+      "dependsOn": ["build-migration-config"]
+    },
+    "typeorm-run-migrations": {
+      "executor": "@nrwl/workspace:run-commands",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "cwd": "packages/state-management-backend",
+        "commands": ["typeorm -d ../../dist/database/main.js migration:run"]
+      },
+      "dependsOn": ["build-migration-config"]
     }
   },
   "tags": []
