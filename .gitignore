@@ -40,6 +40,5 @@ Thumbs.db
 
 .angular
 .env.development
-/migrations
 .env
-packages/state-management-backend/migrations
+prisma/migrations/

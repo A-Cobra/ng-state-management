@@ -1,25 +1,35 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { SignInDto } from '../../auth/dto/sigin.dto';
+import { PrismaService } from '../../database/services/prisma.service';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
 import { User } from '../entities/user.entity';
-import { UserRepository } from '../repositories/user.repository';
 
 @Injectable()
 export class UsersService {
-  constructor(private readonly userRepository: UserRepository){}
+  constructor(private readonly prisma: PrismaService) {}
 
-  async create(userInfo: CreateUserDto){
-    return this.userRepository.createOneUser(userInfo);
+  async create(data: CreateUserDto): Promise<User>{
+    return this.prisma.user.create({
+      data: {
+        email: data.email,
+        username: data.username,
+        password: data.password,
+        isLoggedIn: false
+      }
+    });
   }
 
   async findAll(): Promise<User[]> {
-    return this.userRepository.findAllUsers();
+    return this.prisma.user.findMany();
   }
 
-  async findOne(userId: string | SignInDto) {
+  async findOne(userId: string): Promise<User> {
 
-    const user = await this.userRepository.findOneUser(userId);
+    const user = await this.prisma.user.findUnique({
+      where: {
+        userId: userId
+      }
+    });
 
     if (!user) {
       throw new NotFoundException(
@@ -30,35 +40,71 @@ export class UsersService {
     return user;
   }
 
-  async update(userId: string, updatedUserInfo: UpdateUserDto) {
-    const user = await this.findOne(userId);
+  async findOneByEmail(email: string): Promise<User> {
 
-    await this.userRepository.updateOneUser(user, updatedUserInfo);
+    const user = await this.prisma.user.findUnique({
+      where: {
+        email: email
+      },
+    });
 
-    return { userId, update: { ...updatedUserInfo } };
+    if (!user) {
+      throw new NotFoundException(
+        'user not found',
+      );
+    }
+
+    return user;
+  }
+
+  async update(userId: string, updatedUserInfo: UpdateUserDto): Promise<User> {
+    const updatedUser = await this.prisma.user.update({
+      where: {
+        userId: userId
+      },
+      data: updatedUserInfo
+    });
+
+    return updatedUser;
   }
 
   async remove(userId: string) {
-    const deletedUser = await this.userRepository.deleteOneUser(
-      userId,
-    );
+    const deletedUser = await this.prisma.user.delete({
+      where: {
+        userId: userId
+      },
+    });
 
-    if (deletedUser.affected === 0) {
+    if (!deletedUser) {
       throw new NotFoundException(
         `user with id: ${userId} not found`,
       );
     }
   }
 
-  async logInUser(user: User): Promise<User>{
-    return this.userRepository.updateLogInStatus(user, true);
+  async changeUserLogState(user: User, state: boolean): Promise<User>{
+    const updatedUser = await this.prisma.user.update({
+      where: {
+        userId: user.userId
+      },
+      data: {
+        isLoggedIn: state
+      }
+    });
+
+    return updatedUser;
   }
 
-  async logOutUser(user: User){
-    return this.userRepository.updateLogInStatus(user, false);
-  }
+  async updateRole(user: User, newRole: string): Promise<User>{
+    const updatedUser = await this.prisma.user.update({
+      where: {
+        userId: user.userId
+      },
+      data: {
+        role: newRole
+      }
+    });
 
-  async updateRole(user: User, newRole: string){
-    return this.userRepository.updateRole(user, newRole);
+    return updatedUser;
   }
 }

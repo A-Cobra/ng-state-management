@@ -1,8 +1,10 @@
 import {
   Body,
   Controller,
+  Get,
   Param,
   Post,
+  Req,
   UseGuards,
 } from '@nestjs/common';
 import { CreateUserDto } from '../users/dto/create-user.dto';
@@ -11,9 +13,11 @@ import { GetUser } from './decorator/get-user.decorator';
 import { Roles } from './decorator/role.decorator';
 import { SignInDto } from './dto/sigin.dto';
 import { JwtAuthGuard } from './guard/jwt-auth.guard';
+import { RefreshTokenGuard } from './guard/refrest-token.guard';
 import { RolesGuard } from './guard/role.guard';
 import { JwtInfo } from './interfaces/jwtinfo.type';
 import { Role } from './interfaces/role.enum';
+import { Request } from 'express';
 
 @Controller({
   path: 'auth',
@@ -48,4 +52,13 @@ export class AuthController {
   ) {
     return this.authService.changeRole(currentUser, userId, newRole);
   }
+
+  @UseGuards(RefreshTokenGuard)
+  @Get('refresh')
+  refreshTokens(@Req() req: Request) {
+    const userId = req.user['sub'];
+    const refreshToken = req.user['refreshToken'];
+    return this.authService.refreshTokens(userId, refreshToken);
+  }
+
 }

@@ -15,19 +15,20 @@ export async function signToken(user: User): Promise<string> {
   });
 }
 
-export async function validatePassword(
+export async function validateCode(
   hash: string,
-  password: string,
-): Promise<void> {
-  const passwordCorrect = await argon.verify(hash, password);
+  rawCode: string,
+): Promise<boolean> {
+  const codeCorrect = await argon.verify(hash, rawCode);
 
-  if (!passwordCorrect) {
-    throw new ForbiddenException('Password is incorrect');
+  if (!codeCorrect) {
+    throw new ForbiddenException('Codes does not match');
   }
+
+  return true;
 }
 
-export async function hashPassword(
-  password: string,
-): Promise<string> {
-  return argon.hash(password);
+export async function hashData(data: string): Promise<string> {
+  return argon.hash(data);
 }
+

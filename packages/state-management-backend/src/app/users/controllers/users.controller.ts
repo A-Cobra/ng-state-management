@@ -8,6 +8,7 @@ import {
 } from '@nestjs/common';
 import { UsersService } from '../services/users.service';
 import { UpdateUserDto } from '../dto/update-user.dto';
+import { User } from '@prisma/client';
 
 @Controller({
   path: 'users', 

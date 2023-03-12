@@ -5,23 +5,12 @@ export class EnvironmentVariables {
   API_PORT: number;
 
   @IsString()
-  DB_ENGINE: string;
-
-  @IsString()
-  DB_HOST: string;
-
-  @IsNumber()
-  DB_PORT: number;
-
-  @IsString()
-  DB_USER: string;
-
-  @IsString()
-  DB_PASS: string;
-
-  @IsString()
-  DB_NAME: string;
+  DATABASE_URL: string;
 
   @IsString()
   JWT_SECRET: string;
+
+  @IsString()
+  JWT_REFRESH_SECRET: string;
+
 }
