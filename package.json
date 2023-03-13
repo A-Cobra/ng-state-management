@@ -4,7 +4,8 @@
   "license": "MIT",
   "scripts": {
     "be:serve": "npx nx serve state-management-backend",
-    "fe:serve": "npx nx serve state-management-frontend"
+    "fe:serve": "npx nx serve state-management-frontend",
+    "prepare": "husky install"
   },
   "private": true,
   "devDependencies": {
@@ -37,9 +38,11 @@
     "eslint": "~8.15.0",
     "eslint-config-prettier": "8.1.0",
     "eslint-plugin-cypress": "^2.10.3",
+    "husky": "^8.0.3",
     "jest": "28.1.1",
     "jest-environment-jsdom": "28.1.1",
     "jest-preset-angular": "~12.2.3",
+    "lint-staged": "^13.1.2",
     "nx": "15.7.0",
     "prettier": "^2.6.2",
     "prisma": "^4.11.0",
