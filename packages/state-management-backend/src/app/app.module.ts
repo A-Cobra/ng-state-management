@@ -6,6 +6,7 @@ import { getEnvPath } from './common/utils/env-path';
 import { validate } from './common/utils/env-validate';
 import { DBModule } from './database/database.module';
 import { UsersModule } from './users/users.module';
+import { ProductsModule } from './products/products.module';
 
 const envFilePath = getEnvPath(process.env.WORKDIR);
 
@@ -18,7 +19,8 @@ const envFilePath = getEnvPath(process.env.WORKDIR);
     }),
     UsersModule,
     AuthModule,
-    DBModule
+    DBModule,
+    ProductsModule,
   ],
   controllers: [],
   providers: [PrismaService],
