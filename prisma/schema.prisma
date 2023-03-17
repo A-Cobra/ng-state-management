@@ -25,3 +25,8 @@ model User {
 
     refresh_token String?
 }
+
+model Product {
+  idProduct String @id @default(uuid()) @map("id_product")
+  productName String @default(uuid()) @map("product_name")
+}
