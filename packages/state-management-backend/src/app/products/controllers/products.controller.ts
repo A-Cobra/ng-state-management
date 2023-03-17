@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Param, Post, Put, Patch } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Put,
+  Patch,
+  Query,
+} from '@nestjs/common';
 
 @Controller({
   path: 'products',
@@ -28,5 +37,24 @@ export class ProductsController {
   @Patch(':id')
   partialUpdateProduct(@Param('id') id: string, @Body() body: any): string {
     return `PATCH a specific product${id}`;
+  }
+
+  @Get(':id/reviews')
+  getReviews(
+    @Param('id') productId: string,
+    @Query('page') page: number,
+    @Query('limit') limit: number
+  ): any {
+    return {
+      message: `/product/${productId}/reviews?page=${page}&limit=${limit}`,
+    };
+  }
+
+  @Post(':id/reviews')
+  createReview(@Body() body: any, @Param('id') id: string) {
+    return {
+      message: `Update a specific Product with a specific id ${id}`,
+      body,
+    };
   }
 }
