@@ -17,9 +17,24 @@
         "inlineStyleLanguage": "scss",
         "assets": [
           "packages/state-management-frontend/src/favicon.ico",
-          "packages/state-management-frontend/src/assets"
+          "packages/state-management-frontend/src/assets",
+          {
+            "glob": "**/*",
+            "input": "node_modules/@clapp1/clapp-angular/assets/images",
+            "output": "assets/clapp"
+          },
+          {
+            "glob": "**/*",
+            "input": "node_modules/@clapp1/clapp-angular/assets/icons",
+            "output": "assets/clapp"
+          }
         ],
-        "styles": ["packages/state-management-frontend/src/styles.scss"],
+        "styles": [
+          "packages/state-management-frontend/src/styles.scss",
+          "node_modules/@clapp1/clapp-angular/styles/clapp-fonts.scss",
+          "node_modules/remixicon/fonts/remixicon.css",
+          "node_modules/@angular/cdk/overlay-prebuilt.css"
+        ],
         "scripts": []
       },
       "configurations": {
