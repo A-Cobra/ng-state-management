@@ -27,6 +27,11 @@ model User {
 }
 
 model Product {
-  idProduct String @id @default(uuid()) @map("id_product")
-  productName String @default(uuid()) @map("product_name")
+  idProduct String @id @default(uuid())
+  productName String @db.VarChar(50)
+  description String @db.VarChar(150)
+  price Decimal @db.Decimal(10,2)
+  discount Decimal @db.Decimal(3,2)
+  stock Int
+  status String @db.VarChar(25)
 }
