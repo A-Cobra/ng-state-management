@@ -16,7 +16,7 @@ export class ProductsController {
   }
 
   @Post()
-  create(@Body() body: any): string {
+  create(@Body() product: any): string {
     return 'Post a new product';
   }
 
