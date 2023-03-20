@@ -25,10 +25,10 @@ export class AuthService {
 
     await validateCode(user.password, credentials.password);
 
-    await this.userService.changeUserLogState(user, true);
+    await this.userService.changeUserLogState(user.user_id, true);
 
-    const tokens = await this.getTokens(user.userId, user.username);
-    await this.updateRefreshToken(user.userId, tokens.refreshToken);
+    const tokens = await this.getTokens(user.user_id, user.username);
+    await this.updateRefreshToken(user.user_id, tokens.refreshToken);
 
     return {
       status: 'OK',
@@ -44,7 +44,7 @@ export class AuthService {
   async signOut(userInfo: JwtInfo) {
     const user = await this.userService.findOne(userInfo.sub);
 
-    await this.userService.changeUserLogState(user, false);
+    await this.userService.changeUserLogState(user.user_id, false);
 
     return {
       status: 'OK',
@@ -65,8 +65,8 @@ export class AuthService {
   ) {
     const user = await this.userService.findOne(userId);
 
-    if (currentUser.sub !== user.userId) {
-      return this.userService.updateRole(user, newRole);
+    if (currentUser.sub !== user.user_id) {
+      return this.userService.updateRole(user.user_id, newRole);
     } else {
       throw new ConflictException(
         "Can't change your own role, ask another admin for help",
@@ -130,22 +130,22 @@ export class AuthService {
 
       const admin = await this.signUp(adminUser);
 
-      await this.changeRole(currentUser, admin.userId, 'admin');
+      await this.changeRole(currentUser, admin.user_id, 'admin');
     }
   }
 
   async refreshTokens(userId: string, refreshToken: string) {
     const user = await this.userService.findOne(userId);
 
-    if (!user || !user.refresh_token)
+    if (!user || !user.refreshToken)
       throw new ForbiddenException('Access Denied');
 
-    const refreshTokenMatches = await validateCode(user.refresh_token, refreshToken);
+    const refreshTokenMatches = await validateCode(user.refreshToken, refreshToken);
 
     if (!refreshTokenMatches) throw new ForbiddenException('Access Denied');
 
-    const tokens = await this.getTokens(user.userId, user.username);
-    await this.updateRefreshToken(user.userId, tokens.refreshToken);
+    const tokens = await this.getTokens(user.user_id, user.username);
+    await this.updateRefreshToken(user.user_id, tokens.refreshToken);
 
     return tokens;
   }
