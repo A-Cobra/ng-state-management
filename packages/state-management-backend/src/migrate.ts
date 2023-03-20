@@ -1,11 +1,12 @@
 import { MikroORM } from '@mikro-orm/core';
 import { User } from './app/users/entities/user.entity';
+import { Review } from './app/products/entities/review.entity';
 
 (async () => {
   const orm = await MikroORM.init({
     type: 'postgresql',
-    clientUrl: 'postgres://postgres:123456@localhost:5432/state_db',
-    entities: [User],
+    clientUrl: 'postgres://postgres:postgrespw@localhost:32768/state-db',
+    entities: [User, Review],
     debug: true,
   });
 

@@ -53,10 +53,7 @@ export class ProductsController {
   }
 
   @Post(':id/reviews')
-  createReview(@Body() body: CreateReviewDto, @Param('id') id: string) {
-    return {
-      message: `Update a specific Product with a specific id ${id}`,
-      body,
-    };
+  createReview(@Body() body: CreateReviewDto, @Param('id') productId: string) {
+    return this.productsService.createReview({ ...body, productId });
   }
 }
