@@ -1,12 +1,13 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../../database/services/prisma.service';
-import { Product } from '../entities/product.entity';
+import { MikroORM } from '@mikro-orm/core';
+import { EntityManager } from '@mikro-orm/postgresql';
 
 Injectable();
 export class ProductsService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly orm: MikroORM,
+    private readonly em: EntityManager
+  ) {}
 
-  async getAll(): Promise<Product[]> {
-    return this.prisma.product.findMany();
-  }
+  getReviews({ page, limit, productId }) {}
 }
