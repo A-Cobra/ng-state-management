@@ -1,4 +1,5 @@
 import { CreateReviewDto } from '../dto/create-review.dto';
+import { ProductsService } from '../services/products.service';
 import {
   Body,
   Controller,
@@ -15,6 +16,8 @@ import {
   version: '1',
 })
 export class ProductsController {
+  constructor(private readonly productsService: ProductsService) {}
+
   @Get()
   getAllProducts(): string {
     return 'Get All Products';
@@ -46,9 +49,7 @@ export class ProductsController {
     @Query('page') page: number,
     @Query('limit') limit: number
   ) {
-    return {
-      message: `/product/${productId}/reviews?page=${page}&limit=${limit}`,
-    };
+    return this.productsService.getReviews({ page, productId, limit });
   }
 
   @Post(':id/reviews')
