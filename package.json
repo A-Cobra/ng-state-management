@@ -52,6 +52,7 @@
   },
   "dependencies": {
     "@angular/animations": "~15.1.0",
+    "@angular/cdk": "^13.3.9",
     "@angular/common": "~15.1.0",
     "@angular/compiler": "~15.1.0",
     "@angular/core": "~15.1.0",
@@ -59,6 +60,7 @@
     "@angular/platform-browser": "~15.1.0",
     "@angular/platform-browser-dynamic": "~15.1.0",
     "@angular/router": "~15.1.0",
+    "@clapp1/clapp-angular": "^0.0.2",
     "@nestjs/common": "^9.0.0",
     "@nestjs/config": "^2.3.1",
     "@nestjs/core": "^9.0.0",
@@ -76,6 +78,7 @@
     "passport-jwt": "^4.0.1",
     "pg": "^8.9.0",
     "reflect-metadata": "^0.1.13",
+    "remixicon": "^2.5.0",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
