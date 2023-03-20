@@ -10,13 +10,10 @@ import {
 import { CreateUserDto } from '../users/dto/create-user.dto';
 import { AuthService } from './auth.service';
 import { GetUser } from './decorator/get-user.decorator';
-import { Roles } from './decorator/role.decorator';
 import { SignInDto } from './dto/sigin.dto';
 import { JwtAuthGuard } from './guard/jwt-auth.guard';
 import { RefreshTokenGuard } from './guard/refrest-token.guard';
-import { RolesGuard } from './guard/role.guard';
 import { JwtInfo } from './interfaces/jwtinfo.type';
-import { Role } from './interfaces/role.enum';
 import { Request } from 'express';
 
 @Controller({
@@ -42,9 +39,8 @@ export class AuthController {
     return this.authService.signUp(userInfo);
   }
 
-  @UseGuards(JwtAuthGuard, RolesGuard)
+  @UseGuards(JwtAuthGuard)
   @Post('account/:userId/role/:newRole')
-  @Roles(Role.Admin)
   async changeRole(
     @GetUser() currentUser: JwtInfo,
     @Param('userId') userId: string,
