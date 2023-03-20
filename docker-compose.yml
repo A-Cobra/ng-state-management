@@ -7,7 +7,7 @@ services:
     volumes:
       - .:/usr/src/app
     env_file:
-      - .env.development
+      - .env
     command: npm run be:serve
     ports:
       - 4200:4200

@@ -13,8 +13,7 @@
   "compilerOptions": {
     "esModuleInterop": true,
     "experimentalDecorators": true,
+    "module": "commonjs"
   },
-  "targets": {
-    
-  }
+  "targets": {}
 }

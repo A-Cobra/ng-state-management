@@ -1,16 +1,38 @@
-import { Exclude } from 'class-transformer';
+import { Entity, ManyToOne, PrimaryKey, Property } from '@mikro-orm/core';
+import { v4 } from 'uuid';
 
+@Entity()
 export class User {
-    userId: string;
+  @PrimaryKey()
+  user_id: string = v4();
 
-    username: string;
+  @Property()
+  role: string;
 
-    @Exclude({ toPlainOnly: true })
-    password: string;
+  @Property()
+  username: string;
 
-    isLoggedIn: boolean;
+  @Property()
+  name: string;
 
-    role: string;
+  @Property()
+  lastname: string;
 
-    refresh_token?: string;
+  @Property()
+  picture: string;
+
+  @Property()
+  email: string;
+
+  @Property()
+  password: string;
+
+  @Property()
+  isLoggedIn: boolean;
+
+  @Property()
+  contact_number: string;
+
+  @Property()
+  refreshToken?: string;
 }
