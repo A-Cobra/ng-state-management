@@ -31,7 +31,7 @@
           {
             "selector": "interface",
             "format": [
-              "camelcase"
+              "SnakeCase"
             ],
             "custom": {
               "regex": "^I[A-Z]",
