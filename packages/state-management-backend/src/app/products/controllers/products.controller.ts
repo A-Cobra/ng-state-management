@@ -1,3 +1,4 @@
+import { CreateReviewDto } from '../dto/create-review.dto';
 import {
   Body,
   Controller,
@@ -44,14 +45,14 @@ export class ProductsController {
     @Param('id') productId: string,
     @Query('page') page: number,
     @Query('limit') limit: number
-  ): any {
+  ) {
     return {
       message: `/product/${productId}/reviews?page=${page}&limit=${limit}`,
     };
   }
 
   @Post(':id/reviews')
-  createReview(@Body() body: any, @Param('id') id: string) {
+  createReview(@Body() body: CreateReviewDto, @Param('id') id: string) {
     return {
       message: `Update a specific Product with a specific id ${id}`,
       body,
