@@ -11,6 +11,7 @@ import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { ReflectMetadataProvider } from '@mikro-orm/core';
 import { Business_HQ } from './business/entities/business.entity';
 import { Business_classification } from './business/entities/business_classification.entity';
+import { BranchesModule } from './branches/branches.module';
 
 const envFilePath = getEnvPath(process.env.WORKDIR);
 
@@ -26,6 +27,7 @@ const envFilePath = getEnvPath(process.env.WORKDIR);
     BusinessModule,
     DBModule,
     MikroOrmModule.forRoot(),
+    BranchesModule,
   ],
   controllers: [],
   providers: [PrismaService],
