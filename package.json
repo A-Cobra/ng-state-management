@@ -16,6 +16,7 @@
     "@angular/cli": "~15.1.0",
     "@angular/compiler-cli": "~15.1.0",
     "@angular/language-service": "~15.1.0",
+    "@nestjs/cli": "^9.3.0",
     "@nestjs/schematics": "^9.0.0",
     "@nestjs/testing": "^9.0.0",
     "@nrwl/angular": "^15.7.0",
@@ -59,6 +60,12 @@
     "@angular/platform-browser": "~15.1.0",
     "@angular/platform-browser-dynamic": "~15.1.0",
     "@angular/router": "~15.1.0",
+    "@mikro-orm/cli": "^5.6.15",
+    "@mikro-orm/core": "^5.6.15",
+    "@mikro-orm/migrations": "^5.6.15",
+    "@mikro-orm/nestjs": "^5.1.7",
+    "@mikro-orm/postgresql": "^5.6.15",
+    "@mikro-orm/reflection": "^5.6.15",
     "@nestjs/common": "^9.0.0",
     "@nestjs/config": "^2.3.1",
     "@nestjs/core": "^9.0.0",
@@ -79,5 +86,13 @@
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
+  },
+  "mikro-orm": {
+    "useTsNode": true,
+    "tsConfigPath": "./packages/state-management-backend/tsconfig.orm.json",
+    "configPaths": [
+      "./packages/state-management-backend/src/mikro-orm.config.ts",
+      "./dist/packages/state-management-backend/src/mikro-orm.config.js"
+    ]
   }
 }

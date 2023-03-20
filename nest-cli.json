@@ -1,0 +1,8 @@
+{
+    "$schema": "https://json.schemastore.org/nest-cli",
+    "collection": "@nestjs/schematics",
+    "sourceRoot": "packages/state-management-backend/src",
+    "compilerOptions": {
+    "tsConfigPath": "packages/state-management-backend/tsconfig.app.json"
+    }
+}
