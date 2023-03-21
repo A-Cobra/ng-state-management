@@ -15,21 +15,23 @@
           businessFormEdit.controls['displayName'].touched
         "
         id="displayName"
-        label="Business Name"
+        label="Display Name"
         type="text"
       ></clapp-text-input>
       <!-- Information Text  -->
       <clapp-helper-text
-        *ngIf="businessFormEdit.controls['displayName'].untouched && businessFormEdit.controls['displayName'].value===''"
+        *ngIf="
+          businessFormEdit.controls['displayName'].untouched &&
+          businessFormEdit.controls['displayName'].value === ''
+        "
         [textState]="
           businessFormEdit.controls['displayName'].disabled
             ? 'disabled'
             : 'default'
         "
       >
-        Please enter the business name (can not be empty)
+        Please enter the display name (can not be empty)
       </clapp-helper-text>
-      <pre>{{businessFormEdit.controls['displayName'].value|json}}</pre>
       <!-- Error Text  -->
       <div
         class="error"
@@ -52,8 +54,6 @@
           }}
         </clapp-helper-text>
       </div>
-
-      <div>Error: {{ hasError('displayName', 'required') }}</div>
     </div>
 
     <div class="form__group">

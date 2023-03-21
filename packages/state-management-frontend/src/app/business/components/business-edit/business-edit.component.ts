@@ -10,7 +10,7 @@ export class BusinessEditComponent {
   editing = false;
 
   businessFormEdit = this.formBuilder.group({
-    displayName: ['', [Validators.required]],
+    displayName: ['Dasdsa', [Validators.required]],
     businessName: ['', [Validators.required]],
     businessClassification: ['1', []],
     contactPhoneNumber: ['987654321', []],
