@@ -4,13 +4,13 @@ import { BusinessEditComponent } from './components/business-edit/business-edit.
 
 const routes: Routes = [
   {
-    path:":id/edit",
-    component: BusinessEditComponent
-  }
+    path: ':id/edit',
+    component: BusinessEditComponent,
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class BusinessRoutingModule{}
+export class BusinessRoutingModule {}
