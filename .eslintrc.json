@@ -30,19 +30,14 @@
           "error",
           {
             "selector": "interface",
-            "format": [
-              "SnakeCase"
-            ],
+            "format": ["PascalCase"],
             "custom": {
-              "regex": "^I[A-Z]",
+              "regex": "^[A-Z]",
               "match": true
             }
           }
         ],
-        "semi": [
-          "error",
-          "always"
-        ],
+        "semi": ["error", "always"],
         "semi-spacing": [
           "error",
           {
@@ -51,10 +46,7 @@
           }
         ],
         "no-console": "warn",
-        "comma-dangle": [
-          "error",
-          "only-multiline"
-        ],
+        "comma-dangle": ["error", "only-multiline"],
         "no-unused-vars": "warn",
         "no-trailing-spaces": "warn",
         "no-underscore-dangle": "error",
