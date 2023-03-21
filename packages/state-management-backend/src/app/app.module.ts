@@ -27,7 +27,6 @@ const envFilePath = getEnvPath(process.env.WORKDIR);
     DBModule,
     ProductsModule,
     BusinessModule,
-    DBModule,
     MikroOrmModule.forRoot(),
   ],
   controllers: [],
