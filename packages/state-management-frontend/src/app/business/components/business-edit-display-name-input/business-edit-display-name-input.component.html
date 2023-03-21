@@ -1,0 +1,53 @@
+<div *ngIf="parentForm" [formGroup]="parentForm" class="form__group">
+  <clapp-text-input
+    [formControlName]="controlName"
+    autocomplete=""
+    [error]="
+      (false || !!parentForm.controls[controlName].errors) &&
+      parentForm.controls[controlName].touched
+    "
+    [success]="
+      (false || !parentForm.controls[controlName].errors) &&
+      parentForm.controls[controlName].touched
+    "
+    [label]="label"
+    type="text"
+  ></clapp-text-input>
+  <!-- Information Text  -->
+  <clapp-helper-text
+    *ngIf="
+      parentForm.controls[controlName].untouched &&
+      parentForm.controls[controlName].value === ''
+    "
+    [textState]="
+      parentForm.controls[controlName].disabled ? 'disabled' : 'default'
+    "
+  >
+    {{ displayText }} (can not be empty)
+  </clapp-helper-text>
+  <!-- Error Text  -->
+  <div
+    class="error"
+    *ngIf="
+      !!parentForm.controls[controlName].errors &&
+      parentForm.controls[controlName].touched
+    "
+  >
+    <clapp-helper-text
+      [textState]="
+        parentForm.controls[controlName].disabled ? 'disabled' : 'error'
+      "
+    >
+      {{
+        hasError(controlName, 'required') ? 'This field is required' : 'Default'
+      }}
+    </clapp-helper-text>
+  </div>
+  <h1>Mistakes:_____</h1>
+  <div *ngIf="!!parentForm.controls[controlName].errors">
+    <h2>Text</h2>
+    <pre>{{
+      getErrorsAsArray(parentForm.controls[controlName].errors) | json
+    }}</pre>
+  </div>
+</div>

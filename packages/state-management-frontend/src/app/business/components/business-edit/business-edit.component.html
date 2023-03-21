@@ -1,18 +1,26 @@
 <p>business-edit works!</p>
 <div class="form-wrapper">
   <form class="form" [formGroup]="businessFormEdit">
+    <state-management-app-business-edit-display-name-input
+      [parentForm]="businessFormEdit"
+      [hasError]="hasError"
+      displayText="Please enter the display name"
+      label="Display Name"
+    ></state-management-app-business-edit-display-name-input>
+    <!-- THE PREVIOUS CODE WORKS -->
+
     <div class="form__group">
       <clapp-text-input
-        #displayName
-        formControlName="displayName"
+        #businessName
+        formControlName="businessName"
         autocomplete=""
         [error]="
-          (false || !!businessFormEdit.controls['displayName'].errors) &&
-          businessFormEdit.controls['displayName'].touched
+          (false || !!businessFormEdit.controls['businessName'].errors) &&
+          businessFormEdit.controls['businessName'].touched
         "
         [success]="
-          (false || !businessFormEdit.controls['displayName'].errors) &&
-          businessFormEdit.controls['displayName'].touched
+          (false || !businessFormEdit.controls['businessName'].errors) &&
+          businessFormEdit.controls['businessName'].touched
         "
         id="displayName"
         label="Display Name"

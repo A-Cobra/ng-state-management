@@ -10,7 +10,7 @@ export class BusinessEditComponent {
   editing = false;
 
   businessFormEdit = this.formBuilder.group({
-    displayName: ['Dasdsa', [Validators.required]],
+    displayName: ['Dasdsa', [Validators.required, Validators.email]],
     businessName: ['', [Validators.required]],
     businessClassification: ['1', []],
     contactPhoneNumber: ['987654321', []],
@@ -39,8 +39,8 @@ export class BusinessEditComponent {
     this.editing = !this.editing;
   }
 
-  hasError(controlName: string, errorName: string): boolean {
+  hasError = (controlName: string, errorName: string): boolean => {
     const control = this.businessFormEdit.get(controlName);
     return control ? control.hasError(errorName) : false;
-  }
+  };
 }
