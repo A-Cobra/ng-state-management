@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { EntityRepository } from '@mikro-orm/core';
 import { Review } from '../entities/review.entity';
 import { CreateReviewDto } from '../dto/create-review.dto';
-import { ReviewPagination } from '../interfaces/review.interface';
+import { PaginatedData } from '../interfaces/pagination.interface';
 
 Injectable();
 export class ProductsService {
@@ -12,7 +12,7 @@ export class ProductsService {
     private readonly reviewRespository: EntityRepository<Review>
   ) {}
 
-  async getReviews({ page, limit, productId }): Promise<ReviewPagination> {
+  async getReviews({ page, limit, productId }): Promise<PaginatedData> {
     const reviews = await this.reviewRespository.findAndCount(
       { productId },
       {

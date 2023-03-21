@@ -1,4 +1,5 @@
 import { CreateReviewDto } from '../dto/create-review.dto';
+import { PaginatedData } from '../interfaces/pagination.interface';
 import { ProductsService } from '../services/products.service';
 import {
   Body,
@@ -48,7 +49,7 @@ export class ProductsController {
     @Param('id') productId: string,
     @Query('page') page: number,
     @Query('limit') limit: number
-  ) {
+  ): Promise<PaginatedData> {
     return this.productsService.getReviews({ page, productId, limit });
   }
 

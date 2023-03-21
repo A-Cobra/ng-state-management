@@ -1,5 +1,5 @@
 import { Review } from '../entities/review.entity';
-export interface ReviewPagination {
+export interface PaginatedData {
   data: Review[];
   currentPage: number;
   totalItems: number;
