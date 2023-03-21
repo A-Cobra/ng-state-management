@@ -1,1 +1,55 @@
 <p>business-edit works!</p>
+<form class="form" [formGroup]="businessFormEdit">
+  <div class="form__group">
+    <label for="display-name">Display Name</label>
+    <input type="text" id="display-name" formControlName="displayName" />
+  </div>
+  <div class="form__group">
+    <label for="business-name">Business Name</label>
+    <input type="text" id="business-name" formControlName="businessName" />
+  </div>
+  <div class="form__group">
+    <label for="business-classification">Business Classification</label>
+    <select
+      name=""
+      id="business-classification"
+      formControlName="businessClassification">
+      <option value="" selected="true" disabled="true">Classification</option>
+      <option value="1">Classification 1</option>
+    </select>
+  </div>
+  <div class="form__group">
+    <label for="contact-number">Contact Number</label>
+    <input
+      type="text"
+      id="contact-number"
+      formControlName="contactPhoneNumber" />
+  </div>
+  <div class="form__group">
+    <label for="contact-email">Contact Email</label>
+    <input type="text" id="contact-email" formControlName="contactEmail" />
+  </div>
+  <div class="form__group">
+    <label for="contact-address">Contact Address</label>
+    <input type="text" id="contact-address" formControlName="contactAddress" />
+  </div>
+  <div class="form__group">
+    <label for="longitude">Longitude</label>
+    <input type="text" id="longitude" formControlName="longitude" />
+  </div>
+  <div class="form__group">
+    <label for="latitude">Latitude</label>
+    <input type="text" id="latitude" formControlName="latitude" />
+  </div>
+  <div class="buttons">
+    <button *ngIf="!editing; else saveButton" (click)="onEditClick()">
+      Edit
+    </button>
+    <ng-template #saveButton>
+      <button (click)="onSaveClick()">Save</button>
+    </ng-template>
+    <button>Delete</button>
+  </div>
+</form>
+
+<pre>{{ businessFormEdit.value | json }}</pre>
