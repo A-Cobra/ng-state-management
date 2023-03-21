@@ -4,7 +4,7 @@ import { User } from './app/users/entities/user.entity';
 (async () => {
   const orm = await MikroORM.init({
     type: 'postgresql',
-    clientUrl: 'postgres://postgres:123456@localhost:5432/state_db',
+    clientUrl: 'postgres://postgres:postgrespw@localhost:32768/state',
     entities: [User],
     debug: true,
   });

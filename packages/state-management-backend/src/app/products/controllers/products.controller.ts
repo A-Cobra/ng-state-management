@@ -20,17 +20,17 @@ export class ProductsController {
 
   @Get()
   findAll() {
-    return 'Get All Products';
+    return this.productsService.findAllProducts();
   }
 
   @Get(':id')
-  findOne(@Param('productId') id: string) {
-    return `Get a specific Product with a specific id ${id}`;
+  findOne(@Param('id') id: string) {
+    return this.productsService.findOneProduct(id);
   }
 
   @Post()
-  create(@Body() product: any): string {
-    return 'Post a new product';
+  createPost(@Body() product: any): string {
+    this.productsService.createProduct(product);
   }
 
   @Put(':id')
