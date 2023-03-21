@@ -6,6 +6,11 @@ import { getEnvPath } from './common/utils/env-path';
 import { validate } from './common/utils/env-validate';
 import { DBModule } from './database/database.module';
 import { UsersModule } from './users/users.module';
+import { BusinessModule } from './business/business.module';
+import { MikroOrmModule } from '@mikro-orm/nestjs';
+import { ReflectMetadataProvider } from '@mikro-orm/core';
+import { Business_HQ } from './business/entities/business.entity';
+import { Business_classification } from './business/entities/business_classification.entity';
 
 const envFilePath = getEnvPath(process.env.WORKDIR);
 
@@ -18,7 +23,9 @@ const envFilePath = getEnvPath(process.env.WORKDIR);
     }),
     UsersModule,
     AuthModule,
-    DBModule
+    BusinessModule,
+    DBModule,
+    MikroOrmModule.forRoot(),
   ],
   controllers: [],
   providers: [PrismaService],
