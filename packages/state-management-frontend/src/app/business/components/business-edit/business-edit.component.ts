@@ -10,7 +10,7 @@ export class BusinessEditComponent {
   editing = false;
 
   businessFormEdit = this.formBuilder.group({
-    displayName: ['', [Validators.required]],
+    displayName: ['', [Validators.required, Validators.email]],
     businessName: ['', [Validators.required]],
     businessClassification: ['1', []],
     contactPhoneNumber: ['987654321', []],
@@ -25,7 +25,7 @@ export class BusinessEditComponent {
     latitude: ['Latitude', []],
   });
 
-  constructor(private formBuilder: NonNullableFormBuilder){}
+  constructor(private formBuilder: NonNullableFormBuilder) {}
 
   onEditClick() {
     this.toggleEditingStatus();
@@ -37,5 +37,10 @@ export class BusinessEditComponent {
 
   toggleEditingStatus() {
     this.editing = !this.editing;
+  }
+
+  hasError(controlName: string, errorName: string): boolean {
+    const control = this.businessFormEdit.get(controlName);
+    return control ? control.hasError(errorName) : false;
   }
 }

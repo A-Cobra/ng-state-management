@@ -1,0 +1,13 @@
+.form {
+  &-wrapper {
+    padding: 30px;
+    // background-color: aqua;
+  }
+  display: grid;
+  gap: 20px;
+  &__input-wrapper {
+    // background-color: red;
+    border: 3px solid lightgray;
+    border-radius: 100px;
+  }
+}
