@@ -1,5 +1,5 @@
 import { AppRoutingModule } from './app-routing.module';
-import { BusinessModule } from './Business/business.module';
+import { BusinessModule } from './business/business.module';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 

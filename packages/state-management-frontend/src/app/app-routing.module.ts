@@ -5,7 +5,7 @@ const routes: Routes = [
   {
     path: 'business',
     loadChildren: () =>
-      import('./Business/business.module').then((m) => m.BusinessModule),
+      import('./business/business.module').then((m) => m.BusinessModule),
   },
 ];
 
