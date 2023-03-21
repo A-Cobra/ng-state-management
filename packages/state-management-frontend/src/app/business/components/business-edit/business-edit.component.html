@@ -2,83 +2,60 @@
 <div class="form-wrapper">
   <form class="form" [formGroup]="businessFormEdit">
     <div class="form__group">
-      <!-- <clapp-text-input
+      <clapp-text-input
         #displayName
         formControlName="displayName"
         autocomplete=""
         [error]="
-          false || businessFormEdit.controls['displayName'].hasError('required')
+          (false || !!businessFormEdit.controls['displayName'].errors) &&
+          businessFormEdit.controls['displayName'].touched
         "
-        id="display-name"
-        name="display-name"
-        label="Label"
+        [success]="
+          (false || !businessFormEdit.controls['displayName'].errors) &&
+          businessFormEdit.controls['displayName'].touched
+        "
+        id="displayName"
+        label="Business Name"
         type="text"
-        [disabled]="true"
-      ></clapp-text-input> -->
-      <!-- <label for="display-name">Display Name</label> -->
-      <!-- <input type="text" id="display-name" formControlName="displayName" /> -->
-
-      <!-- <clapp-helper-text
-      *ngIf="!displayName.error && !displayName.success"
-      [textState]="businessFormEdit.controls['displayName'].disabled ? 'disabled': 'default'"
+      ></clapp-text-input>
+      <!-- Information Text  -->
+      <clapp-helper-text
+        *ngIf="businessFormEdit.controls['displayName'].untouched && businessFormEdit.controls['displayName'].value===''"
+        [textState]="
+          businessFormEdit.controls['displayName'].disabled
+            ? 'disabled'
+            : 'default'
+        "
       >
-        Required field
-      </clapp-helper-text> -->
-
-      <!-- <div class="error" *ngIf="displayName.error">
-        <clapp-helper-text textState="error"> fafasf </clapp-helper-text>
-      </div> -->
-
-
-    <clapp-text-input
-      #displayName
-      formControlName="displayName"
-      autocomplete=""
-      [error]="false || hasError('displayName', 'required')"
-      [success]="false"
-      id="displayName"
-      [maxLength]="1000"
-      name="displayName"
-      label="Placeholder"
-      placeholder="Placeholder"
-      type="text"
-    ></clapp-text-input>
-
-    <clapp-helper-text
-      *ngIf="businessFormEdit.controls['displayName'].pristine"
-      [textState]="businessFormEdit.controls['displayName'].disabled ? 'disabled': 'default'"
-    >
-      Please enter the business name (can not be empty)
-    </clapp-helper-text>
-
-    <clapp-helper-text
-      *ngIf="displayName.error"
-      [textState]="businessFormEdit.controls['displayName'].disabled ? 'disabled': 'error'"
-    >
-      {{ hasError("displayName", "required") ? 'This field is required' : 'Error Helper Text'}}
-    </clapp-helper-text>
-
-    <clapp-helper-text
-      *ngIf="displayName.success && !displayName.error"
-      [textState]="businessFormEdit.controls['displayName'].disabled ? 'disabled': 'success'"
-    >
-      Success Helper Text
-    </clapp-helper-text>
-
-    <clapp-helper-text [textState]="'success'">
-      <div class="success">
-        MY CLAPP TEXT
+        Please enter the business name (can not be empty)
+      </clapp-helper-text>
+      <pre>{{businessFormEdit.controls['displayName'].value|json}}</pre>
+      <!-- Error Text  -->
+      <div
+        class="error"
+        *ngIf="
+          !!businessFormEdit.controls['displayName'].errors &&
+          businessFormEdit.controls['displayName'].touched
+        "
+      >
+        <clapp-helper-text
+          [textState]="
+            businessFormEdit.controls['displayName'].disabled
+              ? 'disabled'
+              : 'error'
+          "
+        >
+          {{
+            hasError('displayName', 'required')
+              ? 'This field is required'
+              : 'Default'
+          }}
+        </clapp-helper-text>
       </div>
-    </clapp-helper-text>
 
-    <clapp-helper-text [textState]="'error'" [textContent]="'MY CLAPP TEXT 2'">
-    </clapp-helper-text>
-
-    <div>Error: {{ hasError("displayName", "required")}}</div>
-
-
+      <div>Error: {{ hasError('displayName', 'required') }}</div>
     </div>
-    
+
     <div class="form__group">
       <label for="business-name">Business Name</label>
       <input type="text" id="business-name" formControlName="businessName" />
@@ -134,10 +111,9 @@
   </form>
 </div>
 
-
 <pre>
   <h1>Errors</h1>
-  {{ businessFormEdit.get("displayName")?.errors | json }}
+  {{ businessFormEdit.get('displayName')?.errors | json }}
 </pre>
 
 <pre>{{ businessFormEdit.value | json }}</pre>
