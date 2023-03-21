@@ -1,8 +1,19 @@
 <p>business-edit works!</p>
 <form class="form" [formGroup]="businessFormEdit">
   <div class="form__group">
-    <label for="display-name">Display Name</label>
-    <input type="text" id="display-name" formControlName="displayName" />
+    <!-- <label for="display-name">Display Name</label> -->
+    <!-- <input type="text" id="display-name" formControlName="displayName" /> -->
+    <clapp-text-input
+      #displayName
+      formControlName="displayName"
+      autocomplete=""
+      [error]="false || businessFormEdit.controls['displayName'].hasError('required')"
+      [success]="false"
+      [required]="true"
+      id="display-name"
+      label="Display Name"
+      type="text"
+    ></clapp-text-input>
   </div>
   <div class="form__group">
     <label for="business-name">Business Name</label>
