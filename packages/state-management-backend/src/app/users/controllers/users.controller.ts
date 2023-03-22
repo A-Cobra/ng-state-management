@@ -11,7 +11,7 @@ import { UpdateUserDto } from '../dto/update-user.dto';
 import { User } from '@prisma/client';
 
 @Controller({
-  path: 'users', 
+  path: 'users',
   version: '1'
 })
 export class UsersController {
