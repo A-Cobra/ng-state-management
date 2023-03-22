@@ -22,9 +22,9 @@ export class UsersService {
     return this.userRepository.findAll();
   }
 
-  async findOne(user_id: string): Promise<User> {
+  async findOne(userId: string): Promise<User> {
 
-    const user = await this.userRepository.findOne({user_id});
+    const user = await this.userRepository.findOne({userId});
 
     if (!user) {
       throw new NotFoundException(
@@ -48,26 +48,26 @@ export class UsersService {
     return user;
   }
 
-  async update(user_id: string, updatedUserInfo: UpdateUserDto): Promise<User> {
-    const user = await this.userRepository.findOne({user_id});
+  async update(userId: string, updatedUserInfo: UpdateUserDto): Promise<User> {
+    const user = await this.userRepository.findOne({userId});
     wrap(user).assign(updatedUserInfo);
     await this.userRepository.flush();
 
     return user;
   }
 
-  async remove(user_id: string) {
-    const deletedUser = this.userRepository.remove({ user_id });
+  async remove(userId: string) {
+    const deletedUser = this.userRepository.remove({ userId });
 
     if (!deletedUser) {
       throw new NotFoundException(
-        `user with id: ${user_id} not found`,
+        `user with id: ${userId} not found`,
       );
     }
   }
 
-  async changeUserLogState(user_id: string, state: boolean): Promise<User>{
-    const found_user = await this.userRepository.findOne({ user_id });
+  async changeUserLogState(userId: string, state: boolean): Promise<User>{
+    const found_user = await this.userRepository.findOne({ userId });
     found_user.isLoggedIn = state;
     
     await this.userRepository.flush();
@@ -75,8 +75,8 @@ export class UsersService {
     return found_user;
   }
 
-  async updateRole(user_id: string, role_name: string): Promise<User>{
-    const found_user = await this.userRepository.findOne({ user_id });
+  async updateRole(userId: string, role_name: string): Promise<User>{
+    const found_user = await this.userRepository.findOne({ userId });
     found_user.role = role_name;
     await this.userRepository.flush();
 

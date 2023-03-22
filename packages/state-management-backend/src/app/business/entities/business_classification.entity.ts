@@ -2,9 +2,9 @@ import { Collection, Entity, ManyToMany, PrimaryKey, Property } from "@mikro-orm
 import { v4 } from 'uuid';
 
 @Entity()
-export class Business_classification {
+export class BusinessClassification {
     @PrimaryKey()
-    business_classification_id: string = v4();
+    businessClassificationId: string = v4();
 
     @Property()
     name: string;

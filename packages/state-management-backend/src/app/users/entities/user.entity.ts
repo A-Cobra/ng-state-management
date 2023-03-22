@@ -1,10 +1,10 @@
 import { Entity, ManyToOne, PrimaryKey, Property } from '@mikro-orm/core';
 import { v4 } from 'uuid';
 
-@Entity()
-export class User {
+@Entity({ abstract: true })
+export abstract class User {
     @PrimaryKey()
-    user_id: string = v4();
+    userId: string = v4();
 
     @Property()
     role: string;
@@ -24,7 +24,7 @@ export class User {
     @Property()
     email: string;
 
-    @Property()
+    @Property({ hidden: true })
     password: string;
 
     @Property()
