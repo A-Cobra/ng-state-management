@@ -1,6 +1,6 @@
 import { EntityRepository } from '@mikro-orm/core';
 import { CreateReviewDto } from '../dto/create-review.dto';
-import { ProductsService } from './products.service';
+import { ProductsService } from '../services/products.service';
 import { Review } from '../entities/review.entity';
 import { Test, TestingModule } from '@nestjs/testing';
 describe('ProductsService', () => {

@@ -1,6 +1,6 @@
 import { Test } from '@nestjs/testing';
 import { ProductsService } from '../services/products.service';
-import { ProductsController } from './products.controller';
+import { ProductsController } from '../controllers/products.controller';
 import { Review } from '../entities/review.entity';
 import { PaginatedData } from '../interfaces/pagination.interface';
 import { EntityRepository } from '@mikro-orm/core';
