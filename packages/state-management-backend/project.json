@@ -26,14 +26,11 @@
       }
     },
     "serve": {
-      "executor": "@nrwl/js:node",
+      "executor": "nx:run-commands",
       "options": {
-        "buildTarget": "state-management-backend:build"
-      },
-      "configurations": {
-        "production": {
-          "buildTarget": "state-management-backend:build:production"
-        }
+        "commands": ["nest start --watch"],
+        "cwd": "./",
+        "parallel": true
       }
     },
     "lint": {

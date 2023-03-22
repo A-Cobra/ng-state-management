@@ -1,11 +1,11 @@
-import { ConflictException, ForbiddenException, Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  ForbiddenException,
+  Injectable,
+} from '@nestjs/common';
 import { CreateUserDto } from '../users/dto/create-user.dto';
 import { JwtInfo } from './interfaces/jwtinfo.type';
-import {
-  hashData,
-  signToken,
-  validateCode,
-} from './utils/jwt.util';
+import { hashData, signToken, validateCode } from './utils/jwt.util';
 import { SignInDto } from './dto/sigin.dto';
 import { UsersService } from '../users/services/users.service';
 import { JwtService } from '@nestjs/jwt';
@@ -17,7 +17,7 @@ export class AuthService {
   constructor(
     private userService: UsersService,
     private jwtService: JwtService,
-    private configService: ConfigService,
+    private configService: ConfigService
   ) {}
 
   async signIn(credentials: SignInDto) {
@@ -25,10 +25,10 @@ export class AuthService {
 
     await validateCode(user.password, credentials.password);
 
-    await this.userService.changeUserLogState(user, true);
+    await this.userService.changeUserLogState(user.user_id, true);
 
-    const tokens = await this.getTokens(user.userId, user.username);
-    await this.updateRefreshToken(user.userId, tokens.refreshToken);
+    const tokens = await this.getTokens(user.user_id, user.username);
+    await this.updateRefreshToken(user.user_id, tokens.refreshToken);
 
     return {
       status: 'OK',
@@ -36,7 +36,7 @@ export class AuthService {
       userInfo: {
         email: credentials.email,
         access_token: tokens.accessToken,
-        refresh_token: tokens.refreshToken
+        refresh_token: tokens.refreshToken,
       },
     };
   }
@@ -44,7 +44,7 @@ export class AuthService {
   async signOut(userInfo: JwtInfo) {
     const user = await this.userService.findOne(userInfo.sub);
 
-    await this.userService.changeUserLogState(user, false);
+    await this.userService.changeUserLogState(user.user_id, false);
 
     return {
       status: 'OK',
@@ -58,18 +58,14 @@ export class AuthService {
     return this.userService.create(userInfo);
   }
 
-  async changeRole(
-    currentUser: JwtInfo,
-    userId: string,
-    newRole: string,
-  ) {
+  async changeRole(currentUser: JwtInfo, userId: string, newRole: string) {
     const user = await this.userService.findOne(userId);
 
-    if (currentUser.sub !== user.userId) {
-      return this.userService.updateRole(user, newRole);
+    if (currentUser.sub !== user.user_id) {
+      return this.userService.updateRole(user.user_id, newRole);
     } else {
       throw new ConflictException(
-        "Can't change your own role, ask another admin for help",
+        "Can't change your own role, ask another admin for help"
       );
     }
   }
@@ -91,7 +87,7 @@ export class AuthService {
         {
           secret: this.configService.get<string>('JWT_SECRET'),
           expiresIn: '15m',
-        },
+        }
       ),
       this.jwtService.signAsync(
         {
@@ -101,7 +97,7 @@ export class AuthService {
         {
           secret: this.configService.get<string>('JWT_REFRESH_SECRET'),
           expiresIn: '7d',
-        },
+        }
       ),
     ]);
 
@@ -110,7 +106,6 @@ export class AuthService {
       refreshToken,
     };
   }
-
 
   async createAdminUser(): Promise<void> {
     const users = await this.userService.findAll();
@@ -130,22 +125,25 @@ export class AuthService {
 
       const admin = await this.signUp(adminUser);
 
-      await this.changeRole(currentUser, admin.userId, 'admin');
+      await this.changeRole(currentUser, admin.user_id, 'admin');
     }
   }
 
   async refreshTokens(userId: string, refreshToken: string) {
     const user = await this.userService.findOne(userId);
 
-    if (!user || !user.refresh_token)
+    if (!user || !user.refreshToken)
       throw new ForbiddenException('Access Denied');
 
-    const refreshTokenMatches = await validateCode(user.refresh_token, refreshToken);
+    const refreshTokenMatches = await validateCode(
+      user.refreshToken,
+      refreshToken
+    );
 
     if (!refreshTokenMatches) throw new ForbiddenException('Access Denied');
 
-    const tokens = await this.getTokens(user.userId, user.username);
-    await this.updateRefreshToken(user.userId, tokens.refreshToken);
+    const tokens = await this.getTokens(user.user_id, user.username);
+    await this.updateRefreshToken(user.user_id, tokens.refreshToken);
 
     return tokens;
   }
