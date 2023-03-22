@@ -1,0 +1,314 @@
+<div class="createForm">
+  <h2>Create Business</h2>
+  <div>
+    <form [formGroup]="createForm">
+      <div class="createForm__form-section-container">
+        <h4>Profile</h4>
+        <div class="createForm__input-container">
+          <clapp-text-input
+            #nameRef
+            formControlName="name"
+            [error]="
+              false ||
+              createForm.controls['name'].hasError('required') ||
+              createForm.controls['name'].hasError('pattern')
+            "
+            [success]="
+              false ||
+              !createForm.controls['name'].hasError('required') ||
+              !createForm.controls['name'].hasError('pattern')
+            "
+            id="nameId"
+            label="Name*"
+            [maxLength]="30"
+            name="name"
+            type="text"
+          ></clapp-text-input>
+          <clapp-helper-text
+            *ngIf="createForm.controls['name'].errors"
+            [textState]="
+              createForm.controls['name'].disabled ? 'disabled' : 'error'
+            "
+          >
+            {{
+              createForm.controls['name'].hasError('required')
+                ? 'This field is required'
+                : 'Only common characters allowed'
+            }}
+          </clapp-helper-text>
+        </div>
+        <div class="createForm__input-container">
+          <clapp-text-input
+            #emailRef
+            formControlName="email"
+            [error]="
+              false ||
+              createForm.controls['email'].hasError('required') ||
+              createForm.controls['email'].hasError('pattern')
+            "
+            [success]="
+              false ||
+              !createForm.controls['email'].hasError('required') ||
+              !createForm.controls['email'].hasError('pattern')
+            "
+            id="emailId"
+            label="Email*"
+            [maxLength]="30"
+            name="email"
+            type="text"
+          ></clapp-text-input>
+          <clapp-helper-text
+            *ngIf="createForm.controls['email'].errors"
+            [textState]="
+              createForm.controls['email'].disabled ? 'disabled' : 'error'
+            "
+          >
+            {{
+              createForm.controls['email'].hasError('required')
+                ? 'This field is required'
+                : 'Email format is required'
+            }}
+          </clapp-helper-text>
+        </div>
+        <div class="createForm__input-container">
+          <clapp-text-input
+            #passwordRef
+            formControlName="password"
+            autocomplete=""
+            [error]="
+              false ||
+              createForm.controls['password'].hasError('required') ||
+              createForm.controls['password'].hasError('pattern')
+            "
+            [success]="
+              false ||
+              !createForm.controls['password'].hasError('required') ||
+              !createForm.controls['password'].hasError('pattern')
+            "
+            id="passwordId"
+            label="Password*"
+            [maxLength]="30"
+            name="password"
+            type="text"
+          ></clapp-text-input>
+          <clapp-helper-text
+            *ngIf="createForm.controls['password'].errors"
+            [textState]="
+              createForm.controls['password'].disabled ? 'disabled' : 'error'
+            "
+          >
+            {{
+              createForm.controls['password'].hasError('required')
+                ? 'This field is required'
+                : '8 characters min required, with at least 1 capital letter, 1 number and 1 symbol '
+            }}
+          </clapp-helper-text>
+        </div>
+
+        <div class="createForm__select-container">
+          <clapp-select
+            formControlName="classification"
+            label="Options Label"
+            [borderless]="true"
+            [disabled]="false"
+            [displayLabel]="true"
+            label="Classification*"
+            inputName="classificationId"
+            placeholder="Select Option"
+            [pagination]="false"
+            [hasFilter]="false"
+          >
+            <clapp-select-option
+              #dropdown
+              *ngFor="let classification of classifications"
+              [key]="classification.name"
+              [value]="classification.name"
+            ></clapp-select-option>
+          </clapp-select>
+          <clapp-helper-text
+            *ngIf="createForm.controls['classification'].errors"
+            [textState]="
+              createForm.controls['classification'].disabled
+                ? 'disabled'
+                : 'error'
+            "
+          >
+            This field is required
+          </clapp-helper-text>
+        </div>
+        <h4>Contact</h4>
+        <div class="createForm__input-container">
+          <clapp-text-input
+            #addressRef
+            formControlName="address"
+            [error]="
+              false || createForm.controls['address'].hasError('required')
+            "
+            [success]="
+              false || !createForm.controls['address'].hasError('required')
+            "
+            id="addressId"
+            label="Address*"
+            [maxLength]="30"
+            name="address"
+            type="text"
+          ></clapp-text-input>
+          <clapp-helper-text
+            *ngIf="createForm.controls['address'].errors"
+            [textState]="
+              createForm.controls['address'].disabled ? 'disabled' : 'error'
+            "
+            >This field is required
+          </clapp-helper-text>
+        </div>
+        <div class="createForm__double-input-container">
+          <div class="individual-input">
+            <clapp-text-input
+              #longitudeRef
+              formControlName="longitude"
+              [error]="
+                false ||
+                createForm.controls['longitude'].hasError('required') ||
+                createForm.controls['longitude'].hasError('pattern')
+              "
+              [success]="
+                false ||
+                !createForm.controls['longitude'].hasError('required') ||
+                !createForm.controls['longitude'].hasError('pattern')
+              "
+              id="longitudeId"
+              label="Longitude*"
+              [maxLength]="30"
+              name="longitude"
+              type="text"
+            ></clapp-text-input>
+            <clapp-helper-text
+              *ngIf="createForm.controls['longitude'].errors"
+              [textState]="
+                createForm.controls['longitude'].disabled ? 'disabled' : 'error'
+              "
+            >
+              {{
+                createForm.controls['longitude'].hasError('required')
+                  ? 'This field is required'
+                  : 'Only longitude format'
+              }}
+            </clapp-helper-text>
+          </div>
+          <div class="individual-input">
+            <clapp-text-input
+              #latitudeRef
+              formControlName="latitude"
+              [error]="
+                false ||
+                createForm.controls['latitude'].hasError('required') ||
+                createForm.controls['latitude'].hasError('pattern')
+              "
+              [success]="
+                false ||
+                !createForm.controls['latitude'].hasError('required') ||
+                !createForm.controls['latitude'].hasError('pattern')
+              "
+              id="latitudeId"
+              label="Latitude*"
+              [maxLength]="30"
+              name="latitude"
+              type="text"
+            ></clapp-text-input>
+            <clapp-helper-text
+              *ngIf="createForm.controls['latitude'].errors"
+              [textState]="
+                createForm.controls['latitude'].disabled ? 'disabled' : 'error'
+              "
+            >
+              {{
+                createForm.controls['latitude'].hasError('required')
+                  ? 'This field is required'
+                  : 'Only latitude format'
+              }}
+            </clapp-helper-text>
+          </div>
+        </div>
+        <div class="createForm__input-container">
+          <clapp-text-input
+            #contactRef
+            formControlName="contact"
+            [error]="
+              false ||
+              createForm.controls['contact'].hasError('required') ||
+              createForm.controls['contact'].hasError('pattern')
+            "
+            [success]="
+              false ||
+              !createForm.controls['contact'].hasError('required') ||
+              !createForm.controls['contact'].hasError('pattern')
+            "
+            id="contactId"
+            label="Contact number*"
+            [maxLength]="30"
+            name="contact"
+            type="text"
+          ></clapp-text-input>
+          <clapp-helper-text
+            *ngIf="createForm.controls['contact'].errors"
+            [textState]="
+              createForm.controls['contact'].disabled ? 'disabled' : 'error'
+            "
+          >
+            {{
+              createForm.controls['contact'].hasError('required')
+                ? 'This field is required'
+                : 'Only numbers allowed'
+            }}
+          </clapp-helper-text>
+        </div>
+      </div>
+      <div class="createForm__form-section-container">
+        <h4>Add picture</h4>
+        <div class="createForm__input-container">
+          <clapp-text-input
+            #pictureRef
+            formControlName="picture"
+            [error]="
+              false ||
+              createForm.controls['picture'].hasError('required') ||
+              createForm.controls['picture'].hasError('pattern')
+            "
+            [success]="
+              false ||
+              !createForm.controls['picture'].hasError('required') ||
+              !createForm.controls['picture'].hasError('pattern')
+            "
+            id="pictureId"
+            label="Picture"
+            [maxLength]="1000"
+            name="picture"
+            type="text"
+          ></clapp-text-input>
+          <clapp-helper-text
+            *ngIf="createForm.controls['picture'].errors"
+            [textState]="
+              createForm.controls['picture'].disabled ? 'disabled' : 'error'
+            "
+          >
+            {{
+              createForm.controls['picture'].hasError('required')
+                ? 'This field is required'
+                : 'Only common characters allowed'
+            }}
+          </clapp-helper-text>
+        </div>
+        <div>
+          <clapp-image-display
+            [src]="pictureRef.value ? pictureRef.value : ''"
+            type="square"
+            size="large"
+            alt="JPG"
+          ></clapp-image-display>
+        </div>
+        <pre>IS INVALID? {{ createForm.invalid | json }}</pre>
+        <!-- <pre>FORM: {{ createForm.value | json }}</pre> -->
+      </div>
+    </form>
+  </div>
+</div>
