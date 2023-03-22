@@ -1,7 +1,4 @@
 <clapp-card>
-  <clapp-card-header>
-    <h5>{{ branch.name }}</h5>
-  </clapp-card-header>
   <clapp-card-content>
     <img
       height="228"
@@ -9,6 +6,9 @@
       [alt]="branch.name"
     />
   </clapp-card-content>
+  <clapp-card-header>
+    <h5>{{ branch.name }}</h5>
+  </clapp-card-header>
   <clapp-card-footer>
     <p>{{ branch.schedule }}</p>
   </clapp-card-footer>
