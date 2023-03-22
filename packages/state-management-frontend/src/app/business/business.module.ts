@@ -5,9 +5,14 @@ import { BusinessEditComponent } from './components/business-edit/business-edit.
 import { ReactiveFormsModule } from '@angular/forms';
 import { ClappTextInputModule } from '@clapp1/clapp-angular';
 import { BusinessEditDisplayNameInputComponent } from './components/business-edit-display-name-input/business-edit-display-name-input.component';
+import { FullErrorNamePipe } from '../core/pipes/full-error-name.pipe';
 
 @NgModule({
-  declarations: [BusinessEditComponent, BusinessEditDisplayNameInputComponent],
+  declarations: [
+    BusinessEditComponent,
+    BusinessEditDisplayNameInputComponent,
+    FullErrorNamePipe,
+  ],
   imports: [
     CommonModule,
     BusinessRoutingModule,

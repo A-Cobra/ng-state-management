@@ -38,16 +38,7 @@
         parentForm.controls[controlName].disabled ? 'disabled' : 'error'
       "
     >
-      {{
-        hasError(controlName, 'required') ? 'This field is required' : 'Default'
-      }}
+      {{ parentForm.controls[controlName].errors | fullErrorName }}
     </clapp-helper-text>
-  </div>
-  <h1>Mistakes:_____</h1>
-  <div *ngIf="!!parentForm.controls[controlName].errors">
-    <h2>Text</h2>
-    <pre>{{
-      getErrorsAsArray(parentForm.controls[controlName].errors) | json
-    }}</pre>
   </div>
 </div>
