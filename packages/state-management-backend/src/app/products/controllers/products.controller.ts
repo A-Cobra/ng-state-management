@@ -1,6 +1,8 @@
 import { CreateReviewDto } from '../dto/create-review.dto';
 import { PaginatedData } from '../interfaces/pagination.interface';
 import { ProductsService } from '../services/products.service';
+import { Review } from '../entities/review.entity';
+import { JwtAuthGuard } from '../../auth/guard/jwt-auth.guard';
 import {
   Body,
   Controller,
@@ -10,6 +12,7 @@ import {
   Put,
   Patch,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 
 @Controller({
@@ -44,6 +47,7 @@ export class ProductsController {
     return `PATCH a specific product${id}`;
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get(':id/reviews')
   getReviews(
     @Param('id') productId: string,
@@ -53,8 +57,12 @@ export class ProductsController {
     return this.productsService.getReviews({ page, productId, limit });
   }
 
+  @UseGuards(JwtAuthGuard)
   @Post(':id/reviews')
-  createReview(@Body() body: CreateReviewDto, @Param('id') productId: string) {
+  createReview(
+    @Body() body: CreateReviewDto,
+    @Param('id') productId: string
+  ): Promise<Review> {
     return this.productsService.createReview({ ...body, productId });
   }
 }
