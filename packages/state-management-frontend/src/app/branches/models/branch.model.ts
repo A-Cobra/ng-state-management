@@ -1,5 +1,6 @@
 export interface Branch {
   name: string;
-  schedule: string;
+  openingTime: string;
+  closeTime: string;
   image?: string;
 }
