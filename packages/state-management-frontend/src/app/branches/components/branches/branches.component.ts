@@ -21,15 +21,15 @@ import { Pagination } from '@clapp1/clapp-angular/lib/pagination/interfaces/pagi
   styleUrls: ['./branches.component.scss'],
 })
 export class BranchesComponent implements OnInit, OnDestroy {
-  private readonly branchesService = inject(BranchesService);
-  private readonly unsubscribe$ = new Subject<void>();
+  readonly #branchesService = inject(BranchesService);
+  readonly #unsubscribe$ = new Subject<void>();
   searchBranchControl = new FormControl('', { nonNullable: true });
   branches$: Observable<Branch[]>;
   totalRecords = 0;
   pageSize = 4;
 
   public ngOnInit(): void {
-    this.branches$ = this.branchesService.getBranches(1, this.pageSize).pipe(
+    this.branches$ = this.#branchesService.getBranches(1, this.pageSize).pipe(
       tap((response) => {
         this.totalRecords = response.meta.total;
         this.pageSize = response.meta.pageSize;
@@ -38,7 +38,7 @@ export class BranchesComponent implements OnInit, OnDestroy {
     );
     this.searchBranchControl.valueChanges
       .pipe(
-        takeUntil(this.unsubscribe$),
+        takeUntil(this.#unsubscribe$),
         debounceTime(700),
         distinctUntilChanged()
       )
@@ -49,7 +49,7 @@ export class BranchesComponent implements OnInit, OnDestroy {
 
   public searchBranch(branchName: string): void {
     // TODO: implement search by branch name functionality when BE will be ready.
-    this.branches$ = this.branchesService
+    this.branches$ = this.#branchesService
       .getBranches(1, this.pageSize, branchName)
       .pipe(
         tap((response) => {
@@ -61,7 +61,7 @@ export class BranchesComponent implements OnInit, OnDestroy {
 
   public changePage(event: Pagination): void {
     // TODO: Verify implementation when BE will be ready.
-    this.branches$ = this.branchesService
+    this.branches$ = this.#branchesService
       .getBranches(
         event.currentPage,
         this.pageSize,
@@ -71,7 +71,7 @@ export class BranchesComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
+    this.#unsubscribe$.next();
+    this.#unsubscribe$.complete();
   }
 }
