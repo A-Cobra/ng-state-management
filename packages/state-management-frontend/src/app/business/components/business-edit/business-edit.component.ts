@@ -8,7 +8,6 @@ import { NonNullableFormBuilder, Validators } from '@angular/forms';
 })
 export class BusinessEditComponent {
   editing = false;
-  readOnly = true;
 
   businessFormEdit = this.formBuilder.group({
     displayName: ['Dasdsa', [Validators.required]],
@@ -19,6 +18,7 @@ export class BusinessEditComponent {
       'name@domain.suffix',
       [
         Validators.required,
+        Validators.email,
         /*CustomFormValidators.email*/
       ],
     ],
@@ -37,6 +37,7 @@ export class BusinessEditComponent {
   }
 
   onSaveClick(): void {
+    // MAKE VALIDATIONS
     this.toggleEditingStatus();
     this.disableFormControls();
   }

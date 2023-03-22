@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BusinessEditDisplayNameInputComponent } from './business-edit-display-name-input.component';
+import { ReactiveFormControlTextInputComponent } from './reactive-form-control-text-input.component';
 
 describe('BusinessEditDisplayNameInputComponent', () => {
-  let component: BusinessEditDisplayNameInputComponent;
-  let fixture: ComponentFixture<BusinessEditDisplayNameInputComponent>;
+  let component: ReactiveFormControlTextInputComponent;
+  let fixture: ComponentFixture<ReactiveFormControlTextInputComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [BusinessEditDisplayNameInputComponent],
+      declarations: [ReactiveFormControlTextInputComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(BusinessEditDisplayNameInputComponent);
+    fixture = TestBed.createComponent(ReactiveFormControlTextInputComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

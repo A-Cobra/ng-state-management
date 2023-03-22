@@ -1,23 +1,24 @@
 <p>business-edit works!</p>
 <div class="form-wrapper">
   <form class="form" [formGroup]="businessFormEdit">
-    <state-management-app-business-edit-display-name-input
+    <state-management-app-reactive-form-control-text-input
       [parentForm]="businessFormEdit"
       [hasError]="hasError"
       displayText="Please enter the display name"
       label="Display Name"
-    ></state-management-app-business-edit-display-name-input>
+    ></state-management-app-reactive-form-control-text-input>
 
-    <state-management-app-business-edit-display-name-input
+    <state-management-app-reactive-form-control-text-input
       [parentForm]="businessFormEdit"
       [hasError]="hasError"
       controlName="businessName"
       displayText="Please enter the business name"
       label="Business Name"
-    ></state-management-app-business-edit-display-name-input>
+    ></state-management-app-reactive-form-control-text-input>
     <h2 style="color: green">WORKS</h2>
     <!-- THE PREVIOUS CODE WORKS -->
 
+    <!-- DOESN'T WORK  -->
     <div class="form__group">
       <label for="business-classification">Business Classification</label>
       <select
@@ -29,38 +30,47 @@
         <option value="1">Classification 1</option>
       </select>
     </div>
+    <!-- DOESN'T WORK  -->
 
-    <state-management-app-business-edit-display-name-input
+    <state-management-app-reactive-form-control-text-input
       [parentForm]="businessFormEdit"
       [hasError]="hasError"
       controlName="contactPhoneNumber"
       displayText="Please enter the contact number"
       label="Contact Number"
-    ></state-management-app-business-edit-display-name-input>
+    ></state-management-app-reactive-form-control-text-input>
 
-    <div class="form__group">
-      <label for="contact-email">Contact Email</label>
-      <input type="text" id="contact-email" formControlName="contactEmail" />
-    </div>
+    <state-management-app-reactive-form-control-text-input
+      [parentForm]="businessFormEdit"
+      [hasError]="hasError"
+      controlName="contactEmail"
+      displayText="Please enter the contact email"
+      label="Contact Email"
+    ></state-management-app-reactive-form-control-text-input>
 
-    <div class="form__group">
-      <label for="contact-address">Contact Address</label>
-      <input
-        type="text"
-        id="contact-address"
-        formControlName="contactAddress"
-      />
-    </div>
+    <state-management-app-reactive-form-control-text-input
+      [parentForm]="businessFormEdit"
+      [hasError]="hasError"
+      controlName="contactAddress"
+      displayText="Please enter the contact address"
+      label="Contact Address"
+    ></state-management-app-reactive-form-control-text-input>
 
-    <div class="form__group">
-      <label for="longitude">Longitude</label>
-      <input type="text" id="longitude" formControlName="longitude" />
-    </div>
+    <state-management-app-reactive-form-control-text-input
+      [parentForm]="businessFormEdit"
+      [hasError]="hasError"
+      controlName="longitude"
+      displayText="Please enter the longitude"
+      label="Longitude"
+    ></state-management-app-reactive-form-control-text-input>
 
-    <div class="form__group">
-      <label for="latitude">Latitude</label>
-      <input type="text" id="latitude" formControlName="latitude" />
-    </div>
+    <state-management-app-reactive-form-control-text-input
+      [parentForm]="businessFormEdit"
+      [hasError]="hasError"
+      controlName="latitude"
+      displayText="Please enter the latitude"
+      label="Latitude"
+    ></state-management-app-reactive-form-control-text-input>
 
     <div class="buttons">
       <button *ngIf="!editing; else saveButton" (click)="onEditClick()">
