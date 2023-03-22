@@ -9,28 +9,27 @@ export class BusinessListComponent {
   mockRecords = [
     {
       id: 1,
-      name: "test",
-      description: "test",
+      name: 'test',
+      description: 'test',
     }, {
       id: 2,
-      name: "test",
-      description: "test",
+      name: 'test',
+      description: 'test',
     }, {
       id: 3,
-      name: "test",
-      description: "test",
+      name: 'test',
+      description: 'test',
     }, {
       id: 4,
-      name: "test",
-      description: "test",
+      name: 'test',
+      description: 'test',
     },
     {
       id: 6,
-      name: "test",
-      description: "test",
+      name: 'test',
+      description: 'test',
     },
-
-  ]
+  ];
   recordsPerPage = 8;
   totalRecords = 20;
 }

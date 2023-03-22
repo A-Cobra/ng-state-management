@@ -13,7 +13,7 @@ describe('BusinessCardComponent', () => {
       imports: [ClappButtonModule,
         ClappSearchModule,
         ClappPaginationModule,
-        ClappCardModule,]
+        ClappCardModule]
     }).compileComponents();
 
     fixture = TestBed.createComponent(BusinessCardComponent);
