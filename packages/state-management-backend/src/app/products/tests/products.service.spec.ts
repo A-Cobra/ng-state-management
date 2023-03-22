@@ -4,7 +4,7 @@ import { ProductsService } from '../services/products.service';
 import { Review } from '../entities/review.entity';
 import { Test, TestingModule } from '@nestjs/testing';
 describe('ProductsService', () => {
-  let service: ProductsService;
+  let productsService: ProductsService;
   let reviewRepository: EntityRepository<Review>;
 
   beforeEach(async () => {
@@ -18,7 +18,7 @@ describe('ProductsService', () => {
       ],
     }).compile();
 
-    service = module.get<ProductsService>(ProductsService);
+    productsService = module.get<ProductsService>(ProductsService);
     reviewRepository = module.get<EntityRepository<Review>>('ReviewRepository');
   });
 
@@ -39,13 +39,17 @@ describe('ProductsService', () => {
         .spyOn(reviewRepository, 'findAndCount')
         .mockResolvedValueOnce([reviews, reviews.length]);
 
-      const result = await service.getReviews({ page, limit, productId });
+      const result = await productsService.getReviews({
+        page,
+        limit,
+        productId,
+      });
 
       expect(result).toEqual({
         data: reviews,
         currentPage: page,
         totalItems: reviews.length,
-        totalPages: 1,
+        totalPages: Math.ceil(reviews.length / limit),
       });
       expect(reviewRepository.findAndCount).toHaveBeenCalledWith(
         { productId },
@@ -72,7 +76,7 @@ describe('ProductsService', () => {
         .spyOn(reviewRepository, 'persistAndFlush')
         .mockResolvedValueOnce(undefined);
 
-      const result = await service.createReview(reviewDto);
+      const result = await productsService.createReview(reviewDto);
 
       expect(result).toEqual(review);
       expect(reviewRepository.create).toHaveBeenCalledWith(reviewDto);
