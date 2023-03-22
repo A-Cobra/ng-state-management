@@ -22,7 +22,7 @@ const MikroOrmConfig: Options = {
   logger: logger.log.bind(logger),
   type: 'postgresql',
   clientUrl: 'postgres://postgres:postgrespw@localhost:32768/state-db',
-  entities: [User, Review, Business_HQ, Business_classification ],
+  entities: [User, Review, Business_HQ, Business_classification],
   metadataProvider: ReflectMetadataProvider,
   migrations: {
     path: './database/migrations',

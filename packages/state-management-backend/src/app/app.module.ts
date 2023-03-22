@@ -13,7 +13,6 @@ import { ReflectMetadataProvider } from '@mikro-orm/core';
 import { Business_HQ } from './business/entities/business.entity';
 import { Business_classification } from './business/entities/business_classification.entity';
 
-
 const envFilePath = getEnvPath(process.env.WORKDIR);
 
 @Module({
