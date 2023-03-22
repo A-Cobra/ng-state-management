@@ -8,35 +8,53 @@ import { NonNullableFormBuilder, Validators } from '@angular/forms';
 })
 export class BusinessEditComponent {
   editing = false;
+  readOnly = true;
 
   businessFormEdit = this.formBuilder.group({
-    displayName: ['Dasdsa', [Validators.required, Validators.email]],
+    displayName: ['Dasdsa', [Validators.required]],
     businessName: ['', [Validators.required]],
-    businessClassification: ['1', []],
-    contactPhoneNumber: ['987654321', []],
+    businessClassification: ['1', [Validators.required]],
+    contactPhoneNumber: ['987654321', [Validators.required]],
     contactEmail: [
       'name@domain.suffix',
       [
+        Validators.required,
         /*CustomFormValidators.email*/
       ],
     ],
-    contactAddress: ['Address', []],
-    longitude: ['Longitude', []],
-    latitude: ['Latitude', []],
+    contactAddress: ['Address', [Validators.required]],
+    longitude: ['Longitude', [Validators.required]],
+    latitude: ['Latitude', [Validators.required]],
   });
 
-  constructor(private formBuilder: NonNullableFormBuilder) {}
-
-  onEditClick() {
-    this.toggleEditingStatus();
+  constructor(private formBuilder: NonNullableFormBuilder) {
+    this.disableFormControls();
   }
 
-  onSaveClick() {
+  onEditClick(): void {
     this.toggleEditingStatus();
+    this.enableFormControls();
   }
 
-  toggleEditingStatus() {
+  onSaveClick(): void {
+    this.toggleEditingStatus();
+    this.disableFormControls();
+  }
+
+  toggleEditingStatus(): void {
     this.editing = !this.editing;
+  }
+
+  disableFormControls(): void {
+    Object.keys(this.businessFormEdit.controls).forEach((key) => {
+      this.businessFormEdit.get(key)?.disable();
+    });
+  }
+
+  enableFormControls(): void {
+    Object.keys(this.businessFormEdit.controls).forEach((key) => {
+      this.businessFormEdit.get(key)?.enable();
+    });
   }
 
   hasError = (controlName: string, errorName: string): boolean => {

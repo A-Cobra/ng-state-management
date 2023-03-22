@@ -7,6 +7,7 @@
       displayText="Please enter the display name"
       label="Display Name"
     ></state-management-app-business-edit-display-name-input>
+
     <state-management-app-business-edit-display-name-input
       [parentForm]="businessFormEdit"
       [hasError]="hasError"
@@ -14,68 +15,9 @@
       displayText="Please enter the business name"
       label="Business Name"
     ></state-management-app-business-edit-display-name-input>
-    <h2 style="color: red">WORKS</h2>
+    <h2 style="color: green">WORKS</h2>
     <!-- THE PREVIOUS CODE WORKS -->
 
-    <div class="form__group">
-      <clapp-text-input
-        #businessName
-        formControlName="businessName"
-        autocomplete=""
-        [error]="
-          (false || !!businessFormEdit.controls['businessName'].errors) &&
-          businessFormEdit.controls['businessName'].touched
-        "
-        [success]="
-          (false || !businessFormEdit.controls['businessName'].errors) &&
-          businessFormEdit.controls['businessName'].touched
-        "
-        id="displayName"
-        label="Display Name"
-        type="text"
-      ></clapp-text-input>
-      <!-- Information Text  -->
-      <clapp-helper-text
-        *ngIf="
-          businessFormEdit.controls['displayName'].untouched &&
-          businessFormEdit.controls['displayName'].value === ''
-        "
-        [textState]="
-          businessFormEdit.controls['displayName'].disabled
-            ? 'disabled'
-            : 'default'
-        "
-      >
-        Please enter the display name (can not be empty)
-      </clapp-helper-text>
-      <!-- Error Text  -->
-      <div
-        class="error"
-        *ngIf="
-          !!businessFormEdit.controls['displayName'].errors &&
-          businessFormEdit.controls['displayName'].touched
-        "
-      >
-        <clapp-helper-text
-          [textState]="
-            businessFormEdit.controls['displayName'].disabled
-              ? 'disabled'
-              : 'error'
-          "
-        >
-          {{
-            hasError('displayName', 'required')
-              ? 'This field is required'
-              : 'Default'
-          }}
-        </clapp-helper-text>
-      </div>
-    </div>
-
-    <div class="form__group">
-      <label for="business-name">Business Name</label>
-      <input type="text" id="business-name" formControlName="businessName" />
-    </div>
     <div class="form__group">
       <label for="business-classification">Business Classification</label>
       <select
@@ -87,18 +29,20 @@
         <option value="1">Classification 1</option>
       </select>
     </div>
-    <div class="form__group">
-      <label for="contact-number">Contact Number</label>
-      <input
-        type="text"
-        id="contact-number"
-        formControlName="contactPhoneNumber"
-      />
-    </div>
+
+    <state-management-app-business-edit-display-name-input
+      [parentForm]="businessFormEdit"
+      [hasError]="hasError"
+      controlName="contactPhoneNumber"
+      displayText="Please enter the contact number"
+      label="Contact Number"
+    ></state-management-app-business-edit-display-name-input>
+
     <div class="form__group">
       <label for="contact-email">Contact Email</label>
       <input type="text" id="contact-email" formControlName="contactEmail" />
     </div>
+
     <div class="form__group">
       <label for="contact-address">Contact Address</label>
       <input
@@ -107,14 +51,17 @@
         formControlName="contactAddress"
       />
     </div>
+
     <div class="form__group">
       <label for="longitude">Longitude</label>
       <input type="text" id="longitude" formControlName="longitude" />
     </div>
+
     <div class="form__group">
       <label for="latitude">Latitude</label>
       <input type="text" id="latitude" formControlName="latitude" />
     </div>
+
     <div class="buttons">
       <button *ngIf="!editing; else saveButton" (click)="onEditClick()">
         Edit

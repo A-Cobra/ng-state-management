@@ -8,24 +8,15 @@ import { FormGroup, ValidationErrors } from '@angular/forms';
 })
 export class BusinessEditDisplayNameInputComponent {
   @Input()
-  parentForm: FormGroup;
-  @Input()
-  hasError: (controlName: string, errorName: string) => boolean;
-  @Input()
   controlName = 'displayName';
   @Input()
   displayText: string;
   @Input()
+  hasError: (controlName: string, errorName: string) => boolean;
+  @Input()
   label: string;
-  gettypeof(variable: { [key: string]: string }) {
-    return typeof variable;
-  }
-
-  getErrorsAsArray(getErrorsAsArray: ValidationErrors | null): string {
-    if (getErrorsAsArray) {
-      const validationKeys = Object.keys(getErrorsAsArray);
-      return validationKeys[0];
-    }
-    return '';
-  }
+  @Input()
+  parentForm: FormGroup;
+  @Input()
+  required = true;
 }
