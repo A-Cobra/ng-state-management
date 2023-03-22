@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BranchCardComponent should render branch information 1`] = `
+<state-management-app-branch-card
+  branch={[Function Object]}
+>
+  <clapp-card>
+    <div
+      class="clapp-card-wrapper"
+    >
+      <clapp-card-header>
+        <div
+          class="clapp-card-header-wrapper"
+        >
+          <h3>
+            <h5>
+              Mock branch
+            </h5>
+          </h3>
+        </div>
+      </clapp-card-header>
+      <clapp-card-content>
+        <div
+          class="clapp-card-content-wrapper"
+        >
+          <img
+            alt="Mock branch"
+            height="228"
+            src="https://dummyimage.com/400x400/000000/fff"
+          />
+        </div>
+      </clapp-card-content>
+      <clapp-card-footer>
+        <div
+          class="clapp-card-footer-wrapper"
+        >
+          <p>
+            8:00 - 18:00
+          </p>
+        </div>
+      </clapp-card-footer>
+    </div>
+  </clapp-card>
+</state-management-app-branch-card>
+`;
