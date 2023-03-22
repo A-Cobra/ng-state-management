@@ -1,0 +1,68 @@
+$mobile-max-width: 480px; //@media only screen and (max-width: 480px)
+$tablet-max-width: 768px; //@media only screen and (max-width: 768px)
+$laptop-max-width: 1024px; //@media only screen and (max-width: 1024px)
+$desktop-max-width: 1450px; // max-width: 1200px
+
+@mixin for-phone {
+  @media (max-width: $mobile-max-width) {
+    @content;
+  }
+}
+@mixin for-tablet {
+  @media (max-width: $tablet-max-width) {
+    @content;
+  }
+}
+@mixin for-laptop {
+  @media (max-width: $laptop-max-width) {
+    @content;
+  }
+}
+
+.classification-main {
+  margin: 0 auto;
+  min-height: 80vh;
+  max-width: $desktop-max-width;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  &__header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 1rem;
+    align-items: center;
+
+    @media (max-width: 550px) {
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+  }
+
+  &__container {
+    margin: 0 auto;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    margin: 1.5rem 1rem;
+  }
+
+  &__card-body {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  &__card {
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  &__pagination {
+    margin: 0 1rem;
+  }
+}

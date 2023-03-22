@@ -1,0 +1,85 @@
+<section class="classification-main">
+  <div
+    *ngIf="categories.length == 0; then noCategories; else hasCategories"
+  ></div>
+  <ng-template #noCategories>
+    <div class="classification-main__no-results">
+      <clapp-no-results-found
+        customText="No Results Found"
+        [loading]="false"
+      ></clapp-no-results-found>
+    </div>
+  </ng-template>
+
+  <ng-template #hasCategories>
+    <div class="classification-main__header">
+      <div class="classification-main__back-button">
+        <clapp-button
+          color="secondary"
+          size="small"
+          buttonWidth=""
+          [disabled]="false"
+          plusIcon="ri-arrow-left-s-line ri-1x"
+          type="submit"
+          (click)="handleBack()"
+        >
+          Go Back
+        </clapp-button>
+      </div>
+      <div class="classification-main__search">
+        <clapp-search
+          [formControl]="searchControl"
+          id="search"
+          name="search"
+          placeholder="Category"
+        ></clapp-search>
+      </div>
+      <div class="classification-main__create">
+        <clapp-button
+          color="primary"
+          size="small"
+          buttonWidth=""
+          [disabled]="false"
+          plusIcon="ri-add-fill"
+          type="submit"
+          (click)="handleCreate()"
+        >
+          Add Category
+        </clapp-button>
+      </div>
+    </div>
+    <div class="classification-main__container">
+      <div
+        class="classification-main__card"
+        *ngFor="let categoryCard of categoriesToShow"
+        (click)="handleClick(categoryCard.id)"
+      >
+        <clapp-card>
+          <div class="classification-main__card-body">
+            <div>
+              <clapp-card-header>{{ categoryCard.name }}</clapp-card-header>
+              <clapp-card-content>{{
+                categoryCard.description
+              }}</clapp-card-content>
+            </div>
+            <div class="classification-main__card-image">
+              <img
+                [src]="categoryCard.image || 'assets/images/image.png'"
+                height="120px "
+                width="120"
+              />
+            </div>
+          </div>
+        </clapp-card>
+      </div>
+    </div>
+    <div class="classification-main__pagination">
+      <clapp-pagination
+        *ngIf="categories.length > pageSize"
+        [totalRecords]="totalRecords"
+        [pageSize]="pageSize"
+        (pageChange)="handlePageChange($event)"
+      ></clapp-pagination>
+    </div>
+  </ng-template>
+</section>
