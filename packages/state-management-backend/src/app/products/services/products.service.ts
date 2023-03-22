@@ -1,10 +1,11 @@
 import { Review } from '../entities/review.entity';
 import { CreateReviewDto } from '../dto/create-review.dto';
 import { PaginatedData } from '../interfaces/pagination.interface';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, UseGuards } from '@nestjs/common';
 import { EntityRepository, MikroORM } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { Product } from '../entities/product.entity';
+import { JwtAuthGuard } from '../../auth/guard/jwt-auth.guard';
 
 @Injectable()
 export class ProductsService {
@@ -15,10 +16,27 @@ export class ProductsService {
     private readonly reviewRespository: EntityRepository<Review>
   ) {}
 
-  findAllProducts(): Promise<Product[]> {
-    return this.productRepository.findAll();
+  @UseGuards(JwtAuthGuard)
+  async findAllProducts({ page, limit, productName }): Promise<PaginatedData> {
+    // return this.productRepository.findAll();
+    const products = await this.productRepository.findAndCount(
+      { productName },
+      {
+        offset: (page - 1) * limit,
+        limit,
+      }
+    );
+    const [data, total] = products;
+    const totalPages = Math.ceil(total / limit);
+    return {
+      data,
+      currentPage: page,
+      totalItems: total,
+      totalPages,
+    };
   }
 
+  @UseGuards(JwtAuthGuard)
   async findOneProduct(idProduct: string): Promise<Product> {
     const product = await this.productRepository.findOne({ idProduct });
     if (!product) {
@@ -27,6 +45,7 @@ export class ProductsService {
     return product;
   }
 
+  @UseGuards(JwtAuthGuard)
   async createProduct(product: Product) {
     const newProduct = this.productRepository.create(product);
     await this.productRepository.persistAndFlush(newProduct);
