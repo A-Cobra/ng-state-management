@@ -1,0 +1,43 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+
+  clapp-button {
+    width: 100%;
+    max-width: 14rem;
+
+    // TODO: Refactor when mixins for media queries are implemented
+    @media (max-width: 480px) {
+      max-width: unset;
+    }
+
+    ::ng-deep {
+      button {
+        width: 100%;
+      }
+    }
+  }
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 1.5rem;
+
+  // TODO: Refactor when mixins for media queries are implemented
+  @media (max-width: 480px) {
+    flex-direction: column;
+  }
+
+  clapp-search {
+    width: 100%;
+    max-width: 30rem;
+  }
+}
+
+.branches {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-gap: 1.5rem;
+}
