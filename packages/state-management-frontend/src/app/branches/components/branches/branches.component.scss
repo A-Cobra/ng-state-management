@@ -38,6 +38,7 @@
 
 .branches {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, 280px);
   grid-gap: 1.5rem;
+  justify-content: center;
 }

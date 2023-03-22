@@ -17,7 +17,7 @@ export class BranchesService {
     pageSize = 10,
     query = ''
   ): Observable<ApiResponse<Branch[]>> {
-    // TODO: Replace with real implementation when BE will be ready.
+    // TODO: Replace with real implementation when BE will be ready. Some logic will be removed since BE will handle it.
     let filteredBranches: Branch[];
     if (query === '') {
       filteredBranches = this.#branches;
