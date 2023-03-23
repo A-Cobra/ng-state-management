@@ -1,16 +1,16 @@
 import { EntityRepository } from '@mikro-orm/core';
 import { CreateReviewDto } from '../dto/create-review.dto';
-import { ProductsService } from '../services/products.service';
-import { Review } from '../entities/review.entity';
 import { Test, TestingModule } from '@nestjs/testing';
-describe('ProductsService', () => {
-  let productsService: ProductsService;
+import { ReviewsService } from '../services/reviews.service';
+import { Review } from '..//entities/review.entity';
+describe('ReviewsService', () => {
+  let reviewsService: ReviewsService;
   let reviewRepository: EntityRepository<Review>;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        ProductsService,
+        ReviewsService,
         {
           provide: 'ReviewRepository',
           useClass: EntityRepository,
@@ -18,7 +18,7 @@ describe('ProductsService', () => {
       ],
     }).compile();
 
-    productsService = module.get<ProductsService>(ProductsService);
+    reviewsService = module.get<ReviewsService>(ReviewsService);
     reviewRepository = module.get<EntityRepository<Review>>('ReviewRepository');
   });
 
@@ -39,7 +39,7 @@ describe('ProductsService', () => {
         .spyOn(reviewRepository, 'findAndCount')
         .mockResolvedValueOnce([reviews, reviews.length]);
 
-      const result = await productsService.getReviews({
+      const result = await reviewsService.getReviews({
         page,
         limit,
         productId,
@@ -76,7 +76,7 @@ describe('ProductsService', () => {
         .spyOn(reviewRepository, 'persistAndFlush')
         .mockResolvedValueOnce(undefined);
 
-      const result = await productsService.createReview(reviewDto);
+      const result = await reviewsService.createReview(reviewDto);
 
       expect(result).toEqual(review);
       expect(reviewRepository.create).toHaveBeenCalledWith(reviewDto);
