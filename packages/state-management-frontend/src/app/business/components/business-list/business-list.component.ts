@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'state-management-app-business-list',
@@ -11,15 +11,18 @@ export class BusinessListComponent {
       id: 1,
       name: 'test',
       description: 'test',
-    }, {
+    },
+    {
       id: 2,
       name: 'test',
       description: 'test',
-    }, {
+    },
+    {
       id: 3,
       name: 'test',
       description: 'test',
-    }, {
+    },
+    {
       id: 4,
       name: 'test',
       description: 'test',

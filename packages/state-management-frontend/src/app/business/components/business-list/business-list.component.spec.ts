@@ -1,8 +1,13 @@
-import {ComponentFixture, TestBed} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {BusinessListComponent} from './business-list.component';
-import {ClappButtonModule, ClappCardModule, ClappPaginationModule, ClappSearchModule} from '@clapp1/clapp-angular';
-import {Component, Input} from '@angular/core';
+import { BusinessListComponent } from './business-list.component';
+import {
+  ClappButtonModule,
+  ClappCardModule,
+  ClappPaginationModule,
+  ClappSearchModule,
+} from '@clapp1/clapp-angular';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'state-management-app-business-card',
@@ -19,10 +24,12 @@ describe('BusinessListComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [BusinessListComponent, MockBusinessCardComponent],
-      imports: [ClappButtonModule,
+      imports: [
+        ClappButtonModule,
         ClappSearchModule,
         ClappPaginationModule,
-        ClappCardModule]
+        ClappCardModule,
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(BusinessListComponent);
