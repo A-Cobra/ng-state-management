@@ -6,11 +6,13 @@ import {
   HttpCode,
   Param,
   Post,
+  Put,
   Query,
 } from '@nestjs/common';
 import { PaginationDto } from '../../common/dtos/pagination.dto';
 import { PaginationResult } from '../../common/interfaces/pagination-result.interface';
 import { CreateBranchDto } from '../dto/create-branch.dto';
+import { UpdateBranchDto } from '../dto/update-branch.dto';
 import { BusinessBranch } from '../entities/businessBranch.entity';
 import { BranchesService } from '../services/branches.service';
 
@@ -36,6 +38,11 @@ export class BranchesController {
     @Body() branch: CreateBranchDto
   ) {
     return this.branchesServices.create(businessId, branch);
+  }
+
+  @Put('branches/:id')
+  update(@Param('id') id: string, @Body() branch: UpdateBranchDto) {
+    return this.branchesServices.update(id, branch);
   }
 
   @Delete('branches/:id')

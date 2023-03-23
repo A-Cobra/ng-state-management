@@ -5,6 +5,7 @@ import { BusinessService } from '../../business/services/business.service';
 import { PaginationDto } from '../../common/dtos/pagination.dto';
 import { PaginationResult } from '../../common/interfaces/pagination-result.interface';
 import { CreateBranchDto } from '../dto/create-branch.dto';
+import { UpdateBranchDto } from '../dto/update-branch.dto';
 import { BusinessBranch } from '../entities/businessBranch.entity';
 
 @Injectable()
@@ -25,12 +26,12 @@ export class BranchesService {
     }
     const { page, limit } = paginationDto;
     const [data, total] = await this.branchRepository.findAndCount(
-      { businessId: business },
+      { businessId: business, deleted: false },
       { offset: (page - 1) * limit, limit: limit }
     );
     const totalPages = Math.ceil(total / limit);
     return {
-      data,
+      data: data.filter((branch) => !branch.deleted),
       totalResults: total,
       page: Number(page),
       totalPages,
@@ -49,6 +50,18 @@ export class BranchesService {
     newBranch.businessId = business;
     await this.branchRepository.persistAndFlush(newBranch);
     return newBranch;
+  }
+
+  async update(id: string, branch: UpdateBranchDto) {
+    const branchToUpdate = await this.branchRepository.findOne({
+      branchId: id,
+    });
+    if (!branchToUpdate) {
+      throw new NotFoundException('Branch not found');
+    }
+    this.branchRepository.assign(branchToUpdate, branch);
+    await this.branchRepository.flush();
+    return branchToUpdate;
   }
 
   async delete(id: string): Promise<void> {

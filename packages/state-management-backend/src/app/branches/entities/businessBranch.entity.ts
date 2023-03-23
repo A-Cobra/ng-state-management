@@ -34,7 +34,7 @@ export class BusinessBranch {
   @Property()
   contactPhoneNumber: string;
 
-  @Property({ type: 'boolean', default: false })
+  @Property({ type: 'boolean', default: false, hidden: true })
   deleted = false;
 
   @ManyToOne(() => Business_HQ)
