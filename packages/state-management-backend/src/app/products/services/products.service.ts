@@ -20,7 +20,7 @@ export class ProductsService {
     let products;
     if (productName) {
       products = await this.productRepository.findAndCount(
-        { productName: { $like: `%${productName}%` } },
+        { productName: { $ilike: `%${productName}%` } },
         {
           offset: (page - 1) * limit,
           limit,
