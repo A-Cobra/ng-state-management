@@ -11,6 +11,7 @@ import {
   Patch,
   Query,
 } from '@nestjs/common';
+import { CreateProductDto } from '../dto/create-product.dto';
 
 @Controller({
   path: 'products',
@@ -20,8 +21,12 @@ export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
   @Get()
-  findAll() {
-    return this.productsService.findAllProducts();
+  findAll(
+    @Query('search') productName: string,
+    @Query('page') page: number,
+    @Query('limit') limit: number
+  ) {
+    return this.productsService.findAllProducts({ page, limit, productName });
   }
 
   @Get(':id')
@@ -30,18 +35,18 @@ export class ProductsController {
   }
 
   @Post()
-  createPost(@Body() product: any): string {
-    this.productsService.createProduct(product);
+  createProduct(@Body() product: CreateProductDto) {
+    return this.productsService.createProduct(product);
   }
 
-  @Put(':id')
-  update(@Param('id') id: string, @Body() body: any): string {
-    return `PUT a specific product ${id}`;
-  }
+  // @Put(':id')
+  // update(@Param('id') id: string, @Body() body: any): string {
+  //   return `PUT a specific product ${id}`;
+  // }
 
   @Patch(':id')
-  partialUpdate(@Param('id') id: string, @Body() body: any): string {
-    return `PATCH a specific product${id}`;
+  partialUpdate(@Param('id') id: string, @Body() body: CreateProductDto) {
+    return this.productsService.partialUpdateProduct(id, body);
   }
 
   @Get(':id/reviews')

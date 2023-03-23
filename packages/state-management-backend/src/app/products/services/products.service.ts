@@ -1,11 +1,11 @@
 import { Review } from '../entities/review.entity';
 import { CreateReviewDto } from '../dto/create-review.dto';
 import { PaginatedData } from '../interfaces/pagination.interface';
-import { Injectable, NotFoundException, UseGuards } from '@nestjs/common';
-import { EntityRepository, MikroORM } from '@mikro-orm/core';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { EntityRepository, wrap } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { Product } from '../entities/product.entity';
-import { JwtAuthGuard } from '../../auth/guard/jwt-auth.guard';
+import { CreateProductDto } from '../dto/create-product.dto';
 
 @Injectable()
 export class ProductsService {
@@ -16,16 +16,25 @@ export class ProductsService {
     private readonly reviewRespository: EntityRepository<Review>
   ) {}
 
-  @UseGuards(JwtAuthGuard)
   async findAllProducts({ page, limit, productName }): Promise<PaginatedData> {
-    // return this.productRepository.findAll();
-    const products = await this.productRepository.findAndCount(
-      { productName },
-      {
-        offset: (page - 1) * limit,
-        limit,
-      }
-    );
+    let products;
+    if (productName) {
+      products = await this.productRepository.findAndCount(
+        { productName: { $like: `%${productName}%` } },
+        {
+          offset: (page - 1) * limit,
+          limit,
+        }
+      );
+    } else {
+      products = await this.productRepository.findAndCount(
+        {},
+        {
+          offset: (page - 1) * limit,
+          limit,
+        }
+      );
+    }
     const [data, total] = products;
     const totalPages = Math.ceil(total / limit);
     return {
@@ -36,7 +45,6 @@ export class ProductsService {
     };
   }
 
-  @UseGuards(JwtAuthGuard)
   async findOneProduct(idProduct: string): Promise<Product> {
     const product = await this.productRepository.findOne({ idProduct });
     if (!product) {
@@ -45,11 +53,20 @@ export class ProductsService {
     return product;
   }
 
-  @UseGuards(JwtAuthGuard)
-  async createProduct(product: Product) {
+  async createProduct(product: CreateProductDto): Promise<Product> {
     const newProduct = this.productRepository.create(product);
     await this.productRepository.persistAndFlush(newProduct);
     return newProduct;
+  }
+
+  async partialUpdateProduct(
+    idProduct: string,
+    updateProductInfo: CreateProductDto
+  ): Promise<Product> {
+    const product = await this.productRepository.findOne({ idProduct });
+    wrap(product).assign(updateProductInfo);
+    await this.productRepository.flush();
+    return product;
   }
 
   async getReviews({ page, limit, productId }): Promise<PaginatedData> {
