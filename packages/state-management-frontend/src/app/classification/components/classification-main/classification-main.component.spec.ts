@@ -3,12 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 
 import { ClassificationMainComponent } from './classification-main.component';
-import { mockClassification } from './mockClassification';
-import {
-  CUSTOM_ELEMENTS_SCHEMA,
-  DebugElement,
-  NO_ERRORS_SCHEMA,
-} from '@angular/core';
+import { mockClassification } from './mock-classification';
+import { CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 
 fdescribe('ClassificationMainComponent', () => {
@@ -48,7 +44,7 @@ fdescribe('ClassificationMainComponent', () => {
           useValue: mockActivatedRoute,
         },
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ClassificationMainComponent);
@@ -77,6 +73,21 @@ fdescribe('ClassificationMainComponent', () => {
     expect(results.length).toBe(3);
   });
 
+  it('should show pagination if totalRecords>pageSize', () => {
+    component.pageSize = 12;
+    component.totalRecords = 10;
+    fixture.detectChanges();
+    const noPagination = el.queryAll(
+      By.css('.classification-main__pagination')
+    );
+    expect(noPagination.length).toBe(0);
+    component.pageSize = 3;
+    component.totalRecords = 10;
+    fixture.detectChanges();
+    const pagination = el.queryAll(By.css('.classification-main__pagination'));
+    expect(pagination.length).toBe(1);
+  });
+
   it('should navigate on handleCreate', () => {
     const router = jest.spyOn(mockRouter, 'navigate');
     component.handleCreate();
@@ -91,21 +102,9 @@ fdescribe('ClassificationMainComponent', () => {
     expect(location).toHaveBeenCalledTimes(1);
   });
 
-  it('should navigate on handleClick', () => {
+  it('should navigate on handleCardClick', () => {
     const router = jest.spyOn(mockRouter, 'navigate');
-    component.handleClick(1);
-    fixture.detectChanges();
-    expect(router).toHaveBeenCalledTimes(1);
-  });
-
-  it('should navigate on handleSubmit', () => {
-    const router = jest.spyOn(mockRouter, 'navigate');
-    const event = {
-      target: {
-        value: 'value',
-      },
-    };
-    component.handleSubmit(event as any);
+    component.handleCardClick(1);
     fixture.detectChanges();
     expect(router).toHaveBeenCalledTimes(1);
   });

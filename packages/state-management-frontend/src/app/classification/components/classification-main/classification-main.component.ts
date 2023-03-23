@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { mockClassification } from './mockClassification';
+import { mockClassification } from './mock-classification';
 import { Location } from '@angular/common';
 import { Pagination } from '@clapp1/clapp-angular/lib/pagination/interfaces/pagination.interface';
 import { FormControl } from '@angular/forms';
@@ -12,7 +12,7 @@ import { debounceTime, distinctUntilChanged, Subject, takeUntil } from 'rxjs';
   styleUrls: ['./classification-main.component.scss'],
 })
 export class ClassificationMainComponent implements OnInit, OnDestroy {
-  unsubscribe$ = new Subject<void>();
+  private unsubscribe$ = new Subject<void>();
   currentPage = 1;
   pageSize = 9;
   categories = mockClassification;
@@ -47,27 +47,34 @@ export class ClassificationMainComponent implements OnInit, OnDestroy {
     this._location.back();
   }
 
-  handleClick(id: number): void {
+  handleCardClick(id: number): void {
     this.router.navigate([id], { relativeTo: this.route });
   }
 
   handlePageChange($event: Pagination): void {
-    this.currentPage = $event.currentPage;
+    //TODO needs to be adjusted when BE is ready
+    let initialCount;
+    let finalCount;
+    initialCount = ($event.currentPage - 1) * this.pageSize;
+    finalCount = this.pageSize * $event.currentPage;
+    this.categoriesToShow = this.categories.slice(initialCount, finalCount);
   }
 
   handleSubmit(query: string): void {
-    let queryParams = {};
+    //TODO needs to be adjusted when BE is ready
+    this.categories = mockClassification;
     if (query !== '') {
-      queryParams = { search: query };
+      this.categories = this.categories.filter((category) =>
+        category.name.includes(query)
+      );
+      this.totalRecords = this.categories.length;
     }
-
-    this.router.navigate([], {
-      queryParams,
-      relativeTo: this.route,
-    });
+    this.categoriesToShow = this.categories.slice(0, this.pageSize);
+    this.totalRecords = this.categories.length;
   }
 
   ngOnDestroy(): void {
     this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 }

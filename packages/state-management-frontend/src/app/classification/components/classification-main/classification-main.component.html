@@ -52,7 +52,7 @@
       <div
         class="classification-main__card"
         *ngFor="let categoryCard of categoriesToShow"
-        (click)="handleClick(categoryCard.id)"
+        (click)="handleCardClick(categoryCard.id)"
       >
         <clapp-card>
           <div class="classification-main__card-body">
@@ -64,7 +64,7 @@
             </div>
             <div class="classification-main__card-image">
               <img
-                [src]="categoryCard.image || 'assets/images/image.png'"
+                [src]="categoryCard.image || 'assets/images/fallback-image.png'"
                 height="120px "
                 width="120"
               />
@@ -73,9 +73,11 @@
         </clapp-card>
       </div>
     </div>
-    <div class="classification-main__pagination">
+    <div
+      class="classification-main__pagination"
+      *ngIf="totalRecords > pageSize"
+    >
       <clapp-pagination
-        *ngIf="categories.length > pageSize"
         [totalRecords]="totalRecords"
         [pageSize]="pageSize"
         (pageChange)="handlePageChange($event)"
