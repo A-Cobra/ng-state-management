@@ -1,6 +1,6 @@
 <section class="classification-main">
   <div
-    *ngIf="categories.length == 0; then noCategories; else hasCategories"
+    *ngIf="categories.length === 0; then noCategories; else hasCategories"
   ></div>
   <ng-template #noCategories>
     <div class="classification-main__no-results">

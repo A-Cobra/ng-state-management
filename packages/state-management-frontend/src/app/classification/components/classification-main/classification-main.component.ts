@@ -36,7 +36,7 @@ export class ClassificationMainComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private _location: Location
+    private location: Location
   ) {}
 
   handleCreate(): void {
@@ -44,7 +44,7 @@ export class ClassificationMainComponent implements OnInit, OnDestroy {
   }
 
   handleBack(): void {
-    this._location.back();
+    this.location.back();
   }
 
   handleCardClick(id: number): void {
@@ -53,10 +53,8 @@ export class ClassificationMainComponent implements OnInit, OnDestroy {
 
   handlePageChange($event: Pagination): void {
     //TODO needs to be adjusted when BE is ready
-    let initialCount;
-    let finalCount;
-    initialCount = ($event.currentPage - 1) * this.pageSize;
-    finalCount = this.pageSize * $event.currentPage;
+    const initialCount = ($event.currentPage - 1) * this.pageSize;
+    const finalCount = this.pageSize * $event.currentPage;
     this.categoriesToShow = this.categories.slice(initialCount, finalCount);
   }
 
