@@ -1,5 +1,5 @@
-import { IsDate, IsEmail, IsString } from "class-validator";
-import { Business_HQ } from "../../business/entities/business.entity";
+import { IsDate, IsEmail, IsString } from 'class-validator';
+import { Business_HQ } from '../../business/entities/business.entity';
 
 export class CreateBranchDto {
   @IsString()
@@ -9,16 +9,19 @@ export class CreateBranchDto {
   address: string;
 
   @IsString()
+  image: string;
+
+  @IsString()
   longitude: string;
 
   @IsString()
   latitude: string;
 
-  @IsDate()
-  openingTime: Date;
+  @IsString()
+  openingTime: string;
 
-  @IsDate()
-  closeTime: Date;
+  @IsString()
+  closeTime: string;
 
   @IsString()
   @IsEmail()
@@ -26,7 +29,4 @@ export class CreateBranchDto {
 
   @IsString()
   contactPhoneNumber: string;
-
-  @IsString()
-  businessId: Business_HQ;
 }

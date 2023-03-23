@@ -14,22 +14,28 @@ export class BusinessBranch {
   address: string;
 
   @Property()
+  image: string;
+
+  @Property()
   longitude: string;
 
   @Property()
   latitude: string;
 
-  @Property()
-  openingTime: Date;
+  @Property({ type: 'time' })
+  openingTime: string;
 
-  @Property()
-  closeTime: Date;
+  @Property({ type: 'time' })
+  closeTime: string;
 
   @Property()
   contactEmail: string;
 
   @Property()
   contactPhoneNumber: string;
+
+  @Property({ type: 'boolean', default: false })
+  deleted = false;
 
   @ManyToOne(() => Business_HQ)
   businessId: Business_HQ;
