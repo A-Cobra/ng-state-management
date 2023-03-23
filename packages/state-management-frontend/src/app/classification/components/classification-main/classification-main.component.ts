@@ -63,7 +63,7 @@ export class ClassificationMainComponent implements OnInit, OnDestroy {
     this.categories = mockClassification;
     if (query !== '') {
       this.categories = this.categories.filter((category) =>
-        category.name.includes(query)
+        category.name.toLowerCase().includes(query.toLowerCase())
       );
       this.totalRecords = this.categories.length;
     }
