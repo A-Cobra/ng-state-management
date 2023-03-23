@@ -8,7 +8,7 @@ import { User } from '../entities/user.entity';
 
 @Injectable()
 export class UsersService {
-  
+
   constructor(
     @InjectRepository(User)
     private readonly userRepository: EntityRepository<User>,
@@ -36,7 +36,6 @@ export class UsersService {
   }
 
   async findOneByEmail(email: string): Promise<User> {
-
     const user = await this.userRepository.findOne({email});
 
     if (!user) {
@@ -67,19 +66,19 @@ export class UsersService {
   }
 
   async changeUserLogState(userId: string, state: boolean): Promise<User>{
-    const found_user = await this.userRepository.findOne({ userId });
-    found_user.isLoggedIn = state;
-    
+    const foundUser = await this.userRepository.findOne({ userId });
+    foundUser.isLoggedIn = state;
+
     await this.userRepository.flush();
 
-    return found_user;
+    return foundUser;
   }
 
-  async updateRole(userId: string, role_name: string): Promise<User>{
-    const found_user = await this.userRepository.findOne({ userId });
-    found_user.role = role_name;
+  async updateRole(userId: string, roleName: string): Promise<User>{
+    const foundUser = await this.userRepository.findOne({ userId });
+    foundUser.role = roleName;
     await this.userRepository.flush();
 
-    return found_user;
+    return foundUser;
   }
 }

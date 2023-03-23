@@ -5,7 +5,7 @@ import * as path from 'path';
 import * as dotenv from 'dotenv';
 import * as dotenvExpand from 'dotenv-expand';
 import { Business_HQ } from './app/business/entities/business.entity';
-import { Business_classification } from './app/business/entities/business_classification.entity';
+import { Business_classification } from './app/business/entities/business-classification.entity';
 import { TsMorphMetadataProvider } from '@mikro-orm/reflection';
 import 'reflect-metadata';
 import { Logger } from '@nestjs/common';

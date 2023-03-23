@@ -1,11 +1,11 @@
-import { Collection, Entity, ManyToMany, OneToOne, PrimaryKey, Property } from "@mikro-orm/core"
+import { Collection, Entity, ManyToMany, OneToOne, PrimaryKey, Property } from "@mikro-orm/core";
 import { v4 } from 'uuid';
 import { User } from "../../users/entities/user.entity";
-import { BusinessClassification } from "./business_classification.entity";
+import { BusinessClassification } from "./business-classification.entity";
 
 @Entity()
 export class BusinessHq extends User{
- @PrimaryKey()
+  @PrimaryKey()
   businessId: string = v4();
 
   @Property()

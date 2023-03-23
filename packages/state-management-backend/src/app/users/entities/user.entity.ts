@@ -1,8 +1,7 @@
 import { Entity, ManyToOne, PrimaryKey, Property } from '@mikro-orm/core';
 import { v4 } from 'uuid';
 
-@Entity({ abstract: true })
-export abstract class User {
+export class User {
     @PrimaryKey()
     userId: string = v4();
 
@@ -31,7 +30,7 @@ export abstract class User {
     isLoggedIn: boolean;
 
     @Property()
-    contact_number: string;
+    contactNumber: string;
 
     @Property()
     refreshToken?: string;
