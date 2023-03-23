@@ -1,0 +1,14 @@
+<div class="stateContainer">
+  <div class="topMenu">
+    <clapp-button plusIcon="ri-arrow-left-s-line"> Go back</clapp-button>
+    <clapp-search class="search" placeholder="Business"></clapp-search>
+    <clapp-button color="secondary"  plusIcon="ri-add-fill"> Add Business</clapp-button>
+  </div>
+  <div class="cardContainer">
+    <state-management-app-business-card *ngFor="let record of mockRecords; index as i" [businessId]="record.id" ></state-management-app-business-card>
+  </div>
+  <div>
+    <clapp-pagination *ngIf="totalRecords>recordsPerPage" [totalRecords]="totalRecords" [pageSize]="recordsPerPage"></clapp-pagination>
+  </div>
+</div>
+
