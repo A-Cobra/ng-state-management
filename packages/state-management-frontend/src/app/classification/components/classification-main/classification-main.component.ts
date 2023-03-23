@@ -13,7 +13,6 @@ import { debounceTime, distinctUntilChanged, Subject, takeUntil } from 'rxjs';
 })
 export class ClassificationMainComponent implements OnInit, OnDestroy {
   unsubscribe$ = new Subject<void>();
-  baseImgae = '';
   currentPage = 1;
   pageSize = 9;
   categories = mockClassification;
