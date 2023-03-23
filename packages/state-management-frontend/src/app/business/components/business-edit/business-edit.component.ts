@@ -13,39 +13,37 @@ export class BusinessEditComponent {
     {
       key: 'Option 1',
       disabled: true,
-      hidden: false,
     },
     {
       key: 'Option 2',
       disabled: false,
-      hidden: false,
     },
     {
       key: 'Option 3',
       disabled: false,
-      hidden: false,
     },
     {
       key: 'Option 4',
       disabled: false,
-      hidden: false,
     },
     {
       key: 'Option 5',
       disabled: false,
-      hidden: false,
+    },
+    {
+      key: 'Option 5',
+      disabled: false,
     },
   ];
   mockClassificationList: {
     key: string;
     disabled: boolean;
-    hidden: boolean;
   }[] = [];
 
   businessFormEdit = this.formBuilder.group({
-    displayName: ['Dasdsa', [Validators.required]],
+    displayName: ['fasfafasfqqg', [Validators.required]],
     businessName: ['', [Validators.required]],
-    businessClassification: ['1', [Validators.required]],
+    businessClassification: ['Option 3', [Validators.required]],
     contactPhoneNumber: ['987654321', [Validators.required]],
     contactEmail: [
       'name@domain.suffix',
@@ -82,7 +80,6 @@ export class BusinessEditComponent {
   }
 
   onValueDeleted() {
-    console.log('DELETING EVERYTHING');
     this.mockClassificationList = [...this.mockBackendData];
   }
 

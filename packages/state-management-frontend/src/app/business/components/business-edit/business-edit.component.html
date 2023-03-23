@@ -15,19 +15,14 @@
       displayText="Please enter the business name"
       label="Business Name"
     ></state-management-app-reactive-form-control-text-input>
-    <h2 style="color: green">WORKS</h2>
-    <!-- THE PREVIOUS CODE WORKS -->
-
-    <!-- DOESN'T WORK  -->
 
     <clapp-select
-      [formControl]="businessFormEdit.controls['businessName']"
-      [selectedValue]="'1'"
+      [formControl]="businessFormEdit.controls['businessClassification']"
+      [selectedValue]="'none'"
       label="Business Classification"
       [borderless]="false"
-      [disabled]="false"
       [displayLabel]="false"
-      inputName="businessName"
+      inputName="businessClassification"
       [pagination]="false"
       placeholder="Classification"
       [hasFilter]="true"
@@ -35,44 +30,14 @@
       <clapp-search
         (keyup)="onWriteValue($event)"
         (valueDeleted)="onValueDeleted()"
-        [formControl]="businessFormEdit.controls['businessName']"
+        [formControl]="businessFormEdit.controls['businessClassification']"
       ></clapp-search>
       <clapp-select-option
         *ngFor="let classification of mockClassificationList"
         [key]="classification.key"
         [value]="classification.key"
-        [itemDisabled]="classification.disabled"
       ></clapp-select-option>
     </clapp-select>
-
-    <!-- <div
-      class="infinite-scroll"
-      infiniteScroll
-      [scrollWindow]="false"
-      [infiniteScrollDistance]="2"
-      [infiniteScrollThrottle]="12"
-      (scrolled)="onScroll()"
-    >
-      <clapp-select-option
-        *ngFor="let classification of mockClassificationList"
-        [key]="classification.key"
-        [value]="classification.key"
-        [itemDisabled]="classification.disabled"
-      ></clapp-select-option>
-    </div> -->
-
-    <div class="form__group">
-      <label for="business-classification">Business Classification</label>
-      <select
-        name=""
-        id="business-classification"
-        formControlName="businessClassification"
-      >
-        <option value="" selected="true" disabled="true">Classification</option>
-        <option value="1">Classification 1</option>
-      </select>
-    </div>
-    <!-- DOESN'T WORK  -->
 
     <state-management-app-reactive-form-control-text-input
       [parentForm]="businessFormEdit"
