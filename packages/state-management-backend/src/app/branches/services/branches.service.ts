@@ -16,7 +16,24 @@ export class BranchesService {
     private readonly businessService: BusinessService
   ) {}
 
-  async findAll(
+  async getAllBranches(
+    paginationDto: PaginationDto
+  ): Promise<PaginationResult<BusinessBranch>> {
+    const { page, limit } = paginationDto;
+    const [data, total] = await this.branchRepository.findAndCount(
+      { deleted: false },
+      { offset: (page - 1) * limit, limit: limit }
+    );
+    const totalPages = Math.ceil(total / limit);
+    return {
+      data,
+      totalResults: total,
+      page: Number(page),
+      totalPages,
+    };
+  }
+
+  async getBranchesByBusiness(
     id: string,
     paginationDto: PaginationDto
   ): Promise<PaginationResult<BusinessBranch>> {
@@ -36,6 +53,17 @@ export class BranchesService {
       page: Number(page),
       totalPages,
     };
+  }
+
+  async findById(id: string): Promise<BusinessBranch> {
+    const branch = await this.branchRepository.findOne({
+      branchId: id,
+      deleted: false,
+    });
+    if (!branch) {
+      throw new NotFoundException('Branch not found');
+    }
+    return branch;
   }
 
   async create(

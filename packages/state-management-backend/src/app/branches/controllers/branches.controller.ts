@@ -23,12 +23,27 @@ import { BranchesService } from '../services/branches.service';
 export class BranchesController {
   constructor(private readonly branchesServices: BranchesService) {}
 
-  @Get(':id/branches')
-  findAll(
-    @Param('id') id: string,
+  @Get('branches')
+  getAllBranches(
     @Query() paginationDto: PaginationDto
   ): Promise<PaginationResult<BusinessBranch>> {
-    return this.branchesServices.findAll(id, paginationDto);
+    return this.branchesServices.getAllBranches(paginationDto);
+  }
+
+  @Get(':businessId/branches')
+  getBranchesByBusiness(
+    @Param('businessId') businessId: string,
+    @Query() paginationDto: PaginationDto
+  ): Promise<PaginationResult<BusinessBranch>> {
+    return this.branchesServices.getBranchesByBusiness(
+      businessId,
+      paginationDto
+    );
+  }
+
+  @Get('branches/:id')
+  getSingleBranch(@Param('id') id: string) {
+    return this.branchesServices.findById(id);
   }
 
   @Post(':businessId/branches')
