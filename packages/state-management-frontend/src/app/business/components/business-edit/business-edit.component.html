@@ -1,5 +1,13 @@
 <p>business-edit works!</p>
 <div class="form-wrapper">
+  <div class="business-img" *ngIf="mockBusinessInfo.imgUrl">
+    <img
+      [src]="mockBusinessInfo.imgUrl"
+      [alt]="mockBusinessInfo.businessName + '.png'"
+      class="business-img__image"
+    />
+  </div>
+
   <form class="form" [formGroup]="businessFormEdit">
     <state-management-app-reactive-form-control-text-input
       [parentForm]="businessFormEdit"
@@ -16,28 +24,51 @@
       label="Business Name"
     ></state-management-app-reactive-form-control-text-input>
 
-    <clapp-select
-      [formControl]="businessFormEdit.controls['businessClassification']"
-      [selectedValue]="'none'"
-      label="Business Classification"
-      [borderless]="false"
-      [displayLabel]="false"
-      inputName="businessClassification"
-      [pagination]="false"
-      placeholder="Classification"
-      [hasFilter]="true"
-    >
-      <clapp-search
-        (keyup)="onWriteValue($event)"
-        (valueDeleted)="onValueDeleted()"
+    <div class="form__group">
+      <clapp-select
         [formControl]="businessFormEdit.controls['businessClassification']"
-      ></clapp-search>
-      <clapp-select-option
-        *ngFor="let classification of mockClassificationList"
-        [key]="classification.key"
-        [value]="classification.key"
-      ></clapp-select-option>
-    </clapp-select>
+        [selectedValue]="'none'"
+        label="Business Classification"
+        [borderless]="false"
+        [displayLabel]="false"
+        inputName="businessClassification"
+        [pagination]="false"
+        placeholder="Classification *"
+        [hasFilter]="true"
+      >
+        <clapp-search
+          (keyup)="onWriteValue($event)"
+          (valueDeleted)="onValueDeleted()"
+          [formControl]="businessFormEdit.controls['businessClassification']"
+        ></clapp-search>
+        <clapp-select-option
+          *ngFor="let classification of mockClassificationList"
+          [key]="classification.key"
+          [value]="classification.key"
+        ></clapp-select-option>
+      </clapp-select>
+      <!-- Error Text  -->
+      <div
+        class="error"
+        *ngIf="
+          !!businessFormEdit.controls['businessClassification'].errors &&
+          businessFormEdit.controls['businessClassification'].touched
+        "
+      >
+        <clapp-helper-text
+          [textState]="
+            businessFormEdit.controls['businessClassification'].disabled
+              ? 'disabled'
+              : 'error'
+          "
+        >
+          {{
+            businessFormEdit.controls['businessClassification'].errors
+              | fullErrorName
+          }}
+        </clapp-helper-text>
+      </div>
+    </div>
 
     <state-management-app-reactive-form-control-text-input
       [parentForm]="businessFormEdit"
@@ -80,13 +111,28 @@
     ></state-management-app-reactive-form-control-text-input>
 
     <div class="buttons">
-      <button *ngIf="!editing; else saveButton" (click)="onEditClick()">
+      <clapp-button
+        *ngIf="!editing; else saveButton"
+        (click)="onEditClick()"
+        color="tertiary-white"
+        size="small"
+        type="button"
+      >
         Edit
-      </button>
+      </clapp-button>
       <ng-template #saveButton>
-        <button (click)="onSaveClick()">Save</button>
+        <clapp-button
+          (click)="onSaveClick()"
+          color="secondary"
+          size="small"
+          type="button"
+        >
+          Save
+        </clapp-button>
       </ng-template>
-      <button>Delete</button>
+      <clapp-button color="primary" size="small" type="button">
+        Delete
+      </clapp-button>
     </div>
   </form>
 </div>

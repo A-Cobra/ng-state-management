@@ -9,6 +9,18 @@ import { NonNullableFormBuilder, Validators } from '@angular/forms';
 export class BusinessEditComponent {
   editing = false;
 
+  mockBusinessInfo = {
+    displayName: 'Business Display Name',
+    businessName: 'Business Display Name',
+    businessClassification: 'Business Display Name',
+    contactPhoneNumber: 'Business Display Name',
+    contactEmail: 'Business Display Name',
+    contactAddress: 'Business Display Name',
+    longitude: 'Business Display Name',
+    latitude: 'Business Display Name',
+    imgUrl: '',
+  };
+
   mockBackendData = [
     {
       key: 'Option 1',
@@ -43,7 +55,7 @@ export class BusinessEditComponent {
   businessFormEdit = this.formBuilder.group({
     displayName: ['fasfafasfqqg', [Validators.required]],
     businessName: ['', [Validators.required]],
-    businessClassification: ['Option 3', [Validators.required]],
+    businessClassification: ['', [Validators.required]],
     contactPhoneNumber: ['987654321', [Validators.required]],
     contactEmail: [
       'name@domain.suffix',
