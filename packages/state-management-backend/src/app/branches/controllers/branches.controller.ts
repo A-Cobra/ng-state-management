@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpCode,
   Param,
@@ -35,5 +36,11 @@ export class BranchesController {
     @Body() branch: CreateBranchDto
   ) {
     return this.branchesServices.create(businessId, branch);
+  }
+
+  @Delete('branches/:id')
+  @HttpCode(204)
+  async delete(@Param('id') id: string) {
+    return this.branchesServices.delete(id);
   }
 }

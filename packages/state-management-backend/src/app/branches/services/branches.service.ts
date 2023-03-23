@@ -50,4 +50,13 @@ export class BranchesService {
     await this.branchRepository.persistAndFlush(newBranch);
     return newBranch;
   }
+
+  async delete(id: string): Promise<void> {
+    const branch = await this.branchRepository.findOne({ branchId: id });
+    if (!branch) {
+      throw new NotFoundException('Branch not found');
+    }
+    branch.deleted = true;
+    await this.branchRepository.persistAndFlush(branch);
+  }
 }
