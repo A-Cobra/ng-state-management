@@ -19,6 +19,7 @@ export class BusinessEditComponent {
     longitude: 'Business Display Name',
     latitude: 'Business Display Name',
     imgUrl: '',
+    totalBranches: 12,
   };
 
   mockBackendData = [

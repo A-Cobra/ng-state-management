@@ -1,116 +1,142 @@
 <p>business-edit works!</p>
-<div class="form-wrapper">
-  <div class="business-img" *ngIf="mockBusinessInfo.imgUrl">
-    <img
-      [src]="mockBusinessInfo.imgUrl"
-      [alt]="mockBusinessInfo.businessName + '.png'"
-      class="business-img__image"
-    />
-  </div>
-
+<div class="form__main">
   <form class="form" [formGroup]="businessFormEdit">
-    <state-management-app-reactive-form-control-text-input
-      [parentForm]="businessFormEdit"
-      [hasError]="hasError"
-      displayText="Please enter the display name"
-      label="Display Name"
-    ></state-management-app-reactive-form-control-text-input>
-
-    <state-management-app-reactive-form-control-text-input
-      [parentForm]="businessFormEdit"
-      [hasError]="hasError"
-      controlName="businessName"
-      displayText="Please enter the business name"
-      label="Business Name"
-    ></state-management-app-reactive-form-control-text-input>
-
-    <div class="form__group">
-      <clapp-select
-        [formControl]="businessFormEdit.controls['businessClassification']"
-        [selectedValue]="'none'"
-        label="Business Classification"
-        [borderless]="false"
-        [displayLabel]="false"
-        inputName="businessClassification"
-        [pagination]="false"
-        placeholder="Classification *"
-        [hasFilter]="true"
-      >
-        <clapp-search
-          (keyup)="onWriteValue($event)"
-          (valueDeleted)="onValueDeleted()"
-          [formControl]="businessFormEdit.controls['businessClassification']"
-        ></clapp-search>
-        <clapp-select-option
-          *ngFor="let classification of mockClassificationList"
-          [key]="classification.key"
-          [value]="classification.key"
-        ></clapp-select-option>
-      </clapp-select>
-      <!-- Error Text  -->
-      <div
-        class="error"
-        *ngIf="
-          !!businessFormEdit.controls['businessClassification'].errors &&
-          businessFormEdit.controls['businessClassification'].touched
-        "
-      >
-        <clapp-helper-text
-          [textState]="
-            businessFormEdit.controls['businessClassification'].disabled
-              ? 'disabled'
-              : 'error'
-          "
+    <div class="left-column">
+      <div class="business-img">
+        <clapp-image-display
+          *ngIf="mockBusinessInfo.imgUrl; else defaultImage"
+          [src]="mockBusinessInfo.imgUrl"
+          [alt]="mockBusinessInfo.businessName + '.png'"
+          type="avatar"
+          size="large"
         >
-          {{
-            businessFormEdit.controls['businessClassification'].errors
-              | fullErrorName
-          }}
-        </clapp-helper-text>
+        </clapp-image-display>
+        <ng-template #defaultImage>
+          <clapp-image-display
+            src="../../../../assets/template-image.png"
+            alt="placeholder.png"
+            type="avatar"
+            size="large"
+          ></clapp-image-display>
+        </ng-template>
       </div>
+
+      <div>Total branches: {{ mockBusinessInfo.totalBranches }}</div>
+
+      <state-management-app-reactive-form-control-text-input
+        [parentForm]="businessFormEdit"
+        [hasError]="hasError"
+        controlName="contactPhoneNumber"
+        displayText="Please enter the contact number"
+        label="Contact Number"
+      ></state-management-app-reactive-form-control-text-input>
+
+      <state-management-app-reactive-form-control-text-input
+        [parentForm]="businessFormEdit"
+        [hasError]="hasError"
+        controlName="contactEmail"
+        displayText="Please enter the contact email"
+        label="Contact Email"
+      ></state-management-app-reactive-form-control-text-input>
     </div>
 
-    <state-management-app-reactive-form-control-text-input
-      [parentForm]="businessFormEdit"
-      [hasError]="hasError"
-      controlName="contactPhoneNumber"
-      displayText="Please enter the contact number"
-      label="Contact Number"
-    ></state-management-app-reactive-form-control-text-input>
+    <div class="right-column">
+      <state-management-app-reactive-form-control-text-input
+        [parentForm]="businessFormEdit"
+        [hasError]="hasError"
+        displayText="Please enter the display name"
+        label="Display Name"
+      ></state-management-app-reactive-form-control-text-input>
 
-    <state-management-app-reactive-form-control-text-input
-      [parentForm]="businessFormEdit"
-      [hasError]="hasError"
-      controlName="contactEmail"
-      displayText="Please enter the contact email"
-      label="Contact Email"
-    ></state-management-app-reactive-form-control-text-input>
+      <state-management-app-reactive-form-control-text-input
+        [parentForm]="businessFormEdit"
+        [hasError]="hasError"
+        controlName="businessName"
+        displayText="Please enter the business name"
+        label="Business Name"
+      ></state-management-app-reactive-form-control-text-input>
 
-    <state-management-app-reactive-form-control-text-input
-      [parentForm]="businessFormEdit"
-      [hasError]="hasError"
-      controlName="contactAddress"
-      displayText="Please enter the contact address"
-      label="Contact Address"
-    ></state-management-app-reactive-form-control-text-input>
+      <div class="form__group">
+        <clapp-select
+          [formControl]="businessFormEdit.controls['businessClassification']"
+          [selectedValue]="'none'"
+          label="Business Classification"
+          [borderless]="false"
+          [displayLabel]="false"
+          inputName="businessClassification"
+          [pagination]="false"
+          placeholder="Classification *"
+          [hasFilter]="true"
+        >
+          <clapp-search
+            (keyup)="onWriteValue($event)"
+            (valueDeleted)="onValueDeleted()"
+            [formControl]="businessFormEdit.controls['businessClassification']"
+          ></clapp-search>
+          <clapp-select-option
+            *ngFor="let classification of mockClassificationList"
+            [key]="classification.key"
+            [value]="classification.key"
+          ></clapp-select-option>
+        </clapp-select>
+        <!-- Error Text  -->
+        <div
+          class="error"
+          *ngIf="
+            !!businessFormEdit.controls['businessClassification'].errors &&
+            businessFormEdit.controls['businessClassification'].touched
+          "
+        >
+          <clapp-helper-text
+            [textState]="
+              businessFormEdit.controls['businessClassification'].disabled
+                ? 'disabled'
+                : 'error'
+            "
+          >
+            {{
+              businessFormEdit.controls['businessClassification'].errors
+                | fullErrorName
+            }}
+          </clapp-helper-text>
+        </div>
+      </div>
 
-    <state-management-app-reactive-form-control-text-input
-      [parentForm]="businessFormEdit"
-      [hasError]="hasError"
-      controlName="longitude"
-      displayText="Please enter the longitude"
-      label="Longitude"
-    ></state-management-app-reactive-form-control-text-input>
+      <state-management-app-reactive-form-control-text-input
+        [parentForm]="businessFormEdit"
+        [hasError]="hasError"
+        controlName="contactAddress"
+        displayText="Please enter the contact address"
+        label="Contact Address"
+      ></state-management-app-reactive-form-control-text-input>
 
-    <state-management-app-reactive-form-control-text-input
-      [parentForm]="businessFormEdit"
-      [hasError]="hasError"
-      controlName="latitude"
-      displayText="Please enter the latitude"
-      label="Latitude"
-    ></state-management-app-reactive-form-control-text-input>
+      <div class="coordinates">
+        <state-management-app-reactive-form-control-text-input
+          [parentForm]="businessFormEdit"
+          [hasError]="hasError"
+          controlName="longitude"
+          displayText="Please enter the longitude"
+          label="Longitude"
+        ></state-management-app-reactive-form-control-text-input>
 
-    <div class="buttons">
+        <state-management-app-reactive-form-control-text-input
+          [parentForm]="businessFormEdit"
+          [hasError]="hasError"
+          controlName="latitude"
+          displayText="Please enter the latitude"
+          label="Latitude"
+        ></state-management-app-reactive-form-control-text-input>
+      </div>
+    </div>
+  </form>
+
+  <div class="buttons">
+    <div class="buttons__left">
+      <clapp-button color="tertiary" size="small" type="button">
+        Go back
+      </clapp-button>
+    </div>
+    <div class="buttons__right">
       <clapp-button
         *ngIf="!editing; else saveButton"
         (click)="onEditClick()"
@@ -134,7 +160,7 @@
         Delete
       </clapp-button>
     </div>
-  </form>
+  </div>
 </div>
 
 <pre>
