@@ -61,7 +61,7 @@ fdescribe('ClassificationMainComponent', () => {
     component.categories = [];
     fixture.detectChanges();
     const noResults = el.queryAll(By.css('.classification-main__no-results'));
-    const results = el.queryAll(By.css('.classification-main__header'));
+    const results = el.queryAll(By.css('.classification-main__container'));
     expect(noResults.length).toBe(1);
     expect(results.length).toBe(0);
   });
