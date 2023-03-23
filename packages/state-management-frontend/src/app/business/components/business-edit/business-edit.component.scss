@@ -13,10 +13,6 @@ $column-gap: 30px;
   // CHANGE THIS TO A BETTER MEASUREMENT OR PERHAPS USE MEDIA QUERIES
   grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
   // CHANGE THIS TO A BETTER MEASUREMENT OR PERHAPS USE MEDIA QUERIES
-  &__input-wrapper {
-    border: 3px solid lightgray;
-    border-radius: 100px;
-  }
   .left-column,
   .right-column {
     display: grid;
@@ -35,7 +31,6 @@ $column-gap: 30px;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  background-color: red;
   &__left {
     min-width: 250px;
     flex: 1 1 150px;

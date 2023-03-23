@@ -11,13 +11,13 @@ export class BusinessEditComponent {
 
   mockBusinessInfo = {
     displayName: 'Business Display Name',
-    businessName: 'Business Display Name',
-    businessClassification: 'Business Display Name',
-    contactPhoneNumber: 'Business Display Name',
-    contactEmail: 'Business Display Name',
-    contactAddress: 'Business Display Name',
-    longitude: 'Business Display Name',
-    latitude: 'Business Display Name',
+    businessName: 'Business Name',
+    businessClassification: 'Option 2',
+    contactPhoneNumber: '987654321',
+    contactEmail: 'name@domain.suffix',
+    contactAddress: 'Address',
+    longitude: 'Longitude',
+    latitude: 'Latitude',
     imgUrl: '',
     totalBranches: 12,
   };
@@ -54,10 +54,10 @@ export class BusinessEditComponent {
   }[] = [];
 
   businessFormEdit = this.formBuilder.group({
-    displayName: ['fasfafasfqqg', [Validators.required]],
+    displayName: ['', [Validators.required]],
     businessName: ['', [Validators.required]],
     businessClassification: ['', [Validators.required]],
-    contactPhoneNumber: ['987654321', [Validators.required]],
+    contactPhoneNumber: ['', [Validators.required]],
     contactEmail: [
       'name@domain.suffix',
       [
@@ -73,7 +73,8 @@ export class BusinessEditComponent {
 
   constructor(private formBuilder: NonNullableFormBuilder) {
     this.disableFormControls();
-    this.showMatches('');
+    this.displayClassificationMatches('');
+    this.fillFormControls();
   }
 
   onEditClick(): void {
@@ -89,7 +90,7 @@ export class BusinessEditComponent {
 
   onWriteValue(keyUp: KeyboardEvent): void {
     const inputValue = (keyUp.target as HTMLInputElement).value;
-    this.showMatches(inputValue.toLowerCase());
+    this.displayClassificationMatches(inputValue.toLowerCase());
   }
 
   onValueDeleted() {
@@ -112,12 +113,22 @@ export class BusinessEditComponent {
     });
   }
 
+  fillFormControls(): void {
+    Object.keys(this.businessFormEdit.controls).forEach((key) => {
+      this.businessFormEdit
+        .get(key)
+        ?.setValue(
+          `${this.mockBusinessInfo[key as keyof typeof this.mockBusinessInfo]}`
+        );
+    });
+  }
+
   hasError = (controlName: string, errorName: string): boolean => {
     const control = this.businessFormEdit.get(controlName);
     return control ? control.hasError(errorName) : false;
   };
 
-  showMatches(pattern: string) {
+  displayClassificationMatches(pattern: string) {
     this.mockClassificationList = this.mockBackendData.filter(
       (classification) => classification.key.toLowerCase().match(pattern)
     );
