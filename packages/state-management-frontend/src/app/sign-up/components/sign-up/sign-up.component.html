@@ -1,0 +1,42 @@
+<div class="container">
+  <div class="wrapper">
+    <div *ngIf="loading" class="loader">
+      <div style="width: 200px; height: 200px; background-color: red"></div>
+    </div>
+    <clapp-card>
+      <clapp-card-content>
+        <div class="form-wrapper">
+          <form class="form" [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
+            <div class="row">
+              <clapp-text-input label="Name" type="text"></clapp-text-input>
+              <clapp-text-input
+                label="Last Name"
+                type="text"
+              ></clapp-text-input>
+            </div>
+            <clapp-text-input label="Username" type="text"></clapp-text-input>
+            <clapp-text-input label="Email" type="email"></clapp-text-input>
+            <clapp-text-input
+              label="Contact Number"
+              type="number"
+            ></clapp-text-input>
+            <clapp-text-input
+              label="Password"
+              type="password"
+            ></clapp-text-input>
+            <clapp-text-input
+              label="Confirm Password"
+              type="password"
+            ></clapp-text-input>
+            <div class="sign-up">
+              <clapp-button [size]="'big'" [disabled]="signUpForm.invalid"
+                >Sign Up</clapp-button
+              >
+              <p>Already have an account? <a href="">Log In</a></p>
+            </div>
+          </form>
+        </div>
+      </clapp-card-content>
+    </clapp-card>
+  </div>
+</div>
