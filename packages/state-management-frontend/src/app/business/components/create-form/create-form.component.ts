@@ -3,6 +3,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FormCreateMainGroup } from '../../models/create-form.interface';
 
+import { ModalService } from '@clapp1/clapp-angular';
+import { ModalSureToLeaveComponent } from '../creat-form-childs/modal-sure-to-leave/modal-sure-to-leave.component';
+
 @Component({
   selector: 'state-management-app-business-create',
   templateUrl: './create-form.component.html',
@@ -10,7 +13,7 @@ import { FormCreateMainGroup } from '../../models/create-form.interface';
 })
 export class CreateFormComponent implements OnInit {
   title = 'state-management-frontend-business-create';
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private modalService: ModalService) {}
 
   form!: FormGroup;
   createForm!: FormGroup;
@@ -154,6 +157,17 @@ export class CreateFormComponent implements OnInit {
         fullname: '',
         documentId: 'Document ID',
       }),
+    });
+  }
+  handleSubmit() {
+    alert('SUBMIT');
+  }
+  handleCancel() {
+    this.modalService.open(ModalSureToLeaveComponent, {
+      data: 'test',
+      width: '400px',
+      height: '190px',
+      disableBackdropClose: false,
     });
   }
 }

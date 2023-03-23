@@ -11,12 +11,14 @@ import {
   ClappInputHelpersModule,
   ClappSelectModule,
   ClappImageDisplayModule,
+  ModalModule,
 } from '@clapp1/clapp-angular';
 
 import { CreateFormComponent } from './components/create-form/create-form.component';
+import { ModalSureToLeaveComponent } from './components/creat-form-childs/modal-sure-to-leave/modal-sure-to-leave.component';
 
 @NgModule({
-  declarations: [CreateFormComponent],
+  declarations: [CreateFormComponent, ModalSureToLeaveComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -29,6 +31,7 @@ import { CreateFormComponent } from './components/create-form/create-form.compon
     ClappInputHelpersModule,
     ClappSelectModule,
     ClappImageDisplayModule,
+    ModalModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

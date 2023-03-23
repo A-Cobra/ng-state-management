@@ -458,10 +458,19 @@
           </clapp-helper-text>
         </div>
         <div class="createForm__buttons-container">
-          <clapp-button color="secondary" plusIcon="ri-arrow-left-s-line"
+          <clapp-button
+            color="secondary"
+            plusIcon="ri-arrow-left-s-line"
+            (click)="handleCancel()"
             >Go back</clapp-button
           >
-          <clapp-button plusIcon="ri-add-fill"> Create</clapp-button>
+          <clapp-button
+            plusIcon="ri-add-fill"
+            [disabled]="createForm.invalid"
+            (click)="handleSubmit()"
+          >
+            Create</clapp-button
+          >
         </div>
         <!--<pre>IS INVALID? {{ createForm.invalid | json }}</pre>
         <pre>FORM: {{ createForm.value | json }}</pre>-->
