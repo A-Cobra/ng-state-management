@@ -20,17 +20,17 @@ import { Review } from '../entities/review.entity';
 export class ReviewsController {
   constructor(private readonly reviewsService: ReviewsService) {}
 
-  // @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard)
   @Get('products/:id')
   getReviews(
     @Param('id') productId: string,
     @Query('page') page: number,
     @Query('limit') limit: number
-  ): Promise<PaginatedData> {
+  ): Promise<PaginatedData<Review>> {
     return this.reviewsService.getReviews({ page, productId, limit });
   }
 
-  // @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard)
   @Post('products/:id')
   createReview(
     @Body() body: CreateReviewDto,
