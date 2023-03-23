@@ -39,14 +39,17 @@ export class ProductsController {
     return this.productsService.createProduct(product);
   }
 
-  // @Put(':id')
-  // update(@Param('id') id: string, @Body() body: any): string {
-  //   return `PUT a specific product ${id}`;
-  // }
+  @Patch(':id')
+  updateProduct(@Param('id') id: string, @Body() body: CreateProductDto) {
+    return this.productsService.UpdateProduct(id, body);
+  }
 
   @Patch(':id')
-  partialUpdate(@Param('id') id: string, @Body() body: CreateProductDto) {
-    return this.productsService.partialUpdateProduct(id, body);
+  partialUpdate(
+    @Param('id') id: string,
+    @Body() body: Partial<CreateProductDto>
+  ) {
+    return this.productsService.UpdateProduct(id, body);
   }
 
   @Get(':id/reviews')

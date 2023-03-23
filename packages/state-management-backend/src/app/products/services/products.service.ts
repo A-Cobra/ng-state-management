@@ -59,9 +59,9 @@ export class ProductsService {
     return newProduct;
   }
 
-  async partialUpdateProduct(
+  async UpdateProduct(
     idProduct: string,
-    updateProductInfo: CreateProductDto
+    updateProductInfo: Partial<CreateProductDto> | CreateProductDto
   ): Promise<Product> {
     const product = await this.productRepository.findOne({ idProduct });
     wrap(product).assign(updateProductInfo);
