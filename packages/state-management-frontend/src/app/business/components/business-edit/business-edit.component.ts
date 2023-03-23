@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
+import { ModalService } from '@clapp1/clapp-angular';
+import { BusinessCardComponent } from '../business-card/business-card.component';
 
 @Component({
   selector: 'state-management-app-business-edit',
@@ -71,7 +73,10 @@ export class BusinessEditComponent {
     latitude: ['Latitude', [Validators.required]],
   });
 
-  constructor(private formBuilder: NonNullableFormBuilder) {
+  constructor(
+    private formBuilder: NonNullableFormBuilder,
+    private modalService: ModalService
+  ) {
     this.disableFormControls();
     this.displayClassificationMatches('');
     this.fillFormControls();
@@ -83,6 +88,7 @@ export class BusinessEditComponent {
   }
 
   onSaveClick(): void {
+    this.modalService.open(BusinessCardComponent);
     // MAKE VALIDATIONS
     this.toggleEditingStatus();
     this.disableFormControls();

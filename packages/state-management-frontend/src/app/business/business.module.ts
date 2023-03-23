@@ -15,6 +15,7 @@ import {
   ClappInputHelpersModule,
   ClappSelectModule,
   ClappImageDisplayModule,
+  ModalModule,
 } from '@clapp1/clapp-angular';
 import { FullErrorNamePipe } from '../core/pipes/full-error-name.pipe';
 
@@ -38,6 +39,7 @@ import { FullErrorNamePipe } from '../core/pipes/full-error-name.pipe';
     ClappCardModule,
     ClappSelectModule,
     ClappImageDisplayModule,
+    ModalModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
