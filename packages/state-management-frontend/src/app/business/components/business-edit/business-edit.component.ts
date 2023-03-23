@@ -9,6 +9,39 @@ import { NonNullableFormBuilder, Validators } from '@angular/forms';
 export class BusinessEditComponent {
   editing = false;
 
+  mockBackendData = [
+    {
+      key: 'Option 1',
+      disabled: true,
+      hidden: false,
+    },
+    {
+      key: 'Option 2',
+      disabled: false,
+      hidden: false,
+    },
+    {
+      key: 'Option 3',
+      disabled: false,
+      hidden: false,
+    },
+    {
+      key: 'Option 4',
+      disabled: false,
+      hidden: false,
+    },
+    {
+      key: 'Option 5',
+      disabled: false,
+      hidden: false,
+    },
+  ];
+  mockClassificationList: {
+    key: string;
+    disabled: boolean;
+    hidden: boolean;
+  }[] = [];
+
   businessFormEdit = this.formBuilder.group({
     displayName: ['Dasdsa', [Validators.required]],
     businessName: ['', [Validators.required]],
@@ -29,6 +62,7 @@ export class BusinessEditComponent {
 
   constructor(private formBuilder: NonNullableFormBuilder) {
     this.disableFormControls();
+    this.showMatches('');
   }
 
   onEditClick(): void {
@@ -40,6 +74,16 @@ export class BusinessEditComponent {
     // MAKE VALIDATIONS
     this.toggleEditingStatus();
     this.disableFormControls();
+  }
+
+  onWriteValue(keyUp: KeyboardEvent): void {
+    const inputValue = (keyUp.target as HTMLInputElement).value;
+    this.showMatches(inputValue.toLowerCase());
+  }
+
+  onValueDeleted() {
+    console.log('DELETING EVERYTHING');
+    this.mockClassificationList = [...this.mockBackendData];
   }
 
   toggleEditingStatus(): void {
@@ -62,4 +106,10 @@ export class BusinessEditComponent {
     const control = this.businessFormEdit.get(controlName);
     return control ? control.hasError(errorName) : false;
   };
+
+  showMatches(pattern: string) {
+    this.mockClassificationList = this.mockBackendData.filter(
+      (classification) => classification.key.toLowerCase().match(pattern)
+    );
+  }
 }

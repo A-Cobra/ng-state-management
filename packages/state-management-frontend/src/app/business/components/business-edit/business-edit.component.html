@@ -19,6 +19,48 @@
     <!-- THE PREVIOUS CODE WORKS -->
 
     <!-- DOESN'T WORK  -->
+
+    <clapp-select
+      [formControl]="businessFormEdit.controls['businessName']"
+      [selectedValue]="'1'"
+      label="Business Classification"
+      [borderless]="false"
+      [disabled]="false"
+      [displayLabel]="false"
+      inputName="businessName"
+      [pagination]="false"
+      placeholder="Classification"
+      [hasFilter]="true"
+    >
+      <clapp-search
+        (keyup)="onWriteValue($event)"
+        (valueDeleted)="onValueDeleted()"
+        [formControl]="businessFormEdit.controls['businessName']"
+      ></clapp-search>
+      <clapp-select-option
+        *ngFor="let classification of mockClassificationList"
+        [key]="classification.key"
+        [value]="classification.key"
+        [itemDisabled]="classification.disabled"
+      ></clapp-select-option>
+    </clapp-select>
+
+    <!-- <div
+      class="infinite-scroll"
+      infiniteScroll
+      [scrollWindow]="false"
+      [infiniteScrollDistance]="2"
+      [infiniteScrollThrottle]="12"
+      (scrolled)="onScroll()"
+    >
+      <clapp-select-option
+        *ngFor="let classification of mockClassificationList"
+        [key]="classification.key"
+        [value]="classification.key"
+        [itemDisabled]="classification.disabled"
+      ></clapp-select-option>
+    </div> -->
+
     <div class="form__group">
       <label for="business-classification">Business Classification</label>
       <select
