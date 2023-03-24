@@ -48,11 +48,7 @@ describe('ReviewsService', () => {
         mockTotalCount,
       ]);
 
-      const result = await reviewsService.getReviews({
-        page: 1,
-        limit,
-        productId: '123',
-      });
+      const result = await reviewsService.getReviews(1, limit, '123');
 
       expect(mockReviewRepository.findAndCount).toHaveBeenCalledWith(
         { productId: '123' },

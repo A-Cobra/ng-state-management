@@ -59,11 +59,11 @@ describe('ReviewsController', () => {
       const result = await reviewsController.getReviews(productId, page, limit);
 
       expect(result).toEqual(paginatedData);
-      expect(reviewsService.getReviews).toHaveBeenCalledWith({
+      expect(reviewsService.getReviews).toHaveBeenCalledWith(
         page,
-        productId,
         limit,
-      });
+        productId
+      );
     });
   });
 
