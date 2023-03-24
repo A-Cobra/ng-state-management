@@ -1,4 +1,3 @@
-<p>business-edit works!</p>
 <div class="form__main">
   <h1>Business Edit Form</h1>
   <form class="form" [formGroup]="businessFormEdit">
@@ -153,6 +152,7 @@
           color="secondary"
           size="small"
           type="button"
+          [disabled]="businessFormEdit.invalid"
         >
           Save
         </clapp-button>

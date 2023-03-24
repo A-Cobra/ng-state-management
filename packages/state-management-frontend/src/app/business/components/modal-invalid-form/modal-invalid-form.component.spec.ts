@@ -2,11 +2,11 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ModalService } from '@clapp1/clapp-angular';
 import { MockModalService } from '../../models/mock-modal-service.interface';
 
-import { BusinessEditComponent } from './business-edit.component';
+import { ModalInvalidFormComponent } from './modal-invalid-form.component';
 
-describe('BusinessEditComponent', () => {
-  let component: BusinessEditComponent;
-  let fixture: ComponentFixture<BusinessEditComponent>;
+describe('ModalInvalidFormComponent', () => {
+  let component: ModalInvalidFormComponent;
+  let fixture: ComponentFixture<ModalInvalidFormComponent>;
   let mockModalService: MockModalService;
 
   beforeEach(async () => {
@@ -15,7 +15,7 @@ describe('BusinessEditComponent', () => {
       close: jest.fn(),
     };
     await TestBed.configureTestingModule({
-      declarations: [BusinessEditComponent],
+      declarations: [ModalInvalidFormComponent],
       providers: [
         {
           provide: ModalService,
@@ -24,7 +24,7 @@ describe('BusinessEditComponent', () => {
       ],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(BusinessEditComponent);
+    fixture = TestBed.createComponent(ModalInvalidFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -18,6 +18,7 @@ import {
   ModalModule,
 } from '@clapp1/clapp-angular';
 import { FullErrorNamePipe } from '../core/pipes/full-error-name.pipe';
+import { ModalInvalidFormComponent } from './components/modal-invalid-form/modal-invalid-form.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { FullErrorNamePipe } from '../core/pipes/full-error-name.pipe';
     BusinessCardComponent,
     ReactiveFormControlTextInputComponent,
     FullErrorNamePipe,
+    ModalInvalidFormComponent,
   ],
   imports: [
     CommonModule,

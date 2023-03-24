@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { ModalService } from '@clapp1/clapp-angular';
-import { BusinessCardComponent } from '../business-card/business-card.component';
+import { ModalInvalidFormComponent } from '../modal-invalid-form/modal-invalid-form.component';
 
 @Component({
   selector: 'state-management-app-business-edit',
@@ -88,7 +88,13 @@ export class BusinessEditComponent {
   }
 
   onSaveClick(): void {
-    this.modalService.open(BusinessCardComponent);
+    if (this.businessFormEdit.invalid) {
+      this.modalService.open(ModalInvalidFormComponent, {
+        width: '420px',
+        height: '250px',
+      });
+      return;
+    }
     // MAKE VALIDATIONS
     this.toggleEditingStatus();
     this.disableFormControls();
