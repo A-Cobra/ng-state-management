@@ -1,5 +1,5 @@
 .container {
-  min-width: calc(100vw - 16px);
+  width: calc(100vw - 16px);
   min-height: 100vh;
   display: flex;
   flex-direction: row;
@@ -45,6 +45,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 20px;
 }
 
 .row {

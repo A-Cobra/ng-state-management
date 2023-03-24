@@ -17,14 +17,54 @@ export class SignUpComponent implements OnInit {
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       userName: ['', Validators.required],
-      email: ['', Validators.required, Validators.email],
+      email: ['', [Validators.required, Validators.email]],
       contactNumber: ['', Validators.required],
-      password: ['', Validators.required, Validators.minLength(8)],
+      password: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern(
+            '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$'
+          ),
+        ],
+      ],
       confirmPassword: ['', Validators.required],
     });
   }
 
+  get firstName() {
+    return this.signUpForm.get('firstName');
+  }
+
+  get lastName() {
+    return this.signUpForm.get('lastName');
+  }
+
+  get userName() {
+    return this.signUpForm.get('userName');
+  }
+
+  get email() {
+    return this.signUpForm.get('email');
+  }
+
+  get contactNumber() {
+    return this.signUpForm.get('contactNumber');
+  }
+
+  get password() {
+    return this.signUpForm.get('password');
+  }
+
+  get confirmPassword() {
+    return this.signUpForm.get('confirmPassword');
+  }
+
   onSubmit(): void {
-    alert('hola');
+    if (this.password?.value !== this.confirmPassword?.value) {
+      this.confirmPassword?.setErrors({ passwordMismatch: true });
+    } else {
+      this.confirmPassword?.setErrors(null);
+    }
   }
 }
