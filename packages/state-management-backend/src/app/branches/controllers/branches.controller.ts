@@ -5,8 +5,8 @@ import {
   Get,
   HttpCode,
   Param,
+  Patch,
   Post,
-  Put,
   Query,
 } from '@nestjs/common';
 import { PaginationDto } from '../../common/dtos/pagination.dto';
@@ -28,6 +28,11 @@ export class BranchesController {
     @Query() paginationDto: PaginationDto
   ): Promise<PaginationResult<BusinessBranch>> {
     return this.branchesServices.getAllBranches(paginationDto);
+  }
+
+  @Get('search/branches')
+  searchBranches(@Query('q') q: string, @Query() paginationDto: PaginationDto) {
+    return this.branchesServices.search(q, paginationDto);
   }
 
   @Get(':businessId/branches')
@@ -55,7 +60,7 @@ export class BranchesController {
     return this.branchesServices.create(businessId, branch);
   }
 
-  @Put('branches/:id')
+  @Patch('branches/:id')
   update(@Param('id') id: string, @Body() branch: UpdateBranchDto) {
     return this.branchesServices.update(id, branch);
   }

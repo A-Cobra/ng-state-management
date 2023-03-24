@@ -48,7 +48,7 @@ export class BranchesService {
     );
     const totalPages = Math.ceil(total / limit);
     return {
-      data: data.filter((branch) => !branch.deleted),
+      data,
       totalResults: total,
       page: Number(page),
       totalPages,
@@ -64,6 +64,24 @@ export class BranchesService {
       throw new NotFoundException('Branch not found');
     }
     return branch;
+  }
+
+  async search(
+    name: string,
+    pagination: PaginationDto
+  ): Promise<PaginationResult<BusinessBranch>> {
+    const { page, limit } = pagination;
+    const data = await this.branchRepository.find(
+      { name: { $ilike: `%${name}%` }, deleted: false },
+      { limit: limit, offset: (page - 1) * limit }
+    );
+    const totalPages = Math.ceil(data.length / limit);
+    return {
+      data,
+      totalResults: data.length,
+      page: Number(page),
+      totalPages,
+    };
   }
 
   async create(
