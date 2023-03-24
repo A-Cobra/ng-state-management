@@ -68,30 +68,4 @@ export class ProductsService {
     await this.productRepository.flush();
     return product;
   }
-
-  async getReviews({ page, limit, productId }): Promise<PaginatedData> {
-    const reviews = await this.reviewRespository.findAndCount(
-      { productId },
-      {
-        offset: (page - 1) * limit,
-        limit,
-      }
-    );
-
-    const [data, total] = reviews;
-    const totalPages = Math.ceil(total / limit);
-
-    return {
-      data,
-      currentPage: page,
-      totalItems: total,
-      totalPages,
-    };
-  }
-
-  async createReview(body: CreateReviewDto): Promise<Review> {
-    const review = this.reviewRespository.create(body);
-    this.reviewRespository.persistAndFlush(review);
-    return review;
-  }
 }

@@ -1,5 +1,3 @@
-import { CreateReviewDto } from '../dto/create-review.dto';
-import { PaginatedData } from '../interfaces/pagination.interface';
 import { ProductsService } from '../services/products.service';
 import {
   Body,
@@ -39,7 +37,7 @@ export class ProductsController {
     return this.productsService.createProduct(product);
   }
 
-  @Patch(':id')
+  @Put(':id')
   updateProduct(@Param('id') id: string, @Body() body: CreateProductDto) {
     return this.productsService.UpdateProduct(id, body);
   }
@@ -50,19 +48,5 @@ export class ProductsController {
     @Body() body: Partial<CreateProductDto>
   ) {
     return this.productsService.UpdateProduct(id, body);
-  }
-
-  @Get(':id/reviews')
-  getReviews(
-    @Param('id') productId: string,
-    @Query('page') page: number,
-    @Query('limit') limit: number
-  ): Promise<PaginatedData> {
-    return this.productsService.getReviews({ page, productId, limit });
-  }
-
-  @Post(':id/reviews')
-  createReview(@Body() body: CreateReviewDto, @Param('id') productId: string) {
-    return this.productsService.createReview({ ...body, productId });
   }
 }
