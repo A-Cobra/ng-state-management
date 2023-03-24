@@ -5,22 +5,21 @@ import { Review } from '../entities/review.entity';
 import { EntityRepository } from '@mikro-orm/core';
 import { PaginatedData } from '../interfaces/pagination.interface';
 import { ProductReview } from '../entities/product-review.entity';
-
 @Injectable()
 export class ReviewsService {
   constructor(
     @InjectRepository(Review)
-    private readonly reviewRespository: EntityRepository<Review>,
+    private readonly reviewRepository: EntityRepository<Review>,
     @InjectRepository(ProductReview)
-    private readonly productReviewRespository: EntityRepository<ProductReview>
+    private readonly productReviewRepository: EntityRepository<ProductReview>
   ) {}
 
-  async getReviews(
+  async getProductsReviews(
     page: number,
     limit: number,
     productId: string
   ): Promise<PaginatedData<Review>> {
-    const reviews = await this.reviewRespository.findAndCount(
+    const productsReviews = await this.productReviewRepository.findAndCount(
       { productId },
       {
         offset: (page - 1) * limit,
@@ -28,26 +27,31 @@ export class ReviewsService {
       }
     );
 
-    const [data, total] = reviews;
+    const [data, total] = productsReviews;
+
+    const reviews = await this.reviewRepository.find(
+      data.map((productReview) => productReview.review)
+    );
+
     const totalPages = limit ? Math.ceil(total / limit) : 1;
     return {
-      data,
+      data: reviews,
       currentPage: +page,
       totalItems: total,
       totalPages,
     };
   }
 
-  async createReview(body: CreateReviewDto): Promise<Review> {
-    const review = this.reviewRespository.create(body);
+  async createProductReview(body: CreateReviewDto): Promise<Review> {
+    const review = this.reviewRepository.create(body);
 
-    const productReview = this.productReviewRespository.create({
+    const productReview = this.productReviewRepository.create({
       productId: body.productId,
-      reviewId: review,
+      review: review,
     });
 
-    this.reviewRespository.persistAndFlush(review);
-    this.productReviewRespository.persistAndFlush(productReview);
+    this.reviewRepository.persistAndFlush(review);
+    this.productReviewRepository.persistAndFlush(productReview);
     return review;
   }
 }

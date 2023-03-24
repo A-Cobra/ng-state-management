@@ -1,21 +1,25 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@mikro-orm/nestjs';
+import { Collection } from '@mikro-orm/core';
+import { ReviewsService } from '../services/reviews.service';
 import { Review } from '../entities/review.entity';
 import { ProductReview } from '../entities/product-review.entity';
-import { ReviewsService } from '../services/reviews.service';
 import { CreateReviewDto } from '../dto/create-review.dto';
-import { Collection } from '@mikro-orm/core';
 
 describe('ReviewsService', () => {
   let reviewsService: ReviewsService;
+
   const mockReviewRepository = {
+    find: jest.fn(),
     findAndCount: jest.fn(),
     create: jest.fn(),
     persistAndFlush: jest.fn(),
   };
+
   const mockProductReviewRepository = {
-    create: jest.fn(),
+    findAndCount: jest.fn(),
     persistAndFlush: jest.fn(),
+    create: jest.fn(),
   };
 
   beforeEach(async () => {
@@ -37,44 +41,58 @@ describe('ReviewsService', () => {
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
+    jest.resetAllMocks();
   });
 
-  describe('getReviews', () => {
-    it('should return a paginated list of reviews for a given product', async () => {
-      const mockReviews = [{}, {}];
-      const mockTotalCount = mockReviews.length;
-      const limit = 10;
-      const currentPage = 1;
+  describe('getProductsReviews', () => {
+    it('should return paginated reviews for a given product ID', async () => {
       const productId = '123';
-      mockReviewRepository.findAndCount.mockResolvedValueOnce([
-        mockReviews,
-        mockTotalCount,
+      const page = 1;
+      const limit = 10;
+      const review: Review = {
+        reviewId: '1',
+        comment: 'Review 1',
+        customerId: '1',
+        productReviews: new Collection<ProductReview>(this),
+      };
+
+      const productsReviews: ProductReview[] = [{ productId, review }];
+
+      const reviews = [review];
+
+      mockProductReviewRepository.findAndCount.mockResolvedValueOnce([
+        productsReviews,
+        productsReviews.length,
       ]);
 
-      const result = await reviewsService.getReviews(
-        currentPage,
+      mockReviewRepository.find.mockResolvedValueOnce(reviews);
+
+      const result = await reviewsService.getProductsReviews(
+        page,
         limit,
         productId
       );
 
-      expect(mockReviewRepository.findAndCount).toHaveBeenCalledWith(
+      expect(mockProductReviewRepository.findAndCount).toHaveBeenCalledWith(
         { productId },
         {
-          offset: 0,
+          offset: (page - 1) * limit,
           limit,
         }
       );
+
+      expect(mockReviewRepository.find).toHaveBeenCalledWith(reviews);
+
       expect(result).toEqual({
-        data: mockReviews,
-        currentPage,
-        totalItems: mockTotalCount,
-        totalPages: Math.ceil(mockTotalCount / limit),
+        data: reviews,
+        currentPage: page,
+        totalItems: productsReviews.length,
+        totalPages: limit ? Math.ceil(productsReviews.length / limit) : 1,
       });
     });
   });
 
-  describe('createReview', () => {
+  describe('createProductReview', () => {
     it('should create a new review and product review and return the review', async () => {
       const mockCreateReviewDto: CreateReviewDto = {
         customerId: '123',
@@ -83,23 +101,27 @@ describe('ReviewsService', () => {
       };
       const mockReview: Review = {
         customerId: '123',
-        productId: '456',
         comment: 'Test comment',
         reviewId: '789',
         productReviews: new Collection<ProductReview>(this),
       };
       mockReviewRepository.create.mockReturnValueOnce(mockReview);
-      const mockProductReview = { productId: '456', reviewId: mockReview };
+      const mockProductReview: ProductReview = {
+        productId: '456',
+        review: mockReview,
+      };
       mockProductReviewRepository.create.mockReturnValueOnce(mockProductReview);
 
-      const result = await reviewsService.createReview(mockCreateReviewDto);
+      const result = await reviewsService.createProductReview(
+        mockCreateReviewDto
+      );
 
       expect(mockReviewRepository.create).toHaveBeenCalledWith(
         mockCreateReviewDto
       );
       expect(mockProductReviewRepository.create).toHaveBeenCalledWith({
         productId: '456',
-        reviewId: mockReview,
+        review: mockReview,
       });
       expect(mockReviewRepository.persistAndFlush).toHaveBeenCalledWith(
         mockReview

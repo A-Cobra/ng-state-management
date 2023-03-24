@@ -17,11 +17,8 @@ export class Review {
   customerId: string;
 
   @Property()
-  productId: string;
-
-  @Property()
   comment: string;
 
-  @OneToMany(() => ProductReview, (productReview) => productReview.reviewId)
+  @OneToMany(() => ProductReview, (productReview) => productReview.review)
   productReviews = new Collection<ProductReview>(this);
 }

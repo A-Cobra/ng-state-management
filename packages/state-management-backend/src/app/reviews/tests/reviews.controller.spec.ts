@@ -54,12 +54,14 @@ describe('ReviewsController', () => {
         totalItems: reviews.length,
         totalPages: Math.ceil(reviews.length / limit),
       };
-      jest.spyOn(reviewsService, 'getReviews').mockResolvedValue(paginatedData);
+      jest
+        .spyOn(reviewsService, 'getProductsReviews')
+        .mockResolvedValue(paginatedData);
 
       const result = await reviewsController.getReviews(productId, page, limit);
 
       expect(result).toEqual(paginatedData);
-      expect(reviewsService.getReviews).toHaveBeenCalledWith(
+      expect(reviewsService.getProductsReviews).toHaveBeenCalledWith(
         page,
         limit,
         productId
@@ -77,11 +79,12 @@ describe('ReviewsController', () => {
       const review: Review = {
         reviewId: 'review-id',
         customerId: createReviewDto.customerId,
-        productId,
         comment: createReviewDto.comment,
         productReviews: new Collection<ProductReview>(this),
       };
-      jest.spyOn(reviewsService, 'createReview').mockResolvedValue(review);
+      jest
+        .spyOn(reviewsService, 'createProductReview')
+        .mockResolvedValue(review);
 
       const result = await reviewsController.createReview(
         createReviewDto,
@@ -89,7 +92,7 @@ describe('ReviewsController', () => {
       );
 
       expect(result).toEqual(review);
-      expect(reviewsService.createReview).toHaveBeenCalledWith({
+      expect(reviewsService.createProductReview).toHaveBeenCalledWith({
         ...createReviewDto,
         productId,
       });

@@ -11,5 +11,5 @@ export class ProductReview {
   productId: string;
 
   @ManyToOne(() => Review)
-  reviewId: Review;
+  review: Review;
 }
