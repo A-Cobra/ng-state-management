@@ -1,17 +1,20 @@
-import { Component } from '@angular/core';
-import { NonNullableFormBuilder, Validators } from '@angular/forms';
-import { ModalService } from '@clapp1/clapp-angular';
-import { ModalInvalidFormComponent } from '../modal-invalid-form/modal-invalid-form.component';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'state-management-app-business-edit',
   templateUrl: './business-edit.component.html',
   styleUrls: ['./business-edit.component.scss'],
 })
-export class BusinessEditComponent {
+export class BusinessEditComponent implements OnInit {
+  // TO SIMULATE DATA FROM THE BE
+  mockBusinessService$ = of(19);
+  businessId = 5;
+  queryError = false;
   editing = false;
-
-  mockBusinessInfo = {
+  // Needs adequate typing when we know what the BE sends
+  businessData = {
     displayName: 'Business Display Name',
     businessName: 'Business Name',
     businessClassification: 'Option 2',
@@ -23,7 +26,6 @@ export class BusinessEditComponent {
     imgUrl: '',
     totalBranches: 12,
   };
-
   mockBackendData = [
     {
       key: 'Option 1',
@@ -50,99 +52,31 @@ export class BusinessEditComponent {
       disabled: false,
     },
   ];
-  mockClassificationList: {
-    key: string;
-    disabled: boolean;
-  }[] = [];
 
-  businessFormEdit = this.formBuilder.group({
-    displayName: ['', [Validators.required]],
-    businessName: ['', [Validators.required]],
-    businessClassification: ['', [Validators.required]],
-    contactPhoneNumber: ['', [Validators.required]],
-    contactEmail: [
-      'name@domain.suffix',
-      [
-        Validators.required,
-        Validators.email,
-        /*CustomFormValidators.email*/
-      ],
-    ],
-    contactAddress: ['Address', [Validators.required]],
-    longitude: ['Longitude', [Validators.required]],
-    latitude: ['Latitude', [Validators.required]],
-  });
+  private regexPattern = /^[0-9]+$/;
 
-  constructor(
-    private formBuilder: NonNullableFormBuilder,
-    private modalService: ModalService
-  ) {
-    this.disableFormControls();
-    this.displayClassificationMatches('');
-    this.fillFormControls();
-  }
+  constructor(private route: ActivatedRoute) {}
 
-  onEditClick(): void {
-    this.toggleEditingStatus();
-    this.enableFormControls();
-  }
-
-  onSaveClick(): void {
-    if (this.businessFormEdit.invalid) {
-      this.modalService.open(ModalInvalidFormComponent, {
-        width: '420px',
-        height: '250px',
+  ngOnInit(): void {
+    this.route.params.subscribe((urlData: Params) => {
+      const urlIdSting = urlData?.['id'];
+      if (!urlIdSting.match(this.regexPattern)) {
+        this.queryError = true;
+        return;
+      }
+      // When the service is ready
+      // const urlId = parseInt(urlIdSting);
+      // this.businessService.getBusinessData(urlId).
+      this.mockBusinessService$.subscribe({
+        error: (error) => {
+          this.queryError = true;
+          // IMPLEMENT
+          // this.handleQueryError(error);
+        },
+        next: (businessId: number) => {
+          this.businessId = businessId;
+        },
       });
-      return;
-    }
-    // MAKE VALIDATIONS
-    this.toggleEditingStatus();
-    this.disableFormControls();
-  }
-
-  onWriteValue(keyUp: KeyboardEvent): void {
-    const inputValue = (keyUp.target as HTMLInputElement).value;
-    this.displayClassificationMatches(inputValue.toLowerCase());
-  }
-
-  onValueDeleted() {
-    this.mockClassificationList = [...this.mockBackendData];
-  }
-
-  toggleEditingStatus(): void {
-    this.editing = !this.editing;
-  }
-
-  disableFormControls(): void {
-    Object.keys(this.businessFormEdit.controls).forEach((key) => {
-      this.businessFormEdit.get(key)?.disable();
     });
-  }
-
-  enableFormControls(): void {
-    Object.keys(this.businessFormEdit.controls).forEach((key) => {
-      this.businessFormEdit.get(key)?.enable();
-    });
-  }
-
-  fillFormControls(): void {
-    Object.keys(this.businessFormEdit.controls).forEach((key) => {
-      this.businessFormEdit
-        .get(key)
-        ?.setValue(
-          `${this.mockBusinessInfo[key as keyof typeof this.mockBusinessInfo]}`
-        );
-    });
-  }
-
-  hasError = (controlName: string, errorName: string): boolean => {
-    const control = this.businessFormEdit.get(controlName);
-    return control ? control.hasError(errorName) : false;
-  };
-
-  displayClassificationMatches(pattern: string) {
-    this.mockClassificationList = this.mockBackendData.filter(
-      (classification) => classification.key.toLowerCase().match(pattern)
-    );
   }
 }

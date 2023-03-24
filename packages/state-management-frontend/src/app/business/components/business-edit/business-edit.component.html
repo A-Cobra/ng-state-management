@@ -1,172 +1,20 @@
-<div class="form__main">
-  <h1>Business Edit Form</h1>
-  <form class="form" [formGroup]="businessFormEdit">
-    <div class="left-column">
-      <div class="business-img">
-        <clapp-image-display
-          *ngIf="mockBusinessInfo.imgUrl; else defaultImage"
-          [src]="mockBusinessInfo.imgUrl"
-          [alt]="mockBusinessInfo.businessName + '.png'"
-          type="avatar"
-          size="large"
-        >
-        </clapp-image-display>
-        <ng-template #defaultImage>
-          <clapp-image-display
-            src="../../../../assets/template-image.png"
-            alt="placeholder.png"
-            type="avatar"
-            size="large"
-          ></clapp-image-display>
-        </ng-template>
-      </div>
-
-      <div>Total branches: {{ mockBusinessInfo.totalBranches }}</div>
-
-      <state-management-app-reactive-form-control-text-input
-        [parentForm]="businessFormEdit"
-        [hasError]="hasError"
-        controlName="contactPhoneNumber"
-        displayText="Please enter the contact number"
-        label="Contact Number"
-      ></state-management-app-reactive-form-control-text-input>
-
-      <state-management-app-reactive-form-control-text-input
-        [parentForm]="businessFormEdit"
-        [hasError]="hasError"
-        controlName="contactEmail"
-        displayText="Please enter the contact email"
-        label="Contact Email"
-      ></state-management-app-reactive-form-control-text-input>
-    </div>
-
-    <div class="right-column">
-      <state-management-app-reactive-form-control-text-input
-        [parentForm]="businessFormEdit"
-        [hasError]="hasError"
-        displayText="Please enter the display name"
-        label="Display Name"
-      ></state-management-app-reactive-form-control-text-input>
-
-      <state-management-app-reactive-form-control-text-input
-        [parentForm]="businessFormEdit"
-        [hasError]="hasError"
-        controlName="businessName"
-        displayText="Please enter the business name"
-        label="Business Name"
-      ></state-management-app-reactive-form-control-text-input>
-
-      <div class="form__group">
-        <clapp-select
-          [formControl]="businessFormEdit.controls['businessClassification']"
-          [selectedValue]="'none'"
-          label="Business Classification"
-          [borderless]="false"
-          [displayLabel]="false"
-          inputName="businessClassification"
-          [pagination]="false"
-          placeholder="Classification *"
-          [hasFilter]="true"
-        >
-          <clapp-search
-            (keyup)="onWriteValue($event)"
-            (valueDeleted)="onValueDeleted()"
-            [formControl]="businessFormEdit.controls['businessClassification']"
-          ></clapp-search>
-          <clapp-select-option
-            *ngFor="let classification of mockClassificationList"
-            [key]="classification.key"
-            [value]="classification.key"
-          ></clapp-select-option>
-        </clapp-select>
-        <!-- Error Text  -->
-        <div
-          class="error"
-          *ngIf="
-            !!businessFormEdit.controls['businessClassification'].errors &&
-            businessFormEdit.controls['businessClassification'].touched
-          "
-        >
-          <clapp-helper-text
-            [textState]="
-              businessFormEdit.controls['businessClassification'].disabled
-                ? 'disabled'
-                : 'error'
-            "
-          >
-            {{
-              businessFormEdit.controls['businessClassification'].errors
-                | fullErrorName
-            }}
-          </clapp-helper-text>
-        </div>
-      </div>
-
-      <state-management-app-reactive-form-control-text-input
-        [parentForm]="businessFormEdit"
-        [hasError]="hasError"
-        controlName="contactAddress"
-        displayText="Please enter the contact address"
-        label="Contact Address"
-      ></state-management-app-reactive-form-control-text-input>
-
-      <div class="coordinates">
-        <state-management-app-reactive-form-control-text-input
-          [parentForm]="businessFormEdit"
-          [hasError]="hasError"
-          controlName="longitude"
-          displayText="Please enter the longitude"
-          label="Longitude"
-        ></state-management-app-reactive-form-control-text-input>
-
-        <state-management-app-reactive-form-control-text-input
-          [parentForm]="businessFormEdit"
-          [hasError]="hasError"
-          controlName="latitude"
-          displayText="Please enter the latitude"
-          label="Latitude"
-        ></state-management-app-reactive-form-control-text-input>
-      </div>
-    </div>
-  </form>
-
-  <div class="buttons">
-    <div class="buttons__left">
-      <clapp-button color="tertiary" size="small" type="button">
-        Go back
-      </clapp-button>
-    </div>
-    <div class="buttons__right">
-      <clapp-button
-        *ngIf="!editing; else saveButton"
-        (click)="onEditClick()"
-        color="tertiary-white"
-        size="small"
-        type="button"
-      >
-        Edit
-      </clapp-button>
-      <ng-template #saveButton>
-        <clapp-button
-          (click)="onSaveClick()"
-          color="secondary"
-          size="small"
-          type="button"
-          [disabled]="businessFormEdit.invalid"
-        >
-          Save
-        </clapp-button>
-      </ng-template>
-      <clapp-button color="primary" size="small" type="button">
-        Delete
-      </clapp-button>
-    </div>
-  </div>
+<div class="business-edit-form__wrapper" *ngIf="!queryError; else defaultError">
+  <state-management-app-business-edit-form
+    [id]="businessId"
+    [businessData]="businessData"
+    [classificationsBackendData]="mockBackendData"
+  >
+  </state-management-app-business-edit-form>
 </div>
 
-<pre>
-  <h1>Errors</h1>
-  {{ businessFormEdit.get('displayName')?.errors | json }}
-</pre>
-
-<pre>{{ businessFormEdit.value | json }}</pre>
+<ng-template #defaultError>
+  <div class="error__display">
+    <h1>Business not found</h1>
+    <p>
+      Sorry, the business you want to edit, hasn't been found, please try again
+    </p>
+    <clapp-button color="primary" size="small" type="button">
+      Go home
+    </clapp-button>
+  </div>
+</ng-template>

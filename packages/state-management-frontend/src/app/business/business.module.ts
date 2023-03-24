@@ -19,6 +19,7 @@ import {
 } from '@clapp1/clapp-angular';
 import { FullErrorNamePipe } from '../core/pipes/full-error-name.pipe';
 import { ModalInvalidFormComponent } from './components/modal-invalid-form/modal-invalid-form.component';
+import { BusinessEditFormComponent } from './components/business-edit-form/business-edit-form.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { ModalInvalidFormComponent } from './components/modal-invalid-form/modal
     ReactiveFormControlTextInputComponent,
     FullErrorNamePipe,
     ModalInvalidFormComponent,
+    BusinessEditFormComponent,
   ],
   imports: [
     CommonModule,
