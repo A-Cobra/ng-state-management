@@ -1,1 +1,137 @@
-<h2>TAG NAME</h2>
+<form [formGroup]="formCategory" (ngSubmit)="submit()">
+  <clapp-text-input
+    #textInput
+    formControlName="name"
+    autocomplete="on"
+    [error]="!!(name?.touched && name?.invalid)"
+    [success]="!!name?.valid"
+    id="name"
+    label="Name*"
+    [maxLength]="100"
+    [minlength]="3"
+    name="name"
+    placeholder="Name classification"
+    type="text"
+    (change)="format(textInput.value)"
+  ></clapp-text-input>
+
+  <clapp-helper-text
+    *ngIf="textInput.error && !textInput.success"
+    [textState]="formCategory.controls['name'].disabled ? 'disabled' : 'error'"
+  >
+    {{name?.errors?.['required'] ? 'Name is required' : ''}}
+  </clapp-helper-text>
+
+  <clapp-helper-text
+    *ngIf="textInput.success && !textInput.error"
+    [textState]="
+      formCategory.controls['name'].disabled ? 'disabled' : 'success'
+    "
+    >Valid name
+  </clapp-helper-text>
+  <br />
+
+  <clapp-text-input
+    #descriptionInput
+    formControlName="description"
+    [error]="!!(description.touched && description.invalid)"
+    [success]="!!description.valid"
+    id="description"
+    label="Description"
+    [maxLength]="200"
+    [minlength]="3"
+    name="description"
+    type="text"
+  ></clapp-text-input>
+
+  <clapp-helper-text
+    *ngIf="descriptionInput.error && !descriptionInput.success"
+    [textState]="
+      formCategory.controls['description'].disabled ? 'disabled' : 'error'
+    "
+  >
+    {{description.errors?.['required'] ? 'Description is required' : ''}}
+  </clapp-helper-text>
+
+  <clapp-helper-text
+    *ngIf="descriptionInput.success && !descriptionInput.error"
+    [textState]="
+      formCategory.controls['name'].disabled ? 'disabled' : 'success'
+    "
+    >Valid name
+  </clapp-helper-text>
+
+  <br />
+  <ng-container
+    *ngIf="
+      currentStatus === ('edit' || 'detail') && numberOfBusinesses.value > 0
+    "
+  >
+    <clapp-text-input
+      formControlName="numberOfBusinesses"
+      id="numberOfBusinesses"
+      label="Number of businesses"
+      [minlength]="0"
+      name="numberOfBusinesses"
+      type="number"
+    ></clapp-text-input>
+  </ng-container>
+  <br />
+
+  <clapp-file-upload
+    [myPreviewImg]="imgDefault"
+    (fileUploaded)="getUrl($event)"
+  ></clapp-file-upload>
+  <br />
+
+  <clapp-button
+    color="secondary"
+    size="small"
+    buttonWidth=""
+    [disabled]="false"
+    plusIcon="ri-arrow-left-s-line"
+    type="submit"
+    [routerLink]="['../']"
+  >
+    Go Back
+  </clapp-button>
+
+  <ng-container *ngIf="currentStatus === 'detail'">
+    <clapp-button
+      color="secondary"
+      size="small"
+      buttonWidth=""
+      [disabled]="formCategory.invalid"
+      [plusIcon]="iconButton"
+      [routerLink]="['../../edit', this.idClassification]"
+      type="button"
+    >
+      Edit
+    </clapp-button>
+
+    <clapp-button
+      color="secondary"
+      size="small"
+      buttonWidth=""
+      [disabled]="formCategory.invalid"
+      [routerLink]="['../../delete', this.idClassification]"
+      plusIcon="ri-delete-bin-line"
+      type="button"
+    >
+      Delete
+    </clapp-button>
+  </ng-container>
+
+  <ng-container *ngIf="currentStatus !== 'detail'">
+    <clapp-button
+      color="secondary"
+      size="small"
+      buttonWidth=""
+      [disabled]="formCategory.invalid"
+      [plusIcon]="iconButton"
+      type="submit"
+    >
+      {{ currentStatus | titlecase }}
+    </clapp-button>
+  </ng-container>
+</form>
