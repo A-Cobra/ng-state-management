@@ -3,6 +3,8 @@ import { getRepositoryToken } from '@mikro-orm/nestjs';
 import { Review } from '../entities/review.entity';
 import { ProductReview } from '../entities/product-review.entity';
 import { ReviewsService } from '../services/reviews.service';
+import { CreateReviewDto } from '../dto/create-review.dto';
+import { Collection } from '@mikro-orm/core';
 
 describe('ReviewsService', () => {
   let reviewsService: ReviewsService;
@@ -43,15 +45,21 @@ describe('ReviewsService', () => {
       const mockReviews = [{}, {}];
       const mockTotalCount = mockReviews.length;
       const limit = 10;
+      const currentPage = 1;
+      const productId = '123';
       mockReviewRepository.findAndCount.mockResolvedValueOnce([
         mockReviews,
         mockTotalCount,
       ]);
 
-      const result = await reviewsService.getReviews(1, limit, '123');
+      const result = await reviewsService.getReviews(
+        currentPage,
+        limit,
+        productId
+      );
 
       expect(mockReviewRepository.findAndCount).toHaveBeenCalledWith(
-        { productId: '123' },
+        { productId },
         {
           offset: 0,
           limit,
@@ -59,7 +67,7 @@ describe('ReviewsService', () => {
       );
       expect(result).toEqual({
         data: mockReviews,
-        currentPage: 1,
+        currentPage,
         totalItems: mockTotalCount,
         totalPages: Math.ceil(mockTotalCount / limit),
       });
@@ -68,12 +76,18 @@ describe('ReviewsService', () => {
 
   describe('createReview', () => {
     it('should create a new review and product review and return the review', async () => {
-      const mockCreateReviewDto = {
+      const mockCreateReviewDto: CreateReviewDto = {
         customerId: '123',
         productId: '456',
         comment: 'Test comment',
       };
-      const mockReview = { ...mockCreateReviewDto, reviewId: '789' };
+      const mockReview: Review = {
+        customerId: '123',
+        productId: '456',
+        comment: 'Test comment',
+        reviewId: '789',
+        productReviews: new Collection<ProductReview>(this),
+      };
       mockReviewRepository.create.mockReturnValueOnce(mockReview);
       const mockProductReview = { productId: '456', reviewId: mockReview };
       mockProductReviewRepository.create.mockReturnValueOnce(mockProductReview);
