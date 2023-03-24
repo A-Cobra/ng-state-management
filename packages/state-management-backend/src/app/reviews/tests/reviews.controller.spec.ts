@@ -1,99 +1,98 @@
-import { Test } from '@nestjs/testing';
-import { Review } from '../entities/review.entity';
-import { EntityRepository } from '@mikro-orm/core';
-import { CreateReviewDto } from '../dto/create-review.dto';
+import { Test, TestingModule } from '@nestjs/testing';
 import { ReviewsService } from '../services/reviews.service';
+import { CreateReviewDto } from '../dto/create-review.dto';
+import { Review } from '../entities/review.entity';
+import { PaginatedData } from '../interfaces/pagination.interface';
 import { ReviewsController } from '../controllers/reviews.controller';
+import { Collection } from '@mikro-orm/core';
+import { ProductReview } from '../entities/product-review.entity';
+import { getRepositoryToken } from '@mikro-orm/nestjs';
 
-describe('Products controller', () => {
-  let reviewsService: ReviewsService;
+describe('ReviewsController', () => {
   let reviewsController: ReviewsController;
+  let reviewsService: ReviewsService;
+
+  const mockReviewRepository = {
+    findAndCount: jest.fn(),
+    create: jest.fn(),
+    persistAndFlush: jest.fn(),
+  };
+  const mockProductReviewRepository = {
+    create: jest.fn(),
+    persistAndFlush: jest.fn(),
+  };
 
   beforeEach(async () => {
-    const moduleRef = await Test.createTestingModule({
+    const module: TestingModule = await Test.createTestingModule({
       controllers: [ReviewsController],
       providers: [
         ReviewsService,
         {
-          provide: 'ReviewRepository',
-          useClass: EntityRepository,
+          provide: getRepositoryToken(Review),
+          useValue: mockReviewRepository,
+        },
+        {
+          provide: getRepositoryToken(ProductReview),
+          useValue: mockProductReviewRepository,
         },
       ],
     }).compile();
 
-    reviewsService = moduleRef.get<ReviewsService>(ReviewsService);
-    reviewsController = moduleRef.get<ReviewsController>(ReviewsController);
+    reviewsController = module.get<ReviewsController>(ReviewsController);
+    reviewsService = module.get<ReviewsService>(ReviewsService);
   });
 
   describe('getReviews', () => {
-    it('should return a PaginatedData object.', async () => {
+    it('should return paginated reviews', async () => {
+      const productId = 'product-id';
       const page = 1;
       const limit = 10;
-      const productId = 1;
-      const reviews: Review[] = [
-        {
-          reviewId: '1',
-          productId: '1',
-          customerId: '1',
-          comment: 'Great product',
-        },
-      ];
-
-      jest.spyOn(reviewsService, 'getReviews').mockResolvedValueOnce({
+      const reviews: Review[] = [];
+      const paginatedData: PaginatedData<Review> = {
         data: reviews,
         currentPage: page,
         totalItems: reviews.length,
         totalPages: Math.ceil(reviews.length / limit),
-      });
+      };
+      jest.spyOn(reviewsService, 'getReviews').mockResolvedValue(paginatedData);
 
-      const result = await reviewsService.getReviews({
-        page,
-        limit,
-        productId,
-      });
+      const result = await reviewsController.getReviews(productId, page, limit);
 
-      expect(result).toEqual({
-        data: reviews,
-        currentPage: page,
-        totalItems: reviews.length,
-        totalPages: Math.ceil(reviews.length / limit),
-      });
-      expect(result.data).toEqual(reviews);
+      expect(result).toEqual(paginatedData);
       expect(reviewsService.getReviews).toHaveBeenCalledWith({
         page,
-        limit,
         productId,
+        limit,
       });
     });
   });
 
   describe('createReview', () => {
-    const productId = '12345';
-    const reviewDto: CreateReviewDto = {
-      customerId: '123',
-      comment: 'Great product',
-    };
-    const review: Review = {
-      reviewId: 'abc123',
-      ...reviewDto,
-      productId,
-    };
+    it('should create a new review', async () => {
+      const productId = 'product-id';
+      const createReviewDto: CreateReviewDto = {
+        customerId: 'customer-id',
+        comment: 'review comment',
+      };
+      const review: Review = {
+        reviewId: 'review-id',
+        customerId: createReviewDto.customerId,
+        productId,
+        comment: createReviewDto.comment,
+        productReviews: new Collection<ProductReview>(this),
+      };
+      jest.spyOn(reviewsService, 'createReview').mockResolvedValue(review);
 
-    it('should call productsService.createReview with correct arguments', async () => {
-      const createReviewSpy = jest
-        .spyOn(reviewsService, 'createReview')
-        .mockResolvedValueOnce(review);
-
-      await reviewsController.createReview(reviewDto, productId);
-
-      expect(createReviewSpy).toHaveBeenCalledWith({ ...reviewDto, productId });
-    });
-    it('should return the created review', async () => {
-      jest.spyOn(reviewsService, 'createReview').mockResolvedValueOnce(review);
-
-      const result = await reviewsController.createReview(reviewDto, productId);
+      const result = await reviewsController.createReview(
+        createReviewDto,
+        productId
+      );
 
       expect(result).toEqual(review);
+      expect(reviewsService.createReview).toHaveBeenCalledWith({
+        ...createReviewDto,
+        productId,
+      });
     });
   });
 });

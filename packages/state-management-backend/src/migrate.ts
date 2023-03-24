@@ -2,6 +2,7 @@ import { MikroORM } from '@mikro-orm/core';
 import { User } from './app/users/entities/user.entity';
 import { Review } from './app/reviews/entities/review.entity';
 import { ConfigService } from '@nestjs/config';
+import { ProductReview } from './app/reviews/entities/product-review.entity';
 
 (async () => {
   const configService = new ConfigService();
@@ -9,7 +10,7 @@ import { ConfigService } from '@nestjs/config';
   const orm = await MikroORM.init({
     type: 'postgresql',
     clientUrl: configService.get('DATABASE_URL'),
-    entities: [User, Review],
+    entities: [User, Review,  ProductReview],
     debug: true,
   });
 
