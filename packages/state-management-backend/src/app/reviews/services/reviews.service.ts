@@ -15,11 +15,11 @@ export class ReviewsService {
     private readonly productReviewRespository: EntityRepository<ProductReview>
   ) {}
 
-  async getReviews({
-    page,
-    limit,
-    productId,
-  }): Promise<PaginatedData<Review>> {
+  async getReviews(
+    page: number,
+    limit: number,
+    productId: string
+  ): Promise<PaginatedData<Review>> {
     const reviews = await this.reviewRespository.findAndCount(
       { productId },
       {
@@ -29,11 +29,10 @@ export class ReviewsService {
     );
 
     const [data, total] = reviews;
-    const totalPages = Math.ceil(total / limit);
-
+    const totalPages = limit ? Math.ceil(total / limit) : 1;
     return {
       data,
-      currentPage: page,
+      currentPage: +page,
       totalItems: total,
       totalPages,
     };
