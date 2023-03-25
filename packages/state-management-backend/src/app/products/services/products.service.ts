@@ -11,9 +11,7 @@ import { CreateProductDto } from '../dto/create-product.dto';
 export class ProductsService {
   constructor(
     @InjectRepository(Product)
-    private readonly productRepository: EntityRepository<Product>,
-    @InjectRepository(Review)
-    private readonly reviewRespository: EntityRepository<Review>
+    private readonly productRepository: EntityRepository<Product>
   ) {}
 
   async findAllProducts({ page, limit, productName }): Promise<PaginatedData> {
