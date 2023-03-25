@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { ModalService } from '@clapp1/clapp-angular';
+import { CustomFormValidations } from '../../../core/utils/custom-form-validations';
 import { FormEditPayload } from '../../models/form-edit-payload.interface';
 import { ModalInvalidFormComponent } from '../modal-invalid-form/modal-invalid-form.component';
 
@@ -44,21 +45,29 @@ export class BusinessEditFormComponent implements OnInit {
   formSubmit = new EventEmitter<FormEditPayload>();
 
   businessFormEdit = this.formBuilder.group({
-    displayName: ['', [Validators.required]],
-    businessName: ['', [Validators.required]],
+    displayName: ['', [Validators.required, CustomFormValidations.namePattern]],
+    businessName: [
+      '',
+      [Validators.required, CustomFormValidations.namePattern],
+    ],
     businessClassification: ['', [Validators.required]],
-    contactPhoneNumber: ['', [Validators.required]],
+    contactPhoneNumber: [
+      '',
+      [Validators.required, CustomFormValidations.decimalNumber],
+    ],
     contactEmail: [
       'name@domain.suffix',
-      [
-        Validators.required,
-        Validators.email,
-        /*CustomFormValidators.email*/
-      ],
+      [Validators.required, CustomFormValidations.email],
     ],
     contactAddress: ['Address', [Validators.required]],
-    longitude: ['Longitude', [Validators.required]],
-    latitude: ['Latitude', [Validators.required]],
+    longitude: [
+      'Longitude',
+      [Validators.required, CustomFormValidations.floatNumber],
+    ],
+    latitude: [
+      'Latitude',
+      [Validators.required, CustomFormValidations.floatNumber],
+    ],
   });
 
   constructor(
