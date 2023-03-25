@@ -15,6 +15,7 @@ describe('ProductsService', () => {
     create: jest.fn(),
     persistAndFlush: jest.fn(),
     flush: jest.fn(),
+    assign: jest.fn(),
   };
 
   beforeEach(async () => {
@@ -43,8 +44,8 @@ describe('ProductsService', () => {
       const productName = 'Product';
 
       const products = [
-        { idProduct: '1', productName: 'Product 1' },
-        { idProduct: '2', productName: 'Product 2' },
+        { idProduct: 'uuid', productName: 'Product 1' },
+        { idProduct: 'uuid2', productName: 'Product 2' },
       ];
       const total = 2;
 
@@ -74,7 +75,7 @@ describe('ProductsService', () => {
 
   describe('findOneProduct', () => {
     it('should return a product', async () => {
-      const idProduct = '1';
+      const idProduct = 'uuid';
       const product = { idProduct, productName: 'Product' };
 
       mockProductRepository.findOne.mockReturnValue(product);
@@ -86,7 +87,7 @@ describe('ProductsService', () => {
     });
 
     it('should throw NotFoundException if product is not found', async () => {
-      const idProduct = '1';
+      const idProduct = 'uuid';
 
       mockProductRepository.findOne.mockReturnValue(undefined);
 
@@ -107,7 +108,7 @@ describe('ProductsService', () => {
         stock: 0,
         status: 'test',
       };
-      const product = { idProduct: '1', ...productDto };
+      const product = { idProduct: 'uuid', ...productDto };
 
       mockProductRepository.create.mockReturnValue(product);
 
@@ -119,10 +120,28 @@ describe('ProductsService', () => {
     });
   });
 
-  //   describe('UpdateProduct', () => {
-  //     it('should update and return a product', async () => {
-  //       const idProduct = '1';
-  //       const updateProductDto: CreateProductDto = {};
-  //     });
-  //   });
+  describe('UpdateProduct', () => {
+    it('should update and return a product', async () => {
+      mockProductRepository.assign.mockImplementation((product, updateInfo) => {
+        Object.assign(product, updateInfo);
+      });
+
+      const productDto: CreateProductDto = {
+        productName: 'Products',
+        description: 'test',
+        price: 0,
+        discount: 0,
+        stock: 0,
+        status: 'test',
+      };
+      const productBefore = { idProduct: 'uuid', ...productDto };
+      const updateProductDto: Partial<CreateProductDto> = {
+        productName: 'asdadfsefef',
+      };
+      mockProductRepository.findOne.mockReturnValue(productBefore);
+      const idProduct = 'uuid';
+      const result = await service.UpdateProduct(idProduct, updateProductDto);
+      expect(result.productName).toEqual(updateProductDto.productName);
+    });
+  });
 });

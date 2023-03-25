@@ -62,7 +62,7 @@ export class ProductsService {
     updateProductInfo: Partial<CreateProductDto> | CreateProductDto
   ): Promise<Product> {
     const product = await this.productRepository.findOne({ idProduct });
-    wrap(product).assign(updateProductInfo);
+    this.productRepository.assign(product, updateProductInfo);
     await this.productRepository.flush();
     return product;
   }
