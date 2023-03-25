@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { of } from 'rxjs';
+import { defaultBusinessClassificationBackendData } from '../../../core/utils/default-business-classification-backend-data';
+import { defaultBusinessData } from '../../../core/utils/default-business-data';
 import { FormEditPayload } from '../../models/form-edit-payload.interface';
 
 @Component({
@@ -15,44 +17,8 @@ export class BusinessEditComponent implements OnInit {
   queryError = false;
   editing = false;
   // Needs adequate typing when we know what the BE sends
-  businessData = {
-    displayName: 'Business Display Name',
-    businessName: 'Business Name',
-    businessClassification: 'Option 2',
-    contactPhoneNumber: '987654321',
-    contactEmail: 'name@domain.suffix',
-    contactAddress: 'Address',
-    longitude: 'Longitude',
-    latitude: 'Latitude',
-    imgUrl: '',
-    totalBranches: 12,
-  };
-  mockBackendData = [
-    {
-      key: 'Option 1',
-      disabled: true,
-    },
-    {
-      key: 'Option 2',
-      disabled: false,
-    },
-    {
-      key: 'Option 3',
-      disabled: false,
-    },
-    {
-      key: 'Option 4',
-      disabled: false,
-    },
-    {
-      key: 'Option 5',
-      disabled: false,
-    },
-    {
-      key: 'Option 5',
-      disabled: false,
-    },
-  ];
+  businessData = defaultBusinessData;
+  mockBackendData = defaultBusinessClassificationBackendData;
 
   private regexPattern = /^[0-9]+$/;
 
@@ -82,6 +48,7 @@ export class BusinessEditComponent implements OnInit {
   }
 
   handleEditFormSubmission(payload: FormEditPayload): void {
+    // IMPLEMENT
     console.log(payload);
     // this.businessService.updateBusiness(payload);
   }

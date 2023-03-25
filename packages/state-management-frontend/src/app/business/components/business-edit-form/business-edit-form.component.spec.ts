@@ -1,5 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ModalService } from '@clapp1/clapp-angular';
+import { defaultBusinessClassificationBackendData } from '../../../core/utils/default-business-classification-backend-data';
+import { defaultBusinessData } from '../../../core/utils/default-business-data';
 import { MockModalService } from '../../models/mock-modal-service.interface';
 
 import { BusinessEditFormComponent } from './business-edit-form.component';
@@ -26,6 +28,11 @@ describe('BusinessEditFormComponent', () => {
 
     fixture = TestBed.createComponent(BusinessEditFormComponent);
     component = fixture.componentInstance;
+    // Assigning data so that we can test just this component
+    component.businessData = defaultBusinessData;
+    component.id = 5;
+    component.classificationsBackendData =
+      defaultBusinessClassificationBackendData;
     fixture.detectChanges();
   });
 
