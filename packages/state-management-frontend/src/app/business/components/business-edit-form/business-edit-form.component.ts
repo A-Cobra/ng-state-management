@@ -1,6 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { ModalService } from '@clapp1/clapp-angular';
+import { FormEditPayload } from '../../models/form-edit-payload.interface';
 import { ModalInvalidFormComponent } from '../modal-invalid-form/modal-invalid-form.component';
 
 @Component({
@@ -38,6 +39,9 @@ export class BusinessEditFormComponent implements OnInit {
     key: string;
     disabled: boolean;
   }[] = [];
+
+  @Output()
+  formSubmit = new EventEmitter<FormEditPayload>();
 
   businessFormEdit = this.formBuilder.group({
     displayName: ['', [Validators.required]],
@@ -81,9 +85,20 @@ export class BusinessEditFormComponent implements OnInit {
       });
       return;
     }
-    // MAKE VALIDATIONS
     this.toggleEditingStatus();
     this.disableFormControls();
+    const { businessName, contactEmail } = this.businessFormEdit.value;
+    const payload: FormEditPayload = {
+      businessName: businessName ?? '',
+      contactEmail: contactEmail ?? '',
+    };
+    // MAKE VALIDATIONS
+    // if(this.businessData == payload){
+    //   console.log('EQUAL DATA CAN NOT BE UPDATED');
+    //   return;
+    //   // Show Modal that says the it can not update to the same value
+    // }
+    this.formSubmit.emit(payload);
   }
 
   onWriteValue(keyUp: KeyboardEvent): void {

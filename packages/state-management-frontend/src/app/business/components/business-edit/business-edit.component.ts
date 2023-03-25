@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { of } from 'rxjs';
+import { FormEditPayload } from '../../models/form-edit-payload.interface';
 
 @Component({
   selector: 'state-management-app-business-edit',
@@ -78,5 +79,10 @@ export class BusinessEditComponent implements OnInit {
         },
       });
     });
+  }
+
+  handleEditFormSubmission(payload: FormEditPayload): void {
+    console.log(payload);
+    // this.businessService.updateBusiness(payload);
   }
 }

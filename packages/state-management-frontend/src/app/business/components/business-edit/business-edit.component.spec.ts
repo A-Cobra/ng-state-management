@@ -1,25 +1,25 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ModalService } from '@clapp1/clapp-angular';
-import { MockModalService } from '../../models/mock-modal-service.interface';
+import { ActivatedRoute } from '@angular/router';
+import { of } from 'rxjs';
 
 import { BusinessEditComponent } from './business-edit.component';
 
 describe('BusinessEditComponent', () => {
   let component: BusinessEditComponent;
   let fixture: ComponentFixture<BusinessEditComponent>;
-  let mockModalService: MockModalService;
+  // CHANGE LATER FOR A PROPER MOCK
+  let mockActivatedRoute: any;
 
   beforeEach(async () => {
-    mockModalService = {
-      open: jest.fn(),
-      close: jest.fn(),
+    mockActivatedRoute = {
+      params: of({ id: '5' }),
     };
     await TestBed.configureTestingModule({
       declarations: [BusinessEditComponent],
       providers: [
         {
-          provide: ModalService,
-          useValue: mockModalService,
+          provide: ActivatedRoute,
+          useValue: mockActivatedRoute,
         },
       ],
     }).compileComponents();
