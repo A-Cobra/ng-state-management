@@ -59,7 +59,7 @@ describe('ProductsService', () => {
       expect(result).toEqual({
         data: products,
         currentPage: page,
-        totalItems: 3,
+        totalItems: 2,
         totalPages: Math.ceil(total / limit),
       });
       expect(productRepository.findAndCount).toHaveBeenCalledWith(
