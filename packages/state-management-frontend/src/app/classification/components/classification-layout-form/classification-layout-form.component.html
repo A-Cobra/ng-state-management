@@ -3,8 +3,8 @@
     #textInput
     formControlName="name"
     autocomplete="on"
-    [error]="!!(name?.touched && name?.invalid)"
-    [success]="!!name?.valid"
+    [error]="!!(name.touched && name.invalid)"
+    [success]="!!name.valid"
     id="name"
     label="Name*"
     [maxLength]="100"
@@ -19,7 +19,7 @@
     *ngIf="textInput.error && !textInput.success"
     [textState]="formCategory.controls['name'].disabled ? 'disabled' : 'error'"
   >
-    {{name?.errors?.['required'] ? 'Name is required' : ''}}
+    {{name.errors?.['required'] ? 'Name is required' : ''}}
   </clapp-helper-text>
 
   <clapp-helper-text
@@ -64,7 +64,7 @@
   <br />
   <ng-container
     *ngIf="
-      currentStatus === ('edit' || 'detail') && numberOfBusinesses.value > 0
+      (currentStatus === 'edit' || 'detail') && numberOfBusinesses.value > 0
     "
   >
     <clapp-text-input
@@ -90,8 +90,8 @@
     buttonWidth=""
     [disabled]="false"
     plusIcon="ri-arrow-left-s-line"
-    type="submit"
-    [routerLink]="['../']"
+    type="button"
+    [routerLink]="[currentStatus === 'create' ? '../' : '../../']"
   >
     Go Back
   </clapp-button>

@@ -1,21 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { Classification } from '../../models/api-response.model';
+import { filter, map, Subject, takeUntil } from 'rxjs';
 import {
   ActivatedRoute,
   NavigationEnd,
   ParamMap,
   Router,
 } from '@angular/router';
-import { Classification } from '../../models/api-response.model';
 import { ClassificationService } from '../../services/classification.service';
-import { filter, map, Subject, takeUntil } from 'rxjs';
 import { RouteData } from '@clapp1/clapp-angular/lib/shared/interfaces/route-data.interface';
 
 @Component({
-  selector: 'state-management-app-classification-edit',
-  templateUrl: './classification-edit.component.html',
-  styleUrls: ['./classification-edit.component.scss'],
+  selector: 'state-management-app-classification-edit-delete',
+  templateUrl: './classification-edit-delete.component.html',
+  styleUrls: ['./classification-edit-delete.component.scss'],
 })
-export class ClassificationEditComponent implements OnInit {
+export class ClassificationEditDeleteComponent {
   idClassification: string;
   classification: Classification;
   status: string;

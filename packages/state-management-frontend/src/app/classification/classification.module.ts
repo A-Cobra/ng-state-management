@@ -10,9 +10,9 @@ import {
   ClappTextInputModule,
 } from '@clapp1/clapp-angular';
 import { ClassificationCreateComponent } from './components/classification-create/classification-create.component';
-import { ClassificationEditComponent } from './components/classification-edit/classification-edit.component';
-import { ClassificationLayoutCUDComponent } from './components/classification-layout-cud/classification-layout-cud.component';
+import { ClassificationLayoutFormComponent } from './components/classification-layout-form/classification-layout-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ClassificationEditDeleteComponent } from './components/classification-edit-delete/classification-edit-delete.component';
 
 const clappModules = [
   ClappTextInputModule,
@@ -26,8 +26,8 @@ const clappModules = [
 @NgModule({
   declarations: [
     ClassificationCreateComponent,
-    ClassificationEditComponent,
-    ClassificationLayoutCUDComponent,
+    ClassificationLayoutFormComponent,
+    ClassificationEditDeleteComponent,
   ],
   imports: [
     CommonModule,

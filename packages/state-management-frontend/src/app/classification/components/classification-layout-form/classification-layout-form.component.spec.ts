@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ClassificationLayoutCUDComponent } from './classification-layout-cud.component';
+import { ClassificationLayoutFormComponent } from './classification-layout-form.component';
 
 describe('ClassificationLayoutCUDComponent', () => {
-  let component: ClassificationLayoutCUDComponent;
-  let fixture: ComponentFixture<ClassificationLayoutCUDComponent>;
+  let component: ClassificationLayoutFormComponent;
+  let fixture: ComponentFixture<ClassificationLayoutFormComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ClassificationLayoutCUDComponent],
+      declarations: [ClassificationLayoutFormComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ClassificationLayoutCUDComponent);
+    fixture = TestBed.createComponent(ClassificationLayoutFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

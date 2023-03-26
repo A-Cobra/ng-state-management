@@ -8,11 +8,11 @@ import {
 import { Classification } from '../../models/api-response.model';
 
 @Component({
-  selector: 'state-management-app-classification-layout-cud',
-  templateUrl: './classification-layout-cud.component.html',
-  styleUrls: ['./classification-layout-cud.component.scss'],
+  selector: 'state-management-app-classification-layout-form',
+  templateUrl: './classification-layout-form.component.html',
+  styleUrls: ['./classification-layout-form.component.scss'],
 })
-export class ClassificationLayoutCUDComponent {
+export class ClassificationLayoutFormComponent {
   formCategory: FormGroup;
   currentStatus: string;
   imgDefault =
@@ -47,7 +47,7 @@ export class ClassificationLayoutCUDComponent {
       name: ['', Validators.required],
       numberOfBusinesses: [0],
       description: ['', Validators.required],
-      image: [this.img],
+      image: [''],
     });
   }
 
@@ -59,8 +59,12 @@ export class ClassificationLayoutCUDComponent {
     return this.formCategory.get('description') as AbstractControl;
   }
 
-  get name() {
-    return this.formCategory.get('name');
+  get name(): AbstractControl {
+    return this.formCategory.get('name') as AbstractControl;
+  }
+
+  get image(): AbstractControl {
+    return this.formCategory.get('image') as AbstractControl;
   }
 
   format(input: string): void {
@@ -78,10 +82,10 @@ export class ClassificationLayoutCUDComponent {
   }
 
   activateFormByStatus(): void {
+    this.numberOfBusinesses.disable();
     if (this.currentStatus === ('detail' || 'delete')) {
       this.formCategory.disable();
     }
-    this.numberOfBusinesses.disable();
   }
 
   submit(): void {
@@ -93,8 +97,8 @@ export class ClassificationLayoutCUDComponent {
       });
     } else {
       this.dataClassification.emit(this.formCategory.value);
+      this.formCategory.reset();
+      this.image.setValue('');
     }
-
-    this.formCategory.reset();
   }
 }
