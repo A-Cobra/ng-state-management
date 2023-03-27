@@ -122,6 +122,8 @@
           controlName="longitude"
           displayText="Please enter the longitude"
           label="Longitude"
+          stateManagementAppFloatNumber
+          [reactiveFormControl]="businessFormEdit.controls['longitude']"
         ></state-management-app-reactive-form-control-text-input>
 
         <state-management-app-reactive-form-control-text-input
@@ -130,6 +132,8 @@
           controlName="latitude"
           displayText="Please enter the latitude"
           label="Latitude"
+          stateManagementAppFloatNumber
+          [reactiveFormControl]="businessFormEdit.controls['latitude']"
         ></state-management-app-reactive-form-control-text-input>
       </div>
     </div>
