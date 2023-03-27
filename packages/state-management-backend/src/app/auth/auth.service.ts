@@ -6,7 +6,7 @@ import {
   signToken,
   validateCode,
 } from './utils/jwt.util';
-import { SignInDto } from './dto/sigin.dto';
+import { SignInDto } from './dto/signin.dto';
 import { UsersService } from '../users/services/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
