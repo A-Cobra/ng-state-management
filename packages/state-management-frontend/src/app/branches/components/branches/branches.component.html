@@ -1,0 +1,35 @@
+<div class="action-buttons">
+  <!-- TODO: Redirect to previous page -->
+  <clapp-button color="secondary" plusIcon="ri-arrow-left-s-line">
+    Go back
+  </clapp-button>
+  <clapp-search
+    [formControl]="searchBranchControl"
+    placeholder="Search branch by name"
+  />
+
+  <!-- TODO: Redirect to create branch page -->
+  <clapp-button plusIcon="ri-add-line"> Add branch </clapp-button>
+</div>
+
+<ng-container *ngIf="branches$ | async as branches">
+  <ng-container *ngIf="totalRecords; else noResults">
+    <div class="branches">
+      <state-management-app-branch-card
+        *ngFor="let branch of branches"
+        [branch]="branch"
+      />
+    </div>
+
+    <clapp-pagination
+      *ngIf="totalRecords > pageSize"
+      [totalRecords]="totalRecords"
+      [pageSize]="pageSize"
+      (pageChange)="changePage($event)"
+    />
+  </ng-container>
+
+  <ng-template #noResults>
+    <clapp-no-results-found customText="Sorry, we couldn't find any branch." />
+  </ng-template>
+</ng-container>
