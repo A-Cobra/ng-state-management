@@ -1,9 +1,9 @@
 <div class="container">
   <div class="wrapper">
-    <div *ngIf="loading" class="loader">
-      <div style="width: 200px; height: 200px; background-color: red"></div>
-    </div>
     <clapp-card>
+      <clapp-card-header>
+        <h2>Sign Up</h2>
+      </clapp-card-header>
       <clapp-card-content>
         <div class="form-wrapper">
           <form class="form" [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
@@ -91,6 +91,12 @@
                 formControlName="contactNumber"
                 [error]="contactNumber!.invalid && contactNumber!.touched"
               ></clapp-text-input>
+              <clapp-helper-text
+                *ngIf="contactNumber?.errors?.['required'] && contactNumber!.touched"
+                [textState]="'error'"
+              >
+                Contact number is required.
+              </clapp-helper-text>
             </div>
             <div class="form-group">
               <clapp-text-input
@@ -126,6 +132,12 @@
                 [error]="confirmPassword!.invalid && confirmPassword!.touched"
               ></clapp-text-input>
               <clapp-helper-text
+                *ngIf="confirmPassword?.errors?.['required'] && confirmPassword!.touched"
+                [textState]="'error'"
+              >
+                Confirm password is required.
+              </clapp-helper-text>
+              <clapp-helper-text
                 *ngIf="confirmPassword?.errors?.['passwordMismatch'] && confirmPassword!.touched"
                 [textState]="'error'"
               >
@@ -133,7 +145,10 @@
               </clapp-helper-text>
             </div>
             <div class="sign-up">
-              <clapp-button [size]="'big'" [disabled]="signUpForm.invalid"
+              <clapp-button
+                [type]="'submit'"
+                [size]="'big'"
+                [disabled]="signUpForm.invalid"
                 >Sign Up</clapp-button
               >
               <p>Already have an account? <a routerLink="/login">Log In</a></p>
@@ -142,5 +157,6 @@
         </div>
       </clapp-card-content>
     </clapp-card>
+    <state-management-app-loader *ngIf="loading"></state-management-app-loader>
   </div>
 </div>

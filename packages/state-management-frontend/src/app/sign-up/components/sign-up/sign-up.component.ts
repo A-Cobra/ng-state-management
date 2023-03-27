@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
+import { Router } from '@angular/router';
+import { NotificationService } from '@clapp1/clapp-angular';
+import { UserI } from '../../interfaces/user.interface';
+import { SignUpService } from '../../services/sign-up.service';
 
 @Component({
   selector: 'state-management-app-sign-up',
@@ -10,7 +15,15 @@ export class SignUpComponent implements OnInit {
   signUpForm: FormGroup;
   loading = false;
 
-  constructor(private readonly formBuilder: FormBuilder) {}
+  constructor(
+    private readonly formBuilder: FormBuilder,
+    private titleService: Title,
+    private signUpService: SignUpService,
+    private router: Router,
+    private notification: NotificationService
+  ) {
+    this.titleService.setTitle('Sign up');
+  }
 
   ngOnInit(): void {
     this.signUpForm = this.formBuilder.group({
@@ -63,8 +76,37 @@ export class SignUpComponent implements OnInit {
   onSubmit(): void {
     if (this.password?.value !== this.confirmPassword?.value) {
       this.confirmPassword?.setErrors({ passwordMismatch: true });
+      return;
     } else {
       this.confirmPassword?.setErrors(null);
     }
+
+    const user: UserI = {
+      name: this.firstName?.value,
+      lastName: this.lastName?.value,
+      username: this.userName?.value,
+      email: this.email?.value,
+      password: this.password?.value,
+      contactNumber: this.contactNumber?.value,
+    };
+
+    this.loading = true;
+
+    this.signUpService.signUp(user).subscribe((success) => {
+      if (success) {
+        this.loading = false;
+        this.notification.success(
+          'User created succesfully, try login in.',
+          'Success!'
+        );
+        this.router.navigate(['/login']);
+      } else {
+        this.loading = false;
+        this.notification.error(
+          'There was an error when creating the user.',
+          'Unexpected error'
+        );
+      }
+    });
   }
 }

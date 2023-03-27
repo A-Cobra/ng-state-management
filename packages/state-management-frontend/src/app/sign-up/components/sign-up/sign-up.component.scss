@@ -13,17 +13,6 @@
     margin-bottom: 20px;
     position: relative;
 
-    .loader {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(220, 220, 220, 0.4);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
-
     .form-wrapper {
       width: 100%;
       display: flex;
@@ -37,7 +26,7 @@
   display: flex;
   flex-direction: column;
   gap: 35px;
-  margin: 15px 0;
+  margin: 20px 0;
 }
 
 .sign-up {
@@ -57,4 +46,8 @@
   & > * {
     flex-grow: 1;
   }
+}
+
+h2 {
+  text-align: center;
 }
