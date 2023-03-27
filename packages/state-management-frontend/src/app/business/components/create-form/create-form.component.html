@@ -5,105 +5,34 @@
       <div class="createForm__form-section-container">
         <h4>Profile</h4>
         <div class="createForm__input-container">
-          <clapp-text-input
-            #nameRef
-            formControlName="name"
-            [error]="
-              false ||
-              createForm.controls['name'].hasError('required') ||
-              createForm.controls['name'].hasError('pattern')
-            "
-            [success]="
-              false ||
-              !createForm.controls['name'].hasError('required') ||
-              !createForm.controls['name'].hasError('pattern')
-            "
-            id="nameId"
+          <state-management-app-clapp-text-input-component
+            [parentForm]="createForm"
+            controlName="name"
             label="Name*"
-            [maxLength]="50"
-            name="name"
-            type="text"
-          ></clapp-text-input>
-          <clapp-helper-text
-            *ngIf="createForm.controls['name'].errors"
-            [textState]="
-              createForm.controls['name'].disabled ? 'disabled' : 'error'
-            "
-          >
-            {{
-              createForm.controls['name'].hasError('required')
-                ? 'This field is required'
-                : 'Only common characters allowed'
-            }}
-          </clapp-helper-text>
+            displayText="Please enter the business name"
+            patternMessage="Only common characters allowed"
+          ></state-management-app-clapp-text-input-component>
         </div>
         <div class="createForm__input-container">
-          <clapp-text-input
-            #emailRef
-            formControlName="email"
-            [error]="
-              false ||
-              createForm.controls['email'].hasError('required') ||
-              createForm.controls['email'].hasError('pattern')
-            "
-            [success]="
-              false ||
-              !createForm.controls['email'].hasError('required') ||
-              !createForm.controls['email'].hasError('pattern')
-            "
-            id="emailId"
+          <state-management-app-clapp-text-input-component
+            [parentForm]="createForm"
+            controlName="email"
             label="Email*"
-            name="email"
-            type="text"
-          ></clapp-text-input>
-          <clapp-helper-text
-            *ngIf="createForm.controls['email'].errors"
-            [textState]="
-              createForm.controls['email'].disabled ? 'disabled' : 'error'
-            "
-          >
-            {{
-              createForm.controls['email'].hasError('required')
-                ? 'This field is required'
-                : 'Email format is required'
-            }}
-          </clapp-helper-text>
+            displayText="Please enter an email"
+            patternMessage="Email format is required"
+          ></state-management-app-clapp-text-input-component>
         </div>
         <div class="createForm__input-container">
-          <clapp-text-input
-            #passwordRef
-            formControlName="password"
-            autocomplete=""
-            [error]="
-              false ||
-              createForm.controls['password'].hasError('required') ||
-              createForm.controls['password'].hasError('pattern')
-            "
-            [success]="
-              false ||
-              !createForm.controls['password'].hasError('required') ||
-              !createForm.controls['password'].hasError('pattern')
-            "
-            id="passwordId"
+          <state-management-app-clapp-text-input-component
+            [parentForm]="createForm"
+            controlName="password"
             label="Password*"
+            displayText="Please enter an initial password"
+            patternMessage="8 char min, at least 1 capital letter, 1 number and 1 symbol"
+            inputType="password"
             [maxLength]="30"
-            name="password"
-            type="text"
-          ></clapp-text-input>
-          <clapp-helper-text
-            *ngIf="createForm.controls['password'].errors"
-            [textState]="
-              createForm.controls['password'].disabled ? 'disabled' : 'error'
-            "
-          >
-            {{
-              createForm.controls['password'].hasError('required')
-                ? 'This field is required'
-                : '8 char min, at least 1 capital letter, 1 number and 1 symbol'
-            }}
-          </clapp-helper-text>
+          ></state-management-app-clapp-text-input-component>
         </div>
-
         <div class="createForm__select-container">
           <clapp-select
             formControlName="classification"
@@ -472,8 +401,10 @@
             Create</clapp-button
           >
         </div>
-        <!--<pre>IS INVALID? {{ createForm.invalid | json }}</pre>
-        <pre>FORM: {{ createForm.value | json }}</pre>-->
+        <!--<pre>IS INVALID? {{ createForm.invalid | json }}</pre>-->
+        <pre>FORM: {{ createForm.value | json }}</pre>
+
+        >
       </div>
     </form>
   </div>

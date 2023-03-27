@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ModalSureToLeaveComponent } from './modal-sure-to-leave.component';
+import { ModalGoBackComponent } from './modal-go-back.component';
 
 describe('ModalSureToLeaveComponent', () => {
-  let component: ModalSureToLeaveComponent;
-  let fixture: ComponentFixture<ModalSureToLeaveComponent>;
+  let component: ModalGoBackComponent;
+  let fixture: ComponentFixture<ModalGoBackComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ModalSureToLeaveComponent],
+      declarations: [ModalGoBackComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ModalSureToLeaveComponent);
+    fixture = TestBed.createComponent(ModalGoBackComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

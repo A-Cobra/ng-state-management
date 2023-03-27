@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FormCreateMainGroup } from '../../models/create-form.interface';
 
 import { ModalService } from '@clapp1/clapp-angular';
-import { ModalSureToLeaveComponent } from '../creat-form-childs/modal-sure-to-leave/modal-sure-to-leave.component';
+import { ModalGoBackComponent } from '../../../core/components/modal-go-back/modal-go-back.component';
 
 @Component({
   selector: 'state-management-app-business-create',
@@ -114,57 +114,57 @@ export class CreateFormComponent implements OnInit {
       documentId: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
     });
 
-    this.form = this.fb.group<FormCreateMainGroup>({
-      nameEmailPassword: this.fb.nonNullable.group({
-        name: ['', [Validators.required, Validators.maxLength(25)]],
-        representativeName: [
-          '',
-          [Validators.required, Validators.maxLength(25)],
-        ],
-        email: [
-          '',
-          [
-            Validators.required,
-            Validators.pattern(
-              '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,3}$'
-            ),
-          ],
-        ],
-        password: [
-          '',
-          [
-            Validators.required,
-            Validators.pattern(
-              '^(?=.*[A-Z])(?=.*d)(?=.*[!@#$%^&*()_+])[A-Za-zd!@#$%^&*()_+]{8,}$'
-            ),
-          ],
-        ],
-      }),
-      classification: this.fb.nonNullable.group({
-        classification: ['', [Validators.required]],
-      }),
-      addressCoordinatesContact: this.fb.nonNullable.group({
-        address: ['', [Validators.required]],
-        longitude: ['', [Validators.required, Validators.pattern('^[0-9 ]+$')]],
-        latitude: ['', [Validators.required, Validators.pattern('^[0-9 ]+$')]],
-        contact: ['', [Validators.required, Validators.pattern('^[0-9 ]+$')]],
-      }),
-      optionalFields: this.fb.group({
-        picture: ['', Validators.pattern('^(https://[^"]*?.jpg)$')],
-        bankAccountNumber: ['', Validators.pattern('^[0-9]{8,20}$')],
-        bankName: '',
-        bankAccountType: 'Account Type',
-        fullname: '',
-        documentId: 'Document ID',
-      }),
-    });
+    // this.form = this.fb.group<FormCreateMainGroup>({
+    //   nameEmailPassword: this.fb.nonNullable.group({
+    //     name: ['', [Validators.required, Validators.maxLength(25)]],
+    //     representativeName: [
+    //       '',
+    //       [Validators.required, Validators.maxLength(25)],
+    //     ],
+    //     email: [
+    //       '',
+    //       [
+    //         Validators.required,
+    //         Validators.pattern(
+    //           '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,3}$'
+    //         ),
+    //       ],
+    //     ],
+    //     password: [
+    //       '',
+    //       [
+    //         Validators.required,
+    //         Validators.pattern(
+    //           '^(?=.*[A-Z])(?=.*d)(?=.*[!@#$%^&*()_+])[A-Za-zd!@#$%^&*()_+]{8,}$'
+    //         ),
+    //       ],
+    //     ],
+    //   }),
+    //   classification: this.fb.nonNullable.group({
+    //     classification: ['', [Validators.required]],
+    //   }),
+    //   addressCoordinatesContact: this.fb.nonNullable.group({
+    //     address: ['', [Validators.required]],
+    //     longitude: ['', [Validators.required, Validators.pattern('^[0-9 ]+$')]],
+    //     latitude: ['', [Validators.required, Validators.pattern('^[0-9 ]+$')]],
+    //     contact: ['', [Validators.required, Validators.pattern('^[0-9 ]+$')]],
+    //   }),
+    //   optionalFields: this.fb.group({
+    //     picture: ['', Validators.pattern('^(https://[^"]*?.jpg)$')],
+    //     bankAccountNumber: ['', Validators.pattern('^[0-9]{8,20}$')],
+    //     bankName: '',
+    //     bankAccountType: 'Account Type',
+    //     fullname: '',
+    //     documentId: 'Document ID',
+    //   }),
+    // });
   }
   handleSubmit() {
     alert('SUBMIT');
   }
   handleCancel() {
-    this.modalService.open(ModalSureToLeaveComponent, {
-      data: 'test',
+    this.modalService.open(ModalGoBackComponent, {
+      data: '',
       width: '400px',
       height: '190px',
       disableBackdropClose: false,
