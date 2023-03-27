@@ -9,7 +9,7 @@ import {
   ClappNotificationModule,
   ClappTextInputModule,
 } from '@clapp1/clapp-angular';
-import { LoaderComponent } from '../components/loader/loader.component';
+import { LoaderComponent } from '../shared/components/loader/loader.component';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { SignUpService } from './services/sign-up.service';
 import { SignUpRoutingModule } from './sign-up-routing.module';
