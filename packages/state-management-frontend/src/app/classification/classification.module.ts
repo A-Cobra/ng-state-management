@@ -13,6 +13,7 @@ import {
 import { ClassificationLayoutFormComponent } from './components/classification-layout-form/classification-layout-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ClassificationEditDeleteComponent } from './components/classification-edit-delete/classification-edit-delete.component';
+import { LoaderComponent } from '../shared/components/loader/loader.component';
 
 const clappModules = [
   ClappTextInputModule,
@@ -33,6 +34,7 @@ const clappModules = [
     CommonModule,
     ClassificationRoutingModule,
     ReactiveFormsModule,
+    LoaderComponent,
 
     ...clappModules,
   ],
