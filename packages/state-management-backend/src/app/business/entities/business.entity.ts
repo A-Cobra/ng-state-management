@@ -15,7 +15,7 @@ export class BusinessHq extends User{
   businessPicture: string;
 
   @Property()
-  rating: number;
+  rating?: number;
 
   @Property()
   contactEmail: string;
@@ -39,5 +39,5 @@ export class BusinessHq extends User{
   deleted?: boolean;
 
   @ManyToMany(() => BusinessClassification)
-  classifications: Collection<BusinessClassification> = new Collection<BusinessClassification>(this);
+  classifications?: Collection<BusinessClassification> = new Collection<BusinessClassification>(this);
 }

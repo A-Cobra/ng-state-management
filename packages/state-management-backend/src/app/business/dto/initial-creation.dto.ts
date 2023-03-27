@@ -5,13 +5,11 @@ export class InitialBusinessCreationDto {
 
     email: string;
 
-    category: string;
-
     address: string;
 
-    lat: string;
+    latitude: string;
     
-    lng: string;
+    longitude: string;
 
     contactNumber: string;
 }

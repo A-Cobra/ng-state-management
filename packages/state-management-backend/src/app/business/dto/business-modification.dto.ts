@@ -5,9 +5,9 @@ export class BusinessModificationDto {
 
     address: string;
 
-    lat: string;
+    latitude: string;
 
-    lng: string;
+    longitude: string;
 
     contactNumber: string;
 

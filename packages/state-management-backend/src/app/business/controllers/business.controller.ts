@@ -1,11 +1,11 @@
-import { Body, Controller, Post, Patch, Delete, Get, Put, Param } from '@nestjs/common';
+import { Body, Controller, Post, Patch, Delete, Get, Put, Param, Query } from '@nestjs/common';
 import { BusinessModificationDto } from '../dto/business-modification.dto';
 import { BusinessSearchDto } from '../dto/business-search.dto';
 import { CompleteBusinessCreationDTO } from '../dto/complete-creation.dto';
 import { InitialBusinessCreationDto } from '../dto/initial-creation.dto';
 import { BusinessService } from '../services/business.service';
 
-@Controller('business')
+@Controller('businessess')
 export class BusinessController {
     constructor(
         private readonly businesService: BusinessService,
@@ -18,7 +18,7 @@ export class BusinessController {
 
     @Patch(':businessId')
     completeBusinessCreation(@Param('businessId') businessId: string, @Body() dto: CompleteBusinessCreationDTO) {
-        return this.businesService.CompleteBusinessCreation(dto);
+        return this.businesService.completeBusinessCreation(businessId, dto);
     }
 
     @Delete(':businessId')
@@ -37,7 +37,7 @@ export class BusinessController {
     }
 
     @Get()
-    getBusinesses(businessSearch: BusinessSearchDto) {
+    getBusinesses(@Query() businessSearch: BusinessSearchDto) {
         return this.businesService.search(businessSearch);
     }
 }

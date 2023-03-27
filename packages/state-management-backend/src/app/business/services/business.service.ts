@@ -50,8 +50,8 @@ export class BusinessService {
         await this.mailService.sendBusinessConfirmation(business, 'www.google.com');
     }
 
-    async CompleteBusinessCreation(dto: CompleteBusinessCreationDTO): Promise<BusinessHq> {
-        const business = await this.findById(dto.businessId);
+    async completeBusinessCreation(businessId: string, dto: CompleteBusinessCreationDTO): Promise<BusinessHq> {
+        const business = await this.findById(businessId);
 
         business.picture = dto.businessPicture;
         business.password = dto.password;
@@ -72,7 +72,7 @@ export class BusinessService {
         return business;
     }
 
-    async search(businessSearch: BusinessSearchDto): Promise<BusinessessResult> {
+    async search(businessSearch: BusinessSearchDto) {
 
         const classificationsFound = await this.findClassifications(businessSearch.categories);
 
@@ -91,9 +91,10 @@ export class BusinessService {
         const totalPages = Math.ceil(totalBusinessess / businessSearch.pageSize);
 
         return {
-            businessess,
-            totalBusinessess,
-            totalPages
+            data: businessess,
+            currentPage: 1,
+            totalItems: totalBusinessess,
+            totalPages: totalPages
         };
     }
 
