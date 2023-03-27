@@ -20,6 +20,7 @@ import {
 import { FullErrorNamePipe } from '../core/pipes/full-error-name.pipe';
 import { ModalInvalidFormComponent } from './components/modal-invalid-form/modal-invalid-form.component';
 import { BusinessEditFormComponent } from './components/business-edit-form/business-edit-form.component';
+import { CoreModule } from '../core/core.module';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { BusinessEditFormComponent } from './components/business-edit-form/busin
     ClappSelectModule,
     ClappImageDisplayModule,
     ModalModule,
+    CoreModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

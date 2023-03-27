@@ -27,7 +27,9 @@
       </div>
 
       <state-management-app-reactive-form-control-text-input
+        stateManagementAppPhoneNumber
         [parentForm]="businessFormEdit"
+        [formControl]="businessFormEdit.controls['contactPhoneNumber']"
         [hasError]="hasError"
         controlName="contactPhoneNumber"
         displayText="Please enter the contact number"
