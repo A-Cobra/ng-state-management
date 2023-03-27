@@ -12,6 +12,7 @@ import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { ReflectMetadataProvider } from '@mikro-orm/core';
 import { Business_HQ } from './business/entities/business.entity';
 import { Business_classification } from './business/entities/business_classification.entity';
+import { ReviewsModule } from './reviews/reviews.module';
 
 const envFilePath = getEnvPath(process.env.WORKDIR);
 
@@ -23,11 +24,12 @@ const envFilePath = getEnvPath(process.env.WORKDIR);
       isGlobal: true,
     }),
     UsersModule,
-    AuthModule,
     ProductsModule,
+    AuthModule,
     BusinessModule,
     DBModule,
     MikroOrmModule.forRoot(),
+    ReviewsModule,
   ],
   controllers: [],
   providers: [PrismaService],

@@ -1,6 +1,7 @@
 import { Options, ReflectMetadataProvider } from '@mikro-orm/core';
 import { ConfigService } from '@nestjs/config';
 import { User } from './app/users/entities/user.entity';
+import { Review } from './app/reviews/entities/review.entity';
 import * as path from 'path';
 import * as dotenv from 'dotenv';
 import * as dotenvExpand from 'dotenv-expand';
@@ -9,6 +10,7 @@ import { Business_classification } from './app/business/entities/business_classi
 import { TsMorphMetadataProvider } from '@mikro-orm/reflection';
 import 'reflect-metadata';
 import { Logger } from '@nestjs/common';
+import { ProductReview } from './app/reviews/entities/product-review.entity';
 
 dotenvExpand.expand(dotenv.config());
 
@@ -20,8 +22,8 @@ const MikroOrmConfig: Options = {
   debug: true,
   logger: logger.log.bind(logger),
   type: 'postgresql',
-  clientUrl: 'postgres://postgres:123456@localhost:5432/state_db',
-  entities: [User, Business_HQ, Business_classification],
+  clientUrl: configService.get('DATABASE_URL'),
+  entities: [User, Review, ProductReview, Business_HQ, Business_classification],
   metadataProvider: ReflectMetadataProvider,
   migrations: {
     path: './database/migrations',
