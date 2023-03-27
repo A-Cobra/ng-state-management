@@ -12,6 +12,13 @@ const routes: Routes = [
     loadChildren: () =>
       import('./branches/branches.module').then((m) => m.BranchesModule),
   },
+  {
+    path: 'classifications',
+    loadChildren: () =>
+      import('./classification/classification.module').then(
+        (m) => m.ClassificationModule
+      ),
+  },
 ];
 
 @NgModule({

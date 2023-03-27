@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Classification } from '../../models/api-response.model';
 import { filter, map, Subject, takeUntil } from 'rxjs';
 import {
@@ -15,7 +15,7 @@ import { RouteData } from '@clapp1/clapp-angular/lib/shared/interfaces/route-dat
   templateUrl: './classification-edit-delete.component.html',
   styleUrls: ['./classification-edit-delete.component.scss'],
 })
-export class ClassificationEditDeleteComponent {
+export class ClassificationEditDeleteComponent implements OnInit, OnDestroy {
   idClassification: string;
   classification: Classification;
   status: string;
@@ -92,5 +92,10 @@ export class ClassificationEditDeleteComponent {
           console.log(error);
         },
       });
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 }

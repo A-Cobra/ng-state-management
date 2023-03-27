@@ -1,7 +1,136 @@
 :host {
-  display: grid;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  height: 50vh;
-  width: 400px;
-  margin: auto;
+  margin: 0 5%;
+
+  @media (min-width: 1000px) {
+    margin: 0 12%;
+  }
+
+  form,
+  h2 {
+    width: 100%;
+  }
+
+  form {
+    clapp-file-upload,
+    clapp-image-display {
+      display: flex;
+      justify-content: center;
+
+      @media (min-width: 800px) {
+        justify-content: flex-end;
+      }
+    }
+    margin: 24px 0;
+    @media (min-width: 800px) {
+      margin: 16px 0;
+    }
+  }
+}
+
+.containerInputs {
+  div {
+    display: grid;
+    @media (min-width: 800px) {
+      margin: 38px 0;
+    }
+  }
+
+  clapp-text-input {
+    margin: 16px 0;
+    @media (min-width: 800px) {
+      margin: 0;
+    }
+  }
+
+  ::ng-deep clapp-file-upload .image-container {
+    margin: 16px 0;
+
+    @media (min-width: 480px) {
+      width: 200px;
+      height: 200px;
+    }
+    @media (min-width: 800px) {
+      height: 80%;
+      width: 85%;
+    }
+  }
+
+  ::ng-deep clapp-image-display .large {
+    margin: 16px 0;
+
+    @media (min-width: 480px) {
+      width: 200px;
+      height: 200px;
+    }
+
+    @media (min-width: 800px) {
+      height: 80%;
+      width: 80%;
+    }
+  }
+
+  @media (min-width: 800px) {
+    display: grid;
+    grid-template-columns: 50% 50%;
+  }
+}
+
+.containerButtons {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  ::ng-deep button {
+    width: 100%;
+    margin: 8px 0;
+
+    @media (min-width: 800px) {
+      margin: 16px 0;
+    }
+  }
+
+  .containerBtnDetail {
+    @media (min-width: 480px) {
+      display: grid;
+      grid-template-columns: 40% 40%;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+
+    @media (min-width: 800px) {
+      gap: 16px;
+    }
+  }
+
+  .containerBtn {
+    @media (min-width: 480px) {
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+
+      clapp-button {
+        width: 50%;
+
+        @media (min-width: 800px) {
+          margin-right: 10%;
+          justify-content: flex-end;
+        }
+      }
+    }
+  }
+
+  @media (min-width: 480px) {
+    display: grid;
+    grid-template-columns: 30% 70%;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  @media (min-width: 800px) {
+    grid-template-columns: 20% 50%;
+  }
 }

@@ -15,9 +15,7 @@ import { Classification } from '../../models/api-response.model';
 export class ClassificationLayoutFormComponent {
   formCategory: FormGroup;
   currentStatus: string;
-  imgDefault =
-    'https://res.cloudinary.com/crunchbase-production/image/upload/c_lpad,f_auto,q_auto:eco,dpr_1/ffbfddoyxp0ccgnu2kdv';
-  img = this.imgDefault;
+  imgDefault = 'assets/img/placeholder-image.png';
   idClassification: string;
   iconButton: string;
 
@@ -83,8 +81,19 @@ export class ClassificationLayoutFormComponent {
 
   activateFormByStatus(): void {
     this.numberOfBusinesses.disable();
-    if (this.currentStatus === ('detail' || 'delete')) {
+    if (this.currentStatus === 'detail' || this.currentStatus === 'delete') {
       this.formCategory.disable();
+    }
+  }
+
+  getNavigate() {
+    if (this.currentStatus === 'delete' || this.currentStatus === 'edit') {
+      return ['../../detail', this.idClassification];
+    }
+    if (this.currentStatus === 'detail') {
+      return ['../../'];
+    } else {
+      return ['../'];
     }
   }
 
