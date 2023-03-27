@@ -6,10 +6,10 @@ import {
   ClappFileUploadModule,
   ClappImageDisplayModule,
   ClappInputHelpersModule,
+  ClappNotificationModule,
   ClappTextareaModule,
   ClappTextInputModule,
 } from '@clapp1/clapp-angular';
-import { ClassificationCreateComponent } from './components/classification-create/classification-create.component';
 import { ClassificationLayoutFormComponent } from './components/classification-layout-form/classification-layout-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ClassificationEditDeleteComponent } from './components/classification-edit-delete/classification-edit-delete.component';
@@ -21,11 +21,11 @@ const clappModules = [
   ClappImageDisplayModule,
   ClappFileUploadModule,
   ClappTextareaModule,
+  ClappNotificationModule,
 ];
 
 @NgModule({
   declarations: [
-    ClassificationCreateComponent,
     ClassificationLayoutFormComponent,
     ClassificationEditDeleteComponent,
   ],
@@ -33,6 +33,7 @@ const clappModules = [
     CommonModule,
     ClassificationRoutingModule,
     ReactiveFormsModule,
+
     ...clappModules,
   ],
 })

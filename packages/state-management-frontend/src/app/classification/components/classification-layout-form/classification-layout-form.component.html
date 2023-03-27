@@ -88,9 +88,7 @@
       ></clapp-file-upload>
     </ng-container>
 
-    <ng-container
-      *ngIf="currentStatus === 'detail' || currentStatus === 'delete'"
-    >
+    <ng-container *ngIf="currentStatus === 'detail'">
       <clapp-image-display
         [src]="image.value"
         type="square"
@@ -137,9 +135,8 @@
           size="small"
           buttonWidth=""
           [disabled]="formCategory.invalid"
-          [routerLink]="['../../delete', this.idClassification]"
           plusIcon="ri-delete-bin-line"
-          type="button"
+          type="submit"
         >
           Delete
         </clapp-button>

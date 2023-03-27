@@ -1,10 +1,15 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ClassificationCreateComponent } from './components/classification-create/classification-create.component';
 import { ClassificationEditDeleteComponent } from './components/classification-edit-delete/classification-edit-delete.component';
 
 const routes: Routes = [
-  { path: 'create', component: ClassificationCreateComponent },
+  {
+    path: 'create',
+    component: ClassificationEditDeleteComponent,
+    data: {
+      status: 'create',
+    },
+  },
   {
     path: 'detail/:id',
     component: ClassificationEditDeleteComponent,
@@ -23,7 +28,7 @@ const routes: Routes = [
     path: 'delete/:id',
     component: ClassificationEditDeleteComponent,
     data: {
-      status: 'delete',
+      status: 'detail',
     },
   },
 ];

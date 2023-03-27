@@ -21,6 +21,7 @@ export class ClassificationLayoutFormComponent {
 
   @Output() dataClassification: EventEmitter<Classification> =
     new EventEmitter();
+
   @Input() set status(value: string) {
     this.currentStatus = value;
     this.iconButton = this.getIcon();
@@ -99,6 +100,7 @@ export class ClassificationLayoutFormComponent {
 
   submit(): void {
     this.numberOfBusinesses.enable();
+
     if (this.currentStatus !== 'create') {
       this.dataClassification.emit({
         ...this.formCategory.value,
