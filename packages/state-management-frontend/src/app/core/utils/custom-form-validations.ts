@@ -35,10 +35,10 @@ export class CustomFormValidations {
     return null;
   }
 
-  static decimalNumber(control: AbstractControl): ValidationErrors | null {
-    const decimalNumberRegex = /^[0-9]+$/;
-    if (!control.value.match(decimalNumberRegex)) {
-      return { notDecimalNumber: true };
+  static phoneNumber(control: AbstractControl): ValidationErrors | null {
+    const phoneNumberRegex = /^[0-9]+$/;
+    if (!control.value.match(phoneNumberRegex)) {
+      return { notPhoneNumber: true };
     }
     return null;
   }
