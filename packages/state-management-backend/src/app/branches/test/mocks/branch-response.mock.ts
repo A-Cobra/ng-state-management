@@ -4,7 +4,7 @@ export const mockBranchesResponse = {
   data: [
     {
       branchId: '632cbe18-ccc8-405e-a770-4b82e6399151',
-      name: 'David',
+      name: 'Mock Data',
       address: 'San Miguel, El Salvador',
       image: 'image.png',
       longitude: '44.043',
@@ -12,8 +12,11 @@ export const mockBranchesResponse = {
       openingTime: '08:00:00',
       closeTime: '16:00:00',
       contactEmail: 'example@gmail.com',
+      deleted: false,
       contactPhoneNumber: '77867555',
-      businessId: '6c84fb90-12c4-11e1-840d-7b25c5ee775a',
+      businessId: {
+        business_id: '6c84fb90-12c4-11e1-840d-7b25c5ee775a',
+      } as Business_HQ,
     },
     {
       branchId: '632cbe18-ccc8-405e-a770-4b82e6399151',
@@ -23,10 +26,13 @@ export const mockBranchesResponse = {
       longitude: '44.043',
       latitude: '-299.91',
       openingTime: '08:00:00',
+      deleted: false,
       closeTime: '16:00:00',
       contactEmail: 'example@gmail.com',
       contactPhoneNumber: '77867555',
-      businessId: '6c84fb90-12c4-11e1-840d-7b25c5ee775a',
+      businessId: {
+        business_id: '6c84fb90-12c4-11e1-840d-7b25c5ee775a',
+      } as Business_HQ,
     },
     {
       branchId: '632cbe18-ccc8-405e-a770-4b82e6399151',
@@ -34,12 +40,15 @@ export const mockBranchesResponse = {
       address: 'El Salvador',
       image: 'image.png',
       longitude: '44.043',
+      deleted: false,
       latitude: '-299.91',
       openingTime: '08:00:00',
       closeTime: '16:00:00',
       contactEmail: 'example@gmail.com',
       contactPhoneNumber: '77867555',
-      businessId: '6c84fb90-12c4-11e1-840d-7b25c5ee775a',
+      businessId: {
+        business_id: '6c84fb90-12c4-11e1-840d-7b25c5ee775a',
+      } as Business_HQ,
     },
   ],
   totalResults: 3,
@@ -49,7 +58,7 @@ export const mockBranchesResponse = {
 
 export const createdBranchResponse = {
   branchId: '632cbe18-ccc8-405e-a770-4b82e6399151',
-  name: 'David',
+  name: 'Branch Test',
   address: 'San Miguel, El Salvador',
   image: 'image.png',
   longitude: '44.043',
