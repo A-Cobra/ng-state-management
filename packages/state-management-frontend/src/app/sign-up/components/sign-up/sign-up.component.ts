@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { NotificationService } from '@clapp1/clapp-angular';
 import { UserI } from '../../interfaces/user.interface';
 import { SignUpService } from '../../services/sign-up.service';
+import { notEmpty } from '../../validators/notEmpty.validator';
 
 @Component({
   selector: 'state-management-app-sign-up',
@@ -27,8 +28,8 @@ export class SignUpComponent implements OnInit {
 
   ngOnInit(): void {
     this.signUpForm = this.formBuilder.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
+      firstName: ['', [Validators.required, notEmpty]],
+      lastName: ['', [Validators.required, notEmpty]],
       userName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       contactNumber: ['', Validators.required],
@@ -82,10 +83,10 @@ export class SignUpComponent implements OnInit {
     }
 
     const user: UserI = {
-      name: this.firstName?.value,
-      lastName: this.lastName?.value,
-      username: this.userName?.value,
-      email: this.email?.value,
+      name: this.firstName?.value.trim(),
+      lastName: this.lastName?.value.trim(),
+      username: this.userName?.value.trim(),
+      email: this.email?.value.trim(),
       password: this.password?.value,
       contactNumber: this.contactNumber?.value,
     };
