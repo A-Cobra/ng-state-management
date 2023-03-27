@@ -27,13 +27,13 @@
       </div>
 
       <state-management-app-reactive-form-control-text-input
-        stateManagementAppPhoneNumber
         [parentForm]="businessFormEdit"
-        [formControl]="businessFormEdit.controls['contactPhoneNumber']"
         [hasError]="hasError"
         controlName="contactPhoneNumber"
         displayText="Please enter the contact number"
         label="Contact Number"
+        stateManagementAppPhoneNumber
+        [reactiveFormControl]="businessFormEdit.controls['contactPhoneNumber']"
       ></state-management-app-reactive-form-control-text-input>
 
       <state-management-app-reactive-form-control-text-input
