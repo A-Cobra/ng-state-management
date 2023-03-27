@@ -127,7 +127,7 @@ describe('ProductsService', () => {
       });
 
       const productDto: CreateProductDto = {
-        productName: 'Products',
+        productName: 'Product',
         description: 'test',
         price: 0,
         discount: 0,
@@ -136,7 +136,7 @@ describe('ProductsService', () => {
       };
       const productBefore = { idProduct: 'uuid', ...productDto };
       const updateProductDto: Partial<CreateProductDto> = {
-        productName: 'asdadfsefef',
+        productName: 'Product Updated',
       };
       mockProductRepository.findOne.mockReturnValue(productBefore);
       const idProduct = 'uuid';
