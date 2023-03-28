@@ -1,7 +1,7 @@
-<state-management-app-loader> </state-management-app-loader>
-<!--<ng-container *ngIf="loader">
-</ng-container>
- <div class="createForm">
+<ng-container *ngIf="loader">
+  <state-management-app-loader> </state-management-app-loader
+></ng-container>
+<div class="createForm" *ngIf="!loader">
   <h3>Create Business</h3>
   <div>
     <form [formGroup]="createForm">
@@ -234,10 +234,10 @@
             Create</clapp-button
           >
         </div>
-       <pre>IS INVALID? {{ createForm.invalid | json }}</pre>
+        <pre>IS INVALID? {{ createForm.invalid | json }}</pre>
         <pre>FORM: {{ createForm.value | json }}</pre>
         >
       </div>
     </form>
   </div>
-</div>-->
+</div>
