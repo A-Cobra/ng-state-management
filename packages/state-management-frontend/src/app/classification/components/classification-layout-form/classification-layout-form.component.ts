@@ -30,8 +30,10 @@ export class ClassificationLayoutFormComponent {
 
   @Input() set classification(value: Classification) {
     if (this.currentStatus !== 'create') {
-      this.idClassification = value.id as string;
-
+      const id = value.id;
+      if (id) {
+        this.idClassification = id;
+      }
       this.formCategory.setValue({
         name: value.name,
         numberOfBusinesses: value.numberOfBusinesses,
@@ -46,7 +48,7 @@ export class ClassificationLayoutFormComponent {
       name: ['', Validators.required],
       numberOfBusinesses: [0],
       description: ['', Validators.required],
-      image: [''],
+      image: [this.imgDefault],
     });
   }
 
@@ -82,13 +84,13 @@ export class ClassificationLayoutFormComponent {
 
   activateFormByStatus(): void {
     this.numberOfBusinesses.disable();
-    if (this.currentStatus === 'detail' || this.currentStatus === 'delete') {
+    if (this.currentStatus === 'detail') {
       this.formCategory.disable();
     }
   }
 
   getNavigate() {
-    if (this.currentStatus === 'delete' || this.currentStatus === 'edit') {
+    if (this.currentStatus === 'edit') {
       return ['../../detail', this.idClassification];
     }
     if (this.currentStatus === 'detail') {
@@ -107,6 +109,7 @@ export class ClassificationLayoutFormComponent {
         id: this.idClassification,
       });
     } else {
+      console.log(this.formCategory.value);
       this.dataClassification.emit(this.formCategory.value);
       this.formCategory.reset();
       this.image.setValue('');

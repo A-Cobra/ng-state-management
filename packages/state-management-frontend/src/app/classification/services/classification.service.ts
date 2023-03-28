@@ -7,10 +7,10 @@ import { Observable, of } from 'rxjs';
   providedIn: 'root',
 })
 export class ClassificationService {
+  //Note:The whole related to saving to localStorage should be removed after connecting to the API
   arrClassification: Classification[] = CLASSIFICATIONS;
 
   addClassification(data: Classification): Observable<Classification> {
-    console.log('recibiendo data', data);
     this.arrClassification.push({
       ...data,
       id: `${this.arrClassification.length}uuid`,
@@ -22,6 +22,7 @@ export class ClassificationService {
     this.getDataFromStorage();
     return of(this.arrClassification[this.arrClassification.length - 1]);
   }
+
   getClassificationById(id: string): Observable<Classification> {
     this.getDataFromStorage();
     return of(
@@ -29,7 +30,7 @@ export class ClassificationService {
     );
   }
 
-  updateClassification(data: Classification) {
+  updateClassification(data: Classification): Observable<Classification> {
     this.getDataFromStorage();
     const dataServer = this.arrClassification.find(
       (item) => item.id === data.id
@@ -43,7 +44,7 @@ export class ClassificationService {
     return of(data);
   }
 
-  deleteClassification(id: string) {
+  deleteClassification(id: string): Observable<string> {
     this.getDataFromStorage();
     this.arrClassification = this.arrClassification.filter(
       (item) => item.id !== id

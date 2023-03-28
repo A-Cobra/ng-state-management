@@ -10,17 +10,22 @@ import {
 import { ClassificationService } from '../../services/classification.service';
 import { RouteData } from '@clapp1/clapp-angular/lib/shared/interfaces/route-data.interface';
 import { ModalService, NotificationService } from '@clapp1/clapp-angular';
+import { ConfirmationModalComponent } from '../../../shared/components/confirmation-modal/confirmation-modal.component';
 
 @Component({
   selector: 'state-management-app-classification-edit-delete',
-  templateUrl: './classification-edit-delete.component.html',
-  styleUrls: ['./classification-edit-delete.component.scss'],
+  templateUrl: './classification-create-edit-delete.component.html',
+  styleUrls: ['./classification-create-edit-delete.component.scss'],
 })
-export class ClassificationEditDeleteComponent implements OnInit, OnDestroy {
+export class ClassificationCreateEditDeleteComponent
+  implements OnInit, OnDestroy
+{
   idClassification: string;
   classification: Classification;
   status: string;
   loader = false;
+  deleteConfirmed: boolean;
+  noResult = false;
   unsubscribe$: Subject<void> = new Subject<void>();
 
   constructor(
@@ -44,47 +49,53 @@ export class ClassificationEditDeleteComponent implements OnInit, OnDestroy {
       )
       .subscribe((data: RouteData) => {
         this.status = data['status'];
-        console.log('this.status', this.status);
       });
   }
 
   ngOnInit(): void {
     this.activatedRoute.paramMap.subscribe((params: ParamMap) => {
       const id = params.get('id');
-      this.idClassification = id as string;
-    });
 
+      if (id) {
+        this.idClassification = id;
+        this.noResult = false;
+      } else {
+        this.noResult = true;
+      }
+    });
     this.getClassificationById(this.idClassification);
   }
 
   getClassificationById(id: string) {
+    this.noResult = false;
+
     this.classificationService.getClassificationById(id).subscribe({
       next: (data) => {
+        this.noResult = false;
         this.classification = data;
       },
-      error: (error) => {
-        console.log(error);
+      error: () => {
+        this.noResult = true;
       },
     });
   }
 
   updateOrDeleteClassification(data: Classification) {
     this.loader = true;
-
-    if (this.status === 'edit') {
-      this.updateClassification(data);
-    }
-    if (this.status === 'create') {
-      this.addClassification(data);
-    }
-    if (this.status === 'detail') {
-      this.loader = true;
-      // this.modalService.open(ConfirmationModalComponent, {
-      //   data: {
-      //     title:'title',
-      //     message: 'message',
-      //   }
-      // })
+    switch (this.status) {
+      case 'edit':
+        this.updateClassification(data);
+        break;
+      case 'create':
+        this.addClassification(data);
+        break;
+      case 'detail':
+        this.confirmedDelete(data);
+        this.loader = false;
+        break;
+      default:
+        this.noResult = true;
+        this.loader = false;
     }
   }
 
@@ -113,15 +124,18 @@ export class ClassificationEditDeleteComponent implements OnInit, OnDestroy {
     this.classificationService.updateClassification(data).subscribe({
       next: (result: Classification) => {
         this.classification = result;
-        console.log('update', this.classification);
         this.loader = false;
         this.notificationService.success(
           'Classification updated successfully',
           'Success!'
         );
+        this.router.navigate([
+          '../../classifications',
+          'detail',
+          this.idClassification,
+        ]);
       },
-      error: (error) => {
-        console.log(error);
+      error: () => {
         this.loader = false;
         this.notificationService.error(
           'There was an error when updating the classification',
@@ -131,20 +145,19 @@ export class ClassificationEditDeleteComponent implements OnInit, OnDestroy {
     });
   }
 
-  deleteClassification(data: Classification) {
+  deleteClassification(data: Classification): void {
     this.classificationService
       .deleteClassification(data.id as string)
       .subscribe({
-        next: (result) => {
-          console.log('delete', result);
+        next: () => {
           this.loader = false;
           this.notificationService.success(
             'Classification deleted successfully',
             'Success!'
           );
+          this.router.navigate(['../../classifications']);
         },
-        error: (error) => {
-          console.log(error);
+        error: () => {
           this.loader = false;
           this.notificationService.error(
             'There was an error when deleting the classification',
@@ -152,6 +165,28 @@ export class ClassificationEditDeleteComponent implements OnInit, OnDestroy {
           );
         },
       });
+  }
+
+  confirmedDelete(data: Classification): void {
+    const modalRef = this.modalService.open(ConfirmationModalComponent, {
+      data: {
+        title: 'Delete classification',
+        message: `Are you sure to delete the ${this.classification.name} classification`,
+        confirmButtonLabel: 'Yes',
+        cancelButtonLabel: 'Cancel',
+      },
+      width: '300px',
+      height: 'fit-content',
+    });
+    modalRef.afterClosed.subscribe((result) => {
+      this.loader = true;
+      this.deleteConfirmed = result as boolean;
+      if (this.deleteConfirmed) {
+        this.deleteClassification(data);
+      } else {
+        this.loader = false;
+      }
+    });
   }
 
   ngOnDestroy(): void {

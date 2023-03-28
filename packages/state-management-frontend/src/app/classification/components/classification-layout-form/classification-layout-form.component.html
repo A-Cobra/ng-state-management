@@ -62,7 +62,7 @@
         [textState]="
           formCategory.controls['name'].disabled ? 'disabled' : 'success'
         "
-        >Valid name
+        >Valid description
       </clapp-helper-text>
 
       <ng-container
@@ -102,7 +102,6 @@
     <clapp-button
       color="secondary"
       size="small"
-      buttonWidth=""
       [disabled]="false"
       plusIcon="ri-arrow-left-s-line"
       type="button"
@@ -121,7 +120,6 @@
         <clapp-button
           color="primary"
           size="small"
-          buttonWidth=""
           [disabled]="formCategory.invalid"
           [plusIcon]="iconButton"
           [routerLink]="['../../edit', this.idClassification]"
@@ -133,7 +131,6 @@
         <clapp-button
           color="primary"
           size="small"
-          buttonWidth=""
           [disabled]="formCategory.invalid"
           plusIcon="ri-delete-bin-line"
           type="submit"
@@ -146,7 +143,6 @@
         <clapp-button
           color="primary"
           size="small"
-          buttonWidth=""
           [disabled]="formCategory.invalid"
           [plusIcon]="iconButton"
           type="submit"

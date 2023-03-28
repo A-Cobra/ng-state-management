@@ -1,34 +1,27 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ClassificationEditDeleteComponent } from './components/classification-edit-delete/classification-edit-delete.component';
+import { ClassificationCreateEditDeleteComponent } from './components/classification-edit-delete/classification-create-edit-delete.component';
 
 const routes: Routes = [
   {
     path: 'create',
-    component: ClassificationEditDeleteComponent,
+    component: ClassificationCreateEditDeleteComponent,
     data: {
       status: 'create',
     },
   },
   {
     path: 'detail/:id',
-    component: ClassificationEditDeleteComponent,
+    component: ClassificationCreateEditDeleteComponent,
     data: {
       status: 'detail',
     },
   },
   {
     path: 'edit/:id',
-    component: ClassificationEditDeleteComponent,
+    component: ClassificationCreateEditDeleteComponent,
     data: {
       status: 'edit',
-    },
-  },
-  {
-    path: 'delete/:id',
-    component: ClassificationEditDeleteComponent,
-    data: {
-      status: 'detail',
     },
   },
 ];
