@@ -3,36 +3,36 @@ import { v4 } from 'uuid';
 
 @Entity()
 export class User {
-    @PrimaryKey()
-    user_id: string = v4();
+  @PrimaryKey()
+  user_id: string = v4();
 
-    @Property()
-    role: string;
+  @Property()
+  role: string;
 
-    @Property()
-    username: string;
+  @Property()
+  username: string;
 
-    @Property()
-    name: string;
+  @Property()
+  name: string;
 
-    @Property()
-    lastname: string;
+  @Property()
+  lastname: string;
 
-    @Property()
-    picture: string;
+  @Property()
+  picture: string;
 
-    @Property()
-    email: string;
+  @Property()
+  email: string;
 
-    @Property()
-    password: string;
+  @Property()
+  password: string;
 
-    @Property()
-    isLoggedIn: boolean;
+  @Property()
+  isLoggedIn: boolean;
 
-    @Property()
-    contact_number: string;
+  @Property()
+  contact_number: string;
 
-    @Property()
-    refreshToken?: string;
+  @Property()
+  refreshToken?: string;
 }
