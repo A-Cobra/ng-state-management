@@ -19,7 +19,7 @@
                 >
                 </clapp-text-input>
                 <clapp-helper-text
-                  *ngIf="firstName!.invalid && firstName!.touched"
+                  *ngIf="(firstName!.errors?.['required'] || firstName!.errors?.['noSpaces']) && firstName!.touched"
                   [textState]="'error'"
                 >
                   Name field is required.
@@ -35,10 +35,10 @@
                   [error]="lastName!.invalid && lastName!.touched"
                 ></clapp-text-input>
                 <clapp-helper-text
-                  *ngIf="lastName!.invalid && lastName!.touched"
+                  *ngIf="(lastName!.errors?.['required'] || lastName!.errors?.['noSpaces']) && lastName!.touched"
                   [textState]="'error'"
                 >
-                  Last name field is required.
+                  Last name is required.
                 </clapp-helper-text>
               </div>
             </div>
@@ -53,7 +53,7 @@
               >
               </clapp-text-input>
               <clapp-helper-text
-                *ngIf="userName!.invalid && userName!.touched"
+                *ngIf="(userName!.errors?.['required'] || userName!.errors?.['noSpaces']) && userName!.touched"
                 [textState]="'error'"
               >
                 Username is required.
