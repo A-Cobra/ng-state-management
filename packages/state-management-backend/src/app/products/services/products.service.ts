@@ -1,11 +1,9 @@
-import { Review } from '../entities/review.entity';
-import { CreateReviewDto } from '../dto/create-review.dto';
-import { PaginatedData } from '../interfaces/pagination.interface';
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { EntityRepository, wrap } from '@mikro-orm/core';
+import { EntityRepository } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { Product } from '../entities/product.entity';
 import { CreateProductDto } from '../dto/create-product.dto';
+import { PaginatedData } from '../../reviews/interfaces/pagination.interface';
 
 @Injectable()
 export class ProductsService {
@@ -14,7 +12,11 @@ export class ProductsService {
     private readonly productRepository: EntityRepository<Product>
   ) {}
 
-  async findAllProducts({ page, limit, productName }): Promise<PaginatedData> {
+  async findAllProducts({
+    page,
+    limit,
+    productName,
+  }): Promise<PaginatedData<Product>> {
     let products;
     if (productName) {
       products = await this.productRepository.findAndCount(

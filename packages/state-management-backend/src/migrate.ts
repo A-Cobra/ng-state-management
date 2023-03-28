@@ -1,12 +1,17 @@
 import { MikroORM } from '@mikro-orm/core';
 import { User } from './app/users/entities/user.entity';
-import { Review } from './app/products/entities/review.entity';
+import { Review } from './app/reviews/entities/review.entity';
+import { ConfigService } from '@nestjs/config';
+import { ProductReview } from './app/reviews/entities/product-review.entity';
+import { Product } from './app/products/entities/product.entity';
 
 (async () => {
+  const configService = new ConfigService();
+
   const orm = await MikroORM.init({
     type: 'postgresql',
-    clientUrl: 'postgres://postgres:postgrespw@localhost:32768/state',
-    entities: [User],
+    clientUrl: configService.get('DATABASE_URL'),
+    entities: [User, Review, ProductReview, Product],
     debug: true,
   });
 

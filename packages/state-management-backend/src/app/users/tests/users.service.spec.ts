@@ -1,6 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UsersService } from '../services/users.service';
-import { PrismaService } from '../../database/services/prisma.service';
 import { EntityRepository } from '@mikro-orm/core';
 
 describe('UsersService', () => {
