@@ -11,6 +11,7 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
+import { CreateProductDto } from '../dto/create-product.dto';
 
 @Controller({
   path: 'products',
@@ -19,30 +20,40 @@ import {
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
+  @UseGuards(JwtAuthGuard)
   @Get()
-  getAllProducts(): string {
-    return 'Get All Products';
+  findAll(
+    @Query('search') productName: string,
+    @Query('page') page: number,
+    @Query('limit') limit: number
+  ) {
+    return this.productsService.findAllProducts({ page, limit, productName });
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get(':id')
-  getProduct(@Param('id') id: string): string {
-    return `Get a specific Product with a specific id ${id}`;
+  findOne(@Param('id') id: string) {
+    return this.productsService.findOneProduct(id);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Post()
-  createProduct(@Body() body: any): string {
-    return 'Post a new product';
+  createProduct(@Body() product: CreateProductDto) {
+    return this.productsService.createProduct(product);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Put(':id')
-  updateProduct(@Param('id') id: string, @Body() body: any): string {
-    return `PUT a specific product ${id}`;
+  updateProduct(@Param('id') id: string, @Body() body: CreateProductDto) {
+    return this.productsService.UpdateProduct(id, body);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Patch(':id')
-  partialUpdateProduct(@Param('id') id: string, @Body() body: any): string {
-    return `PATCH a specific product${id}`;
+  partialUpdate(
+    @Param('id') id: string,
+    @Body() body: Partial<CreateProductDto>
+  ) {
+    return this.productsService.UpdateProduct(id, body);
   }
-
-
 }

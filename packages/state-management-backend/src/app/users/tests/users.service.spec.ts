@@ -1,6 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UsersService } from '../services/users.service';
-import { PrismaService } from '../../database/services/prisma.service';
 import { EntityRepository } from '@mikro-orm/core';
 
 describe('UsersService', () => {
@@ -10,7 +9,6 @@ describe('UsersService', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         UsersService,
-        PrismaService,
         {
           provide: 'UserRepository',
           useClass: EntityRepository,

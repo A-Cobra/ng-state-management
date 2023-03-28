@@ -3,6 +3,7 @@ import { User } from './app/users/entities/user.entity';
 import { Review } from './app/reviews/entities/review.entity';
 import { ConfigService } from '@nestjs/config';
 import { ProductReview } from './app/reviews/entities/product-review.entity';
+import { Product } from './app/products/entities/product.entity';
 
 (async () => {
   const configService = new ConfigService();
@@ -10,7 +11,7 @@ import { ProductReview } from './app/reviews/entities/product-review.entity';
   const orm = await MikroORM.init({
     type: 'postgresql',
     clientUrl: configService.get('DATABASE_URL'),
-    entities: [User, Review,  ProductReview],
+    entities: [User, Review, ProductReview, Product],
     debug: true,
   });
 
