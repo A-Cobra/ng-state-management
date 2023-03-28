@@ -19,8 +19,11 @@ describe('SignUpComponent', () => {
     formBuilder = new FormBuilder();
     titleService = new Title(document);
     signUpService = new SignUpService();
-    router = { navigate: jest.fn() } as any;
-    notificationService = { success: jest.fn(), error: jest.fn() } as any;
+    router = { navigate: jest.fn() } as unknown as Router;
+    notificationService = {
+      success: jest.fn(),
+      error: jest.fn(),
+    } as unknown as NotificationService;
     component = new SignUpComponent(
       formBuilder,
       titleService,
