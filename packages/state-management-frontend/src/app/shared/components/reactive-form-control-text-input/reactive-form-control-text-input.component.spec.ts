@@ -8,7 +8,7 @@ describe('ReactiveFormControlTextInputComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ReactiveFormControlTextInputComponent],
+      imports: [ReactiveFormControlTextInputComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ReactiveFormControlTextInputComponent);
