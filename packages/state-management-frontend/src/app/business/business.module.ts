@@ -21,8 +21,8 @@ import { BusinessEditFormComponent } from './components/business-edit-form/busin
 import { ReactiveFormControlTextInputComponent } from '../shared/components/reactive-form-control-text-input/reactive-form-control-text-input.component';
 import { FullErrorNamePipe } from '../shared/pipes/full-error-name.pipe';
 import { ModalGoBackComponent } from '../shared/components/modal-go-back/modal-go-back.component';
-import { FloatNumberOrNumberRangeDirective } from '../core/directives/float-number-or-number-range.directive';
-import { PhoneNumberDirective } from '../core/directives/phone-number.directive';
+import { FloatNumberOrNumberRangeDirective } from '../shared/directives/float-number-or-number-range.directive';
+import { PhoneNumberDirective } from '../shared/directives/phone-number.directive';
 
 @NgModule({
   declarations: [
