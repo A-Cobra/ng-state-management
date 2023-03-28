@@ -4,4 +4,6 @@ export const fullErrorNameMap: { [key: string]: string } = {
   notFloatNumber: 'The number can have "+", "-", and "." symbols',
   notPhoneNumber: 'This field can contain only numbers',
   namePattern: 'This field can contain only letters and spaces',
+  minlength: 'This field requires a minimum number of characters: ',
+  maxlength: 'This field requires a maximum number of characters: ',
 };

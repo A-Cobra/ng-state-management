@@ -10,8 +10,9 @@ import {
   ClappInputHelpersModule,
 } from '@clapp1/clapp-angular';
 
-// import { ModalGoBackComponent } from './components/modal-go-back/modal-go-back.component';
+import { ModalGoBackComponent } from './components/modal-go-back/modal-go-back.component';
 import { ReactiveFormControlTextInputComponent } from './components/reactive-form-control-text-input/reactive-form-control-text-input.component';
+import { FullErrorNamePipe } from './pipes/full-error-name.pipe';
 
 @NgModule({
   imports: [
@@ -25,11 +26,14 @@ import { ReactiveFormControlTextInputComponent } from './components/reactive-for
     PhoneNumberDirective,
     FloatNumberOrNumberRangeDirective,
     ReactiveFormControlTextInputComponent,
+    FullErrorNamePipe,
+    ModalGoBackComponent,
   ],
   exports: [
     PhoneNumberDirective,
     FloatNumberOrNumberRangeDirective,
     ReactiveFormControlTextInputComponent,
+    FullErrorNamePipe,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

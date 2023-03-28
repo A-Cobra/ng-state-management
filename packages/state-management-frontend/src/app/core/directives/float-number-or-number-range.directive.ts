@@ -1,12 +1,14 @@
-import { AfterViewInit, Directive, HostListener, Input } from '@angular/core';
+import { Directive, HostListener, Input } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 
 @Directive({
   selector: '[stateManagementAppFloatNumberOrNumberRange]',
 })
-export class FloatNumberOrNumberRangeDirective implements AfterViewInit {
+export class FloatNumberOrNumberRangeDirective {
   @Input()
-  range!: number;
+  maxValue!: number;
+  @Input()
+  minValue!: number;
   @Input()
   reactiveFormControl!: AbstractControl;
   spaceRegex = /\s+/g;
@@ -15,9 +17,6 @@ export class FloatNumberOrNumberRangeDirective implements AfterViewInit {
   dotRegex = /\./g;
   undesiredCharactersRegex = /[^0-9.+-]/g;
 
-  ngAfterViewInit(): void {
-    this.range = Math.abs(this.range) ?? null;
-  }
   @HostListener('input', ['$event'])
   onKeyDown(event: KeyboardEvent) {
     const inputTarget = event.target as HTMLInputElement;
@@ -57,13 +56,28 @@ export class FloatNumberOrNumberRangeDirective implements AfterViewInit {
   }
 
   verifyRange(inputValue: string): string {
-    if (!this.range) return inputValue;
+    // if no ranges were specified
     let formattedString = inputValue;
     const currentInputNumber = parseFloat(inputValue);
-    if (currentInputNumber >= 0 && currentInputNumber >= this.range) {
-      formattedString = `${this.range}`;
-    } else if (currentInputNumber < 0 && currentInputNumber <= -this.range) {
-      formattedString = `-${this.range}`;
+    if (!this.minValue && !this.maxValue) return inputValue;
+    // if just the min value was specified
+    else if (this.minValue && !this.maxValue) {
+      if (currentInputNumber < this.minValue) {
+        formattedString = `${this.minValue}`;
+      }
+    }
+    // if just the max value was specified
+    else if (!this.minValue && this.maxValue) {
+      if (currentInputNumber > this.maxValue) {
+        formattedString = `${this.maxValue}`;
+      }
+    } else {
+      // if both exist
+      if (currentInputNumber <= this.minValue) {
+        formattedString = `${this.minValue}`;
+      } else if (currentInputNumber >= this.maxValue) {
+        formattedString = `${this.maxValue}`;
+      }
     }
     return formattedString;
   }

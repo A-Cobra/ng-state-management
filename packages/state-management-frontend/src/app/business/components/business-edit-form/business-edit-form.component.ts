@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { ModalService } from '@clapp1/clapp-angular';
+import { ModalGoBackComponent } from '../../../core/components/modal-go-back/modal-go-back.component';
 import { CustomFormValidations } from '../../../core/utils/custom-form-validations';
 import { FormEditPayload } from '../../models/form-edit-payload.interface';
 import { ModalInvalidFormComponent } from '../modal-invalid-form/modal-invalid-form.component';
@@ -53,7 +54,11 @@ export class BusinessEditFormComponent implements OnInit {
     businessClassification: ['', [Validators.required]],
     contactPhoneNumber: [
       '',
-      [Validators.required, CustomFormValidations.phoneNumber],
+      [
+        Validators.required,
+        CustomFormValidations.phoneNumber,
+        Validators.minLength(10),
+      ],
     ],
     contactEmail: [
       'name@domain.suffix',
@@ -119,6 +124,15 @@ export class BusinessEditFormComponent implements OnInit {
     this.mockClassificationList = [...this.classificationsBackendData];
   }
 
+  onGoBack(): void {
+    this.modalService.open(ModalGoBackComponent, {
+      data: '',
+      width: '400px',
+      height: '190px',
+      disableBackdropClose: false,
+    });
+  }
+
   toggleEditingStatus(): void {
     this.editing = !this.editing;
   }
@@ -144,11 +158,6 @@ export class BusinessEditFormComponent implements OnInit {
         );
     });
   }
-
-  hasError = (controlName: string, errorName: string): boolean => {
-    const control = this.businessFormEdit.get(controlName);
-    return control ? control.hasError(errorName) : false;
-  };
 
   displayClassificationMatches(pattern: string) {
     this.mockClassificationList = this.classificationsBackendData.filter(

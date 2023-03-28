@@ -28,7 +28,6 @@
 
       <state-management-app-reactive-form-control-text-input
         [parentForm]="businessFormEdit"
-        [hasError]="hasError"
         controlName="contactPhoneNumber"
         displayText="Please enter the contact number"
         label="Contact Number"
@@ -38,7 +37,6 @@
 
       <state-management-app-reactive-form-control-text-input
         [parentForm]="businessFormEdit"
-        [hasError]="hasError"
         controlName="contactEmail"
         displayText="Please enter the contact email"
         label="Contact Email"
@@ -48,14 +46,12 @@
     <div class="right-column">
       <state-management-app-reactive-form-control-text-input
         [parentForm]="businessFormEdit"
-        [hasError]="hasError"
         displayText="Please enter the display name"
         label="Display Name"
       ></state-management-app-reactive-form-control-text-input>
 
       <state-management-app-reactive-form-control-text-input
         [parentForm]="businessFormEdit"
-        [hasError]="hasError"
         controlName="businessName"
         displayText="Please enter the business name"
         label="Business Name"
@@ -109,7 +105,6 @@
 
       <state-management-app-reactive-form-control-text-input
         [parentForm]="businessFormEdit"
-        [hasError]="hasError"
         controlName="contactAddress"
         displayText="Please enter the contact address"
         label="Contact Address"
@@ -118,24 +113,24 @@
       <div class="coordinates">
         <state-management-app-reactive-form-control-text-input
           [parentForm]="businessFormEdit"
-          [hasError]="hasError"
           controlName="longitude"
           displayText="Please enter the longitude"
           label="Longitude"
-          stateManagementAppNumberRange
+          stateManagementAppFloatNumberOrNumberRange
           [reactiveFormControl]="businessFormEdit.controls['longitude']"
-          [range]="-180.0"
+          [maxValue]="180"
+          [minValue]="-180"
         ></state-management-app-reactive-form-control-text-input>
 
         <state-management-app-reactive-form-control-text-input
           [parentForm]="businessFormEdit"
-          [hasError]="hasError"
           controlName="latitude"
           displayText="Please enter the latitude"
           label="Latitude"
-          stateManagementAppNumberRange
+          stateManagementAppFloatNumberOrNumberRange
           [reactiveFormControl]="businessFormEdit.controls['latitude']"
-          [range]="90.0"
+          [maxValue]="90"
+          [minValue]="-90"
         ></state-management-app-reactive-form-control-text-input>
       </div>
     </div>
@@ -143,9 +138,12 @@
 
   <div class="buttons">
     <div class="buttons__left">
-      <clapp-button color="tertiary" size="small" type="button">
-        Go back
-      </clapp-button>
+      <clapp-button
+        color="secondary"
+        plusIcon="ri-arrow-left-s-line"
+        (click)="onGoBack()"
+        >Go back</clapp-button
+      >
     </div>
     <div class="buttons__right" *ngIf="businessData">
       <clapp-button
@@ -154,6 +152,7 @@
         color="tertiary-white"
         size="small"
         type="button"
+        plusIcon="ri-edit-2-fill"
       >
         Edit
       </clapp-button>
@@ -163,21 +162,22 @@
           color="secondary"
           size="small"
           type="button"
+          plusIcon="ri-save-line"
           [disabled]="businessFormEdit.invalid"
         >
           Save
         </clapp-button>
       </ng-template>
-      <clapp-button color="primary" size="small" type="button">
+      <clapp-button
+        color="primary"
+        size="small"
+        type="button"
+        plusIcon="ri-delete-bin-2-fill"
+      >
         Delete
       </clapp-button>
     </div>
   </div>
 </div>
-
-<pre>
-  <h1>Errors</h1>
-  {{ businessFormEdit.get('displayName')?.errors | json }}
-</pre>
 
 <pre>{{ businessFormEdit.value | json }}</pre>
