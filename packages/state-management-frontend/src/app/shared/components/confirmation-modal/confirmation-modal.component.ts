@@ -29,7 +29,6 @@ export class ConfirmationModalComponent {
   }
 
   onModalConfirmation(): void {
-    /* eslint-disable  @typescript-eslint/no-non-null-assertion */
     this.modalRef.close(true);
   }
 }
