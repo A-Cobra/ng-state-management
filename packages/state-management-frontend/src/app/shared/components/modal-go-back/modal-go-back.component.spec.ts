@@ -15,7 +15,7 @@ describe('ModalSureToLeaveComponent', () => {
       close: jest.fn(),
     };
     await TestBed.configureTestingModule({
-      declarations: [ModalGoBackComponent],
+      imports: [ModalGoBackComponent],
       providers: [
         {
           provide: ModalService,

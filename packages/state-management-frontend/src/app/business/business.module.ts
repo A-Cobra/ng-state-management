@@ -21,6 +21,7 @@ import { BusinessEditFormComponent } from './components/business-edit-form/busin
 import { CoreModule } from '../core/core.module';
 import { ReactiveFormControlTextInputComponent } from '../shared/components/reactive-form-control-text-input/reactive-form-control-text-input.component';
 import { FullErrorNamePipe } from '../shared/pipes/full-error-name.pipe';
+import { ModalGoBackComponent } from '../shared/components/modal-go-back/modal-go-back.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { FullErrorNamePipe } from '../shared/pipes/full-error-name.pipe';
     CoreModule,
     // Standalone Components
     ReactiveFormControlTextInputComponent,
+    ModalGoBackComponent,
     FullErrorNamePipe,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

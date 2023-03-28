@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { ModalService } from '@clapp1/clapp-angular';
-import { ModalGoBackComponent } from '../../../core/components/modal-go-back/modal-go-back.component';
+import { ModalGoBackComponent } from '../../../shared/components/modal-go-back/modal-go-back.component';
 import { CustomFormValidations } from '../../../core/utils/custom-form-validations';
 import { FormEditPayload } from '../../models/form-edit-payload.interface';
 import { ModalInvalidFormComponent } from '../modal-invalid-form/modal-invalid-form.component';
