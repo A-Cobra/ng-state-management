@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { NotificationService } from '@clapp1/clapp-angular';
 import { UserI } from '../../interfaces/user.interface';
 import { SignUpService } from '../../services/sign-up.service';
-import { notEmpty } from '../../validators/notEmpty.validator';
+import { notEmpty } from '../../validators/not-empty.validator';
 
 @Component({
   selector: 'state-management-app-sign-up',
