@@ -4,7 +4,7 @@ import { SignUpComponent } from './components/sign-up/sign-up.component';
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'signup',
     component: SignUpComponent,
   },
 ];
@@ -13,4 +13,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class SignUpRoutingModule {}
+export class AuthRoutingModule {}

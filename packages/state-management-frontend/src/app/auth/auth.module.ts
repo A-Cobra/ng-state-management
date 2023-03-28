@@ -10,15 +10,16 @@ import {
   ClappTextInputModule,
 } from '@clapp1/clapp-angular';
 import { LoaderComponent } from '../shared/components/loader/loader.component';
+import { AuthRoutingModule } from './auth-routing.module';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { SignUpService } from './services/sign-up.service';
-import { SignUpRoutingModule } from './sign-up-routing.module';
 
 @NgModule({
   declarations: [SignUpComponent],
   imports: [
     CommonModule,
-    SignUpRoutingModule,
+    AuthRoutingModule,
+    CommonModule,
     ClappCardModule,
     ClappTextInputModule,
     ClappButtonModule,
@@ -26,7 +27,8 @@ import { SignUpRoutingModule } from './sign-up-routing.module';
     ClappInputHelpersModule,
     LoaderComponent,
     ClappNotificationModule,
+    AuthRoutingModule,
   ],
   providers: [SignUpService],
 })
-export class SignUpModule {}
+export class AuthModule {}

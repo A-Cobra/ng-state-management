@@ -13,9 +13,8 @@ const routes: Routes = [
       import('./branches/branches.module').then((m) => m.BranchesModule),
   },
   {
-    path: 'signup',
-    loadChildren: () =>
-      import('./sign-up/sign-up.module').then((m) => m.SignUpModule),
+    path: '',
+    loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
   },
 ];
 
