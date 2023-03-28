@@ -129,7 +129,7 @@
                 label="Confirm Password"
                 type="password"
                 formControlName="confirmPassword"
-                [error]="confirmPassword!.invalid && confirmPassword!.touched"
+                [error]="confirmPassword!.invalid && !confirmPassword!.pristine"
               ></clapp-text-input>
               <clapp-helper-text
                 *ngIf="confirmPassword?.errors?.['required'] && confirmPassword!.touched"
@@ -138,7 +138,7 @@
                 Confirm password is required.
               </clapp-helper-text>
               <clapp-helper-text
-                *ngIf="confirmPassword?.errors?.['passwordMismatch'] && confirmPassword!.touched"
+                *ngIf="confirmPassword?.errors?.['passwordMismatch'] && !confirmPassword!.pristine"
                 [textState]="'error'"
               >
                 The passwords do not match.

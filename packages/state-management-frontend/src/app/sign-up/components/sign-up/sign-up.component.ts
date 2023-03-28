@@ -6,6 +6,7 @@ import { NotificationService } from '@clapp1/clapp-angular';
 import { User } from '../../interfaces/user.interface';
 import { SignUpService } from '../../services/sign-up.service';
 import { notEmpty } from '../../validators/not-empty.validator';
+import { passwordMatch } from '../../validators/password-match.validator';
 
 @Component({
   selector: 'state-management-app-sign-up',
@@ -42,7 +43,7 @@ export class SignUpComponent implements OnInit {
           ),
         ],
       ],
-      confirmPassword: ['', Validators.required],
+      confirmPassword: ['', [Validators.required], [passwordMatch]],
     });
   }
 
@@ -75,13 +76,6 @@ export class SignUpComponent implements OnInit {
   }
 
   onSubmit(): void {
-    if (this.password?.value !== this.confirmPassword?.value) {
-      this.confirmPassword?.setErrors({ passwordMismatch: true });
-      return;
-    } else {
-      this.confirmPassword?.setErrors(null);
-    }
-
     const user: User = {
       name: this.firstName?.value.trim(),
       lastName: this.lastName?.value.trim(),
@@ -93,21 +87,22 @@ export class SignUpComponent implements OnInit {
 
     this.loading = true;
 
-    this.signUpService.signUp(user).subscribe((success) => {
-      if (success) {
+    this.signUpService.signUp(user).subscribe({
+      next: () => {
         this.loading = false;
         this.notification.success(
           'User created succesfully, try login in.',
           'Success!'
         );
         this.router.navigate(['/login']);
-      } else {
+      },
+      error: () => {
         this.loading = false;
         this.notification.error(
           'There was an error when creating the user.',
           'Unexpected error'
         );
-      }
+      },
     });
   }
 }
