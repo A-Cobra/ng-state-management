@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { EntityRepository } from '@mikro-orm/core';
+import { EntityRepository, Loaded } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { Product } from '../entities/product.entity';
 import { CreateProductDto } from '../dto/create-product.dto';
@@ -17,7 +17,7 @@ export class ProductsService {
     limit,
     productName,
   }): Promise<PaginatedData<Product>> {
-    let products;
+    let products: [Loaded<Product, never>[], number];
     if (productName) {
       products = await this.productRepository.findAndCount(
         { productName: { $ilike: `%${productName}%` } },
