@@ -1,0 +1,15 @@
+<clapp-card>
+  <clapp-card-content>
+    <img
+      height="228"
+      [src]="branch.image ?? 'assets/img/placeholder-image.png'"
+      [alt]="branch.name"
+    />
+  </clapp-card-content>
+  <clapp-card-header>
+    <h5>{{ branch.name }}</h5>
+  </clapp-card-header>
+  <clapp-card-footer>
+    <p>{{ branch.openingTime }} - {{ branch.closeTime }}</p>
+  </clapp-card-footer>
+</clapp-card>
