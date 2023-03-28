@@ -5,6 +5,6 @@ import { UserI } from '../interfaces/user.interface';
 @Injectable()
 export class SignUpService {
   signUp(user: UserI): Observable<boolean> {
-    return of(false).pipe(delay(5000));
+    return of(false).pipe(delay(1500));
   }
 }
