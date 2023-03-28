@@ -11,6 +11,7 @@ import { ConfirmationMessage } from '../../models/confirmation-message.model';
 @Component({
   standalone: true,
   imports: [CommonModule, ModalModule, ClappButtonModule],
+
   selector: 'state-management-app-confirmation-modal',
   templateUrl: './confirmation-modal.component.html',
   styleUrls: ['./confirmation-modal.component.scss'],
