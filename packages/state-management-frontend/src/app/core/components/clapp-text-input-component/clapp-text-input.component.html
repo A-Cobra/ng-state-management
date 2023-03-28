@@ -3,15 +3,18 @@
     [formControlName]="controlName"
     [error]="
       (false || !!parentForm.controls[controlName].errors) &&
-      parentForm.controls[controlName].touched
+      (parentForm.controls[controlName].touched ||
+        parentForm.controls[controlName].dirty)
     "
     [success]="
       (false || !parentForm.controls[controlName].errors) &&
-      parentForm.controls[controlName].touched
+      (parentForm.controls[controlName].touched ||
+        parentForm.controls[controlName].dirty)
     "
     label="{{ label }}"
-    [maxLength]="maxLength ? maxLength : 1000"
-    type="{{ !inputType ? 'text' : inputType }}"
+    [maxLength]="maxLength"
+    type="{{ inputType }}"
+    id="{{ elementId }}"
   ></clapp-text-input>
   <!-- Information Text  -->
   <clapp-helper-text

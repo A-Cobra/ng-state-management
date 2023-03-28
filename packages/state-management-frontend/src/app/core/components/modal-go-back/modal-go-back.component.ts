@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 import { Location } from '@angular/common';
 import { ModalService } from '@clapp1/clapp-angular';
 
@@ -10,11 +10,14 @@ import { ModalService } from '@clapp1/clapp-angular';
 export class ModalGoBackComponent {
   constructor(private location: Location, private modalService: ModalService) {}
 
+  @Output() goBack: EventEmitter<string> = new EventEmitter();
+
   handleCancel(): void {
     this.modalService.close();
   }
 
   handleGoBack(): void {
-    this.location.back();
+    // this.location.back();
+    this.goBack.emit('back');
   }
 }

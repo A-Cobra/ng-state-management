@@ -8,6 +8,7 @@
           <state-management-app-clapp-text-input-component
             [parentForm]="createForm"
             controlName="name"
+            elementId="nameId"
             label="Name*"
             displayText="Please enter the business name"
             patternMessage="Only common characters allowed"
@@ -17,6 +18,7 @@
           <state-management-app-clapp-text-input-component
             [parentForm]="createForm"
             controlName="email"
+            elementId="emailId"
             label="Email*"
             displayText="Please enter an email"
             patternMessage="Email format is required"
@@ -26,6 +28,7 @@
           <state-management-app-clapp-text-input-component
             [parentForm]="createForm"
             controlName="password"
+            elementId="passwordId"
             label="Password*"
             displayText="Please enter an initial password"
             patternMessage="8 char min, at least 1 capital letter, 1 number and 1 symbol"
@@ -65,175 +68,76 @@
         </div>
         <h4>Contact</h4>
         <div class="createForm__input-container">
-          <clapp-text-input
-            #addressRef
-            formControlName="address"
-            [error]="
-              false || createForm.controls['address'].hasError('required')
-            "
-            [success]="
-              false || !createForm.controls['address'].hasError('required')
-            "
-            id="addressId"
+          <state-management-app-clapp-text-input-component
+            [parentForm]="createForm"
+            controlName="address"
+            elementId="addressId"
             label="Address*"
+            displayText="Please enter the address"
+            patternMessage=""
+            inputType="text"
             [maxLength]="100"
-            name="address"
-            type="text"
-          ></clapp-text-input>
-          <clapp-helper-text
-            *ngIf="createForm.controls['address'].errors"
-            [textState]="
-              createForm.controls['address'].disabled ? 'disabled' : 'error'
-            "
-            >This field is required
-          </clapp-helper-text>
+          ></state-management-app-clapp-text-input-component>
         </div>
         <div class="createForm__input-container-double">
           <div class="individual-input">
-            <clapp-text-input
-              #longitudeRef
-              formControlName="longitude"
-              [error]="
-                false ||
-                createForm.controls['longitude'].hasError('required') ||
-                createForm.controls['longitude'].hasError('pattern')
-              "
-              [success]="
-                false ||
-                !createForm.controls['longitude'].hasError('required') ||
-                !createForm.controls['longitude'].hasError('pattern')
-              "
-              id="longitudeId"
+            <state-management-app-clapp-text-input-component
+              [parentForm]="createForm"
+              controlName="longitude"
+              elementId="longitudeId"
               label="Longitude*"
-              [maxLength]="10"
-              name="longitude"
-              type="text"
-            ></clapp-text-input>
-            <clapp-helper-text
-              *ngIf="createForm.controls['longitude'].errors"
-              [textState]="
-                createForm.controls['longitude'].disabled ? 'disabled' : 'error'
-              "
-            >
-              {{
-                createForm.controls['longitude'].hasError('required')
-                  ? 'This field is required'
-                  : 'Only longitude format'
-              }}
-            </clapp-helper-text>
+              displayText="Please enter longitude"
+              patternMessage="Only longitude format"
+              inputType="text"
+              [maxLength]="9"
+            ></state-management-app-clapp-text-input-component>
           </div>
           <div class="individual-input">
-            <clapp-text-input
-              #latitudeRef
-              formControlName="latitude"
-              [error]="
-                false ||
-                createForm.controls['latitude'].hasError('required') ||
-                createForm.controls['latitude'].hasError('pattern')
-              "
-              [success]="
-                false ||
-                !createForm.controls['latitude'].hasError('required') ||
-                !createForm.controls['latitude'].hasError('pattern')
-              "
-              id="latitudeId"
+            <state-management-app-clapp-text-input-component
+              [parentForm]="createForm"
+              controlName="latitude"
+              elementId="latitudeId"
               label="Latitude*"
-              [maxLength]="10"
-              name="latitude"
-              type="text"
-            ></clapp-text-input>
-            <clapp-helper-text
-              *ngIf="createForm.controls['latitude'].errors"
-              [textState]="
-                createForm.controls['latitude'].disabled ? 'disabled' : 'error'
-              "
-            >
-              {{
-                createForm.controls['latitude'].hasError('required')
-                  ? 'This field is required'
-                  : 'Only latitude format'
-              }}
-            </clapp-helper-text>
+              displayText="Please enter latitude"
+              patternMessage="Only latitude format"
+              inputType="text"
+              [maxLength]="9"
+            ></state-management-app-clapp-text-input-component>
           </div>
         </div>
         <div class="createForm__input-container">
-          <clapp-text-input
-            #contactRef
-            formControlName="contact"
-            [error]="
-              false ||
-              createForm.controls['contact'].hasError('required') ||
-              createForm.controls['contact'].hasError('pattern')
-            "
-            [success]="
-              false ||
-              !createForm.controls['contact'].hasError('required') ||
-              !createForm.controls['contact'].hasError('pattern')
-            "
-            id="contactId"
+          <state-management-app-clapp-text-input-component
+            [parentForm]="createForm"
+            controlName="contact"
+            elementId="concatId"
             label="Contact number*"
-            [maxLength]="30"
-            name="contact"
-            type="text"
-          ></clapp-text-input>
-          <clapp-helper-text
-            *ngIf="createForm.controls['contact'].errors"
-            [textState]="
-              createForm.controls['contact'].disabled ? 'disabled' : 'error'
-            "
-          >
-            {{
-              createForm.controls['contact'].hasError('required')
-                ? 'This field is required'
-                : 'Only numbers allowed'
-            }}
-          </clapp-helper-text>
+            displayText="Please enter latitude"
+            patternMessage="Only numbers allowed"
+            inputType="text"
+            [maxLength]="15"
+          ></state-management-app-clapp-text-input-component>
         </div>
       </div>
       <div class="createForm__form-section-container">
         <h4>Add picture</h4>
         <div class="createForm__picture-input-container">
-          <clapp-text-input
-            #pictureRef
-            formControlName="picture"
-            [error]="
-              false ||
-              createForm.controls['picture'].hasError('required') ||
-              createForm.controls['picture'].hasError('pattern')
-            "
-            [success]="
-              false ||
-              !createForm.controls['picture'].hasError('required') ||
-              !createForm.controls['picture'].hasError('pattern')
-            "
-            id="pictureId"
+          <state-management-app-clapp-text-input-component
+            [parentForm]="createForm"
+            controlName="picture"
+            elementId="pictureId"
             label="Picture"
-            name="picture"
-            type="text"
-          ></clapp-text-input>
-          <clapp-helper-text
-            *ngIf="createForm.controls['picture'].errors"
-            [textState]="
-              createForm.controls['picture'].disabled &&
-              !createForm.controls['picture'].hasError('pattern')
-                ? 'disabled'
-                : 'error'
-            "
-          >
-            {{
-              createForm.controls['picture'].hasError('required')
-                ? 'This field is required'
-                : 'Only URL with a ".jpg" extension allowed'
-            }}
-          </clapp-helper-text>
+            displayText='Please enter ".jpg" extension URL address'
+            patternMessage='Only URL address with a ".jpg" extension allowed'
+            inputType="text"
+          ></state-management-app-clapp-text-input-component>
         </div>
         <div class="createForm__picture-container">
           <div>
             <clapp-image-display
               [src]="
-                pictureRef.value &&
+                createForm.controls['picture'].value &&
                 !createForm.controls['picture'].hasError('pattern')
-                  ? pictureRef.value
+                  ? createForm.controls['picture'].value
                   : 'assets/templateImage.png'
               "
               type="avatar"
@@ -244,60 +148,28 @@
         </div>
         <h4>Payment Information</h4>
         <div class="createForm__input-container">
-          <clapp-text-input
-            #bankAccountNumberRef
-            formControlName="bankAccountNumber"
-            [error]="
-              false ||
-              createForm.controls['bankAccountNumber'].hasError('required') ||
-              createForm.controls['bankAccountNumber'].hasError('pattern')
-            "
-            [success]="
-              false ||
-              !createForm.controls['bankAccountNumber'].hasError('required') ||
-              !createForm.controls['bankAccountNumber'].hasError('pattern')
-            "
-            id="bankAccountNumberId"
-            label="Bank account number*"
+          <state-management-app-clapp-text-input-component
+            [parentForm]="createForm"
+            controlName="bankAccountNumber"
+            elementId="bankAccountNumberId"
+            label="Bank account number"
+            displayText=""
+            patternMessage="Only numbers or common characters allowed"
+            inputType="text"
             [maxLength]="20"
-            name="bankAccountNumber"
-            type="text"
-          ></clapp-text-input>
-          <clapp-helper-text
-            *ngIf="createForm.controls['bankAccountNumber'].errors"
-            [textState]="
-              createForm.controls['bankAccountNumber'].disabled
-                ? 'disabled'
-                : 'error'
-            "
-          >
-            {{
-              createForm.controls['bankAccountNumber'].hasError('required')
-                ? 'This field is required'
-                : 'Only numbers or common characters allowed'
-            }}
-          </clapp-helper-text>
+          ></state-management-app-clapp-text-input-component>
         </div>
         <div class="createForm__input-container-optional">
-          <clapp-text-input
-            #bankNameRef
-            formControlName="bankName"
-            [error]="
-              false ||
-              createForm.controls['bankName'].hasError('required') ||
-              createForm.controls['bankName'].hasError('pattern')
-            "
-            [success]="
-              false ||
-              !createForm.controls['bankName'].hasError('required') ||
-              !createForm.controls['bankName'].hasError('pattern')
-            "
-            id="bankNameId"
+          <state-management-app-clapp-text-input-component
+            [parentForm]="createForm"
+            controlName="bankName"
+            elementId="bankNameId"
             label="Bank name"
+            displayText=""
+            patternMessage="Only numbers or common characters allowed"
+            inputType="text"
             [maxLength]="20"
-            name="bankName"
-            type="text"
-          ></clapp-text-input>
+          ></state-management-app-clapp-text-input-component>
         </div>
         <div class="createForm__select-container-optional">
           <clapp-select
@@ -321,70 +193,28 @@
           </clapp-select>
         </div>
         <div class="createForm__input-container">
-          <clapp-text-input
-            #fullnameRef
-            formControlName="fullname"
-            [error]="
-              false ||
-              createForm.controls['fullname'].hasError('required') ||
-              createForm.controls['fullname'].hasError('pattern')
-            "
-            [success]="
-              false ||
-              !createForm.controls['fullname'].hasError('required') ||
-              !createForm.controls['fullname'].hasError('pattern')
-            "
-            id="fullnameId"
+          <state-management-app-clapp-text-input-component
+            [parentForm]="createForm"
+            controlName="fullname"
+            elementId="fullnameId"
             label="Fullname*"
+            displayText=""
+            patternMessage="Only common characters allowed"
+            inputType="text"
             [maxLength]="50"
-            name="fullname"
-            type="text"
-          ></clapp-text-input>
-          <clapp-helper-text
-            *ngIf="createForm.controls['fullname'].errors"
-            [textState]="
-              createForm.controls['fullname'].disabled ? 'disabled' : 'error'
-            "
-          >
-            {{
-              createForm.controls['fullname'].hasError('required')
-                ? 'This field is required'
-                : 'Only common characters allowed'
-            }}
-          </clapp-helper-text>
+          ></state-management-app-clapp-text-input-component>
         </div>
         <div class="createForm__input-container">
-          <clapp-text-input
-            #documentIdRef
-            formControlName="documentId"
-            [error]="
-              false ||
-              createForm.controls['documentId'].hasError('required') ||
-              createForm.controls['documentId'].hasError('pattern')
-            "
-            [success]="
-              false ||
-              !createForm.controls['documentId'].hasError('required') ||
-              !createForm.controls['documentId'].hasError('pattern')
-            "
-            id="documentIdId"
+          <state-management-app-clapp-text-input-component
+            [parentForm]="createForm"
+            controlName="documentId"
+            elementId="documentIdId"
             label="Document ID*"
+            displayText=""
+            patternMessage="Only numbers allowed"
+            inputType="text"
             [maxLength]="50"
-            name="documentId"
-            type="text"
-          ></clapp-text-input>
-          <clapp-helper-text
-            *ngIf="createForm.controls['documentId'].errors"
-            [textState]="
-              createForm.controls['documentId'].disabled ? 'disabled' : 'error'
-            "
-          >
-            {{
-              createForm.controls['documentId'].hasError('required')
-                ? 'This field is required'
-                : 'Only numbers allowed'
-            }}
-          </clapp-helper-text>
+          ></state-management-app-clapp-text-input-component>
         </div>
         <div class="createForm__buttons-container">
           <clapp-button
@@ -401,9 +231,8 @@
             Create</clapp-button
           >
         </div>
-        <!--<pre>IS INVALID? {{ createForm.invalid | json }}</pre>-->
-        <pre>FORM: {{ createForm.value | json }}</pre>
-
+        <!--<pre>IS INVALID? {{ createForm.invalid | json }}</pre>
+        <pre>FORM: {{ createForm.value | json }}</pre>-->
         >
       </div>
     </form>

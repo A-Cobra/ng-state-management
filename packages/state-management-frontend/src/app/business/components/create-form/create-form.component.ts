@@ -15,7 +15,6 @@ export class CreateFormComponent implements OnInit {
   title = 'state-management-frontend-business-create';
   constructor(private fb: FormBuilder, private modalService: ModalService) {}
 
-  form!: FormGroup;
   createForm!: FormGroup;
 
   classifications = [
@@ -113,54 +112,16 @@ export class CreateFormComponent implements OnInit {
       fullname: ['', [Validators.required]],
       documentId: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
     });
+  }
 
-    // this.form = this.fb.group<FormCreateMainGroup>({
-    //   nameEmailPassword: this.fb.nonNullable.group({
-    //     name: ['', [Validators.required, Validators.maxLength(25)]],
-    //     representativeName: [
-    //       '',
-    //       [Validators.required, Validators.maxLength(25)],
-    //     ],
-    //     email: [
-    //       '',
-    //       [
-    //         Validators.required,
-    //         Validators.pattern(
-    //           '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,3}$'
-    //         ),
-    //       ],
-    //     ],
-    //     password: [
-    //       '',
-    //       [
-    //         Validators.required,
-    //         Validators.pattern(
-    //           '^(?=.*[A-Z])(?=.*d)(?=.*[!@#$%^&*()_+])[A-Za-zd!@#$%^&*()_+]{8,}$'
-    //         ),
-    //       ],
-    //     ],
-    //   }),
-    //   classification: this.fb.nonNullable.group({
-    //     classification: ['', [Validators.required]],
-    //   }),
-    //   addressCoordinatesContact: this.fb.nonNullable.group({
-    //     address: ['', [Validators.required]],
-    //     longitude: ['', [Validators.required, Validators.pattern('^[0-9 ]+$')]],
-    //     latitude: ['', [Validators.required, Validators.pattern('^[0-9 ]+$')]],
-    //     contact: ['', [Validators.required, Validators.pattern('^[0-9 ]+$')]],
-    //   }),
-    //   optionalFields: this.fb.group({
-    //     picture: ['', Validators.pattern('^(https://[^"]*?.jpg)$')],
-    //     bankAccountNumber: ['', Validators.pattern('^[0-9]{8,20}$')],
-    //     bankName: '',
-    //     bankAccountType: 'Account Type',
-    //     fullname: '',
-    //     documentId: 'Document ID',
-    //   }),
-    // });
+  clearEnableForm() {
+    this.createForm.enable();
+    this.createForm.reset();
   }
   handleSubmit() {
+    this.createForm.disable();
     alert('SUBMIT');
+    this.clearEnableForm();
   }
   handleCancel() {
     this.modalService.open(ModalGoBackComponent, {

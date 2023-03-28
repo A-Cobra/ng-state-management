@@ -12,13 +12,15 @@ export class ClappTextInputComponent {
   @Input()
   controlName: string;
   @Input()
+  elementId: string;
+  @Input()
   label: string;
   @Input()
   displayText: string;
   @Input()
   patternMessage: string;
   @Input()
-  inputType: string;
+  inputType = 'text';
   @Input()
-  maxLength: number;
+  maxLength = 1000;
 }
