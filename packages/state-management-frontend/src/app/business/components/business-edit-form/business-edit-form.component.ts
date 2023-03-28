@@ -54,11 +54,7 @@ export class BusinessEditFormComponent implements OnInit {
     businessClassification: ['', [Validators.required]],
     contactPhoneNumber: [
       '',
-      [
-        Validators.required,
-        CustomFormValidations.phoneNumber,
-        Validators.minLength(10),
-      ],
+      [Validators.required, CustomFormValidations.phoneNumber],
     ],
     contactEmail: [
       'name@domain.suffix',

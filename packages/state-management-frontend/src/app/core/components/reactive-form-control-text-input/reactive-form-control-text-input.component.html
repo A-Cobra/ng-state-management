@@ -43,7 +43,10 @@
         parentForm.controls[controlName].disabled ? 'disabled' : 'error'
       "
     >
-      {{ parentForm.controls[controlName].errors | fullErrorName }}
+      {{
+        parentForm.controls[controlName].errors
+          | fullErrorName : minLength : maxLength
+      }}
     </clapp-helper-text>
   </div>
 </div>
