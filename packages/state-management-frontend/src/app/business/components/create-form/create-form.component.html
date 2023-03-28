@@ -1,7 +1,7 @@
 <ng-container *ngIf="loader">
   <state-management-app-loader> </state-management-app-loader
 ></ng-container>
-<div class="createForm" *ngIf="!loader">
+<div *ngIf="!loader" class="createForm" (ngSubmit)="onSubmit()">
   <h3>Create Business</h3>
   <div>
     <form [formGroup]="createForm">
@@ -40,24 +40,25 @@
           ></state-management-app-clapp-text-input-component>
         </div>
         <div class="createForm__select-container">
-          <clapp-select
-            formControlName="classification"
-            label="Options Label"
-            [disabled]="false"
-            [displayLabel]="true"
-            label="Classification*"
-            inputName="classificationId"
-            placeholder="Select Option"
-            [pagination]="false"
-            [hasFilter]="false"
-          >
-            <clapp-select-option
-              #dropdown
-              *ngFor="let classification of classifications"
-              [key]="classification.name"
-              [value]="classification.name"
-            ></clapp-select-option>
-          </clapp-select>
+          <ng-container *ngIf="classification$ | async as classifications">
+            <clapp-select
+              formControlName="classification"
+              label="Options Label"
+              [disabled]="false"
+              [displayLabel]="true"
+              label="Classification*"
+              inputName="classificationId"
+              placeholder="Select Option"
+              [pagination]="false"
+              [hasFilter]="false"
+            >
+              <clapp-select-option
+                #dropdown
+                *ngFor="let classification of classifications"
+                [key]="classification.name"
+                [value]="classification.name"
+              ></clapp-select-option> </clapp-select
+          ></ng-container>
           <clapp-helper-text
             *ngIf="createForm.controls['classification'].errors"
             [textState]="
@@ -223,20 +224,18 @@
           <clapp-button
             color="secondary"
             plusIcon="ri-arrow-left-s-line"
-            (click)="handleCancel()"
+            (click)="handleGoBack()"
             >Go back</clapp-button
           >
           <clapp-button
             plusIcon="ri-add-fill"
             [disabled]="createForm.invalid"
-            (click)="handleSubmit()"
+            (click)="onSubmit()"
           >
             Create</clapp-button
           >
         </div>
-        <pre>IS INVALID? {{ createForm.invalid | json }}</pre>
-        <pre>FORM: {{ createForm.value | json }}</pre>
-        >
+        <!-- <pre>FORM: {{ createForm.value | json }}</pre> -->
       </div>
     </form>
   </div>

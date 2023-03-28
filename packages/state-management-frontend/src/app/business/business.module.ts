@@ -2,7 +2,6 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BusinessRoutingModule } from './business-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
-import { CoreModule } from '../core/core.module';
 
 import {
   ClappButtonModule,
@@ -20,6 +19,7 @@ import {
 import { BusinessListComponent } from './components/business-list/business-list.component';
 import { BusinessCardComponent } from './components/business-card/business-card.component';
 import { CreateFormComponent } from './components/create-form/create-form.component';
+import { ClappTextInputComponent } from './components/create-form-child/clapp-text-input-component/clapp-text-input.component';
 import { LoaderComponent } from '../shared/components/loader/loader.component';
 import { ConfirmationModalComponent } from '../shared/components/confirmation-modal/confirmation-modal.component';
 
@@ -28,11 +28,11 @@ import { ConfirmationModalComponent } from '../shared/components/confirmation-mo
     BusinessListComponent,
     BusinessCardComponent,
     CreateFormComponent,
+    ClappTextInputComponent,
   ],
   imports: [
     CommonModule,
     BusinessRoutingModule,
-    CoreModule,
     ClappButtonModule,
     ClappSearchModule,
     ClappPaginationModule,
