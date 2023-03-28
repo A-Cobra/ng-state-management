@@ -122,8 +122,9 @@
           controlName="longitude"
           displayText="Please enter the longitude"
           label="Longitude"
-          stateManagementAppFloatNumber
+          stateManagementAppNumberRange
           [reactiveFormControl]="businessFormEdit.controls['longitude']"
+          [range]="-180.0"
         ></state-management-app-reactive-form-control-text-input>
 
         <state-management-app-reactive-form-control-text-input
@@ -132,8 +133,9 @@
           controlName="latitude"
           displayText="Please enter the latitude"
           label="Latitude"
-          stateManagementAppFloatNumber
+          stateManagementAppNumberRange
           [reactiveFormControl]="businessFormEdit.controls['latitude']"
+          [range]="90.0"
         ></state-management-app-reactive-form-control-text-input>
       </div>
     </div>

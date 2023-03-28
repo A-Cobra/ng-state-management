@@ -1,10 +1,12 @@
-import { Directive, HostListener, Input } from '@angular/core';
+import { AfterViewInit, Directive, HostListener, Input } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 
 @Directive({
-  selector: '[stateManagementAppFloatNumber]',
+  selector: '[stateManagementAppFloatNumberOrNumberRange]',
 })
-export class FloatNumberDirective {
+export class FloatNumberOrNumberRangeDirective implements AfterViewInit {
+  @Input()
+  range!: number;
   @Input()
   reactiveFormControl!: AbstractControl;
   spaceRegex = /\s+/g;
@@ -13,6 +15,9 @@ export class FloatNumberDirective {
   dotRegex = /\./g;
   undesiredCharactersRegex = /[^0-9.+-]/g;
 
+  ngAfterViewInit(): void {
+    this.range = Math.abs(this.range) ?? null;
+  }
   @HostListener('input', ['$event'])
   onKeyDown(event: KeyboardEvent) {
     const inputTarget = event.target as HTMLInputElement;
@@ -20,6 +25,7 @@ export class FloatNumberDirective {
     inputValue = this.onlyInitialOperator(inputValue);
     inputValue = this.onlyOneDot(inputValue);
     inputValue = this.removeUndesiredCharacters(inputValue);
+    inputValue = this.verifyRange(inputValue);
     this.reactiveFormControl.setValue(inputValue);
   }
 
@@ -48,5 +54,17 @@ export class FloatNumberDirective {
 
   removeUndesiredCharacters(inputValue: string): string {
     return inputValue.replace(this.undesiredCharactersRegex, '');
+  }
+
+  verifyRange(inputValue: string): string {
+    if (!this.range) return inputValue;
+    let formattedString = inputValue;
+    const currentInputNumber = parseFloat(inputValue);
+    if (currentInputNumber >= 0 && currentInputNumber >= this.range) {
+      formattedString = `${this.range}`;
+    } else if (currentInputNumber < 0 && currentInputNumber <= -this.range) {
+      formattedString = `-${this.range}`;
+    }
+    return formattedString;
   }
 }

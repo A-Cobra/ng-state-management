@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
-import { FloatNumberDirective } from './directives/float-number.directive';
 import { PhoneNumberDirective } from './directives/phone-number.directive';
+import { FloatNumberOrNumberRangeDirective } from './directives/float-number-or-number-range.directive';
 
 @NgModule({
   imports: [],
-  declarations: [PhoneNumberDirective, FloatNumberDirective],
-  exports: [PhoneNumberDirective, FloatNumberDirective],
+  declarations: [PhoneNumberDirective, FloatNumberOrNumberRangeDirective],
+  exports: [PhoneNumberDirective, FloatNumberOrNumberRangeDirective],
 })
 export class CoreModule {}
