@@ -1,32 +1,17 @@
-import { FormControl, FormGroup } from '@angular/forms';
-
-interface NameEmailPasswordGroup {
-  name: FormControl<string>;
-  representativeName: FormControl<string>;
-  email: FormControl<string>;
-  password: FormControl<string>;
-}
-interface ClassificationGroup {
-  classification: FormControl<string>;
-}
-interface AddressCoordinatesContactGroup {
-  address: FormControl<string>;
-  longitude: FormControl<string>;
-  latitude: FormControl<string>;
-  contact: FormControl<string>;
-}
-interface OptionalFieldsGroup {
+import { FormControl } from '@angular/forms';
+export interface FormCreateGroup {
+  name: FormControl<string | null>;
+  email: FormControl<string | null>;
+  password: FormControl<string | null>;
+  classification: FormControl<string | null>;
+  address: FormControl<string | null>;
+  longitude: FormControl<string | null>;
+  latitude: FormControl<string | null>;
+  contact: FormControl<string | null>;
   picture: FormControl<string | null>;
   bankAccountNumber: FormControl<string | null>;
   bankName: FormControl<string | null>;
   bankAccountType: FormControl<string | null>;
   fullname: FormControl<string | null>;
   documentId: FormControl<string | null>;
-}
-
-export interface FormCreateMainGroup {
-  nameEmailPassword: FormGroup<NameEmailPasswordGroup>;
-  classification: FormGroup<ClassificationGroup>;
-  addressCoordinatesContact: FormGroup<AddressCoordinatesContactGroup>;
-  optionalFields: FormGroup<OptionalFieldsGroup>;
 }

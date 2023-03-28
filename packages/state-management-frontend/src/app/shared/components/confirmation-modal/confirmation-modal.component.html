@@ -1,0 +1,23 @@
+<clapp-modal-header [title]="data.title"></clapp-modal-header>
+<clapp-modal-content>{{ data.message }}</clapp-modal-content>
+<clapp-modal-footer>
+  <clapp-button
+    color="primary"
+    size="small"
+    [disabled]="false"
+    type="button"
+    (click)="onModalConfirmation()"
+  >
+    {{ data.confirmButtonLabel }}
+  </clapp-button>
+
+  <clapp-button
+    color="secondary"
+    size="small"
+    [disabled]="false"
+    type="button"
+    (click)="onNoClick()"
+  >
+    {{ data.cancelButtonLabel }}
+  </clapp-button>
+</clapp-modal-footer>

@@ -1,10 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { FormCreateMainGroup } from '../../models/create-form.interface';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
+import { FormCreateGroup } from '../../models/create-form.interface';
 
-import { ModalService } from '@clapp1/clapp-angular';
+import { ModalService, NotificationService } from '@clapp1/clapp-angular';
+import { ConfirmationModalComponent } from '../../../shared/components/confirmation-modal/confirmation-modal.component';
 import { ModalGoBackComponent } from '../../../core/components/modal-go-back/modal-go-back.component';
+
+import { CLASSIFICATIONS } from '../../data/classifications';
+import { Classification } from '../../models/classification.interface';
+import { BANK_ACCOUNT_TYPES } from '../../data/bank-account-types';
+import { BankAccountType } from '../../models/bank-account-type.interface';
 
 @Component({
   selector: 'state-management-app-business-create',
@@ -12,105 +23,70 @@ import { ModalGoBackComponent } from '../../../core/components/modal-go-back/mod
   styleUrls: ['./create-form.component.scss'],
 })
 export class CreateFormComponent implements OnInit {
-  title = 'state-management-frontend-business-create';
-  constructor(private fb: FormBuilder, private modalService: ModalService) {}
+  constructor(
+    private fb: FormBuilder,
+    private readonly notificationService: NotificationService,
+    private readonly modalService: ModalService
+  ) {}
 
   createForm!: FormGroup;
-
-  classifications = [
-    { key: '1', name: 'Burger' },
-    { key: '2', name: 'Pasta' },
-    { key: '3', name: 'Salad' },
-  ];
-
-  bankAccountTypes = [
-    {
-      key: '1',
-      name: 'Checking account',
-      description: 'unlimited access to the money without earning interest',
-    },
-    {
-      key: '2',
-      name: 'Savings account',
-      description: 'No constant access to the money but with nominal interest',
-    },
-    {
-      key: '3',
-      name: 'Money market account',
-      description:
-        'Blend between a checking and savings account, with access to the money once per month',
-    },
-    {
-      key: '4',
-      name: 'Certificate of deposit (CD)',
-      description: 'A secure way to invest the money for a set period of time',
-    },
-    {
-      key: '5',
-      name: 'Individual retirement arrangement (IRA)',
-      description:
-        'A tax-deductible or tax-deferred way to invest the money for retirement',
-    },
-    {
-      key: '6',
-      name: 'Brokerage account',
-      description:
-        'Invest the money without penalization for taking it out before the age of 59½',
-    },
-  ];
+  classifications: Classification[] = CLASSIFICATIONS;
+  bankAccountTypes: BankAccountType[] = BANK_ACCOUNT_TYPES;
+  loader = false;
 
   ngOnInit(): void {
     this.setUpForm();
   }
 
   setUpForm(): void {
-    this.createForm = this.fb.group({
-      name: ['', [Validators.required, Validators.pattern('^[a-zA-ZñÑ ]+$')]],
-      email: [
+    this.createForm = this.fb.group<FormCreateGroup>({
+      name: new FormControl('', [
+        Validators.required,
+        Validators.pattern('^[a-zA-ZñÑ ]+$'),
+      ]),
+      email: new FormControl('', [
+        Validators.required,
+        Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,3}$'),
+      ]),
+      password: new FormControl('', [
+        Validators.required,
+        Validators.pattern(
+          '^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_+])[A-Za-z0-9!@#$%^&*()_+]{8,}$'
+        ),
+      ]),
+      classification: new FormControl('', [Validators.required]),
+      address: new FormControl('', [Validators.required]),
+      longitude: new FormControl('', [
+        Validators.required,
+        Validators.pattern(
+          '^(\\+|-)?(?:180(?:(?:\\.0{1,6})?)|(?:[0-9]|[1-9][0-9]|1[0-7][0-9])(?:(?:\\.[0-9]{1,6})?))$'
+        ),
+      ]),
+      latitude: new FormControl('', [
+        Validators.required,
+        Validators.pattern(
+          '^(\\+|-)?(?:90(?:(?:\\.0{1,6})?)|(?:[0-9]|[1-8][0-9])(?:(?:\\.[0-9]{1,6})?))$'
+        ),
+      ]),
+      contact: new FormControl('', [
+        Validators.required,
+        Validators.pattern('^[0-9]+$'),
+      ]),
+      picture: new FormControl(
         '',
-        [
-          Validators.required,
-          Validators.pattern(
-            '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,3}$'
-          ),
-        ],
-      ],
-      password: [
+        Validators.pattern('^(https://[^"]*?.jpg)$')
+      ),
+      bankAccountNumber: new FormControl(
         '',
-        [
-          Validators.required,
-          Validators.pattern(
-            '^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_+])[A-Za-z0-9!@#$%^&*()_+]{8,}$'
-          ),
-        ],
-      ],
-      classification: ['', [Validators.required]],
-      address: ['', [Validators.required]],
-      longitude: [
-        '',
-        [
-          Validators.required,
-          Validators.pattern(
-            '^(\\+|-)?(?:180(?:(?:\\.0{1,6})?)|(?:[0-9]|[1-9][0-9]|1[0-7][0-9])(?:(?:\\.[0-9]{1,6})?))$'
-          ),
-        ],
-      ],
-      latitude: [
-        '',
-        [
-          Validators.required,
-          Validators.pattern(
-            '^(\\+|-)?(?:90(?:(?:\\.0{1,6})?)|(?:[0-9]|[1-8][0-9])(?:(?:\\.[0-9]{1,6})?))$'
-          ),
-        ],
-      ],
-      contact: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
-      picture: ['', Validators.pattern('^(https://[^"]*?.jpg)$')],
-      bankAccountNumber: ['', Validators.pattern('^[a-zA-Z0-9]+$')],
-      bankName: '',
-      bankAccountType: '',
-      fullname: ['', [Validators.required]],
-      documentId: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
+        Validators.pattern('^[a-zA-Z0-9]+$')
+      ),
+      bankName: new FormControl(''),
+      bankAccountType: new FormControl(''),
+      fullname: new FormControl('', [Validators.required]),
+      documentId: new FormControl('', [
+        Validators.required,
+        Validators.pattern('^[0-9]+$'),
+      ]),
     });
   }
 
@@ -120,7 +96,10 @@ export class CreateFormComponent implements OnInit {
   }
   handleSubmit() {
     this.createForm.disable();
-    alert('SUBMIT');
+    this.notificationService.success(
+      'Business created successfully',
+      'Success!'
+    );
     this.clearEnableForm();
   }
   handleCancel() {
@@ -131,4 +110,8 @@ export class CreateFormComponent implements OnInit {
       disableBackdropClose: false,
     });
   }
+  // ngOnDestroy(): void {
+  //   this.unsubscribe$.next();
+  //   this.unsubscribe$.complete();
+  // }
 }
