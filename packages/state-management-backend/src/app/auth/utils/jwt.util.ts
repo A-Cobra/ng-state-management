@@ -17,7 +17,7 @@ export async function signToken(user: User): Promise<string> {
 
 export async function validateCode(
   hash: string,
-  rawCode: string,
+  rawCode: string
 ): Promise<boolean> {
   const codeCorrect = await argon.verify(hash, rawCode);
 
@@ -31,4 +31,3 @@ export async function validateCode(
 export async function hashData(data: string): Promise<string> {
   return argon.hash(data);
 }
-
