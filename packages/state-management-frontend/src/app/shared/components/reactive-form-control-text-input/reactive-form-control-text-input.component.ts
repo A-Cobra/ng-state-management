@@ -1,10 +1,25 @@
-import { Component, Input } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, Input } from '@angular/core';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import {
+  ClappInputHelpersModule,
+  ClappTextInputModule,
+} from '@clapp1/clapp-angular';
+import { FullErrorNamePipe } from '../../pipes/full-error-name.pipe';
 
 @Component({
   selector: 'state-management-app-reactive-form-control-text-input',
   templateUrl: './reactive-form-control-text-input.component.html',
   styleUrls: ['./reactive-form-control-text-input.component.scss'],
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    ClappTextInputModule,
+    ClappInputHelpersModule,
+    FullErrorNamePipe,
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class ReactiveFormControlTextInputComponent {
   @Input()

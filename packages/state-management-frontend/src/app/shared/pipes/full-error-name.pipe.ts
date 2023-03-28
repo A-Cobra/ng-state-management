@@ -1,8 +1,9 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { ValidationErrors } from '@angular/forms';
-import { fullErrorNameMap } from '../utils/full-error-name.map';
+import { fullErrorNameMap } from '../../core/utils/full-error-name.map';
 @Pipe({
   name: 'fullErrorName',
+  standalone: true,
 })
 export class FullErrorNamePipe implements PipeTransform {
   transform(

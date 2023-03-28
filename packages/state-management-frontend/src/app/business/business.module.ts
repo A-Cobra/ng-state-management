@@ -19,6 +19,8 @@ import {
 import { ModalInvalidFormComponent } from './components/modal-invalid-form/modal-invalid-form.component';
 import { BusinessEditFormComponent } from './components/business-edit-form/business-edit-form.component';
 import { CoreModule } from '../core/core.module';
+import { ReactiveFormControlTextInputComponent } from '../shared/components/reactive-form-control-text-input/reactive-form-control-text-input.component';
+import { FullErrorNamePipe } from '../shared/pipes/full-error-name.pipe';
 
 @NgModule({
   declarations: [
@@ -42,6 +44,9 @@ import { CoreModule } from '../core/core.module';
     ClappImageDisplayModule,
     ModalModule,
     CoreModule,
+    // Standalone Components
+    ReactiveFormControlTextInputComponent,
+    FullErrorNamePipe,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
