@@ -3,7 +3,7 @@ import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { NotificationService } from '@clapp1/clapp-angular';
 import { of } from 'rxjs';
-import { UserI } from '../../interfaces/user.interface';
+import { User } from '../../interfaces/user.interface';
 import { SignUpService } from '../../services/sign-up.service';
 import { SignUpComponent } from './sign-up.component';
 
@@ -75,7 +75,7 @@ describe('SignUpComponent', () => {
     });
 
     it('should call signUpService with user details and navigate to login page on success', () => {
-      const user: UserI = {
+      const user: User = {
         name: 'John',
         lastName: 'Doe',
         username: 'johndoe',
@@ -101,7 +101,7 @@ describe('SignUpComponent', () => {
     });
 
     it('should not navigate on failure', () => {
-      const user: UserI = {
+      const user: User = {
         name: 'John',
         lastName: 'Doe',
         username: 'johndoe',

@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { NotificationService } from '@clapp1/clapp-angular';
-import { UserI } from '../../interfaces/user.interface';
+import { User } from '../../interfaces/user.interface';
 import { SignUpService } from '../../services/sign-up.service';
 import { notEmpty } from '../../validators/not-empty.validator';
 
@@ -82,7 +82,7 @@ export class SignUpComponent implements OnInit {
       this.confirmPassword?.setErrors(null);
     }
 
-    const user: UserI = {
+    const user: User = {
       name: this.firstName?.value.trim(),
       lastName: this.lastName?.value.trim(),
       username: this.userName?.value.trim(),
