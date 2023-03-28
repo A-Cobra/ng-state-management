@@ -1,5 +1,4 @@
-import { IsDate, IsEmail, IsString } from 'class-validator';
-import { Business_HQ } from '../../business/entities/business.entity';
+import { IsEmail, IsString } from 'class-validator';
 
 export class CreateBranchDto {
   @IsString()
