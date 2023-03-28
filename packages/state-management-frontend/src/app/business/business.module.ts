@@ -18,10 +18,11 @@ import {
 } from '@clapp1/clapp-angular';
 import { ModalInvalidFormComponent } from './components/modal-invalid-form/modal-invalid-form.component';
 import { BusinessEditFormComponent } from './components/business-edit-form/business-edit-form.component';
-import { CoreModule } from '../core/core.module';
 import { ReactiveFormControlTextInputComponent } from '../shared/components/reactive-form-control-text-input/reactive-form-control-text-input.component';
 import { FullErrorNamePipe } from '../shared/pipes/full-error-name.pipe';
 import { ModalGoBackComponent } from '../shared/components/modal-go-back/modal-go-back.component';
+import { FloatNumberOrNumberRangeDirective } from '../core/directives/float-number-or-number-range.directive';
+import { PhoneNumberDirective } from '../core/directives/phone-number.directive';
 
 @NgModule({
   declarations: [
@@ -44,11 +45,12 @@ import { ModalGoBackComponent } from '../shared/components/modal-go-back/modal-g
     ClappSelectModule,
     ClappImageDisplayModule,
     ModalModule,
-    CoreModule,
     // Standalone Components
     ReactiveFormControlTextInputComponent,
     ModalGoBackComponent,
     FullErrorNamePipe,
+    FloatNumberOrNumberRangeDirective,
+    PhoneNumberDirective,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

@@ -3,6 +3,7 @@ import { AbstractControl } from '@angular/forms';
 
 @Directive({
   selector: '[stateManagementAppFloatNumberOrNumberRange]',
+  standalone: true,
 })
 export class FloatNumberOrNumberRangeDirective {
   @Input()

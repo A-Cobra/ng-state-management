@@ -3,6 +3,7 @@ import { AbstractControl } from '@angular/forms';
 
 @Directive({
   selector: '[stateManagementAppPhoneNumber]',
+  standalone: true,
 })
 export class PhoneNumberDirective {
   @Input()
