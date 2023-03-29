@@ -1,0 +1,11 @@
+.customer {
+  display: flex;
+  gap: 1rem;
+
+  &__information {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.3rem;
+  }
+}

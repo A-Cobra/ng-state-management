@@ -1,0 +1,33 @@
+<div class="action-buttons">
+  <!-- TODO: Redirect to previous page -->
+  <clapp-button color="secondary" plusIcon="ri-arrow-left-s-line">
+    Go back
+  </clapp-button>
+  <clapp-search
+    [formControl]="searchCustomerControl"
+    placeholder="Search branch by name"
+  />
+  <div class="spacer"></div>
+</div>
+
+<ng-container *ngIf="customers$ | async as customers">
+  <ng-container *ngIf="totalRecords; else noResults">
+    <div class="customers">
+      <state-management-app-customer-card
+        *ngFor="let customer of customers"
+        [customer]="customer"
+      />
+    </div>
+
+    <clapp-pagination
+      *ngIf="totalRecords > pageSize"
+      [totalRecords]="totalRecords"
+      [pageSize]="pageSize"
+      (pageChange)="changePage($event)"
+    />
+  </ng-container>
+
+  <ng-template #noResults>
+    <clapp-no-results-found customText="Sorry, we couldn't find any branch." />
+  </ng-template>
+</ng-container>

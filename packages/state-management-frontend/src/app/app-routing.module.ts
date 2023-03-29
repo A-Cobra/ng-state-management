@@ -12,6 +12,11 @@ const routes: Routes = [
     loadChildren: () =>
       import('./branches/branches.module').then((m) => m.BranchesModule),
   },
+  {
+    path: 'customers',
+    loadChildren: () =>
+      import('./customers/customers.module').then((m) => m.CustomersModule),
+  },
 ];
 
 @NgModule({
