@@ -113,9 +113,9 @@ export class CreateFormComponent implements OnInit, OnDestroy {
           this.createForm.reset();
       },
       error: () =>
-        this.notificationService.success(
-          'Business created successfully',
-          'Success!'
+        this.notificationService.error(
+          'Error creating new business, please try again later',
+          'Error! '
         ),
     });
     this.loader = false;
@@ -125,18 +125,18 @@ export class CreateFormComponent implements OnInit, OnDestroy {
     const modalRef = this.modalService.open(ConfirmationModalComponent, {
       data: {
         title: 'Create business',
-        message: 'Are you sure to leave without saving changes?',
-        confirmButtonLabel: 'Yes',
-        cancelButtonLabel: 'Cancel',
+        message: 'Are you sure you want to leave? Changes have not been saved',
+        confirmButtonLabel: 'LEAVE',
+        cancelButtonLabel: 'CANCEL',
       },
-      width: '300px',
+      width: 'fit-content',
       height: 'fit-content',
     });
     modalRef.afterClosed.subscribe((result) => {
       this.loader = true;
       this.goBackConfirmed = result as boolean;
       if (this.goBackConfirmed) {
-        this.router.navigate(['/businesses']);
+        this.router.navigate(['/businesses']); //to businesses profile
       } else {
         this.loader = false;
       }

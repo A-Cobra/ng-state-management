@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { CreateFormComponent } from './create-form.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
+import { BusinessService } from '../../services/business.service';
 import {
   ClappButtonModule,
   ClappTextInputModule,
@@ -26,6 +27,7 @@ describe('CreateFormComponent', () => {
         ClappNotificationModule,
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      providers: [BusinessService],
       declarations: [CreateFormComponent],
     }).compileComponents();
   });

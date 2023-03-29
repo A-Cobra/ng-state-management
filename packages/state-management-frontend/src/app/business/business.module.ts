@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { BusinessRoutingModule } from './business-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
 
+import { BusinessService } from './services/business.service';
 import {
   ClappButtonModule,
   ClappSearchModule,
@@ -47,6 +48,7 @@ import { ConfirmationModalComponent } from '../shared/components/confirmation-mo
     LoaderComponent,
     ConfirmationModalComponent,
   ],
+  providers: [BusinessService],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class BusinessModule {}
