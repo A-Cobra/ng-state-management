@@ -1,0 +1,23 @@
+<form [formGroup]="profileForm">
+  <clapp-text-input
+    #firstNameRef
+    formControlName="firstName"
+    autocomplete=""
+    [error]="false || profileForm.controls['firstName'].hasError('required')"
+    [success]="false"
+    id="firstNameInput"
+    [maxLength]="1000"
+    name="textInputName"
+    placeholder="Placeholder"
+    type="text"
+  ></clapp-text-input>
+
+  <clapp-helper-text
+    *ngIf="!firstNameRef.error && !firstNameRef.success"
+    [textState]="
+      profileForm.controls['firstName'].disabled ? 'disabled' : 'default'
+    "
+  >
+    Default Helper Text
+  </clapp-helper-text>
+</form>
