@@ -1,10 +1,17 @@
-import { Collection, Entity, ManyToMany, OneToOne, PrimaryKey, Property } from "@mikro-orm/core";
+import {
+  Collection,
+  Entity,
+  ManyToMany,
+  OneToOne,
+  PrimaryKey,
+  Property,
+} from '@mikro-orm/core';
 import { v4 } from 'uuid';
-import { User } from "../../users/entities/user.entity";
-import { BusinessClassification } from "./business-classification.entity";
+import { User } from '../../users/entities/user.entity';
+import { BusinessClassification } from './business-classification.entity';
 
 @Entity()
-export class BusinessHq extends User{
+export class BusinessHq extends User {
   @PrimaryKey()
   businessId: string = v4();
 
@@ -14,7 +21,7 @@ export class BusinessHq extends User{
   @Property()
   businessPicture: string;
 
-  @Property()
+  @Property({ nullable: true })
   rating?: number;
 
   @Property()
@@ -32,12 +39,13 @@ export class BusinessHq extends User{
   @Property()
   contactAddress: string;
 
-  @Property()
+  @Property({ default: false })
   approvedRegistration?: boolean;
 
-  @Property()
+  @Property({ default: false })
   deleted?: boolean;
 
   @ManyToMany(() => BusinessClassification)
-  classifications?: Collection<BusinessClassification> = new Collection<BusinessClassification>(this);
+  classifications?: Collection<BusinessClassification> =
+    new Collection<BusinessClassification>(this);
 }
