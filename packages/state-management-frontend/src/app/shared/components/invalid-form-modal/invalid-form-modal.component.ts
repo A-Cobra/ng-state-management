@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { ModalService } from '@clapp1/clapp-angular';
+import { ClappButtonModule, ModalService } from '@clapp1/clapp-angular';
 
 @Component({
-  selector: 'state-management-app-modal-invalid-form',
-  styleUrls: ['./modal-invalid-form.component.scss'],
+  selector: 'state-management-app-invalid-form-modal',
+  styleUrls: ['./invalid-form-modal.component.scss'],
   template: `
     <div class="modal">
       <h2>Invalid Form</h2>
@@ -21,8 +21,10 @@ import { ModalService } from '@clapp1/clapp-angular';
       </clapp-button>
     </div>
   `,
+  standalone: true,
+  imports: [ClappButtonModule],
 })
-export class ModalInvalidFormComponent {
+export class InvalidFormModalComponent {
   constructor(private modalService: ModalService) {}
 
   onConfirmClick() {

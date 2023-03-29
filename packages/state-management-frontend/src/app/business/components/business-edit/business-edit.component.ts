@@ -20,14 +20,14 @@ export class BusinessEditComponent implements OnInit {
   businessData = defaultBusinessData;
   mockBackendData = defaultBusinessClassificationBackendData;
 
-  private regexPattern = /^[0-9]+$/;
+  private numberRegexPattern = /^[0-9]+$/;
 
   constructor(private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.route.params.subscribe((urlData: Params) => {
       const urlIdSting = urlData?.['id'];
-      if (!urlIdSting.match(this.regexPattern)) {
+      if (!urlIdSting.match(this.numberRegexPattern)) {
         this.queryError = true;
         return;
       }

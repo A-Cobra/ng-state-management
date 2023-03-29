@@ -16,21 +16,19 @@ import {
   ClappImageDisplayModule,
   ModalModule,
 } from '@clapp1/clapp-angular';
-import { ModalInvalidFormComponent } from './components/modal-invalid-form/modal-invalid-form.component';
 import { BusinessEditFormComponent } from './components/business-edit-form/business-edit-form.component';
 import { ReactiveFormControlTextInputComponent } from '../shared/components/reactive-form-control-text-input/reactive-form-control-text-input.component';
 import { FullErrorNamePipe } from '../shared/pipes/full-error-name.pipe';
 import { FloatNumberOrNumberRangeDirective } from '../shared/directives/float-number-or-number-range.directive';
 import { PhoneNumberDirective } from '../shared/directives/phone-number.directive';
-import { GoBackModalComponent } from '../shared/components/go-back-modal/go-back-modal.component';
 import { ConfirmationModalComponent } from '../shared/components/confirmation-modal/confirmation-modal.component';
+import { InvalidFormModalComponent } from '../shared/components/invalid-form-modal/invalid-form-modal.component';
 
 @NgModule({
   declarations: [
     BusinessEditComponent,
     BusinessListComponent,
     BusinessCardComponent,
-    ModalInvalidFormComponent,
     BusinessEditFormComponent,
   ],
   imports: [
@@ -48,11 +46,11 @@ import { ConfirmationModalComponent } from '../shared/components/confirmation-mo
     ModalModule,
     // Standalone Components
     ReactiveFormControlTextInputComponent,
-    GoBackModalComponent,
     ConfirmationModalComponent,
     FullErrorNamePipe,
     FloatNumberOrNumberRangeDirective,
     PhoneNumberDirective,
+    InvalidFormModalComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

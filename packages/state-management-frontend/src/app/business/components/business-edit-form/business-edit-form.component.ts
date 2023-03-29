@@ -8,10 +8,9 @@ import {
 } from '@angular/core';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { ModalService } from '@clapp1/clapp-angular';
-import { GoBackModalComponent } from '../../../shared/components/go-back-modal/go-back-modal.component';
 import { CustomFormValidations } from '../../../core/utils/custom-form-validations';
 import { FormEditPayload } from '../../models/form-edit-payload.interface';
-import { ModalInvalidFormComponent } from '../modal-invalid-form/modal-invalid-form.component';
+import { InvalidFormModalComponent } from '../../../shared/components/invalid-form-modal/invalid-form-modal.component';
 import { ConfirmationModalComponent } from '../../../shared/components/confirmation-modal/confirmation-modal.component';
 import { Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
@@ -106,7 +105,7 @@ export class BusinessEditFormComponent implements OnInit, OnDestroy {
 
   onSaveClick(): void {
     if (this.businessFormEdit.invalid) {
-      this.modalService.open(ModalInvalidFormComponent, {
+      this.modalService.open(InvalidFormModalComponent, {
         width: '420px',
         height: '250px',
       });
@@ -137,11 +136,11 @@ export class BusinessEditFormComponent implements OnInit, OnDestroy {
     this.mockClassificationList = [...this.classificationsBackendData];
   }
 
-  onGoBack(): void {
+  onGoToBusinessesList(): void {
     const modalRef = this.modalService.open(ConfirmationModalComponent, {
       data: {
         title: 'Delete business',
-        message: 'Are you sure you want to go back to the business list?',
+        message: 'Are you sure you want to go to the businesses list?',
         affirmativeButtonLabel: 'Yes',
         negativeButtonLabel: 'No',
       },
