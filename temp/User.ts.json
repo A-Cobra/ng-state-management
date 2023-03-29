@@ -1,1 +1,214 @@
-{"data":{"propertyOrder":{},"properties":{"user_id":{"name":"user_id","reference":"scalar","primary":true,"type":"string","array":false},"username":{"name":"username","reference":"scalar","getter":false,"setter":false,"type":"string","array":false},"name":{"name":"name","reference":"scalar","getter":false,"setter":false,"type":"string","array":false},"lastname":{"name":"lastname","reference":"scalar","getter":false,"setter":false,"type":"string","array":false},"picture":{"name":"picture","reference":"scalar","getter":false,"setter":false,"type":"string","array":false},"email":{"name":"email","reference":"scalar","getter":false,"setter":false,"type":"string","array":false},"password":{"name":"password","reference":"scalar","getter":false,"setter":false,"type":"string","array":false},"isLoggedIn":{"name":"isLoggedIn","reference":"scalar","getter":false,"setter":false,"type":"boolean","array":false},"contact_number":{"name":"contact_number","reference":"scalar","getter":false,"setter":false,"type":"string","array":false},"role":{"name":"role","reference":"m:1","cascade":["persist"],"type":"Role","owner":true,"array":false},"refreshToken":{"name":"refreshToken","reference":"scalar","getter":false,"setter":false,"type":"string","array":false,"optional":true}},"props":[{"name":"user_id","reference":"scalar","primary":true,"type":"string","array":false},{"name":"username","reference":"scalar","getter":false,"setter":false,"type":"string","array":false},{"name":"name","reference":"scalar","getter":false,"setter":false,"type":"string","array":false},{"name":"lastname","reference":"scalar","getter":false,"setter":false,"type":"string","array":false},{"name":"picture","reference":"scalar","getter":false,"setter":false,"type":"string","array":false},{"name":"email","reference":"scalar","getter":false,"setter":false,"type":"string","array":false},{"name":"password","reference":"scalar","getter":false,"setter":false,"type":"string","array":false},{"name":"isLoggedIn","reference":"scalar","getter":false,"setter":false,"type":"boolean","array":false},{"name":"contact_number","reference":"scalar","getter":false,"setter":false,"type":"string","array":false},{"name":"role","reference":"m:1","cascade":["persist"],"type":"Role","owner":true,"array":false},{"name":"refreshToken","reference":"scalar","getter":false,"setter":false,"type":"string","array":false,"optional":true}],"primaryKeys":["user_id"],"filters":{},"hooks":{},"indexes":[],"uniques":[],"checks":[],"concurrencyCheckKeys":{},"className":"User","path":"./packages/state-management-backend/src/app/users/entities/user.entity.ts","name":"User","abstract":false,"constructorParams":[],"toJsonParams":[],"useCache":true,"compositePK":false,"relations":[{"name":"role","reference":"m:1","cascade":["persist"],"type":"Role","owner":true,"array":false}],"collection":"user"},"origin":"./packages/state-management-backend/src/app/users/entities/user.entity.ts","hash":"0586071f8b49cdbbfd166ea804aa36b6","version":"5.6.15"}
+{
+  "data": {
+    "propertyOrder": {},
+    "properties": {
+      "user_id": {
+        "name": "user_id",
+        "reference": "scalar",
+        "primary": true,
+        "type": "string",
+        "array": false
+      },
+      "username": {
+        "name": "username",
+        "reference": "scalar",
+        "getter": false,
+        "setter": false,
+        "type": "string",
+        "array": false
+      },
+      "name": {
+        "name": "name",
+        "reference": "scalar",
+        "getter": false,
+        "setter": false,
+        "type": "string",
+        "array": false
+      },
+      "lastname": {
+        "name": "lastname",
+        "reference": "scalar",
+        "getter": false,
+        "setter": false,
+        "type": "string",
+        "array": false
+      },
+      "picture": {
+        "name": "picture",
+        "reference": "scalar",
+        "getter": false,
+        "setter": false,
+        "type": "string",
+        "array": false
+      },
+      "email": {
+        "name": "email",
+        "reference": "scalar",
+        "getter": false,
+        "setter": false,
+        "type": "string",
+        "array": false
+      },
+      "password": {
+        "name": "password",
+        "reference": "scalar",
+        "getter": false,
+        "setter": false,
+        "type": "string",
+        "array": false
+      },
+      "isLoggedIn": {
+        "name": "isLoggedIn",
+        "reference": "scalar",
+        "getter": false,
+        "setter": false,
+        "type": "boolean",
+        "array": false
+      },
+      "contact_number": {
+        "name": "contact_number",
+        "reference": "scalar",
+        "getter": false,
+        "setter": false,
+        "type": "string",
+        "array": false
+      },
+      "role": {
+        "name": "role",
+        "reference": "m:1",
+        "cascade": ["persist"],
+        "type": "Role",
+        "owner": true,
+        "array": false
+      },
+      "refreshToken": {
+        "name": "refreshToken",
+        "reference": "scalar",
+        "getter": false,
+        "setter": false,
+        "type": "string",
+        "array": false,
+        "optional": true
+      }
+    },
+    "props": [
+      {
+        "name": "user_id",
+        "reference": "scalar",
+        "primary": true,
+        "type": "string",
+        "array": false
+      },
+      {
+        "name": "username",
+        "reference": "scalar",
+        "getter": false,
+        "setter": false,
+        "type": "string",
+        "array": false
+      },
+      {
+        "name": "name",
+        "reference": "scalar",
+        "getter": false,
+        "setter": false,
+        "type": "string",
+        "array": false
+      },
+      {
+        "name": "lastname",
+        "reference": "scalar",
+        "getter": false,
+        "setter": false,
+        "type": "string",
+        "array": false
+      },
+      {
+        "name": "picture",
+        "reference": "scalar",
+        "getter": false,
+        "setter": false,
+        "type": "string",
+        "array": false
+      },
+      {
+        "name": "email",
+        "reference": "scalar",
+        "getter": false,
+        "setter": false,
+        "type": "string",
+        "array": false
+      },
+      {
+        "name": "password",
+        "reference": "scalar",
+        "getter": false,
+        "setter": false,
+        "type": "string",
+        "array": false
+      },
+      {
+        "name": "isLoggedIn",
+        "reference": "scalar",
+        "getter": false,
+        "setter": false,
+        "type": "boolean",
+        "array": false
+      },
+      {
+        "name": "contact_number",
+        "reference": "scalar",
+        "getter": false,
+        "setter": false,
+        "type": "string",
+        "array": false
+      },
+      {
+        "name": "role",
+        "reference": "m:1",
+        "cascade": ["persist"],
+        "type": "Role",
+        "owner": true,
+        "array": false
+      },
+      {
+        "name": "refreshToken",
+        "reference": "scalar",
+        "getter": false,
+        "setter": false,
+        "type": "string",
+        "array": false,
+        "optional": true
+      }
+    ],
+    "primaryKeys": ["user_id"],
+    "filters": {},
+    "hooks": {},
+    "indexes": [],
+    "uniques": [],
+    "checks": [],
+    "concurrencyCheckKeys": {},
+    "className": "User",
+    "path": "./packages/state-management-backend/src/app/users/entities/user.entity.ts",
+    "name": "User",
+    "abstract": false,
+    "constructorParams": [],
+    "toJsonParams": [],
+    "useCache": true,
+    "compositePK": false,
+    "relations": [
+      {
+        "name": "role",
+        "reference": "m:1",
+        "cascade": ["persist"],
+        "type": "Role",
+        "owner": true,
+        "array": false
+      }
+    ],
+    "collection": "user"
+  },
+  "origin": "./packages/state-management-backend/src/app/users/entities/user.entity.ts",
+  "hash": "0586071f8b49cdbbfd166ea804aa36b6",
+  "version": "5.6.15"
+}

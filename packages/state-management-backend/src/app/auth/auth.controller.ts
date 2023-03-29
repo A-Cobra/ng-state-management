@@ -44,7 +44,7 @@ export class AuthController {
   async changeRole(
     @GetUser() currentUser: JwtInfo,
     @Param('userId') userId: string,
-    @Param('newRole') newRole: string,
+    @Param('newRole') newRole: string
   ) {
     return this.authService.changeRole(currentUser, userId, newRole);
   }
@@ -56,5 +56,4 @@ export class AuthController {
     const refreshToken = req.user['refreshToken'];
     return this.authService.refreshTokens(userId, refreshToken);
   }
-
 }
