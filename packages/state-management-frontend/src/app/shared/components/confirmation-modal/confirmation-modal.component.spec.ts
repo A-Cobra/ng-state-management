@@ -8,7 +8,7 @@ describe('ConfirmationModalComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ConfirmationModalComponent],
+      imports: [ConfirmationModalComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ConfirmationModalComponent);
