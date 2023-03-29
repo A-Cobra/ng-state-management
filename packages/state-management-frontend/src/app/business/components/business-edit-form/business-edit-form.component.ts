@@ -1,17 +1,27 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { ModalService } from '@clapp1/clapp-angular';
-import { ModalGoBackComponent } from '../../../shared/components/modal-go-back/modal-go-back.component';
+import { GoBackModalComponent } from '../../../shared/components/go-back-modal/go-back-modal.component';
 import { CustomFormValidations } from '../../../core/utils/custom-form-validations';
 import { FormEditPayload } from '../../models/form-edit-payload.interface';
 import { ModalInvalidFormComponent } from '../modal-invalid-form/modal-invalid-form.component';
+import { ConfirmationModalComponent } from '../../../shared/components/confirmation-modal/confirmation-modal.component';
+import { Router } from '@angular/router';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'state-management-app-business-edit-form',
   templateUrl: './business-edit-form.component.html',
   styleUrls: ['./business-edit-form.component.scss'],
 })
-export class BusinessEditFormComponent implements OnInit {
+export class BusinessEditFormComponent implements OnInit, OnDestroy {
   @Input()
   id: number;
 
@@ -45,6 +55,7 @@ export class BusinessEditFormComponent implements OnInit {
 
   editing = false;
   defaultImgUrl = '../../../../assets/template-image.png';
+  terminateAllSubscriptions$ = new Subject<string>();
   businessFormEdit = this.formBuilder.group({
     displayName: ['', [Validators.required, CustomFormValidations.namePattern]],
     businessName: [
@@ -74,10 +85,15 @@ export class BusinessEditFormComponent implements OnInit {
 
   constructor(
     private formBuilder: NonNullableFormBuilder,
-    private modalService: ModalService
+    private readonly modalService: ModalService,
+    private router: Router
   ) {
     this.disableFormControls();
     this.displayClassificationMatches('');
+  }
+  ngOnDestroy(): void {
+    this.terminateAllSubscriptions$.next('');
+    this.terminateAllSubscriptions$.unsubscribe();
   }
   ngOnInit(): void {
     this.fillFormControls();
@@ -112,22 +128,57 @@ export class BusinessEditFormComponent implements OnInit {
     this.formSubmit.emit(payload);
   }
 
-  onWriteValue(keyUp: KeyboardEvent): void {
+  onSearchKeyUp(keyUp: KeyboardEvent): void {
     const inputValue = (keyUp.target as HTMLInputElement).value;
     this.displayClassificationMatches(inputValue.toLowerCase());
   }
 
-  onValueDeleted() {
+  onSearchValueDeleted() {
     this.mockClassificationList = [...this.classificationsBackendData];
   }
 
   onGoBack(): void {
-    this.modalService.open(ModalGoBackComponent, {
-      data: '',
-      width: '400px',
-      height: '190px',
-      disableBackdropClose: false,
+    const modalRef = this.modalService.open(ConfirmationModalComponent, {
+      data: {
+        title: 'Delete business',
+        message: 'Are you sure you want to go back to the business list?',
+        affirmativeButtonLabel: 'Yes',
+        negativeButtonLabel: 'No',
+      },
+      width: '300px',
+      height: 'fit-content',
     });
+    modalRef.afterClosed
+      .pipe(takeUntil(this.terminateAllSubscriptions$))
+      .subscribe((result) => {
+        const confirmation = result as boolean;
+        if (confirmation) {
+          this.router.navigate(['businesses']);
+        }
+      });
+  }
+
+  onDeleteBusiness() {
+    const modalRef = this.modalService.open(ConfirmationModalComponent, {
+      data: {
+        title: 'Delete business',
+        message: `Are you sure you want to delete the '${this.businessData.businessName}' business?`,
+        affirmativeButtonLabel: 'Yes',
+        negativeButtonLabel: 'Cancel',
+      },
+      width: '300px',
+      height: 'fit-content',
+    });
+    modalRef.afterClosed
+      .pipe(takeUntil(this.terminateAllSubscriptions$))
+      .subscribe((result) => {
+        // this.loader = true;
+        const confirmation = result as boolean;
+        if (confirmation) {
+          console.log('Business deleted');
+          // this.businessService.deleteBusiness(this.id);
+        }
+      });
   }
 
   toggleEditingStatus(): void {

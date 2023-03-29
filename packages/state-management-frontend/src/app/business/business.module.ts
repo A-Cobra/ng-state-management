@@ -20,9 +20,10 @@ import { ModalInvalidFormComponent } from './components/modal-invalid-form/modal
 import { BusinessEditFormComponent } from './components/business-edit-form/business-edit-form.component';
 import { ReactiveFormControlTextInputComponent } from '../shared/components/reactive-form-control-text-input/reactive-form-control-text-input.component';
 import { FullErrorNamePipe } from '../shared/pipes/full-error-name.pipe';
-import { ModalGoBackComponent } from '../shared/components/modal-go-back/modal-go-back.component';
 import { FloatNumberOrNumberRangeDirective } from '../shared/directives/float-number-or-number-range.directive';
 import { PhoneNumberDirective } from '../shared/directives/phone-number.directive';
+import { GoBackModalComponent } from '../shared/components/go-back-modal/go-back-modal.component';
+import { ConfirmationModalComponent } from '../shared/components/confirmation-modal/confirmation-modal.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { PhoneNumberDirective } from '../shared/directives/phone-number.directiv
     ModalModule,
     // Standalone Components
     ReactiveFormControlTextInputComponent,
-    ModalGoBackComponent,
+    GoBackModalComponent,
+    ConfirmationModalComponent,
     FullErrorNamePipe,
     FloatNumberOrNumberRangeDirective,
     PhoneNumberDirective,

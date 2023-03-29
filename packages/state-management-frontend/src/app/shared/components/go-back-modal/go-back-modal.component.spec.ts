@@ -2,11 +2,11 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ModalService } from '@clapp1/clapp-angular';
 import { MockModalService } from '../../../business/models/mock-modal-service.interface';
 
-import { ModalGoBackComponent } from './modal-go-back.component';
+import { GoBackModalComponent } from './go-back-modal.component';
 
 describe('ModalSureToLeaveComponent', () => {
-  let component: ModalGoBackComponent;
-  let fixture: ComponentFixture<ModalGoBackComponent>;
+  let component: GoBackModalComponent;
+  let fixture: ComponentFixture<GoBackModalComponent>;
   let mockModalService: MockModalService;
 
   beforeEach(async () => {
@@ -15,7 +15,7 @@ describe('ModalSureToLeaveComponent', () => {
       close: jest.fn(),
     };
     await TestBed.configureTestingModule({
-      imports: [ModalGoBackComponent],
+      imports: [GoBackModalComponent],
       providers: [
         {
           provide: ModalService,
@@ -24,7 +24,7 @@ describe('ModalSureToLeaveComponent', () => {
       ],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ModalGoBackComponent);
+    fixture = TestBed.createComponent(GoBackModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

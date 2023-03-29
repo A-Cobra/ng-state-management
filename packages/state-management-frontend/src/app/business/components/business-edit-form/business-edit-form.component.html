@@ -72,8 +72,8 @@
           [hasFilter]="true"
         >
           <clapp-search
-            (keyup)="onWriteValue($event)"
-            (valueDeleted)="onValueDeleted()"
+            (keyup)="onSearchKeyUp($event)"
+            (valueDeleted)="onSearchValueDeleted()"
             [formControl]="businessFormEdit.controls['businessClassification']"
           ></clapp-search>
           <clapp-select-option
@@ -171,6 +171,7 @@
         </clapp-button>
       </ng-template>
       <clapp-button
+        (click)="onDeleteBusiness()"
         color="primary"
         size="small"
         type="button"
