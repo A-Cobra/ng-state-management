@@ -1,3 +1,4 @@
+import { BranchCreateComponent } from './components/branch-create/branch-create.component';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { Routes } from '@angular/router';
@@ -8,6 +9,14 @@ const routes: Routes = [
   {
     path: '',
     component: BranchesComponent,
+  },
+  {
+    path: 'create',
+    component: BranchCreateComponent,
+  },
+  {
+    path: 'edit/:id',
+    component: BranchCreateComponent,
   },
 ];
 
