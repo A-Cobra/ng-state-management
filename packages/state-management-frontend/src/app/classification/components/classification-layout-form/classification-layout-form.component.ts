@@ -13,14 +13,11 @@ import { Classification } from '../../models/api-response.model';
   styleUrls: ['./classification-layout-form.component.scss'],
 })
 export class ClassificationLayoutFormComponent {
-  formCategory: FormGroup;
+  classificationForm: FormGroup;
   currentStatus: string;
   imgDefault = 'assets/img/placeholder-image.png';
   idClassification: string;
   iconButton: string;
-
-  @Output() dataClassification: EventEmitter<Classification> =
-    new EventEmitter();
 
   @Input() set status(value: string) {
     this.currentStatus = value;
@@ -34,7 +31,7 @@ export class ClassificationLayoutFormComponent {
       if (id) {
         this.idClassification = id;
       }
-      this.formCategory.setValue({
+      this.classificationForm.setValue({
         name: value.name,
         numberOfBusinesses: value.numberOfBusinesses,
         description: value.description,
@@ -43,53 +40,56 @@ export class ClassificationLayoutFormComponent {
     }
   }
 
+  @Output() dataClassification: EventEmitter<Classification> =
+    new EventEmitter();
+
   constructor(private fb: FormBuilder) {
-    this.formCategory = this.fb.group({
+    this.classificationForm = this.fb.group({
       name: ['', Validators.required],
       numberOfBusinesses: [0],
       description: ['', Validators.required],
-      image: [this.imgDefault],
+      image: [''],
     });
   }
 
   get numberOfBusinesses() {
-    return this.formCategory.controls['numberOfBusinesses'];
+    return this.classificationForm.controls['numberOfBusinesses'];
   }
 
   get description(): AbstractControl {
-    return this.formCategory.get('description') as AbstractControl;
+    return this.classificationForm.get('description') as AbstractControl;
   }
 
   get name(): AbstractControl {
-    return this.formCategory.get('name') as AbstractControl;
+    return this.classificationForm.get('name') as AbstractControl;
   }
 
   get image(): AbstractControl {
-    return this.formCategory.get('image') as AbstractControl;
+    return this.classificationForm.get('image') as AbstractControl;
   }
 
-  format(input: string): void {
-    this.formCategory.get('name')?.setValue(input.trim());
+  changeFormatInput(input: string): void {
+    this.classificationForm.get('name')?.setValue(input.trim());
   }
 
-  getUrl(file: File): void {
-    this.formCategory.get('image')?.setValue(file);
+  addToFormControl(file: File): void {
+    this.classificationForm.get('image')?.setValue(file);
   }
 
   getIcon(): string {
     if (this.currentStatus === 'create') return 'ri-add-line';
-    if (this.currentStatus === 'delete') return 'ri-delete-bin-line';
+    if (this.currentStatus === 'detail') return 'ri-delete-bin-line';
     return 'ri-pencil-line';
   }
 
   activateFormByStatus(): void {
     this.numberOfBusinesses.disable();
     if (this.currentStatus === 'detail') {
-      this.formCategory.disable();
+      this.classificationForm.disable();
     }
   }
 
-  getNavigate() {
+  getNavigate(): string[] {
     if (this.currentStatus === 'edit') {
       return ['../../detail', this.idClassification];
     }
@@ -105,13 +105,15 @@ export class ClassificationLayoutFormComponent {
 
     if (this.currentStatus !== 'create') {
       this.dataClassification.emit({
-        ...this.formCategory.value,
+        ...this.classificationForm.value,
         id: this.idClassification,
       });
     } else {
-      console.log(this.formCategory.value);
-      this.dataClassification.emit(this.formCategory.value);
-      this.formCategory.reset();
+      // set value image type string until to know input and output type of API
+      this.image.setValue(JSON.stringify(this.image.value));
+      this.numberOfBusinesses.setValue(0);
+      this.dataClassification.emit(this.classificationForm.value);
+      this.classificationForm.reset();
       this.image.setValue('');
     }
   }

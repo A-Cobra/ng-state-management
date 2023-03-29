@@ -9,4 +9,12 @@ export const CLASSIFICATIONS: Classification[] = [
       'https://peruretail.sfo3.cdn.digitaloceanspaces.com/wp-content/uploads/newFile-4-scaled.jpg',
     id: '123sa',
   },
+  {
+    name: 'classification2',
+    description: 'description2',
+    numberOfBusinesses: 8,
+    image:
+      'https://peruretail.sfo3.cdn.digitaloceanspaces.com/wp-content/uploads/newFile-4-scaled.jpg',
+    id: '456sa',
+  },
 ];

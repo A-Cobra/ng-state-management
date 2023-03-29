@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { Classification } from '../../models/api-response.model';
 import { filter, map, Subject, takeUntil } from 'rxjs';
 import {
@@ -13,7 +13,7 @@ import { ModalService, NotificationService } from '@clapp1/clapp-angular';
 import { ConfirmationModalComponent } from '../../../shared/components/confirmation-modal/confirmation-modal.component';
 
 @Component({
-  selector: 'state-management-app-classification-edit-delete',
+  selector: 'state-management-app-classification-create-edit-delete',
   templateUrl: './classification-create-edit-delete.component.html',
   styleUrls: ['./classification-create-edit-delete.component.scss'],
 })
@@ -26,6 +26,7 @@ export class ClassificationCreateEditDeleteComponent
   loader = false;
   deleteConfirmed: boolean;
   noResult = false;
+  actionNotification: string;
   unsubscribe$: Subject<void> = new Subject<void>();
 
   constructor(
@@ -33,7 +34,8 @@ export class ClassificationCreateEditDeleteComponent
     private readonly classificationService: ClassificationService,
     private readonly notificationService: NotificationService,
     private readonly modalService: ModalService,
-    private router: Router
+    private router: Router,
+    private ngZone: NgZone
   ) {
     this.router.events
       .pipe(
@@ -54,21 +56,16 @@ export class ClassificationCreateEditDeleteComponent
 
   ngOnInit(): void {
     this.activatedRoute.paramMap.subscribe((params: ParamMap) => {
-      const id = params.get('id');
-
-      if (id) {
-        this.idClassification = id;
-        this.noResult = false;
-      } else {
-        this.noResult = true;
-      }
+      this.idClassification = params.get('id') as string;
     });
-    this.getClassificationById(this.idClassification);
+
+    this.status !== 'create'
+      ? this.getClassificationById(this.idClassification)
+      : '';
   }
 
-  getClassificationById(id: string) {
+  getClassificationById(id: string): void {
     this.noResult = false;
-
     this.classificationService.getClassificationById(id).subscribe({
       next: (data) => {
         this.noResult = false;
@@ -80,7 +77,7 @@ export class ClassificationCreateEditDeleteComponent
     });
   }
 
-  updateOrDeleteClassification(data: Classification) {
+  createUpdateOrDeleteClassification(data: Classification): void {
     this.loader = true;
     switch (this.status) {
       case 'edit':
@@ -104,18 +101,13 @@ export class ClassificationCreateEditDeleteComponent
       next: (result: Classification) => {
         this.classification = result;
         this.loader = false;
-        this.notificationService.success(
-          'Classification created successfully',
-          'Success!'
-        );
+        this.actionNotification = 'created';
+        this.showNotificationSuccess();
       },
-      error: (error) => {
-        console.log(error);
+      error: () => {
         this.loader = false;
-        this.notificationService.error(
-          'There was an error when creating the classification',
-          'Unexpected error'
-        );
+        this.actionNotification = 'creating';
+        this.showNotificationError();
       },
     });
   }
@@ -125,22 +117,20 @@ export class ClassificationCreateEditDeleteComponent
       next: (result: Classification) => {
         this.classification = result;
         this.loader = false;
-        this.notificationService.success(
-          'Classification updated successfully',
-          'Success!'
-        );
-        this.router.navigate([
-          '../../classifications',
-          'detail',
-          this.idClassification,
-        ]);
+        this.actionNotification = 'updated';
+        this.showNotificationSuccess();
+        this.ngZone.run(() => {
+          this.router.navigate([
+            '/classifications',
+            'detail',
+            this.idClassification,
+          ]);
+        });
       },
       error: () => {
         this.loader = false;
-        this.notificationService.error(
-          'There was an error when updating the classification',
-          'Unexpected error'
-        );
+        this.actionNotification = 'updating';
+        this.showNotificationError();
       },
     });
   }
@@ -151,18 +141,16 @@ export class ClassificationCreateEditDeleteComponent
       .subscribe({
         next: () => {
           this.loader = false;
-          this.notificationService.success(
-            'Classification deleted successfully',
-            'Success!'
-          );
-          this.router.navigate(['../../classifications']);
+          this.actionNotification = 'deleted';
+          this.showNotificationSuccess();
+          this.ngZone.run(() => {
+            this.router.navigate(['/classifications']);
+          });
         },
         error: () => {
           this.loader = false;
-          this.notificationService.error(
-            'There was an error when deleting the classification',
-            'Unexpected error'
-          );
+          this.actionNotification = 'deleting';
+          this.showNotificationError();
         },
       });
   }
@@ -181,14 +169,25 @@ export class ClassificationCreateEditDeleteComponent
     modalRef.afterClosed.subscribe((result) => {
       this.loader = true;
       this.deleteConfirmed = result as boolean;
-      if (this.deleteConfirmed) {
-        this.deleteClassification(data);
-      } else {
-        this.loader = false;
-      }
+      this.deleteConfirmed
+        ? this.deleteClassification(data)
+        : (this.loader = false);
     });
   }
 
+  showNotificationSuccess(): void {
+    this.notificationService.success(
+      `Classification ${this.actionNotification} successfully`,
+      'Success!'
+    );
+  }
+
+  showNotificationError(): void {
+    this.notificationService.error(
+      `There was an error when ${this.actionNotification} the classification`,
+      'Unexpected error'
+    );
+  }
   ngOnDestroy(): void {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
