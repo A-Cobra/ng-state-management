@@ -12,7 +12,7 @@ export class UsersService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: EntityRepository<User>,
-    private readonly businessServie: BusinessService
+    private readonly businessService: BusinessService
   ) {}
 
   async create(data: CreateUserDto): Promise<User> {
@@ -36,7 +36,7 @@ export class UsersService {
   async findOneByEmail(email: string): Promise<User> {
     const user =
       (await this.userRepository.findOne({ email })) ||
-      (await this.businessServie.findByEmail(email));
+      (await this.businessService.findByEmail(email));
 
     if (!user) {
       throw new NotFoundException('user not found');
@@ -66,10 +66,10 @@ export class UsersService {
   async changeUserLogState(userId: string, state: boolean): Promise<User> {
     const foundUser =
       (await this.userRepository.findOne({ userId })) ||
-      (await this.businessServie.findById(userId));
+      (await this.businessService.findById(userId));
 
     if (foundUser instanceof BusinessHq)
-      return this.businessServie.changeBusinessLogState(userId, state);
+      return this.businessService.changeBusinessLogState(userId, state);
 
     foundUser.isLoggedIn = state;
 
