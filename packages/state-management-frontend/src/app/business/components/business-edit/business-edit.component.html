@@ -1,3 +1,10 @@
+<ng-container *ngIf="activeRequest">
+  <state-management-app-loader
+    loaderText="Submission in progress, please wait!"
+  >
+  </state-management-app-loader>
+</ng-container>
+
 <div class="business-edit-form__wrapper" *ngIf="!queryError; else defaultError">
   <state-management-app-business-edit-form
     [id]="businessId"

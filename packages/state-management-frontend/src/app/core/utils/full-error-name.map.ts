@@ -1,6 +1,7 @@
 export const fullErrorNameMap: { [key: string]: string } = {
   required: 'This field is required',
-  email: 'The email has to have the following pattern: name@domain.suf',
+  email:
+    'The email has to have the following pattern: name@domain.suf (where suf can have 2 or 3 letters)',
   notFloatNumber: 'The number can have "+", "-", and "." symbols',
   notPhoneNumber: 'This field can contain only numbers',
   namePattern: 'This field can contain only letters and spaces',

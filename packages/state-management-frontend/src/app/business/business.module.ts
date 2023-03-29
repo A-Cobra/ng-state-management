@@ -23,6 +23,7 @@ import { FloatNumberOrNumberRangeDirective } from '../shared/directives/float-nu
 import { PhoneNumberDirective } from '../shared/directives/phone-number.directive';
 import { ConfirmationModalComponent } from '../shared/components/confirmation-modal/confirmation-modal.component';
 import { InvalidFormModalComponent } from '../shared/components/invalid-form-modal/invalid-form-modal.component';
+import { LoaderComponent } from '../shared/components/loader/loader.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import { InvalidFormModalComponent } from '../shared/components/invalid-form-mod
     FloatNumberOrNumberRangeDirective,
     PhoneNumberDirective,
     InvalidFormModalComponent,
+    LoaderComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
