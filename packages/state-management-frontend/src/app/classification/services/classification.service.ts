@@ -15,10 +15,7 @@ export class ClassificationService {
       ...data,
       id: `${this.arrClassification.length}uuid`,
     });
-    localStorage.setItem(
-      'mockClassifications',
-      JSON.stringify(this.arrClassification)
-    );
+    this.setMockClassifications();
     this.getDataFromStorage();
     return of(this.arrClassification[this.arrClassification.length - 1]);
   }
@@ -28,10 +25,10 @@ export class ClassificationService {
     const classification = this.arrClassification.find(
       (item) => item.id === id
     );
-    if (!classification) {
-      return throwError(new Error('Classification not found.'));
-    }
-    return of(classification);
+
+    return !classification
+      ? throwError(() => new Error('Classification not found.'))
+      : of(classification);
   }
 
   updateClassification(data: Classification): Observable<Classification> {
@@ -41,11 +38,11 @@ export class ClassificationService {
     ) as Classification;
     const index = this.arrClassification.indexOf(dataServer);
     this.arrClassification[index] = data;
-    localStorage.setItem(
-      'mockClassifications',
-      JSON.stringify(this.arrClassification)
-    );
-    return of(data);
+    this.setMockClassifications();
+
+    return !dataServer
+      ? throwError(() => new Error('Classification not found.'))
+      : of(data);
   }
 
   deleteClassification(id: string): Observable<string> {
@@ -53,13 +50,17 @@ export class ClassificationService {
     this.arrClassification = this.arrClassification.filter(
       (item) => item.id !== id
     );
+    this.setMockClassifications();
+
+    return of('classification was deleted');
+  }
+
+  setMockClassifications(): void {
     localStorage.setItem(
       'mockClassifications',
       JSON.stringify(this.arrClassification)
     );
-    return of('classification was deleted');
   }
-
   getDataFromStorage(): void {
     const data = localStorage.getItem('mockClassifications');
     this.arrClassification = data ? JSON.parse(data) : this.arrClassification;

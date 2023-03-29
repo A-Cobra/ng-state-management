@@ -5,6 +5,7 @@ import { take } from 'rxjs';
 import {
   MOCK_ARRAY_CLASSIFICATION,
   MOCK_CLASSIFICATION,
+  MOCK_CLASSIFICATION_NOT_EXIST,
   MOCK_CLASSIFICATION_TO_CREATE,
 } from '../test/mocks';
 
@@ -23,6 +24,8 @@ describe('ClassificationService', () => {
   });
 
   it('should return a classification created', () => {
+    service.arrClassification = MOCK_ARRAY_CLASSIFICATION;
+
     service
       .addClassification(MOCK_CLASSIFICATION_TO_CREATE)
       .pipe(take(1))
@@ -32,6 +35,8 @@ describe('ClassificationService', () => {
   });
 
   it('should return a classification by Id', () => {
+    service.arrClassification = MOCK_ARRAY_CLASSIFICATION;
+
     service
       .getClassificationById('1uuid')
       .pipe(take(1))
@@ -58,6 +63,15 @@ describe('ClassificationService', () => {
       });
   });
 
+  it('should return a error when updating failed', () => {
+    service
+      .updateClassification(MOCK_CLASSIFICATION_NOT_EXIST)
+      .pipe(take(1))
+      .subscribe((response) => {
+        expect(response).toThrowError('Classification not found.');
+      });
+  });
+
   it('should return a message when classification deleted', () => {
     service
       .deleteClassification('1uuid')
@@ -67,10 +81,10 @@ describe('ClassificationService', () => {
       });
   });
 
-  xit('should manage data to save ', () => {
-    jest
-      .spyOn(window.localStorage, 'getItem')
-      .mockReturnValue(JSON.stringify(MOCK_ARRAY_CLASSIFICATION));
+  it('should manage data to save ', () => {
+    service.arrClassification = MOCK_ARRAY_CLASSIFICATION;
+    Storage.prototype.getItem = jest.fn(() => 'mockClassifications');
+    jest.spyOn(window.localStorage, 'getItem').mockReturnValue(null);
     service.getDataFromStorage();
 
     expect(service.arrClassification).toEqual(MOCK_ARRAY_CLASSIFICATION);

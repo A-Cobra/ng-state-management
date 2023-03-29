@@ -6,8 +6,8 @@
         #textInput
         formControlName="name"
         autocomplete="on"
-        [error]="name.touched && name.invalid"
-        [success]="name.valid"
+        [error]="getControl('name').touched && getControl('name').invalid"
+        [success]="getControl('name').valid"
         id="name"
         label="Name*"
         [maxLength]="100"
@@ -24,7 +24,7 @@
           classificationForm.controls['name'].disabled ? 'disabled' : 'error'
         "
       >
-        {{name.errors?.['required'] ? 'Name is required' : ''}}
+        {{getControl('name').errors?.['required'] ? 'Name is required' : ''}}
       </clapp-helper-text>
 
       <clapp-helper-text
@@ -38,8 +38,13 @@
       <clapp-text-input
         #descriptionInput
         formControlName="description"
-        [error]="!!(description.touched && description.invalid)"
-        [success]="!!description.valid"
+        [error]="
+          !!(
+            getControl('description').touched &&
+            getControl('description').invalid
+          )
+        "
+        [success]="!!getControl('description').valid"
         id="description"
         label="Description*"
         [maxLength]="200"
@@ -56,19 +61,24 @@
             : 'error'
         "
       >
-        {{description.errors?.['required'] ? 'Description is required' : ''}}
+        {{getControl('description').errors?.['required'] ? 'Description is required' : ''}}
       </clapp-helper-text>
 
       <clapp-helper-text
         *ngIf="descriptionInput.success && !descriptionInput.error"
         [textState]="
-          classificationForm.controls['name'].disabled ? 'disabled' : 'success'
+          classificationForm.controls['description'].disabled
+            ? 'disabled'
+            : 'success'
         "
         >Valid description
       </clapp-helper-text>
 
       <ng-container
-        *ngIf="currentStatus !== 'create' && numberOfBusinesses.value > 0"
+        *ngIf="
+          currentStatus !== 'create' &&
+          getControl('numberOfBusinesses').value > 0
+        "
       >
         <clapp-text-input
           formControlName="numberOfBusinesses"
@@ -92,7 +102,7 @@
 
     <ng-container *ngIf="currentStatus === 'detail'">
       <clapp-image-display
-        [src]="image.value"
+        [src]="getControl('image').value"
         type="square"
         size="large"
         alt="placeholder"

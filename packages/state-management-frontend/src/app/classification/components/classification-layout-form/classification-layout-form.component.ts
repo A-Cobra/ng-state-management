@@ -52,28 +52,16 @@ export class ClassificationLayoutFormComponent {
     });
   }
 
-  get numberOfBusinesses() {
-    return this.classificationForm.controls['numberOfBusinesses'];
-  }
-
-  get description(): AbstractControl {
-    return this.classificationForm.get('description') as AbstractControl;
-  }
-
-  get name(): AbstractControl {
-    return this.classificationForm.get('name') as AbstractControl;
-  }
-
-  get image(): AbstractControl {
-    return this.classificationForm.get('image') as AbstractControl;
+  getControl(controlName: string): AbstractControl {
+    return this.classificationForm.get(controlName) as AbstractControl;
   }
 
   changeFormatInput(input: string): void {
-    this.classificationForm.get('name')?.setValue(input.trim());
+    this.getControl('name').setValue(input.trim());
   }
 
   addToFormControl(file: File): void {
-    this.classificationForm.get('image')?.setValue(file);
+    this.getControl('image').setValue(file);
   }
 
   getIcon(): string {
@@ -83,7 +71,7 @@ export class ClassificationLayoutFormComponent {
   }
 
   activateFormByStatus(): void {
-    this.numberOfBusinesses.disable();
+    this.getControl('numberOfBusinesses').disable();
     if (this.currentStatus === 'detail') {
       this.classificationForm.disable();
     }
@@ -101,7 +89,7 @@ export class ClassificationLayoutFormComponent {
   }
 
   submit(): void {
-    this.numberOfBusinesses.enable();
+    this.getControl('numberOfBusinesses').enable();
 
     if (this.currentStatus !== 'create') {
       this.dataClassification.emit({
@@ -110,11 +98,13 @@ export class ClassificationLayoutFormComponent {
       });
     } else {
       // set value image type string until to know input and output type of API
-      this.image.setValue(JSON.stringify(this.image.value));
-      this.numberOfBusinesses.setValue(0);
+      this.getControl('image').setValue(
+        JSON.stringify(this.getControl('image').value)
+      );
+      this.getControl('numberOfBusinesses').setValue(0);
       this.dataClassification.emit(this.classificationForm.value);
       this.classificationForm.reset();
-      this.image.setValue('');
+      this.getControl('image').setValue('');
     }
   }
 }

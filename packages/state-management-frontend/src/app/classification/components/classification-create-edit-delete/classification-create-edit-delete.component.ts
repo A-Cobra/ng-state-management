@@ -1,6 +1,6 @@
 import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { Classification } from '../../models/api-response.model';
-import { filter, map, Subject, takeUntil } from 'rxjs';
+import { filter, map, Subject, take, takeUntil } from 'rxjs';
 import {
   ActivatedRoute,
   NavigationEnd,
@@ -166,7 +166,7 @@ export class ClassificationCreateEditDeleteComponent
       width: '300px',
       height: 'fit-content',
     });
-    modalRef.afterClosed.subscribe((result) => {
+    modalRef.afterClosed.pipe(take(1)).subscribe((result) => {
       this.loader = true;
       this.deleteConfirmed = result as boolean;
       this.deleteConfirmed

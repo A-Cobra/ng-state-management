@@ -4,7 +4,6 @@ import { ClassificationCreateEditDeleteComponent } from './classification-create
 import {
   ClappButtonModule,
   ModalModule,
-  ModalRef,
   ModalService,
   NotificationService,
 } from '@clapp1/clapp-angular';
@@ -17,6 +16,7 @@ import {
   MOCK_CLASSIFICATION_NOT_EXIST,
   MOCK_CLASSIFICATION_SERVICE,
   MOCK_CLASSIFICATION_TO_CREATE,
+  MockModalService,
 } from '../../test/mocks';
 import { Component, Input, NO_ERRORS_SCHEMA } from '@angular/core';
 import { Classification } from '../../models/api-response.model';
@@ -41,8 +41,6 @@ describe('ClassificationCreateEditDeleteComponent', () => {
   let component: ClassificationCreateEditDeleteComponent;
   let fixture: ComponentFixture<ClassificationCreateEditDeleteComponent>;
   let router: Router;
-  let modalService: ModalService;
-  let modalRef: ModalRef;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -60,16 +58,10 @@ describe('ClassificationCreateEditDeleteComponent', () => {
         ]),
       ],
       providers: [
-        // {
-        //   provide: ModalService,
-        //   useValue: {
-        //     open: jest.fn().mockReturnValue({
-        //       afterClosed: of(false),
-        //       close: of(false),
-        //     })
-        //   }
-        // },
-        ModalRef,
+        {
+          provide: ModalService,
+          useClass: MockModalService,
+        },
         {
           provide: NotificationService,
           useValue: {
@@ -96,11 +88,6 @@ describe('ClassificationCreateEditDeleteComponent', () => {
     jest.spyOn(component, 'showNotificationSuccess');
     jest.spyOn(component, 'showNotificationError');
     jest.spyOn(router, 'navigate');
-    // modalService = {
-    //   open: jest.fn().mockReturnValue({ afterClosed: () => of(false) }),
-    // };
-    modalService = TestBed.inject(ModalService);
-    modalRef = TestBed.inject(ModalRef);
   });
 
   it('should create', () => {
@@ -234,29 +221,23 @@ describe('ClassificationCreateEditDeleteComponent', () => {
     expect(component.showNotificationError).toHaveBeenCalled();
   });
 
-  //nota:pendiente
-
-  xit('should not delete the classification if not confirmed', () => {
-    // const spy = jest.spyOn(modalService, "open");
-    //const spy2 = jest.spyOn(modalRef, "afterClosed");
+  it('should not delete the classification if not confirmed', () => {
     jest.spyOn(component, 'deleteClassification');
     component.confirmedDelete(MOCK_CLASSIFICATION);
     fixture.detectChanges();
 
     expect(component.deleteClassification).not.toHaveBeenCalled();
   });
-});
 
-// class MockModalRef {
-//   afterClosed: Observable<boolean>;
-//   beingClosed:  Observable<boolean>;
-//   close:  Observable<boolean>;
-//
-//   constructor() {
-//     this.afterClosed = of(false);
-//     this.beingClosed = of(false);
-//     this.close = of(false);
-//
-//
-//   }
-// }
+  it('should delete the classification if it was confirmed', () => {
+    (component['modalService'] as any).value = true;
+    fixture.detectChanges();
+    jest.spyOn(component, 'deleteClassification');
+
+    component.confirmedDelete(MOCK_CLASSIFICATION);
+    fixture.detectChanges();
+
+    expect(component.deleteClassification).toHaveBeenCalled();
+    expect(component.deleteConfirmed).toBeTruthy();
+  });
+});
