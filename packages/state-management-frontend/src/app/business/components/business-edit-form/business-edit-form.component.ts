@@ -12,8 +12,6 @@ import { ModalInvalidFormComponent } from '../modal-invalid-form/modal-invalid-f
   styleUrls: ['./business-edit-form.component.scss'],
 })
 export class BusinessEditFormComponent implements OnInit {
-  editing = false;
-
   @Input()
   id: number;
 
@@ -37,14 +35,16 @@ export class BusinessEditFormComponent implements OnInit {
     disabled: boolean;
   }[] = [];
 
+  @Output()
+  formSubmit = new EventEmitter<FormEditPayload>();
+
   mockClassificationList: {
     key: string;
     disabled: boolean;
   }[] = [];
 
-  @Output()
-  formSubmit = new EventEmitter<FormEditPayload>();
-
+  editing = false;
+  defaultImgUrl = '../../../../assets/template-image.png';
   businessFormEdit = this.formBuilder.group({
     displayName: ['', [Validators.required, CustomFormValidations.namePattern]],
     businessName: [
@@ -69,6 +69,7 @@ export class BusinessEditFormComponent implements OnInit {
       'Latitude',
       [Validators.required, CustomFormValidations.floatNumber],
     ],
+    imgUrl: [''],
   });
 
   constructor(

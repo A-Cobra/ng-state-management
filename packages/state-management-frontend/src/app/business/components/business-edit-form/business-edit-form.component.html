@@ -4,26 +4,29 @@
     <div class="left-column">
       <div class="business-img">
         <clapp-image-display
-          *ngIf="businessData && businessData.imgUrl; else defaultImage"
-          [src]="businessData.imgUrl"
+          [src]="
+            businessFormEdit.controls['imgUrl'].value
+              ? businessFormEdit.controls['imgUrl'].value
+              : defaultImgUrl
+          "
           [alt]="businessData.businessName + '.png'"
           type="avatar"
           size="large"
         >
         </clapp-image-display>
-        <ng-template #defaultImage>
-          <clapp-image-display
-            src="../../../../assets/template-image.png"
-            alt="placeholder.png"
-            type="avatar"
-            size="large"
-          ></clapp-image-display>
-        </ng-template>
       </div>
 
       <div *ngIf="businessData">
         Total branches: {{ businessData.totalBranches }}
       </div>
+
+      <state-management-app-reactive-form-control-text-input
+        [parentForm]="businessFormEdit"
+        controlName="imgUrl"
+        displayText="Please enter the image URL"
+        [required]="false"
+        label="Image URL"
+      ></state-management-app-reactive-form-control-text-input>
 
       <state-management-app-reactive-form-control-text-input
         [parentForm]="businessFormEdit"
