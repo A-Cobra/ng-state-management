@@ -4,7 +4,7 @@ import { v4 } from 'uuid';
 @Entity()
 export class User {
   @PrimaryKey()
-  user_id: string = v4();
+  userId: string = v4();
 
   @Property()
   role: string;
@@ -15,8 +15,8 @@ export class User {
   @Property()
   name: string;
 
-  @Property()
-  lastname: string;
+  @Property({ nullable: true })
+  lastname?: string;
 
   @Property()
   picture: string;
@@ -27,12 +27,12 @@ export class User {
   @Property()
   password: string;
 
-  @Property()
+  @Property({ default: false })
   isLoggedIn: boolean;
 
   @Property()
-  contact_number: string;
+  contactNumber: string;
 
-  @Property()
+  @Property({ nullable: true })
   refreshToken?: string;
 }

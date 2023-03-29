@@ -1,4 +1,4 @@
-import { Business_HQ } from '../../../business/entities/business.entity';
+import { BusinessHq } from '../../../business/entities/business.entity';
 
 export const mockBranchesResponse = {
   data: [
@@ -15,8 +15,8 @@ export const mockBranchesResponse = {
       deleted: false,
       contactPhoneNumber: '77867555',
       businessId: {
-        business_id: '6c84fb90-12c4-11e1-840d-7b25c5ee775a',
-      } as Business_HQ,
+        businessId: '6c84fb90-12c4-11e1-840d-7b25c5ee775a',
+      } as BusinessHq,
     },
     {
       branchId: '632cbe18-ccc8-405e-a770-4b82e6399151',
@@ -31,8 +31,8 @@ export const mockBranchesResponse = {
       contactEmail: 'example@gmail.com',
       contactPhoneNumber: '77867555',
       businessId: {
-        business_id: '6c84fb90-12c4-11e1-840d-7b25c5ee775a',
-      } as Business_HQ,
+        businessId: '6c84fb90-12c4-11e1-840d-7b25c5ee775a',
+      } as BusinessHq,
     },
     {
       branchId: '632cbe18-ccc8-405e-a770-4b82e6399151',
@@ -47,8 +47,8 @@ export const mockBranchesResponse = {
       contactEmail: 'example@gmail.com',
       contactPhoneNumber: '77867555',
       businessId: {
-        business_id: '6c84fb90-12c4-11e1-840d-7b25c5ee775a',
-      } as Business_HQ,
+        businessId: '6c84fb90-12c4-11e1-840d-7b25c5ee775a',
+      } as BusinessHq,
     },
   ],
   totalResults: 3,
@@ -68,5 +68,5 @@ export const createdBranchResponse = {
   contactEmail: 'example@gmail.com',
   contactPhoneNumber: '77867555',
   deleted: false,
-  businessId: { business_id: '6c84fb90-12c4-11e1-840d-7b25c5ee775a' },
+  businessId: { businessId: '6c84fb90-12c4-11e1-840d-7b25c5ee775a' },
 };

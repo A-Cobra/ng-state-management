@@ -10,9 +10,9 @@ export const businessStub = {
   isLoggedIn: false,
   contactNumber: 'a',
   businessId: 'a',
-  businesName: 'a',
-  businessPicture: 'a',
-  contactEmail: 'a',
+  businessName: 'a',
+  refreshToken: 'a',
+  rating: 2,
   contactPhoneNumber: 'a',
   longitude: '1',
   latitude: '1',
@@ -34,10 +34,12 @@ export const initialBusinessCreationDtoStub = {
   businessName: 'b',
   representativeName: 'b',
   email: 'a',
-  address: 'b',
   latitude: '2',
   longitude: '2',
   contactNumber: '3',
+  password: '123',
+  picture: 'a',
+  contactAddress: 'a',
 };
 
 export const completeBusinessCreationDTO = {

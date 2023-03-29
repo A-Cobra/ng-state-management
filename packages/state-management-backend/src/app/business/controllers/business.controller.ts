@@ -9,12 +9,14 @@ import {
   Param,
   Query,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { BusinessModificationDto } from '../dto/business-modification.dto';
 import { BusinessSearchDto } from '../dto/business-search.dto';
 import { CompleteBusinessCreationDTO } from '../dto/complete-creation.dto';
 import { InitialBusinessCreationDto } from '../dto/initial-creation.dto';
 import { BusinessService } from '../services/business.service';
 
+@ApiTags('Businessesss')
 @Controller('businessess')
 export class BusinessController {
   constructor(private readonly businesService: BusinessService) {}

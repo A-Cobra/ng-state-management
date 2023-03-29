@@ -1,4 +1,4 @@
-import { Business_HQ } from '../../business/entities/business.entity';
+import { BusinessHq } from '../../business/entities/business.entity';
 import { PaginationDto } from '../../common/dtos/pagination.dto';
 import { PaginationResult } from '../../common/interfaces/pagination-result.interface';
 import { CreateBranchDto } from '../dto/create-branch.dto';
@@ -31,7 +31,7 @@ export class BranchesServiceMock {
       ...createBranchDto,
       branchId: '6f9f1b0b0b0b0b0b0b0b0b0b',
       deleted: false,
-      businessId: { business_id: businessId } as Business_HQ,
+      businessId: { businessId: businessId } as BusinessHq,
     };
   }
 

@@ -16,10 +16,6 @@ export class InitialBusinessCreationDto {
 
   @ApiProperty()
   @IsString()
-  address: string;
-
-  @ApiProperty()
-  @IsString()
   latitude: string;
 
   @ApiProperty()
@@ -29,4 +25,16 @@ export class InitialBusinessCreationDto {
   @ApiProperty()
   @IsString()
   contactNumber: string;
+
+  @ApiProperty()
+  @IsString()
+  picture: string;
+
+  @ApiProperty()
+  @IsString()
+  password: string;
+
+  @ApiProperty()
+  @IsString()
+  contactAddress: string;
 }

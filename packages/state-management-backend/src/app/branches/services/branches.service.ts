@@ -37,7 +37,7 @@ export class BranchesService {
     id: string,
     paginationDto: PaginationDto
   ): Promise<PaginationResult<BusinessBranch>> {
-    const business = await this.businessService.findById();
+    const business = await this.businessService.findById(id);
     if (!business) {
       throw new NotFoundException('Business not found');
     }
@@ -88,7 +88,7 @@ export class BranchesService {
     businessId: string,
     branch: CreateBranchDto
   ): Promise<BusinessBranch> {
-    const business = await this.businessService.findById();
+    const business = await this.businessService.findById(businessId);
     if (!business) {
       throw new NotFoundException('Business not found');
     }

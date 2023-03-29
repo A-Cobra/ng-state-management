@@ -30,10 +30,10 @@ async function bootstrap() {
   await app.get(MikroORM).getSchemaGenerator().updateSchema();
 
   const config = new DocumentBuilder()
-    .setTitle('Cats example')
-    .setDescription('The cats API description')
+    .setTitle('State management app')
+    .setDescription('food delivery api')
     .setVersion('1.0')
-    .addTag('cats')
+    .addTag('delivery')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);

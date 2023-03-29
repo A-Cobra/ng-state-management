@@ -9,6 +9,7 @@ import { BusinessHq } from '../entities/business.entity';
 import { BusinessClassification } from '../entities/business-classification.entity';
 import { BusinessessResult } from '../interfaces/businessess-result';
 import { MailService } from '../../notifications/mail/mail.service';
+import { hashData } from '../../auth/utils/jwt.util';
 
 @Injectable()
 export class BusinessService {
@@ -34,6 +35,9 @@ export class BusinessService {
       approvedRegistration: false,
       name: dto.representativeName,
       ...dto,
+      password: await hashData(dto.password),
+      role: 'business',
+      username: dto.businessName,
     };
 
     const createdBusiness = this.businessRepository.create(business);

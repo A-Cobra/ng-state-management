@@ -13,5 +13,6 @@ import { NotificationsModule } from '../notifications/notifications.module';
   ],
   providers: [BusinessService],
   controllers: [BusinessController],
+  exports: [BusinessService],
 })
 export class BusinessModule {}

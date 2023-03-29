@@ -16,19 +16,10 @@ export class BusinessHq extends User {
   businessId: string = v4();
 
   @Property()
-  businesName: string;
-
-  @Property()
-  businessPicture: string;
+  businessName: string;
 
   @Property({ nullable: true })
   rating?: number;
-
-  @Property()
-  contactEmail: string;
-
-  @Property()
-  contactPhoneNumber: string;
 
   @Property()
   longitude: string;

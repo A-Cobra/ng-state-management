@@ -1,6 +1,6 @@
 import { Entity, ManyToOne, PrimaryKey, Property } from '@mikro-orm/core';
 import { v4 } from 'uuid';
-import { Business_HQ } from '../../business/entities/business.entity';
+import { BusinessHq } from '../../business/entities/business.entity';
 
 @Entity()
 export class BusinessBranch {
@@ -37,6 +37,6 @@ export class BusinessBranch {
   @Property({ type: 'boolean', default: false, hidden: true })
   deleted = false;
 
-  @ManyToOne(() => Business_HQ)
-  businessId: Business_HQ;
+  @ManyToOne(() => BusinessHq)
+  businessId: BusinessHq;
 }
