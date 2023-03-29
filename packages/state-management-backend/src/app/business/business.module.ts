@@ -1,14 +1,17 @@
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { Module } from '@nestjs/common';
 import { BusinessController } from './controllers/business.controller';
-import { Business_HQ } from './entities/business.entity';
-import { Business_classification } from './entities/business_classification.entity';
+import { BusinessHq } from './entities/business.entity';
+import { BusinessClassification } from './entities/business-classification.entity';
 import { BusinessService } from './services/business.service';
+import { NotificationsModule } from '../notifications/notifications.module';
 
 @Module({
-  imports: [MikroOrmModule.forFeature([Business_HQ, Business_classification])],
-  controllers: [BusinessController],
+  imports: [
+    MikroOrmModule.forFeature([BusinessHq, BusinessClassification]),
+    NotificationsModule,
+  ],
   providers: [BusinessService],
-  exports: [BusinessService],
+  controllers: [BusinessController],
 })
 export class BusinessModule {}

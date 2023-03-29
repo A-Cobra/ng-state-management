@@ -20,8 +20,8 @@ export class UsersService {
     return this.userRepository.findAll();
   }
 
-  async findOne(user_id: string): Promise<User> {
-    const user = await this.userRepository.findOne({ user_id });
+  async findOne(userId: string): Promise<User> {
+    const user = await this.userRepository.findOne({ userId });
 
     if (!user) {
       throw new NotFoundException('user not found');
@@ -40,36 +40,36 @@ export class UsersService {
     return user;
   }
 
-  async update(user_id: string, updatedUserInfo: UpdateUserDto): Promise<User> {
-    const user = await this.userRepository.findOne({ user_id });
+  async update(userId: string, updatedUserInfo: UpdateUserDto): Promise<User> {
+    const user = await this.userRepository.findOne({ userId });
     wrap(user).assign(updatedUserInfo);
     await this.userRepository.flush();
 
     return user;
   }
 
-  async remove(user_id: string) {
-    const deletedUser = this.userRepository.remove({ user_id });
+  async remove(userId: string) {
+    const deletedUser = this.userRepository.remove({ userId });
 
     if (!deletedUser) {
-      throw new NotFoundException(`user with id: ${user_id} not found`);
+      throw new NotFoundException(`user with id: ${userId} not found`);
     }
   }
 
-  async changeUserLogState(user_id: string, state: boolean): Promise<User> {
-    const found_user = await this.userRepository.findOne({ user_id });
-    found_user.isLoggedIn = state;
+  async changeUserLogState(userId: string, state: boolean): Promise<User> {
+    const foundUser = await this.userRepository.findOne({ userId });
+    foundUser.isLoggedIn = state;
 
     await this.userRepository.flush();
 
-    return found_user;
+    return foundUser;
   }
 
-  async updateRole(user_id: string, role_name: string): Promise<User> {
-    const found_user = await this.userRepository.findOne({ user_id });
-    found_user.role = role_name;
+  async updateRole(userId: string, roleName: string): Promise<User> {
+    const foundUser = await this.userRepository.findOne({ userId });
+    foundUser.role = roleName;
     await this.userRepository.flush();
 
-    return found_user;
+    return foundUser;
   }
 }
