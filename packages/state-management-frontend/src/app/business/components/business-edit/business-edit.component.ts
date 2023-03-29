@@ -55,6 +55,11 @@ export class BusinessEditComponent implements OnInit {
       this.activeRequest = false;
     }, 5000);
     console.log(payload);
+    // MAKE VALIDATIONS
+    // if(this.businessData == payload){
+    //   console.log('EQUAL DATA CAN NOT BE UPDATED');
+    //   return;
+    // }
     // this.businessService.updateBusiness(payload).subscribe(
     //   {
     //   next : ()=>{

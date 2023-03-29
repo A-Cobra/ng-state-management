@@ -16,6 +16,7 @@ import { Router } from '@angular/router';
 import { debounceTime, Subject, takeUntil } from 'rxjs';
 import { deleteBusinessModalConfig } from '../../utils/delete-business-modal-config';
 import { goToBusinessesListModalConfig } from '../../utils/go-to-business-list-modal-config';
+import { isALoadableImageUrl } from '../../../core/utils/is-a-displayable-image-url';
 
 @Component({
   selector: 'state-management-app-business-edit-form',
@@ -108,7 +109,9 @@ export class BusinessEditFormComponent implements OnInit, OnDestroy {
     this.businessFormEdit.controls['imgUrl'].valueChanges
       .pipe(debounceTime(700))
       .subscribe((imgUrl: string) => {
-        this.currentBusinessImgUrl = imgUrl;
+        isALoadableImageUrl(imgUrl)
+          ? (this.currentBusinessImgUrl = imgUrl)
+          : (this.currentBusinessImgUrl = '');
       });
   }
 
@@ -133,11 +136,6 @@ export class BusinessEditFormComponent implements OnInit, OnDestroy {
       businessName: businessName ?? '',
       contactEmail: contactEmail ?? '',
     };
-    // MAKE VALIDATIONS
-    // if(this.businessData == payload){
-    //   console.log('EQUAL DATA CAN NOT BE UPDATED');
-    //   return;
-    // }
     this.formSubmit.emit(payload);
   }
 
