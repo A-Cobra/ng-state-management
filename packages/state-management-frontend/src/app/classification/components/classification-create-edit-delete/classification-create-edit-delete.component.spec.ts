@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ClassificationCreateEditDeleteComponent } from './classification-create-edit-delete.component';
 import {
   ClappButtonModule,
+  ClappNoResultsModule,
   ModalModule,
   ModalService,
   NotificationService,
@@ -18,7 +19,7 @@ import {
   MOCK_CLASSIFICATION_TO_CREATE,
   MockModalService,
 } from '../../test/mocks';
-import { Component, Input, NO_ERRORS_SCHEMA } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Classification } from '../../models/api-response.model';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -50,6 +51,7 @@ describe('ClassificationCreateEditDeleteComponent', () => {
       ],
       imports: [
         ClappButtonModule,
+        ClappNoResultsModule,
         LoaderComponent,
         ModalModule,
         RouterTestingModule.withRoutes([
@@ -78,13 +80,13 @@ describe('ClassificationCreateEditDeleteComponent', () => {
           useValue: MOCK_ACTIVATED_ROUTER,
         },
       ],
-      schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ClassificationCreateEditDeleteComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
     router = TestBed.inject(Router);
+
     jest.spyOn(component, 'showNotificationSuccess');
     jest.spyOn(component, 'showNotificationError');
     jest.spyOn(router, 'navigate');

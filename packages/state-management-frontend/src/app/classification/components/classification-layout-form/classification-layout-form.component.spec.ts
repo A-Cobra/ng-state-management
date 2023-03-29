@@ -2,14 +2,14 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ClassificationLayoutFormComponent } from './classification-layout-form.component';
 import {
-  ClappButtonComponent,
-  ClappFileUploadComponent,
-  ClappNoResultsComponent,
-  ClappTextInputComponent,
+  ClappButtonModule,
+  ClappFileUploadModule,
+  ClappImageDisplayModule,
+  ClappInputHelpersModule,
+  ClappTextInputModule,
 } from '@clapp1/clapp-angular';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
 import {
   MOCK_CLASSIFICATION,
   MOCK_CLASSIFICATION_TO_CREATE,
@@ -21,15 +21,16 @@ describe('ClassificationLayoutFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [
-        ClassificationLayoutFormComponent,
-        ClappTextInputComponent,
-        ClappButtonComponent,
-        ClappNoResultsComponent,
-        ClappFileUploadComponent,
+      declarations: [ClassificationLayoutFormComponent],
+      imports: [
+        ReactiveFormsModule,
+        RouterTestingModule,
+        ClappTextInputModule,
+        ClappFileUploadModule,
+        ClappImageDisplayModule,
+        ClappButtonModule,
+        ClappInputHelpersModule,
       ],
-      imports: [ReactiveFormsModule, RouterTestingModule],
-      schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ClassificationLayoutFormComponent);
