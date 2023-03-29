@@ -53,8 +53,10 @@ export class BusinessEditFormComponent implements OnInit, OnDestroy {
     disabled: boolean;
   }[] = [];
   editing = false;
+  // @Input()
+  // ongoingRequest = false;
   @Input()
-  ongoingRequest = false;
+  activeRequest = false;
   currentBusinessImgUrl = '';
   defaultImgUrl = '../../../../assets/template-image.png';
   terminateAllSubscriptions$ = new Subject<string>();
@@ -123,7 +125,7 @@ export class BusinessEditFormComponent implements OnInit, OnDestroy {
       });
       return;
     }
-    this.ongoingRequest = true;
+    this.activeRequest = true;
     this.toggleEditingStatus();
     this.disableFormControls();
     const { businessName, contactEmail } = this.businessFormEdit.value;
