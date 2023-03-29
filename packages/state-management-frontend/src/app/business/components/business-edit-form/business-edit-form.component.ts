@@ -13,7 +13,9 @@ import { FormEditPayload } from '../../models/form-edit-payload.interface';
 import { InvalidFormModalComponent } from '../../../shared/components/invalid-form-modal/invalid-form-modal.component';
 import { ConfirmationModalComponent } from '../../../shared/components/confirmation-modal/confirmation-modal.component';
 import { Router } from '@angular/router';
-import { Subject, takeUntil } from 'rxjs';
+import { debounceTime, Subject, takeUntil } from 'rxjs';
+import { deleteBusinessModalConfig } from '../../utils/delete-business-modal-config';
+import { goToBusinessesListModalConfig } from '../../utils/go-to-business-list-modal-config';
 
 @Component({
   selector: 'state-management-app-business-edit-form',
@@ -23,7 +25,6 @@ import { Subject, takeUntil } from 'rxjs';
 export class BusinessEditFormComponent implements OnInit, OnDestroy {
   @Input()
   id: number;
-
   @Input()
   businessData: {
     displayName: string;
@@ -37,22 +38,24 @@ export class BusinessEditFormComponent implements OnInit, OnDestroy {
     imgUrl: string;
     totalBranches: number;
   };
-
   @Input()
   classificationsBackendData: {
     key: string;
     disabled: boolean;
   }[] = [];
-
   @Output()
   formSubmit = new EventEmitter<FormEditPayload>();
-
+  @Output()
+  // CHANGE THE EVENT EMITTER TYPE
+  businessDeletion = new EventEmitter<FormEditPayload>();
   mockClassificationList: {
     key: string;
     disabled: boolean;
   }[] = [];
-
   editing = false;
+  @Input()
+  ongoingRequest = false;
+  currentBusinessImgUrl = '';
   defaultImgUrl = '../../../../assets/template-image.png';
   terminateAllSubscriptions$ = new Subject<string>();
   businessFormEdit = this.formBuilder.group({
@@ -90,12 +93,21 @@ export class BusinessEditFormComponent implements OnInit, OnDestroy {
     this.disableFormControls();
     this.displayClassificationMatches('');
   }
+  ngOnInit(): void {
+    this.fillFormControls();
+    this.setupImgUrlDebounce();
+  }
   ngOnDestroy(): void {
     this.terminateAllSubscriptions$.next('');
     this.terminateAllSubscriptions$.unsubscribe();
   }
-  ngOnInit(): void {
-    this.fillFormControls();
+
+  setupImgUrlDebounce(): void {
+    this.businessFormEdit.controls['imgUrl'].valueChanges
+      .pipe(debounceTime(700))
+      .subscribe((imgUrl: string) => {
+        this.currentBusinessImgUrl = imgUrl;
+      });
   }
 
   onEditClick(): void {
@@ -111,6 +123,7 @@ export class BusinessEditFormComponent implements OnInit, OnDestroy {
       });
       return;
     }
+    this.ongoingRequest = true;
     this.toggleEditingStatus();
     this.disableFormControls();
     const { businessName, contactEmail } = this.businessFormEdit.value;
@@ -122,7 +135,6 @@ export class BusinessEditFormComponent implements OnInit, OnDestroy {
     // if(this.businessData == payload){
     //   console.log('EQUAL DATA CAN NOT BE UPDATED');
     //   return;
-    //   // Show Modal that says the it can not update to the same value
     // }
     this.formSubmit.emit(payload);
   }
@@ -137,16 +149,10 @@ export class BusinessEditFormComponent implements OnInit, OnDestroy {
   }
 
   onGoToBusinessesList(): void {
-    const modalRef = this.modalService.open(ConfirmationModalComponent, {
-      data: {
-        title: 'Delete business',
-        message: 'Are you sure you want to go to the businesses list?',
-        affirmativeButtonLabel: 'Yes',
-        negativeButtonLabel: 'No',
-      },
-      width: '300px',
-      height: 'fit-content',
-    });
+    const modalRef = this.modalService.open(
+      ConfirmationModalComponent,
+      goToBusinessesListModalConfig
+    );
     modalRef.afterClosed
       .pipe(takeUntil(this.terminateAllSubscriptions$))
       .subscribe((result) => {
@@ -158,23 +164,18 @@ export class BusinessEditFormComponent implements OnInit, OnDestroy {
   }
 
   onDeleteBusiness() {
-    const modalRef = this.modalService.open(ConfirmationModalComponent, {
-      data: {
-        title: 'Delete business',
-        message: `Are you sure you want to delete the '${this.businessData.businessName}' business?`,
-        affirmativeButtonLabel: 'Yes',
-        negativeButtonLabel: 'Cancel',
-      },
-      width: '300px',
-      height: 'fit-content',
-    });
+    const modalRef = this.modalService.open(
+      ConfirmationModalComponent,
+      deleteBusinessModalConfig(this.businessData.businessName)
+    );
     modalRef.afterClosed
       .pipe(takeUntil(this.terminateAllSubscriptions$))
       .subscribe((result) => {
         // this.loader = true;
         const confirmation = result as boolean;
         if (confirmation) {
-          console.log('Business deleted');
+          this.businessDeletion.emit();
+          console.log('Business being deleted');
           // this.businessService.deleteBusiness(this.id);
         }
       });

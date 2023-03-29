@@ -3,7 +3,9 @@
     [id]="businessId"
     [businessData]="businessData"
     [classificationsBackendData]="mockBackendData"
+    [ongoingRequest]="ongoingRequest"
     (formSubmit)="handleEditFormSubmission($event)"
+    (businessDeletion)="handleBusinessDeletion($event)"
   >
   </state-management-app-business-edit-form>
 </div>

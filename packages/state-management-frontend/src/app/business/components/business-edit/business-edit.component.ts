@@ -21,6 +21,7 @@ export class BusinessEditComponent implements OnInit {
   mockBackendData = defaultBusinessClassificationBackendData;
 
   private numberRegexPattern = /^[0-9]+$/;
+  ongoingRequest = false;
 
   constructor(private route: ActivatedRoute) {}
 
@@ -49,7 +50,31 @@ export class BusinessEditComponent implements OnInit {
 
   handleEditFormSubmission(payload: FormEditPayload): void {
     // IMPLEMENT
+    this.ongoingRequest = true;
+    setTimeout(() => {
+      this.ongoingRequest = false;
+    }, 5000);
     console.log(payload);
-    // this.businessService.updateBusiness(payload);
+    // this.businessService.updateBusiness(payload).subscribe(
+    //   {
+    //   next : ()=>{
+    // this.modalService.open(SuccessModal, data)
+    // },
+    //   error: ()=>{
+    // handleError();
+    // },
+    // complete: ()=>{
+    //   this.ongoingRequest = false;
+    // }
+    // }
+    // );
+  }
+
+  handleBusinessDeletion(payload: FormEditPayload): void {
+    this.ongoingRequest = true;
+    //Simulates service connection
+    setTimeout(() => {
+      this.ongoingRequest = false;
+    }, 5000);
   }
 }

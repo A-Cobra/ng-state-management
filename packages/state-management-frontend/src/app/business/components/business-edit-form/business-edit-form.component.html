@@ -4,11 +4,7 @@
     <div class="left-column">
       <div class="business-img">
         <clapp-image-display
-          [src]="
-            businessFormEdit.controls['imgUrl'].value
-              ? businessFormEdit.controls['imgUrl'].value
-              : defaultImgUrl
-          "
+          [src]="currentBusinessImgUrl ? currentBusinessImgUrl : defaultImgUrl"
           [alt]="businessData.businessName + '.png'"
           type="avatar"
           size="large"
@@ -147,7 +143,7 @@
         >Businesses list</clapp-button
       >
     </div>
-    <div class="buttons__right" *ngIf="businessData">
+    <div class="buttons__right" *ngIf="businessData && !ongoingRequest">
       <clapp-button
         *ngIf="!editing; else saveButton"
         (click)="onEditClick()"
