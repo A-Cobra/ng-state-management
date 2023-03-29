@@ -1,6 +1,8 @@
 import { EntityRepository, wrap } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { BusinessHq } from '../../business/entities/business.entity';
+import { BusinessService } from '../../business/services/business.service';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
 import { User } from '../entities/user.entity';
@@ -9,7 +11,8 @@ import { User } from '../entities/user.entity';
 export class UsersService {
   constructor(
     @InjectRepository(User)
-    private readonly userRepository: EntityRepository<User>
+    private readonly userRepository: EntityRepository<User>,
+    private readonly businessServie: BusinessService
   ) {}
 
   async create(data: CreateUserDto): Promise<User> {
@@ -31,7 +34,9 @@ export class UsersService {
   }
 
   async findOneByEmail(email: string): Promise<User> {
-    const user = await this.userRepository.findOne({ email });
+    const user =
+      (await this.userRepository.findOne({ email })) ||
+      (await this.businessServie.findByEmail(email));
 
     if (!user) {
       throw new NotFoundException('user not found');
@@ -42,7 +47,9 @@ export class UsersService {
 
   async update(userId: string, updatedUserInfo: UpdateUserDto): Promise<User> {
     const user = await this.userRepository.findOne({ userId });
-    wrap(user).assign(updatedUserInfo);
+
+    //this.userRepository.assign(user, updatedUserInfo);
+
     await this.userRepository.flush();
 
     return user;
@@ -57,7 +64,13 @@ export class UsersService {
   }
 
   async changeUserLogState(userId: string, state: boolean): Promise<User> {
-    const foundUser = await this.userRepository.findOne({ userId });
+    const foundUser =
+      (await this.userRepository.findOne({ userId })) ||
+      (await this.businessServie.findById(userId));
+
+    if (foundUser instanceof BusinessHq)
+      return this.businessServie.changeBusinessLogState(userId, state);
+
     foundUser.isLoggedIn = state;
 
     await this.userRepository.flush();

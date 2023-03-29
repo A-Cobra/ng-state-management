@@ -10,6 +10,7 @@ import { BusinessClassification } from '../entities/business-classification.enti
 import { BusinessessResult } from '../interfaces/businessess-result';
 import { MailService } from '../../notifications/mail/mail.service';
 import { hashData } from '../../auth/utils/jwt.util';
+import { User } from '../../users/entities/user.entity';
 
 @Injectable()
 export class BusinessService {
@@ -21,8 +22,17 @@ export class BusinessService {
     private readonly mailService: MailService
   ) {}
 
-  async findById(businessId: string): Promise<BusinessHq> {
-    const business = await this.businessRepository.findOne({ businessId });
+  async findById(userId: string): Promise<BusinessHq> {
+    const business = await this.businessRepository.findOne({ userId });
+
+    if (!business || business.deleted)
+      throw new NotFoundException('Business not found');
+
+    return business;
+  }
+
+  async findByEmail(email: string) {
+    const business = await this.businessRepository.findOne({ email });
 
     if (!business || business.deleted)
       throw new NotFoundException('Business not found');
@@ -112,10 +122,20 @@ export class BusinessService {
     businessModificationDto: BusinessModificationDto
   ): Promise<BusinessHq> {
     const business = await this.businessRepository.findOne({ businessId });
-    wrap(business).assign(businessModificationDto);
+    this.businessRepository.assign(business, businessModificationDto);
     await this.businessRepository.flush();
 
     return business;
+  }
+
+  async changeBusinessLogState(userId: string, state: boolean): Promise<User> {
+    const foundUser = await this.businessRepository.findOne({ userId });
+
+    foundUser.isLoggedIn = state;
+
+    await this.businessRepository.flush();
+
+    return foundUser;
   }
 
   async findClassifications(
