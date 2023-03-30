@@ -12,7 +12,12 @@
         </clapp-image-display>
       </div>
 
-      <div *ngIf="businessData">
+      <div
+        *ngIf="businessData"
+        [ngClass]="{
+          disabled: !editing
+        }"
+      >
         Total branches: {{ businessData.totalBranches }}
       </div>
 
@@ -44,6 +49,7 @@
     <div class="right-column">
       <state-management-app-reactive-form-control-text-input
         [parentForm]="businessFormEdit"
+        controlName="displayName"
         displayText="Please enter the display name"
         label="Display Name"
       ></state-management-app-reactive-form-control-text-input>
@@ -55,10 +61,12 @@
         label="Business Name"
       ></state-management-app-reactive-form-control-text-input>
 
-      <div class="form__group">
+      <div class="form__group" *ngIf="editing; else disabledInputSelect">
         <clapp-select
           [formControl]="businessFormEdit.controls['businessClassification']"
-          [selectedValue]="'none'"
+          [selectedValue]="
+            businessFormEdit.controls['businessClassification'].value
+          "
           label="Business Classification"
           [borderless]="false"
           [displayLabel]="false"
@@ -70,7 +78,6 @@
           <clapp-search
             (keyup)="onSearchKeyUp($event)"
             (valueDeleted)="onSearchValueDeleted()"
-            [formControl]="businessFormEdit.controls['businessClassification']"
           ></clapp-search>
           <clapp-select-option
             *ngFor="let classification of mockClassificationList"
@@ -100,6 +107,13 @@
           </clapp-helper-text>
         </div>
       </div>
+      <ng-template #disabledInputSelect>
+        <state-management-app-reactive-form-control-text-input
+          [parentForm]="businessFormEdit"
+          controlName="businessClassification"
+          displayText="Please enter the business classification"
+        ></state-management-app-reactive-form-control-text-input>
+      </ng-template>
 
       <state-management-app-reactive-form-control-text-input
         [parentForm]="businessFormEdit"

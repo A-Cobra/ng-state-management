@@ -1,5 +1,6 @@
 $row-gap: 25px;
 $column-gap: 30px;
+$light-gray: rgb(180, 180, 180);
 
 .form {
   &__main {
@@ -40,4 +41,7 @@ $column-gap: 30px;
 .business-img {
   display: grid;
   justify-items: center;
+}
+.disabled {
+  color: $light-gray;
 }

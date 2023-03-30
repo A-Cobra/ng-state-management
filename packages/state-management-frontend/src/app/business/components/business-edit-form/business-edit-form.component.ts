@@ -94,11 +94,11 @@ export class BusinessEditFormComponent implements OnInit, OnDestroy {
     private router: Router
   ) {
     this.disableFormControls();
-    this.displayClassificationMatches('');
   }
   ngOnInit(): void {
     this.fillFormControls();
     this.setupImgUrlDebounce();
+    this.onSearchValueDeleted();
   }
   ngOnDestroy(): void {
     this.terminateAllSubscriptions$.next('');

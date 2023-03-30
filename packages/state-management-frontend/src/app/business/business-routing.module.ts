@@ -9,7 +9,7 @@ const routes: Routes = [
     component: BusinessListComponent,
   },
   {
-    path: ':id/edit',
+    path: ':id',
     component: BusinessEditComponent,
   },
 ];
