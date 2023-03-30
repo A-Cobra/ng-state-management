@@ -25,12 +25,14 @@ import {
   ClappNotificationModule,
 } from '@clapp1/clapp-angular';
 
-describe('CreateFormComponent', () => {
+fdescribe('CreateFormComponent', () => {
   let component: CreateFormComponent;
   let fixture: ComponentFixture<CreateFormComponent>;
-  let mockBusinessService: Partial<BusinessService>;
-  let mockModalService: Partial<ModalService>;
-  let mockNotificationService: Partial<NotificationService>;
+  let mockBusinessService: any;
+  let mockModalService: any;
+  let mockNotificationService: any;
+  let mockRouter: any;
+  let mockActivatedRoute: any;
 
   beforeEach(async () => {
     mockBusinessService = {
@@ -43,6 +45,12 @@ describe('CreateFormComponent', () => {
     mockNotificationService = {
       success: jest.fn(),
       error: jest.fn(),
+    };
+    mockRouter = {
+      navigate: () => {},
+    };
+    mockActivatedRoute = {
+      id: 1,
     };
     await TestBed.configureTestingModule({
       declarations: [
@@ -67,6 +75,14 @@ describe('CreateFormComponent', () => {
         ClappNotificationModule,
       ],
       providers: [
+        {
+          provide: Router,
+          useValue: mockRouter,
+        },
+        {
+          provide: ActivatedRoute,
+          useValue: mockActivatedRoute,
+        },
         { provide: BusinessService, useValue: mockBusinessService },
         { provide: ModalService, useValue: mockModalService },
         { provide: NotificationService, useValue: mockNotificationService },
@@ -92,7 +108,7 @@ describe('CreateFormComponent', () => {
     expect(component.createForm).toBeDefined();
   });
 
-  it('setUpForm should set up the form', () => {
+  it('should set up the form on setUpForm', () => {
     component.setUpForm();
     expect(component.createForm).toBeDefined();
   });
@@ -174,12 +190,12 @@ describe('CreateFormComponent', () => {
   //   expect(component.loader).toBeFalsy();
   // });
 
-  // it('should navigate to businesses on go back if changes have not been saved', () => {
+  // it('should navigate on handleGoBack', () => {
   //   mockModalService.open = jest.fn(() => of(true));
-  //   const spy = jest.spyOn(component.router, 'navigate');
+  //   const router = jest.spyOn(mockRouter, 'navigate');
   //   component.handleGoBack();
-  //   expect(spy).toHaveBeenCalledWith(['/businesses']);
-  //   expect(component.loader).toBeTruthy();
+  //   fixture.detectChanges();
+  //   expect(router).toHaveBeenCalledTimes(1);
   // });
 
   it('should unsubscribe on destroy', () => {
