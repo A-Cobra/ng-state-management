@@ -35,7 +35,7 @@ export class ClassificationLayoutFormComponent {
         name: value.name,
         numberOfBusinesses: value.numberOfBusinesses,
         description: value.description,
-        image: this.imgDefault,
+        image: this.imgDefault, //TODO change url from BE instead image default
       });
     }
   }
@@ -87,6 +87,13 @@ export class ClassificationLayoutFormComponent {
         return ['../'];
     }
   }
+  setValueOnInputsWithoutFormControl(): void {
+    // set value image type string until to know input and output type of API
+    this.getControl('image').setValue(
+      JSON.stringify(this.getControl('image').value)
+    );
+    this.getControl('numberOfBusinesses').setValue(0);
+  }
 
   submit(): void {
     this.getControl('numberOfBusinesses').enable();
@@ -97,11 +104,7 @@ export class ClassificationLayoutFormComponent {
         id: this.idClassification,
       });
     } else {
-      // set value image type string until to know input and output type of API
-      this.getControl('image').setValue(
-        JSON.stringify(this.getControl('image').value)
-      );
-      this.getControl('numberOfBusinesses').setValue(0);
+      this.setValueOnInputsWithoutFormControl();
       this.dataClassification.emit(this.classificationForm.value);
       this.classificationForm.reset();
       this.getControl('image').setValue('');

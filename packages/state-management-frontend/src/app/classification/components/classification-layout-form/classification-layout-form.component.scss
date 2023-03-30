@@ -51,6 +51,10 @@
   }
   &__image {
     align-items: center;
+    margin: 16px 0;
+    @media (min-width: 800px) {
+      margin: 24px 0;
+    }
   }
 
   clapp-text-input {
@@ -76,7 +80,6 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   height: 48px;
 
   &__detail {
@@ -103,12 +106,13 @@
       }
     }
   }
-
+  margin: 32px 0;
   @media (min-width: 800px) {
     display: grid;
     grid-template-columns: 50% 50%;
     justify-content: space-between;
     align-items: center;
+    margin: 40px 0;
   }
 }
 
@@ -152,7 +156,17 @@
 }
 
 :host ::ng-deep clapp-button button {
+  :first-child {
+    margin-bottom: 8px;
+  }
   @media (min-width: 800px) {
     padding: 10px 0;
+  }
+}
+
+:host ::ng-deep clapp-button :first-child {
+  margin-bottom: 20px;
+  @media (min-width: 800px) {
+    margin-bottom: 0;
   }
 }

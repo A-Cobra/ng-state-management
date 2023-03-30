@@ -102,13 +102,14 @@ export class ClassificationCreateEditDeleteComponent
     this.classificationService.addClassification(data).subscribe({
       next: (result: Classification) => {
         this.classification = result;
-        this.loader = false;
-        this.actionNotification = 'created';
-        this.showNotificationSuccess();
+        this.handleRequestSuccess(false, 'created', [
+          '/classifications',
+          'detail',
+          this.classification.id as string,
+        ]);
       },
       error: () => {
-        this.loader = false;
-        this.actionNotification = 'creating';
+        this.handleRequestError(false, 'creating');
         this.showNotificationError();
       },
     });
@@ -118,20 +119,14 @@ export class ClassificationCreateEditDeleteComponent
     this.classificationService.updateClassification(data).subscribe({
       next: (result: Classification) => {
         this.classification = result;
-        this.loader = false;
-        this.actionNotification = 'updated';
-        this.showNotificationSuccess();
-        this.ngZone.run(() => {
-          this.router.navigate([
-            '/classifications',
-            'detail',
-            this.idClassification,
-          ]);
-        });
+        this.handleRequestSuccess(false, 'updated', [
+          '/classifications',
+          'detail',
+          this.idClassification,
+        ]);
       },
       error: () => {
-        this.loader = false;
-        this.actionNotification = 'updating';
+        this.handleRequestError(false, 'updating');
         this.showNotificationError();
       },
     });
@@ -142,16 +137,10 @@ export class ClassificationCreateEditDeleteComponent
       .deleteClassification(data.id as string)
       .subscribe({
         next: () => {
-          this.loader = false;
-          this.actionNotification = 'deleted';
-          this.showNotificationSuccess();
-          this.ngZone.run(() => {
-            this.router.navigate(['/classifications']);
-          });
+          this.handleRequestSuccess(false, 'deleted', ['/classifications']);
         },
         error: () => {
-          this.loader = false;
-          this.actionNotification = 'deleting';
+          this.handleRequestError(false, 'deleting');
           this.showNotificationError();
         },
       });
@@ -175,6 +164,25 @@ export class ClassificationCreateEditDeleteComponent
         ? this.deleteClassification(data)
         : (this.loader = false);
     });
+  }
+
+  handleRequestSuccess(
+    statusLoader: boolean,
+    action: string,
+    path: string[]
+  ): void {
+    this.loader = statusLoader;
+    this.actionNotification = action;
+    this.showNotificationSuccess();
+    this.ngZone.run(() => {
+      this.router.navigate(path);
+    });
+  }
+
+  handleRequestError(statusLoader: boolean, action: string): void {
+    this.loader = statusLoader;
+    this.actionNotification = action;
+    this.showNotificationError();
   }
 
   showNotificationSuccess(): void {

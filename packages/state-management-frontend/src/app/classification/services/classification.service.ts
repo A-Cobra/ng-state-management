@@ -7,7 +7,7 @@ import { Observable, of, throwError } from 'rxjs';
   providedIn: 'root',
 })
 export class ClassificationService {
-  //Note:The whole related to saving to localStorage should be removed when connecting to the API
+  //TODO:The whole related to saving to localStorage should be removed when connecting to the API
   arrClassification: Classification[] = CLASSIFICATIONS;
 
   addClassification(data: Classification): Observable<Classification> {
