@@ -1,23 +1,232 @@
-<form [formGroup]="profileForm">
-  <clapp-text-input
-    #firstNameRef
-    formControlName="firstName"
-    autocomplete=""
-    [error]="false || profileForm.controls['firstName'].hasError('required')"
-    [success]="false"
-    id="firstNameInput"
-    [maxLength]="1000"
-    name="textInputName"
-    placeholder="Placeholder"
-    type="text"
-  ></clapp-text-input>
+<form [formGroup]="profileForm" autocomplete="off" class="profile__form">
+  <fieldset class="profile__form__wrapper">
+    <legend class="profile__title">Profile</legend>
+    <div class="profile__form__control">
+      <clapp-text-input
+        #nameRef
+        formControlName="name"
+        [success]="
+          getControl('name').valid &&
+          !getControl('name').disabled &&
+          !getControl('name').pristine
+        "
+        [error]="
+          getControl('name').invalid &&
+          !getControl('name').disabled &&
+          !getControl('name').pristine
+        "
+        id="nameInput"
+        name="nameInput"
+        label="Name"
+        type="text"
+      ></clapp-text-input>
+      <clapp-helper-text
+        *ngIf="getControl('name').disabled || getControl('name').pristine"
+        [textState]="getControl('name').disabled ? 'disabled' : 'default'"
+      >
+        You can change your first name here.
+      </clapp-helper-text>
+      <clapp-helper-text
+        *ngIf="
+          !getControl('name').disabled &&
+          getControl('name').hasError('required') &&
+          !getControl('name').pristine
+        "
+        [textState]="getControl('name').disabled ? 'disabled' : 'default'"
+      >
+        This field is required.
+      </clapp-helper-text>
+      <clapp-helper-text
+        *ngIf="
+          !getControl('name').disabled &&
+          getControl('name').hasError('pattern') &&
+          !getControl('name').pristine
+        "
+        [textState]="getControl('name').disabled ? 'disabled' : 'default'"
+      >
+        This field must contain only letters. It cannot start or finish with a
+        space.
+      </clapp-helper-text>
+    </div>
+    <div class="profile__form__control">
+      <clapp-text-input
+        #lastNameRef
+        [success]="
+          getControl('lastName').valid &&
+          !getControl('lastName').disabled &&
+          !getControl('lastName').pristine
+        "
+        [error]="
+          getControl('lastName').invalid &&
+          !getControl('lastName').disabled &&
+          !getControl('lastName').pristine
+        "
+        formControlName="lastName"
+        id="lastNameInput"
+        name="lastNameInput"
+        label="Last name"
+        type="text"
+      ></clapp-text-input>
+      <clapp-helper-text
+        *ngIf="
+          getControl('lastName').disabled || getControl('lastName').pristine
+        "
+        [textState]="getControl('lastName').disabled ? 'disabled' : 'default'"
+      >
+        You can change your last name here.
+      </clapp-helper-text>
+      <clapp-helper-text
+        *ngIf="
+          !getControl('lastName').disabled &&
+          getControl('lastName').hasError('required') &&
+          !getControl('lastName').pristine
+        "
+        [textState]="getControl('lastName').disabled ? 'disabled' : 'default'"
+      >
+        This field is required.
+      </clapp-helper-text>
+      <clapp-helper-text
+        *ngIf="
+          !getControl('lastName').disabled &&
+          getControl('lastName').hasError('pattern') &&
+          !getControl('lastName').pristine
+        "
+        [textState]="getControl('lastName').disabled ? 'disabled' : 'default'"
+      >
+        This field must contain only letters. It cannot start or finish with a
+        space.
+      </clapp-helper-text>
+    </div>
+  </fieldset>
+  <fieldset class="profile__form__wrapper">
+    <legend class="profile__subtitle">Contact information</legend>
 
-  <clapp-helper-text
-    *ngIf="!firstNameRef.error && !firstNameRef.success"
-    [textState]="
-      profileForm.controls['firstName'].disabled ? 'disabled' : 'default'
-    "
-  >
-    Default Helper Text
-  </clapp-helper-text>
+    <div class="profile__form__control">
+      <clapp-text-input
+        #emailRef
+        formControlName="email"
+        [error]="
+          getControl('email').invalid &&
+          !getControl('email').disabled &&
+          !getControl('email').pristine
+        "
+        [success]="
+          getControl('email').valid &&
+          !getControl('email').disabled &&
+          !getControl('email').pristine
+        "
+        id="emailInput"
+        name="emailInput"
+        label="Email"
+        type="email"
+      ></clapp-text-input>
+      <clapp-helper-text
+        *ngIf="getControl('email').disabled || getControl('email').pristine"
+        [textState]="getControl('email').disabled ? 'disabled' : 'default'"
+      >
+        You can change your email here.
+      </clapp-helper-text>
+      <clapp-helper-text
+        *ngIf="
+          getControl('email').hasError('required') &&
+          !getControl('email').pristine
+        "
+        textState="default"
+      >
+        This field is required.
+      </clapp-helper-text>
+      <clapp-helper-text
+        *ngIf="
+          (getControl('email').hasError('email') ||
+            getControl('email').hasError('pattern')) &&
+          !getControl('email').pristine
+        "
+        textState="default"
+      >
+        This field must contain a valid email.
+      </clapp-helper-text>
+    </div>
+    <div class="profile__form__control">
+      <clapp-text-input
+        #phoneNumberRef
+        formControlName="phoneNumber"
+        [error]="
+          getControl('phoneNumber').invalid &&
+          !getControl('phoneNumber').disabled &&
+          !getControl('phoneNumber').pristine
+        "
+        [success]="
+          getControl('phoneNumber').valid &&
+          !getControl('phoneNumber').disabled &&
+          !getControl('phoneNumber').pristine
+        "
+        id="phoneNumberInput"
+        name="phoneNumberInput"
+        label="Phone number"
+        type="tel"
+      ></clapp-text-input>
+      <clapp-helper-text
+        *ngIf="
+          getControl('phoneNumber').disabled ||
+          getControl('phoneNumber').pristine
+        "
+        [textState]="
+          getControl('phoneNumber').disabled ? 'disabled' : 'default'
+        "
+      >
+        You can change your phone number here.
+      </clapp-helper-text>
+      <clapp-helper-text
+        *ngIf="
+          getControl('phoneNumber').hasError('required') &&
+          !getControl('phoneNumber').pristine
+        "
+        textState="default"
+      >
+        This field is required.
+      </clapp-helper-text>
+      <clapp-helper-text
+        *ngIf="
+          getControl('phoneNumber').hasError('pattern') &&
+          !getControl('phoneNumber').pristine
+        "
+        textState="default"
+      >
+        This field must contain only numbers. 0-9
+      </clapp-helper-text>
+    </div>
+  </fieldset>
+  <!-- TODO: Add change password link  -->
+  <a class="profile__link" [routerLink]="['']">Manage your password</a>
+  <div class="profile__form__buttons">
+    <!-- TODO: Add back to page link -->
+    <clapp-button
+      color="secondary"
+      size="small"
+      [disabled]="isSending"
+      type="button"
+      [routerLink]="['']"
+    >
+      Back
+    </clapp-button>
+    <clapp-button
+      *ngIf="!isEditing"
+      color="primary"
+      size="small"
+      (click)="onClickEdit()"
+      type="button"
+    >
+      Edit
+    </clapp-button>
+    <clapp-button
+      *ngIf="isEditing"
+      color="primary"
+      size="small"
+      [disabled]="profileForm.invalid || isSending"
+      type="submit"
+      (click)="onClickSave()"
+    >
+      Save
+    </clapp-button>
+  </div>
 </form>

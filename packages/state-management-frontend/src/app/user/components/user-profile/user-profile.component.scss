@@ -1,0 +1,51 @@
+$color-primary: #ff4040;
+
+.profile {
+  &__title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: $color-primary;
+  }
+
+  &__subtitle {
+    font-weight: 700;
+    color: $color-primary;
+  }
+
+  &__link {
+    color: $color-primary;
+    text-decoration: none;
+    font-weight: 500;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  &__form {
+    display: grid;
+    justify-items: flex-start;
+    gap: 1rem;
+
+    padding-block: 1em;
+
+    &__wrapper {
+      display: grid;
+      gap: 2em;
+
+      width: 100%;
+
+      padding-top: 2em;
+
+      border: none;
+    }
+
+    &__buttons {
+      display: flex;
+      justify-content: flex-end;
+      gap: 1rem;
+
+      width: 100%;
+    }
+  }
+}
