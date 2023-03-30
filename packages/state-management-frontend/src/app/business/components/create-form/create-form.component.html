@@ -8,27 +8,27 @@
       <div class="createForm__form-section-container">
         <h4>Profile</h4>
         <div class="createForm__input-container">
-          <state-management-app-clapp-text-input-component
+          <state-management-app-reactive-form-text-input-component
             [parentForm]="createForm"
             controlName="name"
             elementId="nameId"
             label="Name*"
             displayText="Please enter the business name"
             patternMessage="Only common characters allowed"
-          ></state-management-app-clapp-text-input-component>
+          ></state-management-app-reactive-form-text-input-component>
         </div>
         <div class="createForm__input-container">
-          <state-management-app-clapp-text-input-component
+          <state-management-app-reactive-form-text-input-component
             [parentForm]="createForm"
             controlName="email"
             elementId="emailId"
             label="Email*"
             displayText="Please enter an email"
             patternMessage="Email format is required"
-          ></state-management-app-clapp-text-input-component>
+          ></state-management-app-reactive-form-text-input-component>
         </div>
         <div class="createForm__input-container">
-          <state-management-app-clapp-text-input-component
+          <state-management-app-reactive-form-text-input-component
             [parentForm]="createForm"
             controlName="password"
             elementId="passwordId"
@@ -37,14 +37,13 @@
             patternMessage="8 char min, at least 1 capital letter, 1 number and 1 symbol"
             inputType="password"
             [maxLength]="30"
-          ></state-management-app-clapp-text-input-component>
+          ></state-management-app-reactive-form-text-input-component>
         </div>
         <div class="createForm__select-container">
           <ng-container *ngIf="classification$ | async as classifications">
             <clapp-select
               formControlName="classification"
               label="Options Label"
-              [disabled]="false"
               [displayLabel]="true"
               label="Classification*"
               inputName="classificationId"
@@ -72,7 +71,7 @@
         </div>
         <h4>Contact</h4>
         <div class="createForm__input-container">
-          <state-management-app-clapp-text-input-component
+          <state-management-app-reactive-form-text-input-component
             [parentForm]="createForm"
             controlName="address"
             elementId="addressId"
@@ -81,11 +80,11 @@
             patternMessage=""
             inputType="text"
             [maxLength]="100"
-          ></state-management-app-clapp-text-input-component>
+          ></state-management-app-reactive-form-text-input-component>
         </div>
         <div class="createForm__input-container-double">
           <div class="individual-input">
-            <state-management-app-clapp-text-input-component
+            <state-management-app-reactive-form-text-input-component
               [parentForm]="createForm"
               controlName="longitude"
               elementId="longitudeId"
@@ -94,10 +93,10 @@
               patternMessage="Only longitude format"
               inputType="text"
               [maxLength]="9"
-            ></state-management-app-clapp-text-input-component>
+            ></state-management-app-reactive-form-text-input-component>
           </div>
           <div class="individual-input">
-            <state-management-app-clapp-text-input-component
+            <state-management-app-reactive-form-text-input-component
               [parentForm]="createForm"
               controlName="latitude"
               elementId="latitudeId"
@@ -106,11 +105,11 @@
               patternMessage="Only latitude format"
               inputType="text"
               [maxLength]="9"
-            ></state-management-app-clapp-text-input-component>
+            ></state-management-app-reactive-form-text-input-component>
           </div>
         </div>
         <div class="createForm__input-container">
-          <state-management-app-clapp-text-input-component
+          <state-management-app-reactive-form-text-input-component
             [parentForm]="createForm"
             controlName="contact"
             elementId="concatId"
@@ -119,13 +118,13 @@
             patternMessage="Only numbers allowed"
             inputType="text"
             [maxLength]="15"
-          ></state-management-app-clapp-text-input-component>
+          ></state-management-app-reactive-form-text-input-component>
         </div>
       </div>
       <div class="createForm__form-section-container">
         <h4>Add picture</h4>
         <div class="createForm__picture-input-container">
-          <state-management-app-clapp-text-input-component
+          <state-management-app-reactive-form-text-input-component
             [parentForm]="createForm"
             controlName="picture"
             elementId="pictureId"
@@ -133,7 +132,7 @@
             displayText='Please enter ".jpg" extension URL address'
             patternMessage='Only URL address with a ".jpg" extension allowed'
             inputType="text"
-          ></state-management-app-clapp-text-input-component>
+          ></state-management-app-reactive-form-text-input-component>
         </div>
         <div class="createForm__picture-container">
           <div>
@@ -152,7 +151,7 @@
         </div>
         <h4>Payment Information</h4>
         <div class="createForm__input-container">
-          <state-management-app-clapp-text-input-component
+          <state-management-app-reactive-form-text-input-component
             [parentForm]="createForm"
             controlName="bankAccountNumber"
             elementId="bankAccountNumberId"
@@ -161,10 +160,10 @@
             patternMessage="Only numbers or common characters allowed"
             inputType="text"
             [maxLength]="20"
-          ></state-management-app-clapp-text-input-component>
+          ></state-management-app-reactive-form-text-input-component>
         </div>
         <div class="createForm__input-container-optional">
-          <state-management-app-clapp-text-input-component
+          <state-management-app-reactive-form-text-input-component
             [parentForm]="createForm"
             controlName="bankName"
             elementId="bankNameId"
@@ -173,13 +172,12 @@
             patternMessage="Only numbers or common characters allowed"
             inputType="text"
             [maxLength]="20"
-          ></state-management-app-clapp-text-input-component>
+          ></state-management-app-reactive-form-text-input-component>
         </div>
         <div class="createForm__select-container-optional">
           <clapp-select
             formControlName="bankAccountType"
             label="Options Label"
-            [disabled]="false"
             [displayLabel]="true"
             label="Account type"
             inputName="bankAccountTypeId"
@@ -197,7 +195,7 @@
           </clapp-select>
         </div>
         <div class="createForm__input-container">
-          <state-management-app-clapp-text-input-component
+          <state-management-app-reactive-form-text-input-component
             [parentForm]="createForm"
             controlName="fullname"
             elementId="fullnameId"
@@ -206,10 +204,10 @@
             patternMessage="Only common characters allowed"
             inputType="text"
             [maxLength]="50"
-          ></state-management-app-clapp-text-input-component>
+          ></state-management-app-reactive-form-text-input-component>
         </div>
         <div class="createForm__input-container">
-          <state-management-app-clapp-text-input-component
+          <state-management-app-reactive-form-text-input-component
             [parentForm]="createForm"
             controlName="documentId"
             elementId="documentIdId"
@@ -218,7 +216,7 @@
             patternMessage="Only numbers allowed"
             inputType="text"
             [maxLength]="50"
-          ></state-management-app-clapp-text-input-component>
+          ></state-management-app-reactive-form-text-input-component>
         </div>
         <div class="createForm__buttons-container">
           <clapp-button

@@ -1,20 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, FormGroup, FormControl } from '@angular/forms';
-import { ClappTextInputComponent } from './clapp-text-input.component';
+import { ReactiveFormTextInputComponent } from './reactive-form-text-input.component';
 import {
-  // ClappTextInputComponent,
-  ClappHelperTextComponent,
   ClappTextInputModule,
   ClappInputHelpersModule,
 } from '@clapp1/clapp-angular';
 
-describe('ClappTextInputComponent', () => {
-  let component: ClappTextInputComponent;
-  let fixture: ComponentFixture<ClappTextInputComponent>;
+describe('ReactiveFormTextInputComponent', () => {
+  let component: ReactiveFormTextInputComponent;
+  let fixture: ComponentFixture<ReactiveFormTextInputComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ClappTextInputComponent],
+      declarations: [ReactiveFormTextInputComponent],
       imports: [
         ReactiveFormsModule,
         ClappTextInputModule,
@@ -22,7 +20,7 @@ describe('ClappTextInputComponent', () => {
       ],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ClappTextInputComponent);
+    fixture = TestBed.createComponent(ReactiveFormTextInputComponent);
     component = fixture.componentInstance;
     component.parentForm = new FormGroup({
       controlName: new FormControl(),

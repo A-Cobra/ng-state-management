@@ -96,11 +96,6 @@ export class CreateFormComponent implements OnInit, OnDestroy {
       ]),
     });
   }
-
-  clearEnableForm() {
-    this.createForm.enable();
-    this.createForm.reset();
-  }
   onSubmit() {
     this.createForm.disable();
     this.loader = true;
@@ -111,6 +106,8 @@ export class CreateFormComponent implements OnInit, OnDestroy {
           'Success!'
         ),
           this.createForm.reset();
+        this.loader = false;
+        this.createForm.enable();
       },
       error: () =>
         this.notificationService.error(
@@ -118,8 +115,6 @@ export class CreateFormComponent implements OnInit, OnDestroy {
           'Error! '
         ),
     });
-    this.loader = false;
-    this.createForm.enable();
   }
   handleGoBack() {
     const modalRef = this.modalService.open(ConfirmationModalComponent, {

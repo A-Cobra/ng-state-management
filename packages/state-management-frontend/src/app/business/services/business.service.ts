@@ -11,7 +11,7 @@ export class BusinessService {
 
   addNewBusiness(data: Business): Observable<boolean> {
     //POST to Backend
-    console.log(data);
+    // console.log(data);
     return of(true);
   }
 

@@ -1,21 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Location } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
-import { CreateFormComponent } from './create-form.component';
 import { of } from 'rxjs';
-import { BusinessService } from '../../services/business.service';
 
-import { ModalService, NotificationService } from '@clapp1/clapp-angular';
+import { CreateFormComponent } from './create-form.component';
+import { ReactiveFormTextInputComponent } from '../create-form-child/reactive-form-text-input-component/reactive-form-text-input.component';
+import { BusinessService } from '../../services/business.service';
 import {
-  ClappButtonComponent,
-  ClappTextInputComponent,
-  ClappHelperTextComponent,
-  ClappSelectComponent,
-  ClappImageDisplayComponent,
-  ClappModalComponent,
-  ClappNotificationComponent,
   ClappButtonModule,
   ClappTextInputModule,
   ClappInputHelpersModule,
@@ -25,44 +16,19 @@ import {
   ClappNotificationModule,
 } from '@clapp1/clapp-angular';
 
-fdescribe('CreateFormComponent', () => {
+describe('CreateFormComponent', () => {
   let component: CreateFormComponent;
   let fixture: ComponentFixture<CreateFormComponent>;
   let mockBusinessService: any;
-  let mockModalService: any;
-  let mockNotificationService: any;
-  let mockRouter: any;
-  let mockActivatedRoute: any;
 
   beforeEach(async () => {
     mockBusinessService = {
       addNewBusiness: jest.fn(() => of()),
       getClassifications: jest.fn(() => of([])),
     };
-    mockModalService = {
-      open: jest.fn().mockReturnValue({ afterClosed: () => of(true) }),
-    };
-    mockNotificationService = {
-      success: jest.fn(),
-      error: jest.fn(),
-    };
-    mockRouter = {
-      navigate: () => {},
-    };
-    mockActivatedRoute = {
-      id: 1,
-    };
+
     await TestBed.configureTestingModule({
-      declarations: [
-        CreateFormComponent,
-        ClappButtonComponent,
-        ClappTextInputComponent,
-        ClappHelperTextComponent,
-        ClappSelectComponent,
-        ClappImageDisplayComponent,
-        ClappModalComponent,
-        ClappNotificationComponent,
-      ],
+      declarations: [CreateFormComponent, ReactiveFormTextInputComponent],
       imports: [
         RouterTestingModule,
         ReactiveFormsModule,
@@ -74,19 +40,7 @@ fdescribe('CreateFormComponent', () => {
         ModalModule,
         ClappNotificationModule,
       ],
-      providers: [
-        {
-          provide: Router,
-          useValue: mockRouter,
-        },
-        {
-          provide: ActivatedRoute,
-          useValue: mockActivatedRoute,
-        },
-        { provide: BusinessService, useValue: mockBusinessService },
-        { provide: ModalService, useValue: mockModalService },
-        { provide: NotificationService, useValue: mockNotificationService },
-      ],
+      providers: [{ provide: BusinessService, useValue: mockBusinessService }],
     }).compileComponents();
   });
 
@@ -161,42 +115,11 @@ fdescribe('CreateFormComponent', () => {
     );
   });
 
-  // it('should disable form and show loader when submitting', () => {
-  //   component.onSubmit();
-  //   expect(component.createForm.disabled).toBeTruthy();
-  //   expect(component.loader).toBeTruthy();
-  // });
-
-  // it('should enable form and hide loader after successful submission', () => {
-  //   const spy = jest.spyOn(component.notificationService, 'success');
-  //   component.onSubmit();
-  //   expect(component.createForm.disabled).toBeTruthy();
-  //   expect(component.loader).toBeTruthy();
-  //   expect(spy).toHaveBeenCalled();
-  //   expect(component.createForm.enabled).toBeTruthy();
-  //   expect(component.loader).toBeFalsy();
-  // });
-
-  // it('should enable form and hide loader after unsuccessful submission', () => {
-  //   const spy = jest.spyOn(component.notificationService, 'error');
-  //   mockBusinessService.addNewBusiness = jest.fn(() => {
-  //     throw new Error();
-  //   });
-  //   component.onSubmit();
-  //   expect(component.createForm.disabled).toBeTruthy();
-  //   expect(component.loader).toBeTruthy();
-  //   expect(spy).toHaveBeenCalled();
-  //   expect(component.createForm.enabled).toBeTruthy();
-  //   expect(component.loader).toBeFalsy();
-  // });
-
-  // it('should navigate on handleGoBack', () => {
-  //   mockModalService.open = jest.fn(() => of(true));
-  //   const router = jest.spyOn(mockRouter, 'navigate');
-  //   component.handleGoBack();
-  //   fixture.detectChanges();
-  //   expect(router).toHaveBeenCalledTimes(1);
-  // });
+  it('should disable form and show loader when submitting', () => {
+    component.onSubmit();
+    expect(component.createForm.disabled).toBeTruthy();
+    expect(component.loader).toBeTruthy();
+  });
 
   it('should unsubscribe on destroy', () => {
     const unsubscribeSpy = jest.spyOn(component.unsubscribe$, 'next');
