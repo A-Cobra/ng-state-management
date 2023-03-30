@@ -11,10 +11,9 @@ import { ConfirmationMessage } from '../../models/confirmation-message.model';
 @Component({
   standalone: true,
   imports: [CommonModule, ModalModule, ClappButtonModule],
-
   selector: 'state-management-app-confirmation-modal',
   templateUrl: './confirmation-modal.component.html',
-  styleUrls: ['./confirmation-modal.component.scss'],
+  styles: [':host {text-align: center;padding: 0 8px 8px}'],
 })
 export class ConfirmationModalComponent {
   data: ConfirmationMessage;
@@ -25,11 +24,7 @@ export class ConfirmationModalComponent {
     this.data = this.modalConfig.data as ConfirmationMessage;
   }
 
-  onNoClick(): void {
-    this.modalRef.close(false);
-  }
-
-  onModalConfirmation(): void {
-    this.modalRef.close(true);
+  closeModal(value: boolean): void {
+    this.modalRef.close(value);
   }
 }
