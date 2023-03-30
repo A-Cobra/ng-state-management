@@ -65,9 +65,14 @@ export class ClassificationLayoutFormComponent {
   }
 
   getIcon(): string {
-    if (this.currentStatus === 'create') return 'ri-add-line';
-    if (this.currentStatus === 'detail') return 'ri-delete-bin-line';
-    return 'ri-pencil-line';
+    switch (this.currentStatus) {
+      case 'edit':
+        return 'ri-pencil-line';
+      case 'detail':
+        return 'ri-delete-bin-line';
+      default:
+        return 'ri-add-line';
+    }
   }
 
   activateFormByStatus(): void {

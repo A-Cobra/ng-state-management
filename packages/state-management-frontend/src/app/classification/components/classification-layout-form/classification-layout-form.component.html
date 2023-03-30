@@ -125,16 +125,16 @@
 
     <div
       [ngClass]="{
-        'container-buttons__create-delete': currentStatus !== 'detail',
+        'container-buttons__create-delete-edit': currentStatus !== 'detail',
         'container-buttons__detail': currentStatus === 'detail'
       }"
     >
       <ng-container *ngIf="currentStatus === 'detail'">
         <clapp-button
-          color="primary"
+          color="tertiary"
           size="small"
           [disabled]="classificationForm.invalid"
-          [plusIcon]="iconButton"
+          plusIcon="ri-pencil-line"
           [routerLink]="['../../edit', this.idClassification]"
           type="button"
         >
