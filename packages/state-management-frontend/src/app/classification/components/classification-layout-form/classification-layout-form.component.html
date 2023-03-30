@@ -44,7 +44,7 @@
             getControl('description').invalid
           )
         "
-        [success]="!!getControl('description').valid"
+        [success]="getControl('description').valid"
         id="description"
         label="Description*"
         [maxLength]="200"
