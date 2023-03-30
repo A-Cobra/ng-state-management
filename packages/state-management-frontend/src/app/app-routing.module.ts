@@ -3,14 +3,21 @@ import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
+    path: 'branches',
+    loadChildren: () =>
+      import('./branches/branches.module').then((m) => m.BranchesModule),
+  },
+  {
     path: 'businesses',
     loadChildren: () =>
       import('./business/business.module').then((m) => m.BusinessModule),
   },
   {
-    path: 'branches',
+    path: 'classification',
     loadChildren: () =>
-      import('./branches/branches.module').then((m) => m.BranchesModule),
+      import('./classification/classification.module').then(
+        (m) => m.ClassificationModule
+      ),
   },
   {
     path: 'customers',
