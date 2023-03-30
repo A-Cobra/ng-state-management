@@ -4,8 +4,21 @@ import { Location } from '@angular/common';
 
 import { ClassificationMainComponent } from './classification-main.component';
 import { mockClassification } from './mock-classification';
-import { CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
+import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
+import {
+  ClappButtonComponent,
+  ClappButtonModule,
+  ClappCardComponent,
+  ClappCardModule,
+  ClappNoResultsComponent,
+  ClappNoResultsModule,
+  ClappPaginationComponent,
+  ClappPaginationModule,
+  ClappSearchComponent,
+  ClappSearchModule,
+} from '@clapp1/clapp-angular';
+import { ReactiveFormsModule } from '@angular/forms';
 
 fdescribe('ClassificationMainComponent', () => {
   let component: ClassificationMainComponent;
@@ -29,7 +42,22 @@ fdescribe('ClassificationMainComponent', () => {
     };
 
     await TestBed.configureTestingModule({
-      declarations: [ClassificationMainComponent],
+      declarations: [
+        ClassificationMainComponent,
+        ClappSearchComponent,
+        ClappButtonComponent,
+        ClappPaginationComponent,
+        ClappNoResultsComponent,
+        ClappCardComponent,
+      ],
+      imports: [
+        ReactiveFormsModule,
+        ClappSearchModule,
+        ClappButtonModule,
+        ClappPaginationModule,
+        ClappNoResultsModule,
+        ClappCardModule,
+      ],
       providers: [
         {
           provide: Router,
@@ -44,7 +72,6 @@ fdescribe('ClassificationMainComponent', () => {
           useValue: mockActivatedRoute,
         },
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ClassificationMainComponent);
