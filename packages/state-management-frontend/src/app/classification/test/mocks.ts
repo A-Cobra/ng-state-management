@@ -1,4 +1,4 @@
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
 import { Classification } from '../models/api-response.model';
 import { ModalRef } from '@clapp1/clapp-angular';
 
@@ -149,3 +149,37 @@ export const MOCK_CLASSIFICATIONS_LIST = [
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean nec justo vel odio porta lobortis sit amet eu sem. In nec varius purus. Cras ante nunc, sollicitudin sit amet nisl. ',
   },
 ];
+
+export const MOCK_CLASSIFICATION_SERVICE = {
+  getClassificationById: jest.fn((id: string): Observable<Classification> => {
+    if (id !== MOCK_CLASSIFICATION.id) {
+      return throwError(() => new Error('Classification not found.'));
+    }
+    return of(MOCK_CLASSIFICATION);
+  }),
+
+  addClassification: jest.fn(
+    (data: Classification): Observable<Classification> => {
+      if (data.id) {
+        return throwError(() => new Error('Classification not created.'));
+      }
+      return of(MOCK_CLASSIFICATION);
+    }
+  ),
+
+  updateClassification: jest.fn(
+    (data: Classification): Observable<Classification> => {
+      if (data.id !== MOCK_CLASSIFICATION.id) {
+        return throwError(() => new Error('Classification not updated.'));
+      }
+      return of(MOCK_CLASSIFICATION);
+    }
+  ),
+
+  deleteClassification: jest.fn((id: string): Observable<string> => {
+    if (id !== MOCK_CLASSIFICATION.id) {
+      return throwError(() => new Error('Classification not deleted.'));
+    }
+    return of('classification was deleted');
+  }),
+};

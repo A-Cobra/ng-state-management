@@ -7,71 +7,22 @@ import {
   ModalService,
   NotificationService,
 } from '@clapp1/clapp-angular';
-import { ClassificationService } from '../../services/classification.service';
+import {
+  ClassificationService,
+  MOCK_ACTIVATED_ROUTER,
+} from '../../services/classification.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoaderComponent } from '../../../shared/components/loader/loader.component';
 import {
   MOCK_CLASSIFICATION,
   MOCK_CLASSIFICATION_NOT_EXIST,
+  MOCK_CLASSIFICATION_SERVICE,
   MOCK_CLASSIFICATION_TO_CREATE,
   MockModalService,
 } from '../../test/mocks';
 import { Component, Input } from '@angular/core';
 import { Classification } from '../../models/api-response.model';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Observable, of, throwError } from 'rxjs';
-
-const MOCK_CLASSIFICATION_SERVICE = {
-  getClassificationById: jest.fn((id: string): Observable<Classification> => {
-    if (id !== MOCK_CLASSIFICATION.id) {
-      return throwError(() => new Error('Classification not found.'));
-    }
-    return of(MOCK_CLASSIFICATION);
-  }),
-
-  addClassification: jest.fn(
-    (data: Classification): Observable<Classification> => {
-      if (data.id) {
-        return throwError(() => new Error('Classification not created.'));
-      }
-      return of(MOCK_CLASSIFICATION);
-    }
-  ),
-
-  updateClassification: jest.fn(
-    (data: Classification): Observable<Classification> => {
-      if (data.id !== MOCK_CLASSIFICATION.id) {
-        return throwError(() => new Error('Classification not updated.'));
-      }
-      return of(MOCK_CLASSIFICATION);
-    }
-  ),
-
-  deleteClassification: jest.fn((id: string): Observable<string> => {
-    if (id !== MOCK_CLASSIFICATION.id) {
-      return throwError(() => new Error('Classification not deleted.'));
-    }
-    return of('classification was deleted');
-  }),
-};
-
-const PARAM_MAP_MOCK = {
-  get: jest.fn().mockReturnValue('1uuid'),
-};
-
-const MOCK_ACTIVATED_ROUTER = {
-  snapshot: {
-    data: {
-      status: '',
-    },
-    firstChild: { data: { status: '' } },
-  },
-  paramMap: {
-    subscribe: jest
-      .fn()
-      .mockImplementation((callback: any) => callback(PARAM_MAP_MOCK)),
-  },
-};
 
 @Component({
   selector: 'state-management-app-classification-layout-form',
