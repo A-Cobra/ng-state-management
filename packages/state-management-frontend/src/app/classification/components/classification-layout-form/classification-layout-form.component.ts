@@ -78,13 +78,13 @@ export class ClassificationLayoutFormComponent {
   }
 
   getNavigate(): string[] {
-    if (this.currentStatus === 'edit') {
-      return ['../../detail', this.idClassification];
-    }
-    if (this.currentStatus === 'detail') {
-      return ['../../'];
-    } else {
-      return ['../'];
+    switch (this.currentStatus) {
+      case 'edit':
+        return ['../../detail', this.idClassification];
+      case 'detail':
+        return ['../../'];
+      default:
+        return ['../'];
     }
   }
 

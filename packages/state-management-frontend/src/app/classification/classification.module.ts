@@ -8,7 +8,6 @@ import {
   ClappInputHelpersModule,
   ClappNoResultsModule,
   ClappNotificationModule,
-  ClappTextareaModule,
   ClappTextInputModule,
 } from '@clapp1/clapp-angular';
 import { ClassificationLayoutFormComponent } from './components/classification-layout-form/classification-layout-form.component';
@@ -23,7 +22,6 @@ const clappModules = [
   ClappButtonModule,
   ClappImageDisplayModule,
   ClappFileUploadModule,
-  ClappTextareaModule,
   ClappNotificationModule,
   ClappNoResultsModule,
 ];

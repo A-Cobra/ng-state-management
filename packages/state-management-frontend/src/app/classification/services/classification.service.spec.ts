@@ -11,12 +11,10 @@ import {
 
 describe('ClassificationService', () => {
   let service: ClassificationService;
-  let localStore: any;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
     service = TestBed.inject(ClassificationService);
-    localStore = {};
   });
 
   it('should be created', () => {

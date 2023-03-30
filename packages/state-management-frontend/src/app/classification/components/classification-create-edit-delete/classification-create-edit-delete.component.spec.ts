@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { ClassificationCreateEditDeleteComponent } from './classification-create-edit-delete.component';
 import {
   ClappButtonModule,
@@ -25,18 +24,12 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 @Component({
   selector: 'state-management-app-classification-layout-form',
-  template: `<div>Test</div>`,
+  template: '',
 })
 class MockLayoutFormComponent {
   @Input() classification: Classification;
   @Input() status: string;
 }
-
-@Component({
-  selector: 'state-management-app-blank-component',
-  template: '',
-})
-class BlankComponent {}
 
 describe('ClassificationCreateEditDeleteComponent', () => {
   let component: ClassificationCreateEditDeleteComponent;
@@ -55,8 +48,11 @@ describe('ClassificationCreateEditDeleteComponent', () => {
         LoaderComponent,
         ModalModule,
         RouterTestingModule.withRoutes([
-          { path: 'classifications', component: BlankComponent },
-          { path: 'classifications/detail/1uuid', component: BlankComponent },
+          { path: 'classifications', component: MockLayoutFormComponent },
+          {
+            path: 'classifications/detail/1uuid',
+            component: MockLayoutFormComponent,
+          },
         ]),
       ],
       providers: [
@@ -105,7 +101,7 @@ describe('ClassificationCreateEditDeleteComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
 
-    expect(getClassificationByIdSpy).toBeCalledTimes(0);
+    expect(getClassificationByIdSpy).not.toHaveBeenCalled();
   });
 
   it('getClassificationById should get classification by Id', () => {
@@ -123,7 +119,7 @@ describe('ClassificationCreateEditDeleteComponent', () => {
     expect(component.noResult).toBeTruthy();
   });
 
-  it('Method should call correct method in order to edit ', () => {
+  it('should call correct method in order to "edit" status', () => {
     component.status = 'edit';
     jest.spyOn(component, 'updateClassification');
     fixture.detectChanges();
@@ -132,7 +128,7 @@ describe('ClassificationCreateEditDeleteComponent', () => {
     expect(component.updateClassification).toHaveBeenCalled();
   });
 
-  it('Method should call correct method in order to create ', () => {
+  it('should call correct method in order to "create" status', () => {
     component.status = 'create';
     jest.spyOn(component, 'addClassification');
     fixture.detectChanges();
@@ -141,7 +137,7 @@ describe('ClassificationCreateEditDeleteComponent', () => {
     expect(component.addClassification).toHaveBeenCalled();
   });
 
-  it('Method should call a default action ', () => {
+  it('should call a default action ', () => {
     component.status = 'noExist';
     fixture.detectChanges();
     component.createUpdateOrDeleteClassification(MOCK_CLASSIFICATION);
@@ -150,7 +146,7 @@ describe('ClassificationCreateEditDeleteComponent', () => {
     expect(component.loader).toBeFalsy();
   });
 
-  it('Method should call correct method in order to detail ', () => {
+  it('should call correct method by "detail" status', () => {
     component.status = 'detail';
     jest.spyOn(component, 'confirmedDelete');
     fixture.detectChanges();
@@ -159,7 +155,7 @@ describe('ClassificationCreateEditDeleteComponent', () => {
     expect(component.confirmedDelete).toHaveBeenCalled();
   });
 
-  it('addClassification should create classification', () => {
+  it('should create classification', () => {
     component.addClassification(MOCK_CLASSIFICATION_TO_CREATE);
     fixture.detectChanges();
 
@@ -169,7 +165,7 @@ describe('ClassificationCreateEditDeleteComponent', () => {
     expect(component.showNotificationSuccess).toHaveBeenCalled();
   });
 
-  it('addClassification should not create classification that exist', () => {
+  it('should not create classification that exist', () => {
     component.addClassification(MOCK_CLASSIFICATION);
     fixture.detectChanges();
 
@@ -178,7 +174,7 @@ describe('ClassificationCreateEditDeleteComponent', () => {
     expect(component.showNotificationError).toHaveBeenCalled();
   });
 
-  it('updateClassification should update classification', () => {
+  it('should update classification', () => {
     component.updateClassification(MOCK_CLASSIFICATION);
     fixture.detectChanges();
 
@@ -194,7 +190,7 @@ describe('ClassificationCreateEditDeleteComponent', () => {
     ]);
   });
 
-  it('updateClassification should not update classification', () => {
+  it('should not update classification', () => {
     component.updateClassification(MOCK_CLASSIFICATION_NOT_EXIST);
     fixture.detectChanges();
 
@@ -203,18 +199,17 @@ describe('ClassificationCreateEditDeleteComponent', () => {
     expect(component.showNotificationError).toHaveBeenCalled();
   });
 
-  it('deleteClassification should delete classification', () => {
+  it('should delete classification', () => {
     component.deleteClassification(MOCK_CLASSIFICATION);
     fixture.detectChanges();
 
     expect(component.loader).toBeFalsy();
     expect(component.actionNotification).toBe('deleted');
     expect(component.showNotificationSuccess).toHaveBeenCalled();
-
     expect(router.navigate).toHaveBeenCalledWith(['/classifications']);
   });
 
-  it('deleteClassification should not delete classification', () => {
+  it('should not delete classification', () => {
     component.deleteClassification(MOCK_CLASSIFICATION_NOT_EXIST);
     fixture.detectChanges();
 
@@ -237,7 +232,6 @@ describe('ClassificationCreateEditDeleteComponent', () => {
     jest.spyOn(component, 'deleteClassification');
 
     component.confirmedDelete(MOCK_CLASSIFICATION);
-    fixture.detectChanges();
 
     expect(component.deleteClassification).toHaveBeenCalled();
     expect(component.deleteConfirmed).toBeTruthy();

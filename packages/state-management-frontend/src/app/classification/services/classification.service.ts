@@ -7,7 +7,7 @@ import { Observable, of, throwError } from 'rxjs';
   providedIn: 'root',
 })
 export class ClassificationService {
-  //Note:The whole related to saving to localStorage should be removed before connecting to the API
+  //Note:The whole related to saving to localStorage should be removed when connecting to the API
   arrClassification: Classification[] = CLASSIFICATIONS;
 
   addClassification(data: Classification): Observable<Classification> {
@@ -61,6 +61,7 @@ export class ClassificationService {
       JSON.stringify(this.arrClassification)
     );
   }
+
   getDataFromStorage(): void {
     const data = localStorage.getItem('mockClassifications');
     this.arrClassification = data ? JSON.parse(data) : this.arrClassification;

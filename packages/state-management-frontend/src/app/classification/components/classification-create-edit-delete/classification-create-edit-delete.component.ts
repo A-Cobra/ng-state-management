@@ -15,7 +15,9 @@ import { ConfirmationModalComponent } from '../../../shared/components/confirmat
 @Component({
   selector: 'state-management-app-classification-create-edit-delete',
   templateUrl: './classification-create-edit-delete.component.html',
-  styleUrls: ['./classification-create-edit-delete.component.scss'],
+  styles: [
+    ' :host {width: 100%; height: 100%} clapp-button {display: flex;justify-content: center;}',
+  ],
 })
 export class ClassificationCreateEditDeleteComponent
   implements OnInit, OnDestroy
@@ -188,6 +190,7 @@ export class ClassificationCreateEditDeleteComponent
       'Unexpected error'
     );
   }
+
   ngOnDestroy(): void {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();

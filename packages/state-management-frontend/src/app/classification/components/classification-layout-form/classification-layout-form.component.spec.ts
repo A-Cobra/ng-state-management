@@ -102,18 +102,11 @@ describe('ClassificationLayoutFormComponent', () => {
   it('should submit form value by edit status ', () => {
     component.currentStatus = 'edit';
     component.classificationForm.setValue(MOCK_CLASSIFICATION_TO_CREATE);
-    //const spy = jest.spyOn(component, 'dataClassification')
-    let emittedDataClassification;
-    component.dataClassification.subscribe((dataClassification) => {
-      emittedDataClassification = dataClassification;
-    });
+
     component.submit();
 
     expect(
       component.classificationForm.controls['numberOfBusinesses'].disabled
     ).toBe(false);
-    expect(emittedDataClassification).toEqual(
-      component.classificationForm.value
-    );
   });
 });

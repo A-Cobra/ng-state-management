@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { ConfirmationModalComponent } from './confirmation-modal.component';
 import {
   ClappButtonModule,
