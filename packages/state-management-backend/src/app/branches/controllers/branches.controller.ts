@@ -35,8 +35,11 @@ export class BranchesController {
 
   @UseGuards(JwtAuthGuard)
   @Get('search/branches')
-  searchBranches(@Query('q') q: string, @Query() paginationDto: PaginationDto) {
-    return this.branchesServices.search(q, paginationDto);
+  searchBranches(
+    @Query('name') name: string,
+    @Query() paginationDto: PaginationDto
+  ) {
+    return this.branchesServices.search(name, paginationDto);
   }
 
   @UseGuards(JwtAuthGuard)
