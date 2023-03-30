@@ -1,8 +1,9 @@
-import { EntityRepository, FilterQuery, wrap } from '@mikro-orm/core';
+import { EntityRepository, FilterQuery, Loaded, wrap } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { AuthService } from '../../auth/auth.service';
 import { hashData } from '../../auth/utils/jwt.util';
+import { User } from '../../users/entities/user.entity';
 import { UsersService } from '../../users/services/users.service';
 import { CreateCustomerDto } from '../dto/create-customer.dto';
 import { UpdateCustomerDto } from '../dto/update-customer.dto';
@@ -17,7 +18,7 @@ export class CustomersService {
     private readonly authService: AuthService
   ) {}
 
-  async create(createCustomerDto: CreateCustomerDto) {
+  async create(createCustomerDto: CreateCustomerDto): Promise<User> {
     createCustomerDto.password = await hashData(createCustomerDto.password);
     const user = await this.usersService.create(createCustomerDto);
     const customer = this.customerRepository.create({ user });
@@ -25,7 +26,14 @@ export class CustomersService {
     return user;
   }
 
-  async findAll(queryParams) {
+  async findAll(queryParams): Promise<{
+    data: Loaded<Customer, 'user'>[];
+    metaData: {
+      currentPage: any;
+      totalItems: number;
+      totalPages: number;
+    };
+  }> {
     let { queryTerm, limit, page } = queryParams;
     limit = limit || 10;
     page = page || 1;
@@ -77,21 +85,24 @@ export class CustomersService {
     if (count === 0) {
       throw new NotFoundException(`user with id: ${id} not found`);
     }
-    return find;
+    return find[0];
   }
 
   async update(id: string, updateCustomerDto: UpdateCustomerDto) {
-    const [customerInfo] = await this.findOne(id);
+    const customerInfo = await this.findOne(id);
 
     const { refreshToken } = await this.authService.getTokens(
       customerInfo.user.user_id,
       customerInfo.user.username
     );
 
+    const hashedRefreshToken = await hashData(refreshToken);
+
     const userUpdate = {
       ...updateCustomerDto,
-      refresh_token: refreshToken,
+      refreshToken: hashedRefreshToken,
     };
+
     return this.usersService.update(id, userUpdate);
   }
 
@@ -100,7 +111,7 @@ export class CustomersService {
       user: { user_id: id },
     });
 
-    if (!customer) throw new NotFoundException('User Not Found');
+    if (!customer) throw new NotFoundException('Customer Not Found');
     const updatedCustomerInfo: Partial<Customer> = { isDeleted: true };
     wrap(customer).assign(updatedCustomerInfo);
 
