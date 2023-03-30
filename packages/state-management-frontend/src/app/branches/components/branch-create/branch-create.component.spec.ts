@@ -41,7 +41,7 @@ describe('BranchCreateComponent', () => {
       providers: [
         {
           provide: ActivatedRoute,
-          useValue: { snapshot: { url: [{ path: 'edit' }] } },
+          useValue: { snapshot: { url: [{ path: '1' }] } },
         },
       ],
     }).compileComponents();
