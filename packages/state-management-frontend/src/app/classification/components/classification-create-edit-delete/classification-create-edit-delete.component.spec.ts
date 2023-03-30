@@ -7,13 +7,11 @@ import {
   ModalService,
   NotificationService,
 } from '@clapp1/clapp-angular';
-import {
-  ClassificationService,
-  MOCK_ACTIVATED_ROUTER,
-} from '../../services/classification.service';
+import { ClassificationService } from '../../services/classification.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoaderComponent } from '../../../shared/components/loader/loader.component';
 import {
+  MOCK_ACTIVATED_ROUTER,
   MOCK_CLASSIFICATION,
   MOCK_CLASSIFICATION_NOT_EXIST,
   MOCK_CLASSIFICATION_SERVICE,

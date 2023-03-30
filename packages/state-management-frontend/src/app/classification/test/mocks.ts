@@ -183,3 +183,21 @@ export const MOCK_CLASSIFICATION_SERVICE = {
     return of('classification was deleted');
   }),
 };
+
+export const PARAM_MAP_MOCK = {
+  get: jest.fn().mockReturnValue('1uuid'),
+};
+
+export const MOCK_ACTIVATED_ROUTER = {
+  snapshot: {
+    data: {
+      status: '',
+    },
+    firstChild: { data: { status: '' } },
+  },
+  paramMap: {
+    subscribe: jest
+      .fn()
+      .mockImplementation((callback: any) => callback(PARAM_MAP_MOCK)),
+  },
+};
