@@ -1,4 +1,4 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BusinessRoutingModule } from './business-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -49,6 +49,5 @@ import { ConfirmationModalComponent } from '../shared/components/confirmation-mo
     ConfirmationModalComponent,
   ],
   providers: [BusinessService],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class BusinessModule {}
