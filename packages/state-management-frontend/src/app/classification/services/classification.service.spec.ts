@@ -1,14 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
 import { ClassificationService } from './classification.service';
-import { Observable, of, take, throwError } from 'rxjs';
+import { take } from 'rxjs';
 import {
   MOCK_ARRAY_CLASSIFICATION,
   MOCK_CLASSIFICATION,
   MOCK_CLASSIFICATION_NOT_EXIST,
   MOCK_CLASSIFICATION_TO_CREATE,
 } from '../test/mocks';
-import { Classification } from '../models/api-response.model';
 
 describe('ClassificationService', () => {
   let service: ClassificationService;
@@ -89,37 +88,3 @@ describe('ClassificationService', () => {
     expect(service.arrClassification).toEqual(MOCK_ARRAY_CLASSIFICATION);
   });
 });
-
-export const MOCK_CLASSIFICATION_SERVICE = {
-  getClassificationById: jest.fn((id: string): Observable<Classification> => {
-    if (id !== MOCK_CLASSIFICATION.id) {
-      return throwError(() => new Error('Classification not found.'));
-    }
-    return of(MOCK_CLASSIFICATION);
-  }),
-
-  addClassification: jest.fn(
-    (data: Classification): Observable<Classification> => {
-      if (data.id) {
-        return throwError(() => new Error('Classification not created.'));
-      }
-      return of(MOCK_CLASSIFICATION);
-    }
-  ),
-
-  updateClassification: jest.fn(
-    (data: Classification): Observable<Classification> => {
-      if (data.id !== MOCK_CLASSIFICATION.id) {
-        return throwError(() => new Error('Classification not updated.'));
-      }
-      return of(MOCK_CLASSIFICATION);
-    }
-  ),
-
-  deleteClassification: jest.fn((id: string): Observable<string> => {
-    if (id !== MOCK_CLASSIFICATION.id) {
-      return throwError(() => new Error('Classification not deleted.'));
-    }
-    return of('classification was deleted');
-  }),
-};

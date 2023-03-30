@@ -1,7 +1,7 @@
 <h2>{{ currentStatus | titlecase }} classification</h2>
 <form [formGroup]="classificationForm" (ngSubmit)="submit()">
-  <section class="containerInputs">
-    <div>
+  <section class="container-inputs">
+    <div class="container-inputs__text">
       <clapp-text-input
         #textInput
         formControlName="name"
@@ -90,27 +90,28 @@
         ></clapp-text-input>
       </ng-container>
     </div>
+    <div class="container-inputs__image">
+      <ng-container
+        *ngIf="currentStatus === 'create' || currentStatus === 'edit'"
+      >
+        <clapp-file-upload
+          [myPreviewImg]="imgDefault"
+          (fileUploaded)="addToFormControl($event)"
+        ></clapp-file-upload>
+      </ng-container>
 
-    <ng-container
-      *ngIf="currentStatus === 'create' || currentStatus === 'edit'"
-    >
-      <clapp-file-upload
-        [myPreviewImg]="imgDefault"
-        (fileUploaded)="addToFormControl($event)"
-      ></clapp-file-upload>
-    </ng-container>
-
-    <ng-container *ngIf="currentStatus === 'detail'">
-      <clapp-image-display
-        [src]="getControl('image').value"
-        type="square"
-        size="large"
-        alt="placeholder"
-      ></clapp-image-display>
-    </ng-container>
+      <ng-container *ngIf="currentStatus === 'detail'">
+        <clapp-image-display
+          [src]="getControl('image').value"
+          type="square"
+          size="large"
+          alt="placeholder"
+        ></clapp-image-display>
+      </ng-container>
+    </div>
   </section>
 
-  <section class="containerButtons">
+  <section class="container-buttons">
     <clapp-button
       color="secondary"
       size="small"
@@ -124,8 +125,8 @@
 
     <div
       [ngClass]="{
-        containerBtn: currentStatus !== 'detail',
-        containerBtnDetail: currentStatus === 'detail'
+        'container-buttons__create-delete': currentStatus !== 'detail',
+        'container-buttons__detail': currentStatus === 'detail'
       }"
     >
       <ng-container *ngIf="currentStatus === 'detail'">

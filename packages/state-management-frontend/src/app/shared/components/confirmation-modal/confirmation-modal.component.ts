@@ -24,11 +24,7 @@ export class ConfirmationModalComponent {
     this.data = this.modalConfig.data as ConfirmationMessage;
   }
 
-  onNoClick(): void {
-    this.modalRef.close(false);
-  }
-
-  onModalConfirmation(): void {
-    this.modalRef.close(true);
+  closeModal(value: boolean): void {
+    this.modalRef.close(value);
   }
 }

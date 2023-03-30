@@ -32,8 +32,15 @@
   }
 }
 
-.containerInputs {
-  div {
+.container-inputs {
+  margin: 8px 0;
+
+  @media (min-width: 800px) {
+    margin: 24px 0;
+    display: grid;
+    grid-template-columns: 50% 50%;
+  }
+  &__text {
     display: grid;
     @media (min-width: 800px) {
       margin: 38px 0;
@@ -41,6 +48,9 @@
     @media (min-width: 1200px) {
       margin: 24px 0;
     }
+  }
+  &__image {
+    align-items: center;
   }
 
   clapp-text-input {
@@ -60,29 +70,26 @@
       margin: 0 0 32px;
     }
   }
-
-  @media (min-width: 800px) {
-    display: grid;
-    grid-template-columns: 50% 50%;
-  }
 }
 
-.containerButtons {
+.container-buttons {
   width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  height: 48px;
 
-  .containerBtnDetail {
+  &__detail {
     @media (min-width: 800px) {
       display: grid;
       grid-template-columns: 40% 40%;
+      grid-template-rows: 100%;
       justify-content: flex-end;
       gap: 8px;
     }
   }
 
-  .containerBtn {
+  &__create-delete {
     @media (min-width: 800px) {
       width: 100%;
       display: flex;
@@ -106,10 +113,7 @@
 }
 
 :host ::ng-deep clapp-file-upload .image-container {
-  margin: 16px 0;
-
   @media (min-width: 480px) {
-    margin: 24px 0;
     width: 200px;
     height: 200px;
   }
@@ -145,11 +149,6 @@
 
 :host ::ng-deep button {
   width: 100%;
-  margin: 8px 0;
-
-  @media (min-width: 800px) {
-    margin: 24px 0;
-  }
 }
 
 :host ::ng-deep clapp-button button {

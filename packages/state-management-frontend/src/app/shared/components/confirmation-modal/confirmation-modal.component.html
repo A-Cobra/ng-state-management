@@ -1,4 +1,7 @@
-<clapp-modal-header [title]="data.title"></clapp-modal-header>
+<clapp-modal-header
+  [title]="data.title"
+  (closed)="closeModal($event)"
+></clapp-modal-header>
 <clapp-modal-content>{{ data.message }}</clapp-modal-content>
 <clapp-modal-footer>
   <clapp-button
@@ -6,7 +9,7 @@
     size="small"
     [disabled]="false"
     type="button"
-    (click)="onModalConfirmation()"
+    (click)="closeModal(true)"
   >
     {{ data.confirmButtonLabel }}
   </clapp-button>
@@ -16,7 +19,7 @@
     size="small"
     [disabled]="false"
     type="button"
-    (click)="onNoClick()"
+    (click)="closeModal(false)"
   >
     {{ data.cancelButtonLabel }}
   </clapp-button>
