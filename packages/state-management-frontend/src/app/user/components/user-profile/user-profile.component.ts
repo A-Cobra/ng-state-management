@@ -8,6 +8,7 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from '../../services/user.service';
+import { switchMap, tap } from 'rxjs/operators';
 
 const onlyTextRegex = /^[a-zA-Z][a-zA-Z\s]*[a-zA-Z]$/;
 const onlyNumberRegex = /^\d+$/;
@@ -19,6 +20,7 @@ const emailRegex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
 })
 export class UserProfileComponent implements OnInit {
   profileForm: FormGroup;
+  userProfile: UserProfile | undefined;
 
   isEditing = false;
   isDisabled = true;
@@ -31,29 +33,33 @@ export class UserProfileComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.activatedRoute.params.subscribe(({ userId }) => {
-      this.userService.getUserProfile(userId).subscribe((userProfile) => {
-        this.initForm(userProfile);
-      });
-    });
+    this.activatedRoute.params
+      .pipe(
+        switchMap(({ userId }) => this.userService.getUserProfile(userId)),
+        tap((userProfile) => {
+          this.userProfile = userProfile;
+          this.initForm();
+        })
+      )
+      .subscribe();
   }
 
-  initForm(userProfile: UserProfile | undefined) {
+  initForm() {
     this.profileForm = this.fb.group({
       name: [
-        userProfile?.name,
+        this.userProfile?.name,
         [Validators.required, Validators.pattern(onlyTextRegex)],
       ],
       lastName: [
-        userProfile?.lastName,
+        this.userProfile?.lastName,
         [Validators.required, Validators.pattern(onlyTextRegex)],
       ],
       phoneNumber: [
-        userProfile?.phoneNumber,
+        this.userProfile?.phoneNumber,
         [Validators.required, Validators.pattern(onlyNumberRegex)],
       ],
       email: [
-        userProfile?.email,
+        this.userProfile?.email,
         [Validators.required, Validators.email, Validators.pattern(emailRegex)],
       ],
     });
@@ -67,8 +73,19 @@ export class UserProfileComponent implements OnInit {
   }
 
   onClickSave() {
-    this.isEditing = false;
-    this.profileForm.disable();
+    this.isSending = true;
+    this.userService
+      .saveUserProfile({ ...this.profileForm.value, id: this.userProfile?.id })
+      .subscribe({
+        next: (userProfile) => {
+          this.userProfile = userProfile;
+        },
+        complete: () => {
+          this.initForm();
+          this.isSending = false;
+          this.isEditing = false;
+        },
+      });
   }
 
   getControl(controlName: string): AbstractControl {
