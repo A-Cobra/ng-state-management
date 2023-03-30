@@ -1,13 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ClassificationCreateEditDeleteComponent } from './components/classification-create-edit-delete/classification-create-edit-delete.component';
+import { ClassificationMainComponent } from './components/classification-main/classification-main.component';
 
 const routes: Routes = [
-  {
-    path: '',
-    redirectTo: '/classifications',
-    pathMatch: 'full',
-  },
+  { path: '', component: ClassificationMainComponent },
   {
     path: 'create',
     component: ClassificationCreateEditDeleteComponent,
