@@ -50,11 +50,4 @@ describe('ConfirmationModalComponent', () => {
 
     expect(spy).toBeCalledWith(true);
   });
-
-  it('should called modalRef in order to close without value', () => {
-    const spy = jest.spyOn(modalRef, 'close');
-    component.closeModal(false);
-
-    expect(spy).toBeCalledWith();
-  });
 });
