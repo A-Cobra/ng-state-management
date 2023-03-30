@@ -1,7 +1,5 @@
 import { Branch } from '../models/branch.model';
 
-import { Pagination } from '@clapp1/clapp-angular/lib/pagination/interfaces/pagination.interface';
-
 export const MOCK_BRANCH: Branch = {
   name: 'Mock branch',
   image: 'https://dummyimage.com/400x400/000000/fff',
@@ -23,10 +21,3 @@ export const MOCK_BRANCHES: Branch[] = [
     closeTime: '19:00',
   },
 ];
-
-export const MOCK_PAGINATION: Pagination = {
-  currentPage: 2,
-  nextPage: null,
-  previousPage: 1,
-  lastPage: 3,
-};

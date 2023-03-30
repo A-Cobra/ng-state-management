@@ -46,14 +46,14 @@ export class CustomersComponent {
         distinctUntilChanged()
       )
       .subscribe((customerName) => {
-        this.searchBranch(customerName);
+        this.searchCustomer(customerName);
       });
   }
 
-  public searchBranch(customerName: string): void {
+  public searchCustomer(customerQuery: string): void {
     // TODO: implement search by branch name functionality when BE will be ready.
     this.customers$ = this.#customersService
-      .getCustomers(1, this.pageSize, customerName)
+      .getCustomers(1, this.pageSize, customerQuery)
       .pipe(
         tap((response) => {
           this.totalRecords = response.meta.total;
