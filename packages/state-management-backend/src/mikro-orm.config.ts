@@ -12,6 +12,7 @@ import 'reflect-metadata';
 import { Logger } from '@nestjs/common';
 import { Product } from './app/products/entities/product.entity';
 import { ProductReview } from './app/reviews/entities/product-review.entity';
+import { Customer } from './app/customers/entities/customer.entity';
 
 dotenvExpand.expand(dotenv.config());
 
@@ -31,6 +32,7 @@ const MikroOrmConfig: Options = {
     Business_HQ,
     Business_classification,
     Product,
+    Customer,
   ],
   metadataProvider: ReflectMetadataProvider,
   migrations: {

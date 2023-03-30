@@ -1,4 +1,4 @@
-import { Entity, ManyToOne, PrimaryKey, Property } from '@mikro-orm/core';
+import { Entity, PrimaryKey, Property } from '@mikro-orm/core';
 import { v4 } from 'uuid';
 
 @Entity()
@@ -6,7 +6,8 @@ export class User {
   @PrimaryKey()
   user_id: string = v4();
 
-  @Property()
+  // Todo review when roles are ready
+  @Property({ default: 'customer' })
   role: string;
 
   @Property()
@@ -18,21 +19,21 @@ export class User {
   @Property()
   lastname: string;
 
-  @Property()
-  picture: string;
+  @Property({ nullable: true })
+  picture?: string;
 
   @Property()
   email: string;
 
-  @Property()
+  @Property({ hidden: true })
   password: string;
 
-  @Property()
+  @Property({ default: false })
   isLoggedIn: boolean;
 
   @Property()
   contact_number: string;
 
-  @Property()
+  @Property({ nullable: true })
   refreshToken?: string;
 }
