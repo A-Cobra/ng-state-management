@@ -6,9 +6,9 @@ import { DBModule } from '../database/database.module';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 
 @Module({
-  imports:[DBModule,MikroOrmModule.forFeature([User])],
+  imports: [DBModule, MikroOrmModule.forFeature([User])],
   controllers: [UsersController],
   providers: [UsersService],
-  exports:[UsersService]
+  exports: [UsersService],
 })
 export class UsersModule {}

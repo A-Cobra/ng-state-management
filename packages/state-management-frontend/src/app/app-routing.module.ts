@@ -13,6 +13,13 @@ const routes: Routes = [
       import('./branches/branches.module').then((m) => m.BranchesModule),
   },
   {
+    path: 'classification',
+    loadChildren: () =>
+      import('./classification/classification.module').then(
+        (m) => m.ClassificationModule
+      ),
+  },
+  {
     path: '',
     loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
   },

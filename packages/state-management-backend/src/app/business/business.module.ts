@@ -6,8 +6,8 @@ import { Business_classification } from './entities/business_classification.enti
 import { BusinessService } from './services/business.service';
 
 @Module({
-    imports: [MikroOrmModule.forFeature([Business_HQ, Business_classification])],
-    providers: [BusinessService],
-    controllers: [BusinessController],
+  imports: [MikroOrmModule.forFeature([Business_HQ, Business_classification])],
+  providers: [BusinessService],
+  controllers: [BusinessController],
 })
 export class BusinessModule {}

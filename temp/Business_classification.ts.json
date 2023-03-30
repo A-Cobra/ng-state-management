@@ -1,1 +1,75 @@
-{"data":{"propertyOrder":{},"properties":{"business_classification_id":{"name":"business_classification_id","reference":"scalar","primary":true,"type":"string","array":false},"name":{"name":"name","reference":"scalar","getter":false,"setter":false,"type":"string","array":false},"description":{"name":"description","reference":"scalar","getter":false,"setter":false,"type":"string","array":false}},"props":[{"name":"business_classification_id","reference":"scalar","primary":true,"type":"string","array":false},{"name":"name","reference":"scalar","getter":false,"setter":false,"type":"string","array":false},{"name":"description","reference":"scalar","getter":false,"setter":false,"type":"string","array":false}],"primaryKeys":["business_classification_id"],"filters":{},"hooks":{},"indexes":[],"uniques":[],"checks":[],"concurrencyCheckKeys":{},"className":"Business_classification","path":"./packages/state-management-backend/src/app/business/entities/business_classification.entity.ts","name":"Business_classification","abstract":false,"constructorParams":[],"toJsonParams":[],"useCache":true,"compositePK":false,"relations":[],"collection":"business_classification"},"origin":"./packages/state-management-backend/src/app/business/entities/business_classification.entity.ts","hash":"651572443fbb3f21aa4dad24e7604337","version":"5.6.15"}
+{
+  "data": {
+    "propertyOrder": {},
+    "properties": {
+      "business_classification_id": {
+        "name": "business_classification_id",
+        "reference": "scalar",
+        "primary": true,
+        "type": "string",
+        "array": false
+      },
+      "name": {
+        "name": "name",
+        "reference": "scalar",
+        "getter": false,
+        "setter": false,
+        "type": "string",
+        "array": false
+      },
+      "description": {
+        "name": "description",
+        "reference": "scalar",
+        "getter": false,
+        "setter": false,
+        "type": "string",
+        "array": false
+      }
+    },
+    "props": [
+      {
+        "name": "business_classification_id",
+        "reference": "scalar",
+        "primary": true,
+        "type": "string",
+        "array": false
+      },
+      {
+        "name": "name",
+        "reference": "scalar",
+        "getter": false,
+        "setter": false,
+        "type": "string",
+        "array": false
+      },
+      {
+        "name": "description",
+        "reference": "scalar",
+        "getter": false,
+        "setter": false,
+        "type": "string",
+        "array": false
+      }
+    ],
+    "primaryKeys": ["business_classification_id"],
+    "filters": {},
+    "hooks": {},
+    "indexes": [],
+    "uniques": [],
+    "checks": [],
+    "concurrencyCheckKeys": {},
+    "className": "Business_classification",
+    "path": "./packages/state-management-backend/src/app/business/entities/business_classification.entity.ts",
+    "name": "Business_classification",
+    "abstract": false,
+    "constructorParams": [],
+    "toJsonParams": [],
+    "useCache": true,
+    "compositePK": false,
+    "relations": [],
+    "collection": "business_classification"
+  },
+  "origin": "./packages/state-management-backend/src/app/business/entities/business_classification.entity.ts",
+  "hash": "651572443fbb3f21aa4dad24e7604337",
+  "version": "5.6.15"
+}
