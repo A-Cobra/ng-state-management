@@ -9,6 +9,7 @@ import { BusinessHq } from '../../business/entities/business.entity';
 import { BusinessClassification } from '../../business/entities/business-classification.entity';
 import { Collection } from '@mikro-orm/core';
 import { User } from '../../users/entities/user.entity';
+import { businessStub } from '../../business/tests/business.stubs';
 
 describe('BranchesService', () => {
   let branchService: BranchesService;
@@ -132,24 +133,21 @@ describe('BranchesService', () => {
     };
     const createdBranch = {
       branchId: '123',
-      address: 'test',
-      closeTime: '12:00',
-      contactEmail: 'branch@gmail.com',
-      contactPhoneNumber: '123456789',
-      image: 'test.jpg',
-      latitude: '123',
-      longitude: '123',
-      name: 'new test',
-      openingTime: '10:00',
+      ...newBranch,
       businessId: { businessId: '123' },
     };
-    jest.spyOn(businessService, 'findById').mockResolvedValueOnce(business);
+    const responseBranch = {
+      branchId: '123',
+      ...newBranch,
+      businessId: '123',
+    };
+    jest.spyOn(businessService, 'findById').mockResolvedValueOnce(businessStub);
     mockBranchRepository.create.mockReturnValueOnce(createdBranch);
     mockBranchRepository.persistAndFlush.mockResolvedValueOnce(true);
     const result = await branchService.create('123', newBranch);
     expect(mockBranchRepository.create).toBeCalledTimes(1);
     expect(mockBranchRepository.persistAndFlush).toBeCalledTimes(1);
-    expect(result).toEqual(newBranch);
+    expect(result).toEqual(responseBranch);
   });
 
   it('should update a branch', async () => {
