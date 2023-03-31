@@ -15,7 +15,6 @@
     [minLength]="minLength"
     [type]="inputType"
   ></clapp-text-input>
-  <!-- Information Text  -->
   <clapp-helper-text
     *ngIf="
       displayText &&
@@ -29,7 +28,6 @@
   >
     {{ displayText }}<span *ngIf="required"> {{ '(required*)' }}</span>
   </clapp-helper-text>
-  <!-- Error Text  -->
   <div
     class="error"
     *ngIf="

@@ -6,105 +6,67 @@ import {
   TestMinNumberRangeDirectiveComponent,
   TestMaxNumberRangeDirectiveComponent,
   TestNumberRangeDirectiveComponent,
-} from '../test/mocks';
+} from '../test/float-number-or-number-range.directive.mocks';
 import { FloatNumberOrNumberRangeDirective } from './float-number-or-number-range.directive';
 
-describe('FloatNumberOrNumberRangeDirective tests', () => {
+describe('For testing the floatNumberDirective', () => {
   let floatNumberFixture: ComponentFixture<TestFloatNumberDirectiveComponent>;
   let floatInputElement: DebugElement;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        FloatNumberOrNumberRangeDirective,
-        TestFloatNumberDirectiveComponent,
-        // TestMinNumberRangeDirectiveComponent,
-        // TestMaxNumberRangeDirectiveComponent,
-        TestNumberRangeDirectiveComponent,
-      ],
-    });
-
     floatNumberFixture = TestBed.createComponent(
       TestFloatNumberDirectiveComponent
     );
     floatInputElement = floatNumberFixture.debugElement.query(By.css('input'));
-
     floatNumberFixture.detectChanges();
   });
-  describe('For testing the floatNumberDirective', () => {
-    it('should create an instance', () => {
-      const directive = new FloatNumberOrNumberRangeDirective();
-      expect(directive).toBeTruthy();
-    });
 
-    it('should hold the same value if we introduce a number', () => {
-      const inputValue = '7646363464';
-      const inputReference = floatInputElement.nativeElement;
-      inputReference.value = inputValue;
-      inputReference.dispatchEvent(new Event('input'));
-      floatNumberFixture.detectChanges();
-
-      expect(inputReference.value).toBe(inputValue);
-    });
-
-    it('should hold the same value without letter if we introduce numbers and letters', () => {
-      const inputValue = '7646363464dasfasf';
-      const transformedInputValue = '7646363464';
-      const inputReference = floatInputElement.nativeElement;
-      inputReference.value = inputValue;
-      inputReference.dispatchEvent(new Event('input'));
-      floatNumberFixture.detectChanges();
-
-      expect(inputReference.value).toBe(transformedInputValue);
-    });
-
-    it('should return a value that can start with just one "+" or "-" symbol', () => {
-      const inputValue = '++--+764636-+-+3464dasfasf';
-      const transformedInputValue = '+7646363464';
-      const inputReference = floatInputElement.nativeElement;
-      inputReference.value = inputValue;
-      inputReference.dispatchEvent(new Event('input'));
-      floatNumberFixture.detectChanges();
-
-      expect(inputReference.value).toBe(transformedInputValue);
-    });
-
-    it('should return a value that contains just one dot "."', () => {
-      const inputValue = '76.46.36-+.-+.3464.asfasf';
-      const transformedInputValue = '76.46363464';
-      const inputReference = floatInputElement.nativeElement;
-      inputReference.value = inputValue;
-      inputReference.dispatchEvent(new Event('input'));
-      floatNumberFixture.detectChanges();
-
-      expect(inputReference.value).toBe(transformedInputValue);
-    });
+  it('should create an instance', () => {
+    const directive = new FloatNumberOrNumberRangeDirective();
+    expect(directive).toBeTruthy();
   });
 
-  describe('For testing the numberRangeDirective', () => {
-    describe('if just the min range was specified', () => {
-      // let numberRangeFixture: ComponentFixture<TestMinNumberRangeDirectiveComponent>;
-      // let numberRangeElement: DebugElement;
-      // it('should change the value to the minimum that was set if the user introduces a smaller number', () => {
-      //   // SETUP
-      //   numberRangeFixture = TestBed.createComponent(
-      //     TestMinNumberRangeDirectiveComponent
-      //   );
-      //   numberRangeElement = numberRangeFixture.debugElement.query(
-      //     By.css('input')
-      //   );
-      //   numberRangeFixture.detectChanges();
-      //   const inputReference = floatInputElement.nativeElement;
-      //   // SETUP
-      //   const inputValue = '-1504342.64ffsafasfasf-.-qeqweda789342346';
-      //   const minValue = -140;
-      //   inputReference.value = inputValue;
-      //   inputReference.dispatchEvent(new Event('input'));
-      //   floatNumberFixture.detectChanges();
-      //   expect(inputReference.value).toBe(minValue);
-      // });
-    });
-    describe('if just the max range was specified', () => {});
+  it('should hold the same value if we introduce a number', () => {
+    const inputValue = '7646363464';
+    const inputReference = floatInputElement.nativeElement;
+    inputReference.value = inputValue;
+    inputReference.dispatchEvent(new Event('input'));
+    floatNumberFixture.detectChanges();
+
+    expect(inputReference.value).toBe(inputValue);
+  });
+
+  it('should hold the same value without letters if we introduce numbers and letters', () => {
+    const inputValue = '7646363464dasfasf';
+    const transformedInputValue = '7646363464';
+    const inputReference = floatInputElement.nativeElement;
+    inputReference.value = inputValue;
+    inputReference.dispatchEvent(new Event('input'));
+    floatNumberFixture.detectChanges();
+
+    expect(inputReference.value).toBe(transformedInputValue);
+  });
+
+  it('should return a value that can start with just one "+" or "-" symbol', () => {
+    const inputValue = '++--+764636-+-+3464dasfasf';
+    const transformedInputValue = '+7646363464';
+    const inputReference = floatInputElement.nativeElement;
+    inputReference.value = inputValue;
+    inputReference.dispatchEvent(new Event('input'));
+    floatNumberFixture.detectChanges();
+
+    expect(inputReference.value).toBe(transformedInputValue);
+  });
+
+  it('should return a value that contains just one dot "."', () => {
+    const inputValue = '76.46.36-+.-+.3464.asfasf';
+    const transformedInputValue = '76.46363464';
+    const inputReference = floatInputElement.nativeElement;
+    inputReference.value = inputValue;
+    inputReference.dispatchEvent(new Event('input'));
+    floatNumberFixture.detectChanges();
+
+    expect(inputReference.value).toBe(transformedInputValue);
   });
 });
 describe('For testing the numberRangeDirective', () => {
@@ -112,7 +74,6 @@ describe('For testing the numberRangeDirective', () => {
     let numberRangeFixture: ComponentFixture<TestNumberRangeDirectiveComponent>;
     let numberRangeElement: DebugElement;
     beforeEach(() => {
-      // SETUP
       numberRangeFixture = TestBed.createComponent(
         TestNumberRangeDirectiveComponent
       );
@@ -120,7 +81,6 @@ describe('For testing the numberRangeDirective', () => {
         By.css('input')
       );
       numberRangeFixture.detectChanges();
-      // SETUP
     });
 
     afterEach(() => {
@@ -164,7 +124,6 @@ describe('For testing the numberRangeDirective', () => {
     let numberRangeFixture: ComponentFixture<TestMinNumberRangeDirectiveComponent>;
     let numberRangeElement: DebugElement;
     beforeEach(() => {
-      // SETUP
       numberRangeFixture = TestBed.createComponent(
         TestMinNumberRangeDirectiveComponent
       );
@@ -172,7 +131,6 @@ describe('For testing the numberRangeDirective', () => {
         By.css('input')
       );
       numberRangeFixture.detectChanges();
-      // SETUP
     });
     it('should change the value to the minimum that was set if the user introduces a smaller number', () => {
       const inputReference = numberRangeElement.nativeElement;
@@ -200,7 +158,6 @@ describe('For testing the numberRangeDirective', () => {
     let numberRangeFixture: ComponentFixture<TestMaxNumberRangeDirectiveComponent>;
     let numberRangeElement: DebugElement;
     beforeEach(() => {
-      // SETUP
       numberRangeFixture = TestBed.createComponent(
         TestMaxNumberRangeDirectiveComponent
       );
@@ -208,7 +165,6 @@ describe('For testing the numberRangeDirective', () => {
         By.css('input')
       );
       numberRangeFixture.detectChanges();
-      // SETUP
     });
     it('should change the value to the minimum that was set if the user introduces a smaller number', () => {
       const inputReference = numberRangeElement.nativeElement;
