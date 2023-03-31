@@ -9,18 +9,9 @@ import {
   NotificationService,
 } from '@clapp1/clapp-angular';
 import { of, throwError } from 'rxjs';
-import { User } from '../../interfaces/user.interface';
+import { MOCK_USER } from '../../mocks/mock-user';
 import { SignUpService } from '../../services/sign-up.service';
 import { SignUpComponent } from './sign-up.component';
-
-const user: User = {
-  name: 'John',
-  lastName: 'Doe',
-  username: 'johndoe',
-  email: 'johndoe@example.com',
-  contactNumber: '1234567890',
-  password: 'password',
-};
 
 describe('SignUpComponent', () => {
   let component: SignUpComponent;
@@ -90,6 +81,15 @@ describe('SignUpComponent', () => {
   describe('onSubmit', () => {
     beforeEach(() => {
       component.ngOnInit();
+      component.signUpForm.setValue({
+        firstName: MOCK_USER.name,
+        lastName: MOCK_USER.lastName,
+        userName: MOCK_USER.username,
+        email: MOCK_USER.email,
+        contactNumber: MOCK_USER.contactNumber,
+        password: MOCK_USER.password,
+        confirmPassword: MOCK_USER.password,
+      });
     });
 
     it('should set passwordMismatch error if passwords do not match', () => {
@@ -107,53 +107,26 @@ describe('SignUpComponent', () => {
     });
 
     it('should call signUpService with user details and navigate to login page on success', () => {
-      component.signUpForm.setValue({
-        firstName: user.name,
-        lastName: user.lastName,
-        userName: user.username,
-        email: user.email,
-        contactNumber: user.contactNumber,
-        password: user.password,
-        confirmPassword: user.password,
-      });
       jest.spyOn(signUpService, 'signUp').mockReturnValueOnce(of(true));
 
       component.onSubmit();
 
-      expect(signUpService.signUp).toHaveBeenCalledWith(user);
+      expect(signUpService.signUp).toHaveBeenCalledWith(MOCK_USER);
       expect(router.navigate).toHaveBeenCalledWith(['/login']);
     });
 
     it('should not navigate on failure', () => {
-      component.signUpForm.setValue({
-        firstName: user.name,
-        lastName: user.lastName,
-        userName: user.username,
-        email: user.email,
-        contactNumber: user.contactNumber,
-        password: user.password,
-        confirmPassword: user.password,
-      });
       jest
         .spyOn(signUpService, 'signUp')
         .mockReturnValueOnce(throwError(() => new Error()));
 
       component.onSubmit();
 
-      expect(signUpService.signUp).toHaveBeenCalledWith(user);
+      expect(signUpService.signUp).toHaveBeenCalledWith(MOCK_USER);
       expect(router.navigate).not.toHaveBeenCalled();
     });
 
     it('should show success message on success', () => {
-      component.signUpForm.setValue({
-        firstName: user.name,
-        lastName: user.lastName,
-        userName: user.username,
-        email: user.email,
-        contactNumber: user.contactNumber,
-        password: user.password,
-        confirmPassword: user.password,
-      });
       jest.spyOn(signUpService, 'signUp').mockReturnValueOnce(of(true));
       const successSpy = jest.spyOn(notificationService, 'success');
       component.onSubmit();
@@ -161,21 +134,12 @@ describe('SignUpComponent', () => {
     });
 
     it('should show error message on failure', () => {
-      component.signUpForm.setValue({
-        firstName: user.name,
-        lastName: user.lastName,
-        userName: user.username,
-        email: user.email,
-        contactNumber: user.contactNumber,
-        password: user.password,
-        confirmPassword: user.password,
-      });
       jest
         .spyOn(signUpService, 'signUp')
         .mockReturnValueOnce(throwError(() => new Error()));
-      const successSpy = jest.spyOn(notificationService, 'error');
+      const errorSpy = jest.spyOn(notificationService, 'error');
       component.onSubmit();
-      expect(successSpy).toHaveBeenCalled();
+      expect(errorSpy).toHaveBeenCalled();
     });
   });
 });
