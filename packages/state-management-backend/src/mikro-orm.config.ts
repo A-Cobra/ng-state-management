@@ -1,17 +1,18 @@
 import { Options, ReflectMetadataProvider } from '@mikro-orm/core';
 import { ConfigService } from '@nestjs/config';
 import { User } from './app/users/entities/user.entity';
-import { Review } from './app/reviews/entities/review.entity';
 import * as path from 'path';
 import * as dotenv from 'dotenv';
 import * as dotenvExpand from 'dotenv-expand';
-import { Business_HQ } from './app/business/entities/business.entity';
-import { Business_classification } from './app/business/entities/business_classification.entity';
+import { BusinessHq } from './app/business/entities/business.entity';
+import { BusinessClassification } from './app/business/entities/business-classification.entity';
 import { TsMorphMetadataProvider } from '@mikro-orm/reflection';
-import 'reflect-metadata';
-import { Logger } from '@nestjs/common';
+import { BusinessBranch } from './app/branches/entities/businessBranch.entity';
 import { Product } from './app/products/entities/product.entity';
 import { ProductReview } from './app/reviews/entities/product-review.entity';
+import { Review } from './app/reviews/entities/review.entity';
+import 'reflect-metadata';
+import { Logger } from '@nestjs/common';
 
 dotenvExpand.expand(dotenv.config());
 
@@ -26,11 +27,12 @@ const MikroOrmConfig: Options = {
   clientUrl: configService.get('DATABASE_URL'),
   entities: [
     User,
+    BusinessHq,
+    BusinessClassification,
     Review,
     ProductReview,
-    Business_HQ,
-    Business_classification,
     Product,
+    BusinessBranch,
   ],
   metadataProvider: ReflectMetadataProvider,
   migrations: {
