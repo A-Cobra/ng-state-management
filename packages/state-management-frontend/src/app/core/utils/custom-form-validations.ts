@@ -19,7 +19,7 @@ export class CustomFormValidations {
 
   static strongPassword(control: AbstractControl): ValidationErrors | null {
     const strongPasswordRegex =
-      /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_+])[A-Za-z0-9!@#$%^&*()_+]{8,}$/;
+      '^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_+])[A-Za-z0-9!@#$%^&*()_+]{8,}$';
     if (!control.value.match(strongPasswordRegex)) {
       return { weakPassword: true };
     }
@@ -28,7 +28,6 @@ export class CustomFormValidations {
 
   static floatNumber(control: AbstractControl): ValidationErrors | null {
     const floatNumberRegex = /^[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)$/;
-    // /^(\+|-)?(?:90(?:(?:\\.0{1,6})?)|(?:[0-9]|[1-8][0-9])(?:(?:\\.[0-9]{1,6})?))$/;
     if (!control.value.match(floatNumberRegex)) {
       return { notFloatNumber: true };
     }
