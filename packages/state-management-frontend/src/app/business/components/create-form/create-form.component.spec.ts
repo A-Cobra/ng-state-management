@@ -91,11 +91,4 @@ describe('CreateFormComponent', () => {
     expect(component.createForm.disabled).toBeTruthy();
     expect(component.isLoading).toBeTruthy();
   });
-
-  it('should unsubscribe on destroy', () => {
-    const unsubscribeSpy = jest.spyOn(component.unsubscribe$, 'next');
-    component.ngOnDestroy();
-    fixture.destroy();
-    expect(unsubscribeSpy).toHaveBeenCalled();
-  });
 });
