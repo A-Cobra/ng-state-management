@@ -1,4 +1,4 @@
-import { EntityRepository, FilterQuery, Loaded, wrap } from '@mikro-orm/core';
+import { EntityRepository, FilterQuery, Loaded } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { AuthService } from '../../auth/auth.service';
@@ -8,6 +8,8 @@ import { UsersService } from '../../users/services/users.service';
 import { CreateCustomerDto } from '../dto/create-customer.dto';
 import { UpdateCustomerDto } from '../dto/update-customer.dto';
 import { Customer } from '../entities/customer.entity';
+import { PaginatedResult } from '../interfaces/pagination.interface';
+import { CustomerSearchQuery } from '../interfaces/query.interface';
 
 @Injectable()
 export class CustomersService {
@@ -26,15 +28,11 @@ export class CustomersService {
     return user;
   }
 
-  async findAll(queryParams): Promise<{
-    data: Loaded<Customer, 'user'>[];
-    metaData: {
-      currentPage: any;
-      totalItems: number;
-      totalPages: number;
-    };
-  }> {
-    let { queryTerm, limit, page } = queryParams;
+  async findAll(
+    queryParams: CustomerSearchQuery
+  ): Promise<PaginatedResult<Loaded<Customer, 'user'>[]>> {
+    const { queryTerm } = queryParams;
+    let { limit, page } = queryParams;
     limit = limit || 10;
     page = page || 1;
 
@@ -77,7 +75,7 @@ export class CustomersService {
     };
   }
 
-  async findOne(id: string) {
+  async findOne(id: string): Promise<Loaded<Customer, 'user'>> {
     const [find, count] = await this.customerRepository.findAndCount(
       { $and: [{ user: { user_id: id } }, { isDeleted: false }] },
       { populate: ['user'], limit: 1 }
@@ -88,7 +86,10 @@ export class CustomersService {
     return find[0];
   }
 
-  async update(id: string, updateCustomerDto: UpdateCustomerDto) {
+  async update(
+    id: string,
+    updateCustomerDto: UpdateCustomerDto
+  ): Promise<User> {
     const customerInfo = await this.findOne(id);
 
     const { refreshToken } = await this.authService.getTokens(
@@ -106,15 +107,9 @@ export class CustomersService {
     return this.usersService.update(id, userUpdate);
   }
 
-  async remove(id: string) {
-    const customer = await this.customerRepository.findOne({
-      user: { user_id: id },
-    });
-
-    if (!customer) throw new NotFoundException('Customer Not Found');
-    const updatedCustomerInfo: Partial<Customer> = { isDeleted: true };
-    wrap(customer).assign(updatedCustomerInfo);
-
-    return this.customerRepository.flush();
+  async remove(id: string): Promise<void> {
+    const customer = await this.findOne(id);
+    customer.isDeleted = true;
+    return this.customerRepository.persistAndFlush(customer);
   }
 }

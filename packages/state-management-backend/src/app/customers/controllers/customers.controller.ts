@@ -14,6 +14,7 @@ import { CustomersService } from '../services/customers.service';
 import { CreateCustomerDto } from '../dto/create-customer.dto';
 import { UpdateCustomerDto } from '../dto/update-customer.dto';
 import { JwtAuthGuard } from '../../auth/guard/jwt-auth.guard';
+import { CustomerSearchQuery } from '../interfaces/query.interface';
 
 @Controller('customers')
 export class CustomersController {
@@ -30,7 +31,12 @@ export class CustomersController {
     @Query('page') page: number,
     @Query('limit') limit: number
   ) {
-    return this.customersService.findAll({ queryTerm, page, limit });
+    let query: CustomerSearchQuery = {
+      queryTerm,
+      limit,
+      page,
+    };
+    return this.customersService.findAll(query);
   }
 
   @Get(':id')
