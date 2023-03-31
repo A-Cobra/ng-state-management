@@ -3,6 +3,8 @@
   "collection": "@nestjs/schematics",
   "sourceRoot": "packages/state-management-backend/src",
   "compilerOptions": {
-    "tsConfigPath": "packages/state-management-backend/tsconfig.app.json"
+    "tsConfigPath": "packages/state-management-backend/tsconfig.app.json",
+    "assets": ["app/mail/templates/**/*"],
+    "watchAssets": true
   }
 }
