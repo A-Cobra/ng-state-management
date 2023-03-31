@@ -16,7 +16,6 @@
     type="{{ inputType }}"
     id="{{ elementId }}"
   ></clapp-text-input>
-  <!-- Information Text  -->
   <clapp-helper-text
     *ngIf="
       !parentForm.controls[controlName].dirty &&
@@ -28,7 +27,6 @@
   >
     {{ displayText }}
   </clapp-helper-text>
-  <!-- Error Text  -->
   <clapp-helper-text
     *ngIf="
       parentForm.controls[controlName].errors &&
