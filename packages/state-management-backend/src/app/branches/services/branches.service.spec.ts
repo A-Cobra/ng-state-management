@@ -6,16 +6,12 @@ import { BranchesService } from './branches.service';
 import { mockBranchesResponse } from '../test/mocks/branch-response.mock';
 import { PaginationDto } from '../../common/dtos/pagination.dto';
 import { BusinessHq } from '../../business/entities/business.entity';
-import { BusinessClassification } from '../../business/entities/business-classification.entity';
-import { Collection } from '@mikro-orm/core';
-import { User } from '../../users/entities/user.entity';
 import { businessStub } from '../../business/tests/business.stubs';
 
 describe('BranchesService', () => {
   let branchService: BranchesService;
   let businessService: BusinessService;
   let pagination: PaginationDto;
-  let business: BusinessHq;
   const mockBranchRepository = {
     findAndCount: jest.fn(),
     findOne: jest.fn(),
@@ -36,18 +32,6 @@ describe('BranchesService', () => {
       page: 1,
       limit: 10,
     };
-    business = {
-      userId: '123',
-      businessId: '1234',
-      businessName: 'test',
-      rating: 5,
-      latitude: '123',
-      longitude: '123',
-      contactAddress: 'test',
-      contactNumber: 'test@gmail.com',
-      approvedRegistration: true,
-      classifications: new Collection<BusinessClassification>(this),
-    } as BusinessHq;
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         {
@@ -86,7 +70,7 @@ describe('BranchesService', () => {
   });
 
   it('should return branches by business', async () => {
-    jest.spyOn(businessService, 'findById').mockResolvedValueOnce(business);
+    jest.spyOn(businessService, 'findById').mockResolvedValueOnce(businessStub);
     const mockServiceBranches = [
       mockBranchesResponse.data,
       mockBranchesResponse.data.length,
