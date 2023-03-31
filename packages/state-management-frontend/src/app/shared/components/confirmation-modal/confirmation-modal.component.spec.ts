@@ -1,44 +1,53 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ModalConfig, ModalRef } from '@clapp1/clapp-angular';
-import { MockModalConfig } from '../../models/mock-modal-config.interface';
-import { MockModalRef } from '../../models/mock-modal-ref.interface';
-import { defaultConfirmationMessage } from '../../utils/default-confirmation-message';
-
 import { ConfirmationModalComponent } from './confirmation-modal.component';
+import {
+  ClappButtonModule,
+  ClappNoResultsModule,
+  ModalConfig,
+  ModalModule,
+  ModalRef,
+} from '@clapp1/clapp-angular';
+import { MOCK_MODAL_CONFIG } from '../../test/mock';
 
 describe('ConfirmationModalComponent', () => {
   let component: ConfirmationModalComponent;
   let fixture: ComponentFixture<ConfirmationModalComponent>;
-  let mockModalRef: MockModalRef;
-  let mockModalConfig: MockModalConfig;
+  let modalRef: ModalRef;
 
   beforeEach(async () => {
-    mockModalRef = {
-      close: jest.fn(),
-    };
-    mockModalConfig = {
-      data: defaultConfirmationMessage,
-    };
     await TestBed.configureTestingModule({
-      imports: [ConfirmationModalComponent],
+      declarations: [],
+      imports: [
+        ConfirmationModalComponent,
+        ModalModule,
+        ClappButtonModule,
+        ClappNoResultsModule,
+      ],
       providers: [
-        {
-          provide: ModalRef,
-          useValue: mockModalRef,
-        },
+        ModalRef,
         {
           provide: ModalConfig,
-          useValue: mockModalConfig,
+          useValue: MOCK_MODAL_CONFIG,
         },
       ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ConfirmationModalComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
+    modalRef = TestBed.inject(ModalRef);
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('should called modalRef in order to close with false value', () => {
+    const spy = jest.spyOn(modalRef, 'close');
+    component.closeModal(false);
+
+    expect(spy).toBeCalledWith(false);
+  });
+
+  it('should called modalRef in order to close with true value', () => {
+    const spy = jest.spyOn(modalRef, 'close');
+    component.closeModal(true);
+
+    expect(spy).toBeCalledWith(true);
   });
 });
