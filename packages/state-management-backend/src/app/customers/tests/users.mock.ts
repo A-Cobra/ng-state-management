@@ -8,8 +8,8 @@ export const mockUser: User = {
   email: 'test@example.com',
   username: 'test',
   password: 'password',
-  contact_number: '1313412341',
-  user_id: 'userid',
+  contactNumber: '1313412341',
+  userId: 'userid',
   role: 'admin',
   isLoggedIn: false,
 };
@@ -21,7 +21,7 @@ export const mockUserResponse: Partial<User> = {
   email: 'test@example.com',
   username: 'test',
   password: 'password',
-  contact_number: '1313412341',
+  contactNumber: '1313412341',
 };
 
 export const mockCreateCustomerDto: CreateCustomerDto = {
@@ -31,7 +31,7 @@ export const mockCreateCustomerDto: CreateCustomerDto = {
   email: 'test@example.com',
   username: 'test',
   password: 'test',
-  contact_number: 1313412341,
+  contactNumber: 1313412341,
 };
 
 export const mockMultipleUsersResponse = [
@@ -42,7 +42,7 @@ export const mockMultipleUsersResponse = [
     email: 'test@example.com',
     username: 'test',
     password: 'password',
-    contact_number: 1313412341,
+    contactNumber: 1313412341,
   },
   {
     name: 'test2',
@@ -51,6 +51,6 @@ export const mockMultipleUsersResponse = [
     email: 'test2@example.com',
     username: 'test2',
     password: 'password',
-    contact_number: 1313412341,
+    contactNumber: 1313412341,
   },
 ];

@@ -42,7 +42,7 @@ describe('CustomersService', () => {
       create: (data: CreateUserDto) =>
         Promise.resolve(mockUserResponse as User),
       findOne: (id: string) => Promise.resolve(mockUserResponse as User),
-      update: (user_id: string, updatedUserInfo: UpdateUserDto) =>
+      update: (userId: string, updatedUserInfo: UpdateUserDto) =>
         Promise.resolve(mockUser),
     };
 
@@ -88,11 +88,11 @@ describe('CustomersService', () => {
 
   describe('should find all users', () => {
     it('should find all users with queries', async () => {
-      const data = mockMultipleUsersResponse;
-      const total = mockMultipleUsersResponse.length;
+      const data = [mockUser];
+      const total = data.length;
       const response = mockPaginationResponse;
-      response.metaData.totalItems = total;
-      response.metaData.totalPages = 1;
+      response.totalResults = total;
+      response.totalPages = 1;
       response.data = data;
 
       mockCustomerRepository.findAndCount.mockReturnValueOnce([data, total]);
@@ -102,12 +102,12 @@ describe('CustomersService', () => {
     });
 
     it('should find all users without queries', async () => {
-      const data = mockMultipleUsersResponse;
-      const total = mockMultipleUsersResponse.length;
+      const data = [mockUser];
+      const total = data.length;
       const response = mockPaginationResponse;
-      response.metaData.totalItems = total;
-      response.metaData.totalPages = 1;
-      response.metaData.currentPage = 1;
+      response.totalResults = total;
+      response.totalPages = 1;
+      response.page = 1;
       response.data = data;
       let query = mockPaginationQuery;
       query.limit = null;
@@ -144,16 +144,16 @@ describe('CustomersService', () => {
   it('should update', async () => {
     const data = mockMultipleUsersResponse.slice(0, 1);
     const total = data.length;
-    const { contact_number, ...rest } = mockUserResponse;
-    const newNumber = +contact_number;
+    const { contactNumber, ...rest } = mockUserResponse;
+    const newNumber = +contactNumber;
     const newCustomer = {
       ...rest,
-      contact_number: newNumber,
+      contactNumber: newNumber,
     } as UpdateCustomerDto;
 
     const customer = mockCustomers[0];
     customer.user = mockUser;
-    customer.user.user_id = 'userid';
+    customer.user.userId = 'userid';
 
     mockCustomerRepository.findAndCount.mockReturnValueOnce([
       [customer],

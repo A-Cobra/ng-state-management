@@ -24,7 +24,7 @@ describe('CustomersController', () => {
       update: (id: string, updateCustomerDto: UpdateCustomerDto) =>
         Promise.resolve(mockUserResponse as User),
       findAll: (query: CustomerSearchQuery) =>
-        Promise.resolve(mockPaginationResponse),
+        Promise.resolve(mockPaginationResponse as any),
     };
 
     const module: TestingModule = await Test.createTestingModule({
@@ -42,11 +42,11 @@ describe('CustomersController', () => {
   });
 
   it('should create a customer', async () => {
-    const { contact_number, ...rest } = mockUserResponse;
-    const newNumber = +contact_number;
-    const customer = { ...rest, contact_number: newNumber };
+    const { contactNumber, ...rest } = mockUserResponse;
+    const newNumber = +contactNumber;
+    const customer = { ...rest, contactNumber: newNumber } as CreateCustomerDto;
     const mockService = jest.spyOn(mockCustomersService, 'create');
-    const result = await controller.create(customer as CreateCustomerDto);
+    const result = await controller.create(customer as any);
     expect(result).toEqual(mockUserResponse);
     expect(mockService).toBeCalledTimes(1);
     expect(mockService).toBeCalledWith(customer);
@@ -72,11 +72,11 @@ describe('CustomersController', () => {
 
   it('should update', async () => {
     const userId = 'userId';
-    const { contact_number, ...rest } = mockUserResponse;
-    const newNumber = +contact_number;
+    const { contactNumber, ...rest } = mockUserResponse;
+    const newNumber = +contactNumber;
     const customer = {
       ...rest,
-      contact_number: newNumber,
+      contactNumber: newNumber,
     } as UpdateCustomerDto;
     const mockService = jest.spyOn(mockCustomersService, 'update');
     const result = await controller.update(userId, customer);

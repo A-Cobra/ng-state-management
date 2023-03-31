@@ -3,6 +3,7 @@ import { InjectRepository } from '@mikro-orm/nestjs';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { AuthService } from '../../auth/auth.service';
 import { hashData } from '../../auth/utils/jwt.util';
+import { PaginationResult } from '../../common/interfaces/pagination-result.interface';
 import { User } from '../../users/entities/user.entity';
 import { UsersService } from '../../users/services/users.service';
 import { CreateCustomerDto } from '../dto/create-customer.dto';
@@ -30,7 +31,7 @@ export class CustomersService {
 
   async findAll(
     queryParams: CustomerSearchQuery
-  ): Promise<PaginatedResult<Loaded<Customer, 'user'>[]>> {
+  ): Promise<PaginationResult<Loaded<Customer, 'user'>>> {
     const { queryTerm } = queryParams;
     let { limit, page } = queryParams;
     limit = limit || 10;
@@ -67,17 +68,15 @@ export class CustomersService {
     const totalPages = Math.ceil(total / limit);
     return {
       data,
-      metaData: {
-        currentPage: page,
-        totalItems: total,
-        totalPages,
-      },
+      page,
+      totalResults: total,
+      totalPages,
     };
   }
 
   async findOne(id: string): Promise<Loaded<Customer, 'user'>> {
     const [find, count] = await this.customerRepository.findAndCount(
-      { $and: [{ user: { user_id: id } }, { isDeleted: false }] },
+      { $and: [{ user: { userId: id } }, { isDeleted: false }] },
       { populate: ['user'], limit: 1 }
     );
     if (count === 0) {
@@ -93,8 +92,9 @@ export class CustomersService {
     const customerInfo = await this.findOne(id);
 
     const { refreshToken } = await this.authService.getTokens(
-      customerInfo.user.user_id,
-      customerInfo.user.username
+      customerInfo.user.userId,
+      customerInfo.user.username,
+      'customer'
     );
 
     const hashedRefreshToken = await hashData(refreshToken);

@@ -34,5 +34,5 @@ export class CreateCustomerDto {
   password: string;
 
   @IsPhoneNumber()
-  contact_number: number;
+  contactNumber: number;
 }

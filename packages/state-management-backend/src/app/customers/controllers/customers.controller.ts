@@ -26,6 +26,7 @@ export class CustomersController {
   }
 
   @Get()
+  @UseGuards(JwtAuthGuard)
   findAll(
     @Query('search') queryTerm: string,
     @Query('page') page: number,
@@ -40,6 +41,7 @@ export class CustomersController {
   }
 
   @Get(':id')
+  @UseGuards(JwtAuthGuard)
   findOne(@Param('id', ParseUUIDPipe) id: string) {
     return this.customersService.findOne(id);
   }
