@@ -1,7 +1,7 @@
-<ng-container *ngIf="loader">
+<ng-container *ngIf="isLoading">
   <state-management-app-loader> </state-management-app-loader
 ></ng-container>
-<div *ngIf="!loader" class="createForm" (ngSubmit)="onSubmit()">
+<div *ngIf="!isLoading" class="createForm" (ngSubmit)="onSubmit()">
   <h3>Create Business</h3>
   <div>
     <form [formGroup]="createForm">
@@ -12,9 +12,10 @@
             [parentForm]="createForm"
             controlName="name"
             elementId="nameId"
-            label="Name*"
-            displayText="Please enter the business name"
-            patternMessage="Only common characters allowed"
+            label="Name{{ formControlsData['name'].isRequired ? '*' : '' }}"
+            patternMessage="{{ formControlsData['name'].errorMessage }}"
+            [maxLength]="formControlsData['name'].maxLength"
+            displayText=""
           ></state-management-app-reactive-form-text-input-component>
         </div>
         <div class="createForm__input-container">
@@ -22,9 +23,10 @@
             [parentForm]="createForm"
             controlName="email"
             elementId="emailId"
-            label="Email*"
-            displayText="Please enter an email"
-            patternMessage="Email format is required"
+            label="Email{{ formControlsData['email'].isRequired ? '*' : '' }}"
+            patternMessage="{{ formControlsData['email'].errorMessage }}"
+            [maxLength]="formControlsData['email'].maxLength"
+            displayText=""
           ></state-management-app-reactive-form-text-input-component>
         </div>
         <div class="createForm__input-container">
@@ -32,11 +34,13 @@
             [parentForm]="createForm"
             controlName="password"
             elementId="passwordId"
-            label="Password*"
-            displayText="Please enter an initial password"
-            patternMessage="8 char min, at least 1 capital letter, 1 number and 1 symbol"
+            label="Password{{
+              formControlsData['password'].isRequired ? '*' : ''
+            }}"
+            patternMessage="{{ formControlsData['password'].errorMessage }}"
+            [maxLength]="formControlsData['password'].maxLength"
+            displayText=""
             inputType="password"
-            [maxLength]="30"
           ></state-management-app-reactive-form-text-input-component>
         </div>
         <div class="createForm__select-container">
@@ -45,7 +49,9 @@
               formControlName="classification"
               label="Options Label"
               [displayLabel]="true"
-              label="Classification*"
+              label="Classification{{
+                formControlsData['classification'].isRequired ? '*' : ''
+              }}"
               inputName="classificationId"
               placeholder="Select Option"
               [pagination]="false"
@@ -59,7 +65,10 @@
               ></clapp-select-option> </clapp-select
           ></ng-container>
           <clapp-helper-text
-            *ngIf="createForm.controls['classification'].errors"
+            *ngIf="
+              createForm.controls['classification'].errors &&
+              createForm.controls['classification'].touched
+            "
             [textState]="
               createForm.controls['classification'].disabled
                 ? 'disabled'
@@ -75,11 +84,10 @@
             [parentForm]="createForm"
             controlName="address"
             elementId="addressId"
-            label="Address*"
-            displayText="Please enter the address"
-            patternMessage=""
-            inputType="text"
-            [maxLength]="100"
+            label="Address{{
+              formControlsData['address'].isRequired ? '*' : ''
+            }}"
+            [maxLength]="formControlsData['address'].maxLength"
           ></state-management-app-reactive-form-text-input-component>
         </div>
         <div class="createForm__input-container-double">
@@ -88,11 +96,11 @@
               [parentForm]="createForm"
               controlName="longitude"
               elementId="longitudeId"
-              label="Longitude*"
-              displayText="Please enter longitude"
-              patternMessage="Only longitude format"
-              inputType="text"
-              [maxLength]="9"
+              label="Longitude{{
+                formControlsData['longitude'].isRequired ? '*' : ''
+              }}"
+              patternMessage="{{ formControlsData['longitude'].errorMessage }}"
+              [maxLength]="formControlsData['longitude'].maxLength"
             ></state-management-app-reactive-form-text-input-component>
           </div>
           <div class="individual-input">
@@ -100,11 +108,11 @@
               [parentForm]="createForm"
               controlName="latitude"
               elementId="latitudeId"
-              label="Latitude*"
-              displayText="Please enter latitude"
-              patternMessage="Only latitude format"
-              inputType="text"
-              [maxLength]="9"
+              label="Latitude{{
+                formControlsData['latitude'].isRequired ? '*' : ''
+              }}"
+              patternMessage="{{ formControlsData['latitude'].errorMessage }}"
+              [maxLength]="formControlsData['latitude'].maxLength"
             ></state-management-app-reactive-form-text-input-component>
           </div>
         </div>
@@ -113,11 +121,11 @@
             [parentForm]="createForm"
             controlName="contact"
             elementId="concatId"
-            label="Contact number*"
-            displayText="Please enter latitude"
-            patternMessage="Only numbers allowed"
-            inputType="text"
-            [maxLength]="15"
+            label="Contact Number{{
+              formControlsData['contact'].isRequired ? '*' : ''
+            }}"
+            patternMessage="{{ formControlsData['contact'].errorMessage }}"
+            [maxLength]="formControlsData['contact'].maxLength"
           ></state-management-app-reactive-form-text-input-component>
         </div>
       </div>
@@ -128,10 +136,12 @@
             [parentForm]="createForm"
             controlName="picture"
             elementId="pictureId"
-            label="Picture"
-            displayText='Please enter ".jpg" extension URL address'
-            patternMessage='Only URL address with a ".jpg" extension allowed'
-            inputType="text"
+            label="Picture {{
+              formControlsData['picture'].isRequired ? '*' : ''
+            }}"
+            patternMessage="{{ formControlsData['picture'].errorMessage }}"
+            [maxLength]="formControlsData['picture'].maxLength"
+            displayText='Please enter a ".jpg" extension URL address'
           ></state-management-app-reactive-form-text-input-component>
         </div>
         <div class="createForm__picture-container">
@@ -155,11 +165,13 @@
             [parentForm]="createForm"
             controlName="bankAccountNumber"
             elementId="bankAccountNumberId"
-            label="Bank account number"
-            displayText=""
-            patternMessage="Only numbers or common characters allowed"
-            inputType="text"
-            [maxLength]="20"
+            label="Bank account number{{
+              formControlsData['bankAccountNumber'].isRequired ? '*' : ''
+            }}"
+            patternMessage="{{
+              formControlsData['bankAccountNumber'].errorMessage
+            }}"
+            [maxLength]="formControlsData['bankAccountNumber'].maxLength"
           ></state-management-app-reactive-form-text-input-component>
         </div>
         <div class="createForm__input-container-optional">
@@ -167,11 +179,10 @@
             [parentForm]="createForm"
             controlName="bankName"
             elementId="bankNameId"
-            label="Bank name"
-            displayText=""
-            patternMessage="Only numbers or common characters allowed"
-            inputType="text"
-            [maxLength]="20"
+            label="Bank name{{
+              formControlsData['bankName'].isRequired ? '*' : ''
+            }}"
+            [maxLength]="formControlsData['bankName'].maxLength"
           ></state-management-app-reactive-form-text-input-component>
         </div>
         <div class="createForm__select-container-optional">
@@ -179,7 +190,9 @@
             formControlName="bankAccountType"
             label="Options Label"
             [displayLabel]="true"
-            label="Account type"
+            label="Account type{{
+              formControlsData['bankAccountType'].isRequired ? '*' : ''
+            }}"
             inputName="bankAccountTypeId"
             placeholder="Select Option"
             [pagination]="false"
@@ -199,11 +212,10 @@
             [parentForm]="createForm"
             controlName="fullname"
             elementId="fullnameId"
-            label="Fullname*"
-            displayText=""
-            patternMessage="Only common characters allowed"
-            inputType="text"
-            [maxLength]="50"
+            label="Fullname{{
+              formControlsData['fullname'].isRequired ? '*' : ''
+            }}"
+            [maxLength]="formControlsData['fullname'].maxLength"
           ></state-management-app-reactive-form-text-input-component>
         </div>
         <div class="createForm__input-container">
@@ -211,11 +223,11 @@
             [parentForm]="createForm"
             controlName="documentId"
             elementId="documentIdId"
-            label="Document ID*"
-            displayText=""
-            patternMessage="Only numbers allowed"
-            inputType="text"
-            [maxLength]="50"
+            label="Document ID{{
+              formControlsData['documentId'].isRequired ? '*' : ''
+            }}"
+            patternMessage="{{ formControlsData['documentId'].errorMessage }}"
+            [maxLength]="formControlsData['documentId'].maxLength"
           ></state-management-app-reactive-form-text-input-component>
         </div>
         <div class="createForm__buttons-container">

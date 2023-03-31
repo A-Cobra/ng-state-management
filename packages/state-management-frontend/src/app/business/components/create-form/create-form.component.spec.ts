@@ -15,6 +15,7 @@ import {
   ModalModule,
   ClappNotificationModule,
 } from '@clapp1/clapp-angular';
+import { MOCK_FORM_VALUE, MOCK_FORM_CONTROLS } from '../../test/mocks';
 
 describe('CreateFormComponent', () => {
   let component: CreateFormComponent;
@@ -68,44 +69,14 @@ describe('CreateFormComponent', () => {
   });
 
   it('should initialize the createForm property with the correct form controls', () => {
-    const expectedFormControls = [
-      'name',
-      'email',
-      'password',
-      'classification',
-      'address',
-      'longitude',
-      'latitude',
-      'contact',
-      'picture',
-      'bankAccountNumber',
-      'bankName',
-      'bankAccountType',
-      'fullname',
-      'documentId',
-    ];
+    const expectedFormControls = MOCK_FORM_CONTROLS;
     expect(Object.keys(component.createForm.controls)).toEqual(
       expectedFormControls
     );
   });
 
   it('onSubmit should call businessService.addNewBusiness with the correct form value', () => {
-    const mockFormValue = {
-      name: 'Test Business',
-      email: 'test@test.com',
-      password: 'Test123!',
-      classification: '1',
-      address: 'Test Address',
-      longitude: '0',
-      latitude: '0',
-      contact: '1234567890',
-      picture: 'https://test.com/test.jpg',
-      bankAccountNumber: '1234567890',
-      bankName: 'Test Bank',
-      bankAccountType: 'checking',
-      fullname: 'Test User',
-      documentId: '1234567890',
-    };
+    const mockFormValue = MOCK_FORM_VALUE;
 
     component.createForm.setValue(mockFormValue);
     component.onSubmit();

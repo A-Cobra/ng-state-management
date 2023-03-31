@@ -15,3 +15,25 @@ export interface FormCreateGroup {
   fullname: FormControl<string | null>;
   documentId: FormControl<string | null>;
 }
+export interface FormControlsData {
+  name: FormControlsDataItem;
+  email: FormControlsDataItem;
+  password: FormControlsDataItem;
+  classification: FormControlsDataItem;
+  address: FormControlsDataItem;
+  longitude: FormControlsDataItem;
+  latitude: FormControlsDataItem;
+  contact: FormControlsDataItem;
+  picture: FormControlsDataItem;
+  bankAccountNumber: FormControlsDataItem;
+  bankName: FormControlsDataItem;
+  bankAccountType: FormControlsDataItem;
+  fullname: FormControlsDataItem;
+  documentId: FormControlsDataItem;
+}
+export interface FormControlsDataItem {
+  isRequired: boolean;
+  pattern: string;
+  errorMessage: string;
+  maxLength: number;
+}

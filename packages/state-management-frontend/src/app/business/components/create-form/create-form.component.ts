@@ -6,17 +6,18 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Subject } from 'rxjs';
-
-import { FormCreateGroup } from '../../models/create-form.interface';
-
+import { Subject, Observable } from 'rxjs';
 import { ModalService, NotificationService } from '@clapp1/clapp-angular';
-import { ConfirmationModalComponent } from '../../../shared/components/confirmation-modal/confirmation-modal.component';
-import { Observable } from 'rxjs';
 import { BusinessService } from '../../services/business.service';
+import {
+  FormCreateGroup,
+  FormControlsData,
+} from '../../models/create-form.interface';
 import { Classification } from '../../models/classification.interface';
-import { BANK_ACCOUNT_TYPES } from '../../data/bank-account-types';
 import { BankAccountType } from '../../models/bank-account-type.interface';
+import { FORM_CONTROLS_DATA } from '../../utils/form-controls-data';
+import { BANK_ACCOUNT_TYPES } from '../../utils/bank-account-types';
+import { ConfirmationModalComponent } from '../../../shared/components/confirmation-modal/confirmation-modal.component';
 
 @Component({
   selector: 'state-management-app-business-create',
@@ -27,18 +28,18 @@ export class CreateFormComponent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private businessService: BusinessService,
-    private notificationService: NotificationService,
     private modalService: ModalService,
+    private notificationService: NotificationService,
     private router: Router
   ) {}
 
   createForm!: FormGroup;
   classification$!: Observable<Classification[]>;
-
-  bankAccountTypes: BankAccountType[] = BANK_ACCOUNT_TYPES;
-  loader = false;
-  goBackConfirmed = false;
   unsubscribe$: Subject<void> = new Subject<void>();
+  formControlsData: FormControlsData = FORM_CONTROLS_DATA;
+  bankAccountTypes: BankAccountType[] = BANK_ACCOUNT_TYPES;
+  isLoading = false;
+  goingBackConfirmed = false;
 
   ngOnInit(): void {
     this.setUpForm();
@@ -49,56 +50,51 @@ export class CreateFormComponent implements OnInit, OnDestroy {
     this.createForm = this.fb.group<FormCreateGroup>({
       name: new FormControl('', [
         Validators.required,
-        Validators.pattern('^[a-zA-ZñÑ ]+$'),
+        Validators.pattern(this.formControlsData['name'].pattern),
       ]),
       email: new FormControl('', [
         Validators.required,
-        Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,3}$'),
+        Validators.pattern(this.formControlsData['email'].pattern),
       ]),
       password: new FormControl('', [
         Validators.required,
-        Validators.pattern(
-          '^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_+])[A-Za-z0-9!@#$%^&*()_+]{8,}$'
-        ),
+        Validators.pattern(this.formControlsData['password'].pattern),
       ]),
       classification: new FormControl('', [Validators.required]),
       address: new FormControl('', [Validators.required]),
       longitude: new FormControl('', [
         Validators.required,
-        Validators.pattern(
-          '^(\\+|-)?(?:180(?:(?:\\.0{1,6})?)|(?:[0-9]|[1-9][0-9]|1[0-7][0-9])(?:(?:\\.[0-9]{1,6})?))$'
-        ),
+        Validators.pattern(this.formControlsData['longitude'].pattern),
       ]),
       latitude: new FormControl('', [
         Validators.required,
-        Validators.pattern(
-          '^(\\+|-)?(?:90(?:(?:\\.0{1,6})?)|(?:[0-9]|[1-8][0-9])(?:(?:\\.[0-9]{1,6})?))$'
-        ),
+        Validators.pattern(this.formControlsData['latitude'].pattern),
       ]),
       contact: new FormControl('', [
         Validators.required,
-        Validators.pattern('^[0-9]+$'),
+        Validators.pattern(this.formControlsData['contact'].pattern),
       ]),
       picture: new FormControl(
         '',
-        Validators.pattern('^(https://[^"]*?.jpg)$')
+        Validators.pattern(this.formControlsData['picture'].pattern)
       ),
       bankAccountNumber: new FormControl(
         '',
-        Validators.pattern('^[a-zA-Z0-9]+$')
+        Validators.pattern(this.formControlsData['bankAccountNumber'].pattern)
       ),
       bankName: new FormControl(''),
       bankAccountType: new FormControl(''),
       fullname: new FormControl('', [Validators.required]),
       documentId: new FormControl('', [
         Validators.required,
-        Validators.pattern('^[0-9]+$'),
+        Validators.pattern(this.formControlsData['documentId'].pattern),
       ]),
     });
   }
+
   onSubmit() {
     this.createForm.disable();
-    this.loader = true;
+    this.isLoading = true;
     this.businessService.addNewBusiness(this.createForm.value).subscribe({
       next: () => {
         this.notificationService.success(
@@ -106,7 +102,7 @@ export class CreateFormComponent implements OnInit, OnDestroy {
           'Success!'
         ),
           this.createForm.reset();
-        this.loader = false;
+        this.isLoading = false;
         this.createForm.enable();
       },
       error: () =>
@@ -116,6 +112,7 @@ export class CreateFormComponent implements OnInit, OnDestroy {
         ),
     });
   }
+
   handleGoBack() {
     const modalRef = this.modalService.open(ConfirmationModalComponent, {
       data: {
@@ -128,15 +125,16 @@ export class CreateFormComponent implements OnInit, OnDestroy {
       height: 'fit-content',
     });
     modalRef.afterClosed.subscribe((result) => {
-      this.loader = true;
-      this.goBackConfirmed = result as boolean;
-      if (this.goBackConfirmed) {
-        this.router.navigate(['/businesses']); //to businesses profile
+      this.isLoading = true;
+      this.goingBackConfirmed = result as boolean;
+      if (this.goingBackConfirmed) {
+        this.router.navigate(['/businesses']); //TODO: update to businesses profile route
       } else {
-        this.loader = false;
+        this.isLoading = false;
       }
     });
   }
+
   ngOnDestroy(): void {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();

@@ -7,7 +7,7 @@ import {
   ModalModule,
   ModalRef,
 } from '@clapp1/clapp-angular';
-import { MOCK_MODAL_CONFIG } from '../../test/mock';
+import { MOCK_MODAL_CONFIG } from '../../test/mocks';
 
 describe('ConfirmationModalComponent', () => {
   let component: ConfirmationModalComponent;
