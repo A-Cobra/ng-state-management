@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -6,7 +6,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Subject, Observable } from 'rxjs';
+import { take, Observable } from 'rxjs';
 import { ModalService, NotificationService } from '@clapp1/clapp-angular';
 import { BusinessService } from '../../services/business.service';
 import {
@@ -24,7 +24,7 @@ import { ConfirmationModalComponent } from '../../../shared/components/confirmat
   templateUrl: './create-form.component.html',
   styleUrls: ['./create-form.component.scss'],
 })
-export class CreateFormComponent implements OnInit, OnDestroy {
+export class CreateFormComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private businessService: BusinessService,
@@ -35,7 +35,6 @@ export class CreateFormComponent implements OnInit, OnDestroy {
 
   createForm!: FormGroup;
   classification$!: Observable<Classification[]>;
-  unsubscribe$: Subject<void> = new Subject<void>();
   formControlsData: FormControlsData = FORM_CONTROLS_DATA;
   bankAccountTypes: BankAccountType[] = BANK_ACCOUNT_TYPES;
   isLoading = false;
@@ -124,7 +123,7 @@ export class CreateFormComponent implements OnInit, OnDestroy {
       width: 'fit-content',
       height: 'fit-content',
     });
-    modalRef.afterClosed.subscribe((result) => {
+    modalRef.afterClosed.pipe(take(1)).subscribe((result) => {
       this.isLoading = true;
       this.goingBackConfirmed = result as boolean;
       if (this.goingBackConfirmed) {
@@ -133,10 +132,5 @@ export class CreateFormComponent implements OnInit, OnDestroy {
         this.isLoading = false;
       }
     });
-  }
-
-  ngOnDestroy(): void {
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
   }
 }
