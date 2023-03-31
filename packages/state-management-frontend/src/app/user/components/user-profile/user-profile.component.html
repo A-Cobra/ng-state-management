@@ -1,3 +1,6 @@
+<ng-container *ngIf="isSending">
+  <state-management-app-loader></state-management-app-loader>
+</ng-container>
 <form [formGroup]="profileForm" autocomplete="off" class="profile__form">
   <fieldset class="profile__form__wrapper">
     <legend class="profile__title">Profile</legend>
@@ -17,7 +20,7 @@
         "
         id="nameInput"
         name="nameInput"
-        label="Name"
+        label="Name*"
         type="text"
       ></clapp-text-input>
       <clapp-helper-text
@@ -58,7 +61,7 @@
         formControlName="lastName"
         id="lastNameInput"
         name="lastNameInput"
-        label="Last name"
+        label="Last name*"
         type="text"
       ></clapp-text-input>
       <clapp-helper-text
@@ -102,7 +105,7 @@
         "
         id="emailInput"
         name="emailInput"
-        label="Email"
+        label="Email*"
         type="email"
       ></clapp-text-input>
       <clapp-helper-text
@@ -141,7 +144,7 @@
         "
         id="phoneNumberInput"
         name="phoneNumberInput"
-        label="Phone number"
+        label="Phone number*"
         type="tel"
       ></clapp-text-input>
       <clapp-helper-text

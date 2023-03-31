@@ -8,18 +8,26 @@ import {
   ClappInputHelpersModule,
   ClappTextInputModule,
 } from '@clapp1/clapp-angular';
+import { LoaderComponent } from '../shared/components/loader/loader.component';
+import { UserService } from './services/user.service';
 
+const clappModules = [
+  ClappTextInputModule,
+  ClappInputHelpersModule,
+  ClappButtonModule,
+];
+
+const standaloneComponents = [LoaderComponent];
 @NgModule({
   declarations: [UserProfileComponent],
   imports: [
     CommonModule,
     UserRoutingModule,
-    ClappTextInputModule,
-    ClappInputHelpersModule,
-    ClappButtonModule,
     ReactiveFormsModule,
     FormsModule,
+    ...clappModules,
+    ...standaloneComponents,
   ],
-  providers: [],
+  providers: [UserService],
 })
 export class UserModule {}

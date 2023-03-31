@@ -3,9 +3,7 @@ import { UserProfile } from './../models/user.model';
 import { Injectable } from '@angular/core';
 import { USERS_PROFILE_DATA } from '../data/user.data';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class UserService {
   #usersProfileData: UserProfile[] = USERS_PROFILE_DATA;
 
