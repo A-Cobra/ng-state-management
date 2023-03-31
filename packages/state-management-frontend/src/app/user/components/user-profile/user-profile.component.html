@@ -21,12 +21,6 @@
         type="text"
       ></clapp-text-input>
       <clapp-helper-text
-        *ngIf="getControl('name').disabled || getControl('name').pristine"
-        [textState]="getControl('name').disabled ? 'disabled' : 'default'"
-      >
-        You can change your first name here.
-      </clapp-helper-text>
-      <clapp-helper-text
         *ngIf="
           !getControl('name').disabled &&
           getControl('name').hasError('required') &&
@@ -69,14 +63,6 @@
       ></clapp-text-input>
       <clapp-helper-text
         *ngIf="
-          getControl('lastName').disabled || getControl('lastName').pristine
-        "
-        [textState]="getControl('lastName').disabled ? 'disabled' : 'default'"
-      >
-        You can change your last name here.
-      </clapp-helper-text>
-      <clapp-helper-text
-        *ngIf="
           !getControl('lastName').disabled &&
           getControl('lastName').hasError('required') &&
           !getControl('lastName').pristine
@@ -100,7 +86,6 @@
   </fieldset>
   <fieldset class="profile__form__wrapper">
     <legend class="profile__subtitle">Contact information</legend>
-
     <div class="profile__form__control">
       <clapp-text-input
         #emailRef
@@ -120,12 +105,6 @@
         label="Email"
         type="email"
       ></clapp-text-input>
-      <clapp-helper-text
-        *ngIf="getControl('email').disabled || getControl('email').pristine"
-        [textState]="getControl('email').disabled ? 'disabled' : 'default'"
-      >
-        You can change your email here.
-      </clapp-helper-text>
       <clapp-helper-text
         *ngIf="
           getControl('email').hasError('required') &&
@@ -167,17 +146,6 @@
       ></clapp-text-input>
       <clapp-helper-text
         *ngIf="
-          getControl('phoneNumber').disabled ||
-          getControl('phoneNumber').pristine
-        "
-        [textState]="
-          getControl('phoneNumber').disabled ? 'disabled' : 'default'
-        "
-      >
-        You can change your phone number here.
-      </clapp-helper-text>
-      <clapp-helper-text
-        *ngIf="
           getControl('phoneNumber').hasError('required') &&
           !getControl('phoneNumber').pristine
         "
@@ -196,37 +164,42 @@
       </clapp-helper-text>
     </div>
   </fieldset>
-  <!-- TODO: Add change password link  -->
-  <a class="profile__link" [routerLink]="['']">Manage your password</a>
-  <div class="profile__form__buttons">
+  <div class="profile__form__actions">
+    <!-- TODO: Add change password link  -->
+    <a class="profile__link" [routerLink]="['']">Manage your password</a>
     <!-- TODO: Add back to page link -->
-    <clapp-button
-      color="secondary"
-      size="small"
-      [disabled]="isSending"
-      type="button"
-      [routerLink]="['']"
-    >
-      Back
-    </clapp-button>
-    <clapp-button
-      *ngIf="!isEditing"
-      color="primary"
-      size="small"
-      (click)="onClickEdit()"
-      type="button"
-    >
-      Edit
-    </clapp-button>
-    <clapp-button
-      *ngIf="isEditing"
-      color="primary"
-      size="small"
-      [disabled]="profileForm.invalid || isSending"
-      type="submit"
-      (click)="onClickSave()"
-    >
-      Save
-    </clapp-button>
+    <div class="profile__form__buttons">
+      <clapp-button
+        color="secondary"
+        size="small"
+        [disabled]="isSending"
+        type="button"
+        [routerLink]="['']"
+        plusIcon="ri-arrow-go-back-fill"
+      >
+        Back
+      </clapp-button>
+      <clapp-button
+        *ngIf="!isEditing"
+        color="primary"
+        size="small"
+        (click)="onClickEdit()"
+        type="button"
+        plusIcon="ri-edit-fill"
+      >
+        Edit
+      </clapp-button>
+      <clapp-button
+        *ngIf="isEditing"
+        color="primary"
+        size="small"
+        [disabled]="profileForm.invalid || isSending"
+        type="submit"
+        (click)="onClickSave()"
+        plusIcon="ri-save-fill"
+      >
+        Save
+      </clapp-button>
+    </div>
   </div>
 </form>
