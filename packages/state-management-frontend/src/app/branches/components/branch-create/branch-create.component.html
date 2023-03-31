@@ -1,0 +1,65 @@
+<div class="form__main">
+  <h1>Branches {{ typeForm }} Form</h1>
+  <form class="form">
+    <div class="left-column">
+      <div class="branches-img">
+        <clapp-image-display
+          src="assets/templateImage.png"
+          alt="placeholder.png"
+          type="avatar"
+          size="large"
+        ></clapp-image-display>
+      </div>
+
+      <div>Total branches: 12</div>
+      <div class="form__group">
+        <clapp-text-input label="Contact Number"></clapp-text-input>
+      </div>
+      <div class="form__group">
+        <clapp-text-input label="Contact Email"></clapp-text-input>
+      </div>
+    </div>
+
+    <div class="right-column">
+      <div class="form__group">
+        <clapp-text-input label="Display Name"></clapp-text-input>
+      </div>
+      <div class="form__group">
+        <clapp-text-input label="Business Name"></clapp-text-input>
+      </div>
+
+      <div class="form__group">
+        <clapp-text-input label="Contact Address"></clapp-text-input>
+      </div>
+      <div class="coordinates">
+        <div class="form__group">
+          <clapp-text-input label="Longitude"></clapp-text-input>
+        </div>
+        <div class="form__group">
+          <clapp-text-input label="Latitude"></clapp-text-input>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <div class="buttons">
+    <div class="buttons__left">
+      <clapp-button color="tertiary" size="small" type="button">
+        Go back
+      </clapp-button>
+    </div>
+    <div class="buttons__right">
+      <clapp-button color="tertiary-white" size="small" type="button">
+        Edit
+      </clapp-button>
+      <ng-template #saveButton>
+        <clapp-button color="secondary" size="small" type="button">
+          Save
+        </clapp-button>
+      </ng-template>
+      <clapp-button color="primary" size="small" type="button">
+        Delete
+      </clapp-button>
+    </div>
+  </div>
+</div>
