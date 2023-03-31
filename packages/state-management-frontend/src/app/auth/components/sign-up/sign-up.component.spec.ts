@@ -9,9 +9,9 @@ import {
   NotificationService,
 } from '@clapp1/clapp-angular';
 import { of, throwError } from 'rxjs';
-import { MOCK_USER } from '../../mocks/mock-user';
 import { SignUpService } from '../../services/sign-up.service';
 import { SignUpComponent } from './sign-up.component';
+import { MOCK_USER } from '../../test/mocks';
 
 describe('SignUpComponent', () => {
   let component: SignUpComponent;

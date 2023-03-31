@@ -114,7 +114,7 @@
                 Password is required.
               </clapp-helper-text>
               <clapp-helper-text
-                *ngIf="password?.errors?.['pattern'] && password!.touched"
+                *ngIf="password?.errors?.['invalidPassword'] && password!.touched"
                 [textState]="'error'"
               >
                 The password must be at least 8 characters long, it must contain

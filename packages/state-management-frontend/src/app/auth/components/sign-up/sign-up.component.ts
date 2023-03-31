@@ -7,6 +7,7 @@ import { User } from '../../interfaces/user.interface';
 import { SignUpService } from '../../services/sign-up.service';
 import { notEmpty } from '../../validators/not-empty.validator';
 import { passwordMatch } from '../../validators/password-match.validator';
+import { validPassword } from '../../validators/valid-password.validator';
 
 @Component({
   selector: 'state-management-app-sign-up',
@@ -34,15 +35,7 @@ export class SignUpComponent implements OnInit {
       userName: ['', [Validators.required], [notEmpty]],
       email: ['', [Validators.required, Validators.email]],
       contactNumber: ['', Validators.required],
-      password: [
-        '',
-        [
-          Validators.required,
-          Validators.pattern(
-            '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$'
-          ),
-        ],
-      ],
+      password: ['', [Validators.required], [validPassword]],
       confirmPassword: ['', [Validators.required], [passwordMatch]],
     });
   }
