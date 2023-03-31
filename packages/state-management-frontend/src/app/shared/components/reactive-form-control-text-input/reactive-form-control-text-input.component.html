@@ -3,7 +3,7 @@
     [formControlName]="controlName"
     autocomplete=""
     [error]="
-      (false || !!parentForm.controls[controlName].errors) &&
+      (false || parentForm.controls[controlName].invalid) &&
       parentForm.controls[controlName].touched
     "
     [success]="

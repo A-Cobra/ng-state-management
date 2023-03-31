@@ -6,7 +6,7 @@ import { FormEditPayload } from '../../models/form-edit-payload.interface';
 import { InvalidFormModalComponent } from '../../../shared/components/invalid-form-modal/invalid-form-modal.component';
 import { ConfirmationModalComponent } from '../../../shared/components/confirmation-modal/confirmation-modal.component';
 import { Router } from '@angular/router';
-import { debounceTime } from 'rxjs';
+import { debounceTime, take } from 'rxjs';
 import { deleteBusinessModalConfig } from '../../utils/delete-business-modal-config';
 import { goToBusinessesListModalConfig } from '../../utils/go-to-business-list-modal-config';
 import { isALoadableImageUrl } from '../../../core/utils/is-a-displayable-image-url';
@@ -141,7 +141,7 @@ export class BusinessEditFormComponent implements OnInit {
       ConfirmationModalComponent,
       goToBusinessesListModalConfig
     );
-    modalRef.afterClosed.subscribe((result) => {
+    modalRef.afterClosed.pipe(take(1)).subscribe((result) => {
       const confirmation = result as boolean;
       if (confirmation) {
         this.router.navigate(['businesses']);
@@ -154,7 +154,7 @@ export class BusinessEditFormComponent implements OnInit {
       ConfirmationModalComponent,
       deleteBusinessModalConfig(this.businessData.businessName)
     );
-    modalRef.afterClosed.subscribe((result) => {
+    modalRef.afterClosed.pipe(take(1)).subscribe((result) => {
       // this.loader = true;
       const confirmation = result as boolean;
       if (confirmation) {
