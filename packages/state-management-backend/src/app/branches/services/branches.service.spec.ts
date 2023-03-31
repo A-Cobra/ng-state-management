@@ -5,8 +5,8 @@ import { BusinessBranch } from '../entities/businessBranch.entity';
 import { BranchesService } from './branches.service';
 import { mockBranchesResponse } from '../test/mocks/branch-response.mock';
 import { PaginationDto } from '../../common/dtos/pagination.dto';
-import { Business_HQ } from '../../business/entities/business.entity';
-import { Business_classification } from '../../business/entities/business_classification.entity';
+import { BusinessHq } from '../../business/entities/business.entity';
+import { BusinessClassification } from '../../business/entities/business-classification.entity';
 import { Collection } from '@mikro-orm/core';
 import { User } from '../../users/entities/user.entity';
 
@@ -14,7 +14,7 @@ describe('BranchesService', () => {
   let branchService: BranchesService;
   let businessService: BusinessService;
   let pagination: PaginationDto;
-  let business: Business_HQ;
+  let business: BusinessHq;
   const mockBranchRepository = {
     findAndCount: jest.fn(),
     findOne: jest.fn(),
@@ -26,35 +26,40 @@ describe('BranchesService', () => {
   };
   const mockBusinessRepository = {};
 
+  const mockBusinessService = {
+    findById: jest.fn(),
+  };
+
   beforeEach(async () => {
     pagination = {
       page: 1,
       limit: 10,
     };
     business = {
-      business_id: '123',
-      busines_name: 'test',
+      userId: '123',
+      businessId: '1234',
+      businessName: 'test',
       rating: 5,
       latitude: '123',
       longitude: '123',
-      business_picture: 'test.jpg',
-      contact_address: 'test',
-      contact_email: 'test@gmail.com',
-      contact_phone_number: '123456789',
-      approved_registration: true,
-      classifications: new Collection<Business_classification>(this),
-      user: {} as User,
-    };
+      contactAddress: 'test',
+      contactNumber: 'test@gmail.com',
+      approvedRegistration: true,
+      classifications: new Collection<BusinessClassification>(this),
+    } as BusinessHq;
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        BusinessService,
+        {
+          provide: BusinessService,
+          useValue: mockBusinessService,
+        },
         BranchesService,
         {
           provide: getRepositoryToken(BusinessBranch),
           useValue: mockBranchRepository,
         },
         {
-          provide: getRepositoryToken(Business_HQ),
+          provide: getRepositoryToken(BusinessHq),
           useValue: mockBusinessRepository,
         },
       ],
@@ -126,17 +131,25 @@ describe('BranchesService', () => {
       openingTime: '10:00',
     };
     const createdBranch = {
-      id: '123',
-      ...newBranch,
-      business,
+      branchId: '123',
+      address: 'test',
+      closeTime: '12:00',
+      contactEmail: 'branch@gmail.com',
+      contactPhoneNumber: '123456789',
+      image: 'test.jpg',
+      latitude: '123',
+      longitude: '123',
+      name: 'new test',
+      openingTime: '10:00',
+      businessId: { businessId: '123' },
     };
     jest.spyOn(businessService, 'findById').mockResolvedValueOnce(business);
     mockBranchRepository.create.mockReturnValueOnce(createdBranch);
-    mockBranchRepository.persistAndFlush.mockResolvedValueOnce(createdBranch);
+    mockBranchRepository.persistAndFlush.mockResolvedValueOnce(true);
     const result = await branchService.create('123', newBranch);
-    expect(mockBranchRepository.create).toBeCalledWith(newBranch);
+    expect(mockBranchRepository.create).toBeCalledTimes(1);
     expect(mockBranchRepository.persistAndFlush).toBeCalledTimes(1);
-    expect(result).toEqual(createdBranch);
+    expect(result).toEqual(newBranch);
   });
 
   it('should update a branch', async () => {

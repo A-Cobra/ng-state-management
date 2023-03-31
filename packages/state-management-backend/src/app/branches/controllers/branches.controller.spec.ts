@@ -7,7 +7,7 @@ import { BranchesServiceMock } from '../test/branch.service.mock';
 import { PaginationDto } from '../../common/dtos/pagination.dto';
 import { CreateBranchDto } from '../dto/create-branch.dto';
 import { BusinessBranch } from '../entities/businessBranch.entity';
-import { Business_HQ } from '../../business/entities/business.entity';
+import { BusinessHq } from '../../business/entities/business.entity';
 import { UpdateBranchDto } from '../dto/update-branch.dto';
 
 describe('BranchesController', () => {
@@ -103,7 +103,7 @@ describe('BranchesController', () => {
       ...branch,
       branchId: '6f9f1b0b0b0b0b0b0b0b0b0b',
       deleted: false,
-      businessId: { business_id: businessId } as Business_HQ,
+      businessId: { businessId: businessId } as BusinessHq,
     };
     jest.spyOn(service, 'create');
     const result = await controller.create(businessId, branch);

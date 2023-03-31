@@ -24,7 +24,6 @@ export class BusinessService {
 
   async findById(userId: string): Promise<BusinessHq> {
     const business = await this.businessRepository.findOne({ userId });
-
     if (!business || business.deleted)
       throw new NotFoundException('Business not found');
 
