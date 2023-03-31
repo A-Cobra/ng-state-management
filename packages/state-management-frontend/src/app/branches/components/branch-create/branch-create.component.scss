@@ -1,0 +1,45 @@
+$row-gap: 25px;
+$column-gap: 30px;
+
+.form {
+  &__main {
+    padding: 30px;
+    display: grid;
+    row-gap: $row-gap;
+  }
+  display: grid;
+  column-gap: 2 * $column-gap;
+  row-gap: $row-gap;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  .left-column,
+  .right-column {
+    display: grid;
+    row-gap: $row-gap;
+  }
+  .coordinates {
+    display: grid;
+    column-gap: $column-gap;
+    row-gap: $row-gap;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  }
+}
+.buttons {
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  &__left {
+    min-width: 250px;
+    flex: 1 1 150px;
+  }
+  &__right {
+    display: flex;
+    gap: 20px;
+    flex: 0 1 150px;
+  }
+}
+.branches-img {
+  display: grid;
+  justify-items: center;
+}
