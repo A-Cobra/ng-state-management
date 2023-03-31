@@ -6,7 +6,7 @@ import {
 import { CreateUserDto } from '../users/dto/create-user.dto';
 import { JwtInfo } from './interfaces/jwtinfo.type';
 import { hashData, signToken, validateCode } from './utils/jwt.util';
-import { SignInDto } from './dto/sigin.dto';
+import { SignInDto } from './dto/signin.dto';
 import { UsersService } from '../users/services/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
@@ -25,18 +25,18 @@ export class AuthService {
 
     await validateCode(user.password, credentials.password);
 
-    await this.userService.changeUserLogState(user.user_id, true);
+    await this.userService.changeUserLogState(user.userId, true);
 
-    const tokens = await this.getTokens(user.user_id, user.username);
-    await this.updateRefreshToken(user.user_id, tokens.refreshToken);
+    const tokens = await this.getTokens(user.userId, user.username, user.role);
+    await this.updateRefreshToken(user.userId, tokens.refreshToken);
 
     return {
       status: 'OK',
       message: 'Login successful',
       userInfo: {
         email: credentials.email,
-        access_token: tokens.accessToken,
-        refresh_token: tokens.refreshToken,
+        accessToken: tokens.accessToken,
+        refreshToken: tokens.refreshToken,
       },
     };
   }
@@ -44,7 +44,7 @@ export class AuthService {
   async signOut(userInfo: JwtInfo) {
     const user = await this.userService.findOne(userInfo.sub);
 
-    await this.userService.changeUserLogState(user.user_id, false);
+    await this.userService.changeUserLogState(user.userId, false);
 
     return {
       status: 'OK',
@@ -61,8 +61,8 @@ export class AuthService {
   async changeRole(currentUser: JwtInfo, userId: string, newRole: string) {
     const user = await this.userService.findOne(userId);
 
-    if (currentUser.sub !== user.user_id) {
-      return this.userService.updateRole(user.user_id, newRole);
+    if (currentUser.sub !== user.userId) {
+      return this.userService.updateRole(user.userId, newRole);
     } else {
       throw new ConflictException(
         "Can't change your own role, ask another admin for help"
@@ -77,12 +77,13 @@ export class AuthService {
     });
   }
 
-  async getTokens(userId: string, username: string) {
+  async getTokens(userId: string, username: string, role: string) {
     const [accessToken, refreshToken] = await Promise.all([
       this.jwtService.signAsync(
         {
           sub: userId,
           username,
+          role: role,
         },
         {
           secret: this.configService.get<string>('JWT_SECRET'),
@@ -93,6 +94,7 @@ export class AuthService {
         {
           sub: userId,
           username,
+          role: role,
         },
         {
           secret: this.configService.get<string>('JWT_REFRESH_SECRET'),
@@ -125,7 +127,7 @@ export class AuthService {
 
       const admin = await this.signUp(adminUser);
 
-      await this.changeRole(currentUser, admin.user_id, 'admin');
+      await this.changeRole(currentUser, admin.userId, 'admin');
     }
   }
 
@@ -142,8 +144,8 @@ export class AuthService {
 
     if (!refreshTokenMatches) throw new ForbiddenException('Access Denied');
 
-    const tokens = await this.getTokens(user.user_id, user.username);
-    await this.updateRefreshToken(user.user_id, tokens.refreshToken);
+    const tokens = await this.getTokens(user.userId, user.username, user.role);
+    await this.updateRefreshToken(user.userId, tokens.refreshToken);
 
     return tokens;
   }

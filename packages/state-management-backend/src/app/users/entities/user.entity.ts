@@ -4,7 +4,7 @@ import { v4 } from 'uuid';
 @Entity()
 export class User {
   @PrimaryKey()
-  user_id: string = v4();
+  userId: string = v4();
 
   // Todo review when roles are ready
   @Property({ default: 'customer' })
@@ -16,8 +16,8 @@ export class User {
   @Property()
   name: string;
 
-  @Property()
-  lastname: string;
+  @Property({ nullable: true })
+  lastname?: string;
 
   @Property({ nullable: true })
   picture?: string;
@@ -32,7 +32,7 @@ export class User {
   isLoggedIn: boolean;
 
   @Property()
-  contact_number: string;
+  contactNumber: string;
 
   @Property({ nullable: true })
   refreshToken?: string;

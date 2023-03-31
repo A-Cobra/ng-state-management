@@ -3,13 +3,14 @@ import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { getEnvPath } from './common/utils/env-path';
 import { validate } from './common/utils/env-validate';
-import { DBModule } from './database/database.module';
 import { UsersModule } from './users/users.module';
 import { ProductsModule } from './products/products.module';
 import { BusinessModule } from './business/business.module';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
+import { BranchesModule } from './branches/branches.module';
 import { ReviewsModule } from './reviews/reviews.module';
 import { CustomersModule } from './customers/customers.module';
+import { NotificationsModule } from './notifications/notifications.module';
 
 const envFilePath = getEnvPath(process.env.WORKDIR);
 
@@ -22,13 +23,14 @@ const envFilePath = getEnvPath(process.env.WORKDIR);
     }),
     UsersModule,
     AuthModule,
-    DBModule,
-    ProductsModule,
     BusinessModule,
+    NotificationsModule,
     MikroOrmModule.forRoot(),
+    BranchesModule,
     ReviewsModule,
     CustomersModule,
   ],
   controllers: [],
+  providers: [],
 })
 export class AppModule {}
