@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { ClassificationLayoutFormComponent } from './classification-layout-form.component';
 import {
   ClappButtonModule,
@@ -52,13 +51,13 @@ describe('ClassificationLayoutFormComponent', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-  it('should get currentStatus and icon by detail status ', () => {
+  it('should get currentStatus and icon by delete status ', () => {
     const spy = jest.spyOn(component, 'activateFormByStatus');
-    component.status = 'detail';
+    component.status = 'delete';
 
     fixture.detectChanges();
 
-    expect(component.currentStatus).toBe('detail');
+    expect(component.currentStatus).toBe('delete');
     expect(component.iconButton).toBe('ri-delete-bin-line');
     expect(spy).toHaveBeenCalled();
   });
@@ -108,5 +107,17 @@ describe('ClassificationLayoutFormComponent', () => {
     expect(
       component.classificationForm.controls['numberOfBusinesses'].disabled
     ).toBe(false);
+  });
+
+  it('should button go back with path by status ', () => {
+    const buttonGoBack = fixture.nativeElement.querySelector(
+      '.container-buttons clapp-button'
+    );
+    component.currentStatus = 'delete';
+
+    buttonGoBack.click();
+    fixture.detectChanges();
+
+    expect(component.getNavigate()).toStrictEqual(['../../']);
   });
 });

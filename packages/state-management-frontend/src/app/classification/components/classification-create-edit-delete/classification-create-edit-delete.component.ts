@@ -25,9 +25,9 @@ export class ClassificationCreateEditDeleteComponent
   idClassification: string;
   classification: Classification;
   status: string;
-  loader = false;
+  isLoading = false;
   deleteConfirmed: boolean;
-  noResult = false;
+  notResult = false;
   actionNotification: string;
   unsubscribe$: Subject<void> = new Subject<void>();
 
@@ -61,26 +61,29 @@ export class ClassificationCreateEditDeleteComponent
       this.idClassification = params.get('id') as string;
     });
 
-    this.status !== 'create'
-      ? this.getClassificationById(this.idClassification)
-      : '';
+    if (this.status !== 'create') {
+      this.getClassificationById(this.idClassification);
+    }
   }
 
   getClassificationById(id: string): void {
-    this.noResult = false;
+    this.isLoading = true;
+    this.notResult = false;
     this.classificationService.getClassificationById(id).subscribe({
       next: (data) => {
-        this.noResult = false;
         this.classification = data;
+        this.isLoading = false;
+        this.notResult = false;
       },
       error: () => {
-        this.noResult = true;
+        this.notResult = true;
+        this.isLoading = false;
       },
     });
   }
 
   createUpdateOrDeleteClassification(data: Classification): void {
-    this.loader = true;
+    this.isLoading = true;
     switch (this.status) {
       case 'edit':
         this.updateClassification(data);
@@ -88,13 +91,13 @@ export class ClassificationCreateEditDeleteComponent
       case 'create':
         this.addClassification(data);
         break;
-      case 'detail':
+      case 'delete':
         this.confirmedDelete(data);
-        this.loader = false;
+        this.isLoading = false;
         break;
       default:
-        this.noResult = true;
-        this.loader = false;
+        this.isLoading = false;
+        this.notResult = true;
     }
   }
 
@@ -115,7 +118,7 @@ export class ClassificationCreateEditDeleteComponent
     });
   }
 
-  updateClassification(data: Classification) {
+  updateClassification(data: Classification): void {
     this.classificationService.updateClassification(data).subscribe({
       next: (result: Classification) => {
         this.classification = result;
@@ -158,11 +161,12 @@ export class ClassificationCreateEditDeleteComponent
       height: 'fit-content',
     });
     modalRef.afterClosed.pipe(take(1)).subscribe((result) => {
-      this.loader = true;
-      this.deleteConfirmed = result as boolean;
+      if (typeof result !== 'boolean') return;
+      this.isLoading = true;
+      this.deleteConfirmed = result;
       this.deleteConfirmed
         ? this.deleteClassification(data)
-        : (this.loader = false);
+        : (this.isLoading = false);
     });
   }
 
@@ -171,7 +175,7 @@ export class ClassificationCreateEditDeleteComponent
     action: string,
     path: string[]
   ): void {
-    this.loader = statusLoader;
+    this.isLoading = statusLoader;
     this.actionNotification = action;
     this.showNotificationSuccess();
     this.ngZone.run(() => {
@@ -180,7 +184,7 @@ export class ClassificationCreateEditDeleteComponent
   }
 
   handleRequestError(statusLoader: boolean, action: string): void {
-    this.loader = statusLoader;
+    this.isLoading = statusLoader;
     this.actionNotification = action;
     this.showNotificationError();
   }

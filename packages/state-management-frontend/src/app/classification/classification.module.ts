@@ -19,6 +19,7 @@ import { ClassificationCreateEditDeleteComponent } from './components/classifica
 import { LoaderComponent } from '../shared/components/loader/loader.component';
 import { ConfirmationModalComponent } from '../shared/components/confirmation-modal/confirmation-modal.component';
 import { ClassificationMainComponent } from './components/classification-main/classification-main.component';
+import { ClassificationService } from './services/classification.service';
 
 const clappModules = [
   ClappTextInputModule,
@@ -48,5 +49,6 @@ const clappModules = [
     ConfirmationModalComponent,
     ...clappModules,
   ],
+  providers: [ClassificationService],
 })
 export class ClassificationModule {}

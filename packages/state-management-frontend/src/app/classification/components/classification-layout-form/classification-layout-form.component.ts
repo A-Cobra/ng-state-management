@@ -68,7 +68,7 @@ export class ClassificationLayoutFormComponent {
     switch (this.currentStatus) {
       case 'edit':
         return 'ri-pencil-line';
-      case 'detail':
+      case 'delete':
         return 'ri-delete-bin-line';
       default:
         return 'ri-add-line';
@@ -77,7 +77,7 @@ export class ClassificationLayoutFormComponent {
 
   activateFormByStatus(): void {
     this.getControl('numberOfBusinesses').disable();
-    if (this.currentStatus === 'detail') {
+    if (this.currentStatus === 'delete') {
       this.classificationForm.disable();
     }
   }
@@ -86,12 +86,13 @@ export class ClassificationLayoutFormComponent {
     switch (this.currentStatus) {
       case 'edit':
         return ['../../detail', this.idClassification];
-      case 'detail':
+      case 'delete':
         return ['../../'];
       default:
         return ['../'];
     }
   }
+
   setValueOnInputsWithoutFormControl(): void {
     // set value image type string until to know input and output type of API
     this.getControl('image').setValue(

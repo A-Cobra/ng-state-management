@@ -1,19 +1,13 @@
 import { TestBed } from '@angular/core/testing';
-
 import { ClassificationService } from './classification.service';
 import { take } from 'rxjs';
-import {
-  MOCK_ARRAY_CLASSIFICATION,
-  MOCK_CLASSIFICATION,
-  MOCK_CLASSIFICATION_NOT_EXIST,
-  MOCK_CLASSIFICATION_TO_CREATE,
-} from '../test/mocks';
+import { mocksClassification } from '../test/mocks';
 
 describe('ClassificationService', () => {
   let service: ClassificationService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({ providers: [ClassificationService] });
     service = TestBed.inject(ClassificationService);
   });
 
@@ -22,24 +16,24 @@ describe('ClassificationService', () => {
   });
 
   it('should return a classification created', () => {
-    service.arrClassification = MOCK_ARRAY_CLASSIFICATION;
+    service.arrClassification = mocksClassification.MOCK_ARRAY_CLASSIFICATION;
 
     service
-      .addClassification(MOCK_CLASSIFICATION_TO_CREATE)
+      .addClassification(mocksClassification.MOCK_CLASSIFICATION_TO_CREATE)
       .pipe(take(1))
       .subscribe((response) => {
-        expect(response).toEqual(MOCK_CLASSIFICATION);
+        expect(response).toEqual(mocksClassification.MOCK_CLASSIFICATION);
       });
   });
 
   it('should return a classification by Id', () => {
-    service.arrClassification = MOCK_ARRAY_CLASSIFICATION;
+    service.arrClassification = mocksClassification.MOCK_ARRAY_CLASSIFICATION;
 
     service
       .getClassificationById('1uuid')
       .pipe(take(1))
       .subscribe((response) => {
-        expect(response).toEqual(MOCK_CLASSIFICATION);
+        expect(response).toEqual(mocksClassification.MOCK_CLASSIFICATION);
       });
   });
 
@@ -54,16 +48,16 @@ describe('ClassificationService', () => {
 
   it('should return a classification updated', () => {
     service
-      .updateClassification(MOCK_CLASSIFICATION)
+      .updateClassification(mocksClassification.MOCK_CLASSIFICATION)
       .pipe(take(1))
       .subscribe((response) => {
-        expect(response).toEqual(MOCK_CLASSIFICATION);
+        expect(response).toEqual(mocksClassification.MOCK_CLASSIFICATION);
       });
   });
 
   it('should return a error when updating failed', () => {
     service
-      .updateClassification(MOCK_CLASSIFICATION_NOT_EXIST)
+      .updateClassification(mocksClassification.MOCK_CLASSIFICATION_NOT_EXIST)
       .pipe(take(1))
       .subscribe((response) => {
         expect(response).toThrowError('Classification not found.');
@@ -80,11 +74,13 @@ describe('ClassificationService', () => {
   });
 
   it('should manage data to save ', () => {
-    service.arrClassification = MOCK_ARRAY_CLASSIFICATION;
+    service.arrClassification = mocksClassification.MOCK_ARRAY_CLASSIFICATION;
     Storage.prototype.getItem = jest.fn(() => 'mockClassifications');
     jest.spyOn(window.localStorage, 'getItem').mockReturnValue(null);
     service.getDataFromStorage();
 
-    expect(service.arrClassification).toEqual(MOCK_ARRAY_CLASSIFICATION);
+    expect(service.arrClassification).toEqual(
+      mocksClassification.MOCK_ARRAY_CLASSIFICATION
+    );
   });
 });

@@ -100,7 +100,7 @@
         ></clapp-file-upload>
       </ng-container>
 
-      <ng-container *ngIf="currentStatus === 'detail'">
+      <ng-container *ngIf="currentStatus === 'delete'">
         <clapp-image-display
           [src]="getControl('image').value"
           type="square"
@@ -125,11 +125,11 @@
 
     <div
       [ngClass]="{
-        'container-buttons__create-delete-edit': currentStatus !== 'detail',
-        'container-buttons__detail': currentStatus === 'detail'
+        'container-buttons__create-delete-edit': currentStatus !== 'delete',
+        'container-buttons__detail': currentStatus === 'delete'
       }"
     >
-      <ng-container *ngIf="currentStatus === 'detail'">
+      <ng-container *ngIf="currentStatus === 'delete'">
         <clapp-button
           color="tertiary"
           size="small"
@@ -152,7 +152,7 @@
         </clapp-button>
       </ng-container>
 
-      <ng-container *ngIf="currentStatus !== 'detail'">
+      <ng-container *ngIf="currentStatus !== 'delete'">
         <clapp-button
           color="primary"
           size="small"

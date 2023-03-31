@@ -16,7 +16,7 @@ const routes: Routes = [
     path: 'detail/:id',
     component: ClassificationCreateEditDeleteComponent,
     data: {
-      status: 'detail',
+      status: 'delete',
     },
   },
   {

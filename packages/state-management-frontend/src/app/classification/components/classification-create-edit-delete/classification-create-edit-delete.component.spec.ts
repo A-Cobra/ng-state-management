@@ -10,14 +10,7 @@ import {
 import { ClassificationService } from '../../services/classification.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoaderComponent } from '../../../shared/components/loader/loader.component';
-import {
-  MOCK_ACTIVATED_ROUTER,
-  MOCK_CLASSIFICATION,
-  MOCK_CLASSIFICATION_NOT_EXIST,
-  MOCK_CLASSIFICATION_SERVICE,
-  MOCK_CLASSIFICATION_TO_CREATE,
-  MockModalService,
-} from '../../test/mocks';
+import { mocksClassification } from '../../test/mocks';
 import { Component, Input } from '@angular/core';
 import { Classification } from '../../models/api-response.model';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -47,6 +40,7 @@ describe('ClassificationCreateEditDeleteComponent', () => {
         ClappNoResultsModule,
         LoaderComponent,
         ModalModule,
+
         RouterTestingModule.withRoutes([
           { path: 'classifications', component: MockLayoutFormComponent },
           {
@@ -58,7 +52,7 @@ describe('ClassificationCreateEditDeleteComponent', () => {
       providers: [
         {
           provide: ModalService,
-          useClass: MockModalService,
+          useClass: mocksClassification.MockModalService,
         },
         {
           provide: NotificationService,
@@ -69,7 +63,7 @@ describe('ClassificationCreateEditDeleteComponent', () => {
         },
         {
           provide: ClassificationService,
-          useValue: MOCK_CLASSIFICATION_SERVICE,
+          useClass: mocksClassification.MockClassificationService,
         },
         {
           provide: ActivatedRoute,
@@ -108,22 +102,26 @@ describe('ClassificationCreateEditDeleteComponent', () => {
     component.getClassificationById('1uuid');
     fixture.detectChanges();
 
-    expect(component.noResult).toBeFalsy();
-    expect(component.classification).toEqual(MOCK_CLASSIFICATION);
+    expect(component.notResult).toBeFalsy();
+    expect(component.classification).toEqual(
+      mocksClassification.MOCK_CLASSIFICATION
+    );
   });
 
   it('getClassificationById should not get classification by Id', () => {
     component.getClassificationById('notExistUuid');
     fixture.detectChanges();
 
-    expect(component.noResult).toBeTruthy();
+    expect(component.notResult).toBeTruthy();
   });
 
   it('should call correct method in order to "edit" status', () => {
     component.status = 'edit';
     jest.spyOn(component, 'updateClassification');
     fixture.detectChanges();
-    component.createUpdateOrDeleteClassification(MOCK_CLASSIFICATION);
+    component.createUpdateOrDeleteClassification(
+      mocksClassification.MOCK_CLASSIFICATION
+    );
 
     expect(component.updateClassification).toHaveBeenCalled();
   });
@@ -132,7 +130,9 @@ describe('ClassificationCreateEditDeleteComponent', () => {
     component.status = 'create';
     jest.spyOn(component, 'addClassification');
     fixture.detectChanges();
-    component.createUpdateOrDeleteClassification(MOCK_CLASSIFICATION);
+    component.createUpdateOrDeleteClassification(
+      mocksClassification.MOCK_CLASSIFICATION
+    );
 
     expect(component.addClassification).toHaveBeenCalled();
   });
@@ -140,46 +140,56 @@ describe('ClassificationCreateEditDeleteComponent', () => {
   it('should call a default action ', () => {
     component.status = 'noExist';
     fixture.detectChanges();
-    component.createUpdateOrDeleteClassification(MOCK_CLASSIFICATION);
+    component.createUpdateOrDeleteClassification(
+      mocksClassification.MOCK_CLASSIFICATION
+    );
 
-    expect(component.noResult).toBeTruthy();
-    expect(component.loader).toBeFalsy();
+    expect(component.notResult).toBeTruthy();
+    expect(component.isLoading).toBeFalsy();
   });
 
-  it('should call correct method by "detail" status', () => {
-    component.status = 'detail';
+  it('should call correct method by "delete" status', () => {
+    component.status = 'delete';
     jest.spyOn(component, 'confirmedDelete');
     fixture.detectChanges();
-    component.createUpdateOrDeleteClassification(MOCK_CLASSIFICATION);
+    component.createUpdateOrDeleteClassification(
+      mocksClassification.MOCK_CLASSIFICATION
+    );
 
     expect(component.confirmedDelete).toHaveBeenCalled();
   });
 
   it('should create classification', () => {
-    component.addClassification(MOCK_CLASSIFICATION_TO_CREATE);
+    component.addClassification(
+      mocksClassification.MOCK_CLASSIFICATION_TO_CREATE
+    );
     fixture.detectChanges();
 
-    expect(component.classification).toEqual(MOCK_CLASSIFICATION);
-    expect(component.loader).toBeFalsy();
+    expect(component.classification).toEqual(
+      mocksClassification.MOCK_CLASSIFICATION
+    );
+    expect(component.isLoading).toBeFalsy();
     expect(component.actionNotification).toBe('created');
     expect(component.showNotificationSuccess).toHaveBeenCalled();
   });
 
   it('should not create classification that exist', () => {
-    component.addClassification(MOCK_CLASSIFICATION);
+    component.addClassification(mocksClassification.MOCK_CLASSIFICATION);
     fixture.detectChanges();
 
-    expect(component.loader).toBeFalsy();
+    expect(component.isLoading).toBeFalsy();
     expect(component.actionNotification).toBe('creating');
     expect(component.showNotificationError).toHaveBeenCalled();
   });
 
   it('should update classification', () => {
-    component.updateClassification(MOCK_CLASSIFICATION);
+    component.updateClassification(mocksClassification.MOCK_CLASSIFICATION);
     fixture.detectChanges();
 
-    expect(component.classification).toEqual(MOCK_CLASSIFICATION);
-    expect(component.loader).toBeFalsy();
+    expect(component.classification).toEqual(
+      mocksClassification.MOCK_CLASSIFICATION
+    );
+    expect(component.isLoading).toBeFalsy();
     expect(component.actionNotification).toBe('updated');
     expect(component.showNotificationSuccess).toHaveBeenCalled();
 
@@ -191,37 +201,40 @@ describe('ClassificationCreateEditDeleteComponent', () => {
   });
 
   it('should not update classification', () => {
-    component.updateClassification(MOCK_CLASSIFICATION_NOT_EXIST);
+    component.updateClassification(
+      mocksClassification.MOCK_CLASSIFICATION_NOT_EXIST
+    );
     fixture.detectChanges();
 
-    expect(component.loader).toBeFalsy();
+    expect(component.isLoading).toBeFalsy();
     expect(component.actionNotification).toBe('updating');
     expect(component.showNotificationError).toHaveBeenCalled();
   });
 
   it('should delete classification', () => {
-    component.deleteClassification(MOCK_CLASSIFICATION);
+    component.deleteClassification(mocksClassification.MOCK_CLASSIFICATION);
     fixture.detectChanges();
 
-    expect(component.loader).toBeFalsy();
+    expect(component.isLoading).toBeFalsy();
     expect(component.actionNotification).toBe('deleted');
     expect(component.showNotificationSuccess).toHaveBeenCalled();
     expect(router.navigate).toHaveBeenCalledWith(['/classifications']);
   });
 
   it('should not delete classification', () => {
-    component.deleteClassification(MOCK_CLASSIFICATION_NOT_EXIST);
+    component.deleteClassification(
+      mocksClassification.MOCK_CLASSIFICATION_NOT_EXIST
+    );
     fixture.detectChanges();
 
-    expect(component.loader).toBeFalsy();
+    expect(component.isLoading).toBeFalsy();
     expect(component.actionNotification).toBe('deleting');
     expect(component.showNotificationError).toHaveBeenCalled();
   });
 
   it('should not delete the classification if not confirmed', () => {
     jest.spyOn(component, 'deleteClassification');
-    component.confirmedDelete(MOCK_CLASSIFICATION);
-    fixture.detectChanges();
+    component.confirmedDelete(mocksClassification.MOCK_CLASSIFICATION);
 
     expect(component.deleteClassification).not.toHaveBeenCalled();
   });
@@ -231,9 +244,35 @@ describe('ClassificationCreateEditDeleteComponent', () => {
     fixture.detectChanges();
     jest.spyOn(component, 'deleteClassification');
 
-    component.confirmedDelete(MOCK_CLASSIFICATION);
+    component.confirmedDelete(mocksClassification.MOCK_CLASSIFICATION);
 
     expect(component.deleteClassification).toHaveBeenCalled();
     expect(component.deleteConfirmed).toBeTruthy();
   });
+
+  it('should confirmation delete be undefined if value after close is not a boolean', () => {
+    (component['modalService'] as any).value = 'texto';
+    fixture.detectChanges();
+    component.confirmedDelete(mocksClassification.MOCK_CLASSIFICATION);
+
+    expect(component.deleteConfirmed).toBeUndefined();
+  });
 });
+
+export const PARAM_MAP_MOCK = {
+  get: jest.fn().mockReturnValue('1uuid'),
+};
+
+const MOCK_ACTIVATED_ROUTER = {
+  snapshot: {
+    data: {
+      status: '',
+    },
+    firstChild: { data: { status: '' } },
+  },
+  paramMap: {
+    subscribe: jest
+      .fn()
+      .mockImplementation((callback: any) => callback(PARAM_MAP_MOCK)),
+  },
+};

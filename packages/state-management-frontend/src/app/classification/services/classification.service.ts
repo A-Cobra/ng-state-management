@@ -3,9 +3,7 @@ import { Classification } from '../models/api-response.model';
 import { CLASSIFICATIONS } from '../data/classifications';
 import { Observable, of, throwError } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class ClassificationService {
   //TODO:The whole related to saving to localStorage should be removed when connecting to the API
   arrClassification: Classification[] = CLASSIFICATIONS;

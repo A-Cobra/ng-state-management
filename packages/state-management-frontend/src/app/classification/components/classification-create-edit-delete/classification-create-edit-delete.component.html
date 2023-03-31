@@ -1,8 +1,8 @@
-<ng-container *ngIf="loader">
+<ng-container *ngIf="isLoading">
   <state-management-app-loader></state-management-app-loader>
 </ng-container>
 
-<ng-container *ngIf="noResult; then noFound; else result"></ng-container>
+<ng-container *ngIf="notResult; then notFound; else result"></ng-container>
 <ng-template #result>
   <state-management-app-classification-layout-form
     [status]="status"
@@ -11,7 +11,7 @@
   >
   </state-management-app-classification-layout-form>
 </ng-template>
-<ng-template #noFound>
+<ng-template #notFound>
   <clapp-no-results-found
     customText="Sorry, we couldn't find any classification."
   >
