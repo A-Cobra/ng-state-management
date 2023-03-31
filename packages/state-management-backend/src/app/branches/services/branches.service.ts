@@ -84,18 +84,21 @@ export class BranchesService {
     };
   }
 
-  async create(
-    businessId: string,
-    branch: CreateBranchDto
-  ): Promise<BusinessBranch> {
+  async create(businessId: string, branch: CreateBranchDto) {
     const business = await this.businessService.findById(businessId);
     if (!business) {
       throw new NotFoundException('Business not found');
     }
-    const newBranch = this.branchRepository.create(branch);
-    newBranch.businessId = business;
+    const newBranch = this.branchRepository.create({
+      ...branch,
+      businessId: business,
+    });
     await this.branchRepository.persistAndFlush(newBranch);
-    return newBranch;
+    return {
+      branchId: newBranch.branchId,
+      ...branch,
+      businessId: newBranch.businessId.businessId,
+    };
   }
 
   async update(id: string, branch: UpdateBranchDto) {

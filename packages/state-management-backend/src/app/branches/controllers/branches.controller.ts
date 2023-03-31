@@ -10,6 +10,7 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../../auth/guard/jwt-auth.guard';
 import { PaginationDto } from '../../common/dtos/pagination.dto';
 import { PaginationResult } from '../../common/interfaces/pagination-result.interface';
@@ -18,15 +19,16 @@ import { UpdateBranchDto } from '../dto/update-branch.dto';
 import { BusinessBranch } from '../entities/businessBranch.entity';
 import { BranchesService } from '../services/branches.service';
 
+@ApiTags('Branches')
 @Controller({
-  path: 'business',
+  path: 'branches',
   version: '1',
 })
 export class BranchesController {
   constructor(private readonly branchesServices: BranchesService) {}
 
   @UseGuards(JwtAuthGuard)
-  @Get('branches')
+  @Get()
   getAllBranches(
     @Query() paginationDto: PaginationDto
   ): Promise<PaginationResult<BusinessBranch>> {
@@ -34,7 +36,7 @@ export class BranchesController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get('search/branches')
+  @Get('/search')
   searchBranches(
     @Query('name') name: string,
     @Query() paginationDto: PaginationDto
@@ -43,7 +45,7 @@ export class BranchesController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get(':businessId/branches')
+  @Get('business/:businessId')
   getBranchesByBusiness(
     @Param('businessId') businessId: string,
     @Query() paginationDto: PaginationDto
@@ -55,13 +57,13 @@ export class BranchesController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get('branches/:id')
-  getSingleBranch(@Param('id') id: string) {
+  @Get(':idBranch')
+  getSingleBranch(@Param('idBranch') id: string) {
     return this.branchesServices.findById(id);
   }
 
   @UseGuards(JwtAuthGuard)
-  @Post(':businessId/branches')
+  @Post(':businessId')
   @HttpCode(201)
   create(
     @Param('businessId') businessId: string,
@@ -71,13 +73,13 @@ export class BranchesController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Patch('branches/:id')
+  @Patch(':id')
   update(@Param('id') id: string, @Body() branch: UpdateBranchDto) {
     return this.branchesServices.update(id, branch);
   }
 
   @UseGuards(JwtAuthGuard)
-  @Delete('branches/:id')
+  @Delete(':id')
   @HttpCode(204)
   async delete(@Param('id') id: string) {
     return this.branchesServices.delete(id);
