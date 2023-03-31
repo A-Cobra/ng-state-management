@@ -12,7 +12,7 @@ export class PhoneNumberDirective {
   nonNumericalRegex = /[^0-9]+/g;
 
   @HostListener('input', ['$event'])
-  onKeyDown(event: KeyboardEvent) {
+  onInput(event: KeyboardEvent) {
     const inputTarget = event.target as HTMLInputElement;
     const inputValue = inputTarget.value;
     this.reactiveFormControl.setValue(

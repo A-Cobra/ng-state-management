@@ -1,11 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnDestroy,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { ModalService } from '@clapp1/clapp-angular';
 import { CustomFormValidations } from '../../../core/utils/custom-form-validations';
@@ -13,7 +6,7 @@ import { FormEditPayload } from '../../models/form-edit-payload.interface';
 import { InvalidFormModalComponent } from '../../../shared/components/invalid-form-modal/invalid-form-modal.component';
 import { ConfirmationModalComponent } from '../../../shared/components/confirmation-modal/confirmation-modal.component';
 import { Router } from '@angular/router';
-import { debounceTime, Subject, takeUntil } from 'rxjs';
+import { debounceTime } from 'rxjs';
 import { deleteBusinessModalConfig } from '../../utils/delete-business-modal-config';
 import { goToBusinessesListModalConfig } from '../../utils/go-to-business-list-modal-config';
 import { isALoadableImageUrl } from '../../../core/utils/is-a-displayable-image-url';
@@ -23,7 +16,7 @@ import { isALoadableImageUrl } from '../../../core/utils/is-a-displayable-image-
   templateUrl: './business-edit-form.component.html',
   styleUrls: ['./business-edit-form.component.scss'],
 })
-export class BusinessEditFormComponent implements OnInit, OnDestroy {
+export class BusinessEditFormComponent implements OnInit {
   @Input()
   id: number;
   @Input()
@@ -60,7 +53,6 @@ export class BusinessEditFormComponent implements OnInit, OnDestroy {
   activeRequest = false;
   currentBusinessImgUrl = '';
   defaultImgUrl = '../../../../assets/template-image.png';
-  terminateAllSubscriptions$ = new Subject<string>();
   businessFormEdit = this.formBuilder.group({
     displayName: ['', [Validators.required, CustomFormValidations.namePattern]],
     businessName: [
@@ -99,10 +91,6 @@ export class BusinessEditFormComponent implements OnInit, OnDestroy {
     this.fillFormControls();
     this.setupImgUrlDebounce();
     this.onSearchValueDeleted();
-  }
-  ngOnDestroy(): void {
-    this.terminateAllSubscriptions$.next('');
-    this.terminateAllSubscriptions$.unsubscribe();
   }
 
   setupImgUrlDebounce(): void {
@@ -153,14 +141,12 @@ export class BusinessEditFormComponent implements OnInit, OnDestroy {
       ConfirmationModalComponent,
       goToBusinessesListModalConfig
     );
-    modalRef.afterClosed
-      .pipe(takeUntil(this.terminateAllSubscriptions$))
-      .subscribe((result) => {
-        const confirmation = result as boolean;
-        if (confirmation) {
-          this.router.navigate(['businesses']);
-        }
-      });
+    modalRef.afterClosed.subscribe((result) => {
+      const confirmation = result as boolean;
+      if (confirmation) {
+        this.router.navigate(['businesses']);
+      }
+    });
   }
 
   onDeleteBusiness() {
@@ -168,17 +154,15 @@ export class BusinessEditFormComponent implements OnInit, OnDestroy {
       ConfirmationModalComponent,
       deleteBusinessModalConfig(this.businessData.businessName)
     );
-    modalRef.afterClosed
-      .pipe(takeUntil(this.terminateAllSubscriptions$))
-      .subscribe((result) => {
-        // this.loader = true;
-        const confirmation = result as boolean;
-        if (confirmation) {
-          this.businessDeletion.emit();
-          console.log('Business being deleted');
-          // this.businessService.deleteBusiness(this.id);
-        }
-      });
+    modalRef.afterClosed.subscribe((result) => {
+      // this.loader = true;
+      const confirmation = result as boolean;
+      if (confirmation) {
+        this.businessDeletion.emit();
+        console.log('Business being deleted');
+        // this.businessService.deleteBusiness(this.id);
+      }
+    });
   }
 
   toggleEditingStatus(): void {

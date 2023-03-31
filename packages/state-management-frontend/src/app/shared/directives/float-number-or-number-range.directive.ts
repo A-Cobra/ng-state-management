@@ -19,7 +19,7 @@ export class FloatNumberOrNumberRangeDirective {
   undesiredCharactersRegex = /[^0-9.+-]/g;
 
   @HostListener('input', ['$event'])
-  onKeyDown(event: KeyboardEvent) {
+  onInput(event: KeyboardEvent) {
     const inputTarget = event.target as HTMLInputElement;
     let inputValue = inputTarget.value;
     inputValue = this.onlyInitialOperator(inputValue);
