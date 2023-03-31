@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { of } from 'rxjs';
-import { defaultBusinessClassificationBackendData } from '../../../core/utils/default-business-classification-backend-data';
-import { defaultBusinessData } from '../../../core/utils/default-business-data';
+import { defaultBusinessClassificationBackendData } from '../../utils/default-business-classification-backend-data';
 import { FormEditPayload } from '../../models/form-edit-payload.interface';
+import { defaultBusinessData } from '../../utils/default-business-data';
 
 @Component({
   selector: 'state-management-app-business-edit',
