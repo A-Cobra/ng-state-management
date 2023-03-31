@@ -89,7 +89,7 @@ describe('CreateFormComponent', () => {
   it('should disable form and show loader when submitting', () => {
     component.onSubmit();
     expect(component.createForm.disabled).toBeTruthy();
-    expect(component.loader).toBeTruthy();
+    expect(component.isLoading).toBeTruthy();
   });
 
   it('should unsubscribe on destroy', () => {
