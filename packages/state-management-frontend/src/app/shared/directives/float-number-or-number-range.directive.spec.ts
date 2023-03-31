@@ -22,6 +22,8 @@ describe('NumberRangeDirective tests', () => {
     );
     component = fixture.componentInstance;
     inputElement = fixture.debugElement.query(By.css('input'));
+
+    fixture.detectChanges();
   });
 
   it('should create an instance', () => {
@@ -30,17 +32,12 @@ describe('NumberRangeDirective tests', () => {
   });
 
   it('should hold the same value if we introduce a number', () => {
-    const inputValue = '7';
-    // inputElement.triggerEventHandler('input', {
-    //   target: { value: inputValue },
-    // });
-    // inputElement.nativeElement.value = 'myValue';
-    // component.testForm.controls['control'].setValue(inputValue);
-    fixture.detectChanges();
+    const inputValue = '7646363464';
     const inputReference = inputElement.nativeElement;
-    console.log('inputReference.value');
-    console.log(inputReference.value);
+    inputReference.value = inputValue;
+    inputReference.dispatchEvent(new Event('input'));
+    fixture.detectChanges();
 
-    expect(inputElement.nativeElement.nativeNode).toBe(inputElement);
+    expect(inputReference.value).toBe(inputValue);
   });
 });

@@ -5,12 +5,13 @@ import { FloatNumberOrNumberRangeDirective } from '../../directives/float-number
 @Component({
   template: `
     <form [formGroup]="testForm">
-      <input
+      <!-- <input
         type="text"
-        formControlName="control"
+        formControlName="testControl"
         stateManagementAppFloatNumberOrNumberRange
-        [reactiveFormControl]="testForm.controls['control']"
-      />
+        [reactiveFormControl]="testForm.controls['testControl']"
+      /> -->
+      <input type="text" formControlName="testControl" />
     </form>
   `,
   standalone: true,
@@ -18,6 +19,6 @@ import { FloatNumberOrNumberRangeDirective } from '../../directives/float-number
 })
 export class TestFloatNumberOrNumberRangeDirectiveComponent {
   testForm: FormGroup = new FormGroup({
-    control: new FormControl('895', { nonNullable: true }),
+    testControl: new FormControl('89123', { nonNullable: true }),
   });
 }
