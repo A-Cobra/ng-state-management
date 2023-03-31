@@ -1,0 +1,6 @@
+export interface ConfirmationMessage {
+  title: string;
+  message: string;
+  confirmButtonLabel: string;
+  cancelButtonLabel: string;
+}

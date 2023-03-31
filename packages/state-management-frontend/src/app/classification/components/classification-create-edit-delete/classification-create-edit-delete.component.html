@@ -1,0 +1,29 @@
+<ng-container *ngIf="isLoading">
+  <state-management-app-loader></state-management-app-loader>
+</ng-container>
+
+<ng-container *ngIf="notResult; then notFound; else result"></ng-container>
+<ng-template #result>
+  <state-management-app-classification-layout-form
+    [status]="status"
+    [classification]="classification"
+    (dataClassification)="createUpdateOrDeleteClassification($event)"
+  >
+  </state-management-app-classification-layout-form>
+</ng-template>
+<ng-template #notFound>
+  <clapp-no-results-found
+    customText="Sorry, we couldn't find any classification."
+  >
+  </clapp-no-results-found>
+
+  <clapp-button
+    color="secondary"
+    size="big"
+    plusIcon="ri-arrow-left-s-line"
+    [routerLink]="['/classifications']"
+    type="button"
+  >
+    Go back
+  </clapp-button>
+</ng-template>
