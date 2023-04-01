@@ -121,6 +121,7 @@ export class AuthService {
 
       const currentUser: JwtInfo = {
         sub: '0',
+        role: null,
         iat: 0,
         exp: 0,
       };

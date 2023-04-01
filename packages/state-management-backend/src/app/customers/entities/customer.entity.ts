@@ -3,12 +3,9 @@ import { v4 } from 'uuid';
 import { User } from '../../users/entities/user.entity';
 
 @Entity()
-export class Customer {
+export class Customer extends User {
   @PrimaryKey({ hidden: true })
   customer_id: string = v4();
-
-  @OneToOne()
-  user: User;
 
   @Property({ default: false, hidden: true })
   isDeleted: boolean;

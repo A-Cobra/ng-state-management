@@ -1,5 +1,6 @@
 import { Entity, PrimaryKey, Property } from '@mikro-orm/core';
 import { v4 } from 'uuid';
+import { ValidRoles } from '../../auth/interfaces/valid-roles.type';
 
 @Entity()
 export class User {
@@ -7,7 +8,7 @@ export class User {
   userId: string = v4();
 
   // Todo review when roles are ready
-  @Property({ default: 'customer' })
+  @Property({ default: ValidRoles.customer })
   role: string;
 
   @Property()

@@ -7,15 +7,18 @@ import {
   Param,
   Delete,
   ParseUUIDPipe,
-  Query,
-  UseGuards,
 } from '@nestjs/common';
 import { CustomersService } from '../services/customers.service';
 import { CreateCustomerDto } from '../dto/create-customer.dto';
 import { UpdateCustomerDto } from '../dto/update-customer.dto';
-import { JwtAuthGuard } from '../../auth/guard/jwt-auth.guard';
-import { CustomerSearchQuery } from '../interfaces/query.interface';
+import { ValidRoles } from '../../auth/interfaces/valid-roles.type';
+import { Authorized } from '../../auth/decorator/authorized.decorator';
+import { GetUser } from '../../auth/decorator/get-user.decorator';
+import { JwtInfo } from '../../auth/interfaces/jwtinfo.type';
+import { ApiBody, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { SearchQueryDto } from '../dto/search-query.dto';
 
+@ApiTags('Customers')
 @Controller('customers')
 export class CustomersController {
   constructor(private readonly customersService: CustomersService) {}
@@ -26,37 +29,43 @@ export class CustomersController {
   }
 
   @Get()
-  @UseGuards(JwtAuthGuard)
-  findAll(
-    @Query('search') queryTerm: string,
-    @Query('page') page: number,
-    @Query('limit') limit: number
-  ) {
-    let query: CustomerSearchQuery = {
-      queryTerm,
-      limit,
-      page,
-    };
-    return this.customersService.findAll(query);
+  @Authorized(ValidRoles.admin)
+  @ApiQuery({ type: [SearchQueryDto] })
+  findAll(searchQuery: SearchQueryDto) {
+    return this.customersService.findAll(searchQuery);
   }
 
   @Get(':id')
-  @UseGuards(JwtAuthGuard)
-  findOne(@Param('id', ParseUUIDPipe) id: string) {
-    return this.customersService.findOne(id);
+  @Authorized(
+    ValidRoles.customer,
+    ValidRoles.admin,
+    ValidRoles.courier,
+    ValidRoles.business
+  )
+  findOne(
+    @Param('id', ParseUUIDPipe) id: string,
+    @GetUser() currentCustomer: JwtInfo
+  ) {
+    return this.customersService.findOne(id, currentCustomer);
   }
 
   @Patch(':id')
-  @UseGuards(JwtAuthGuard)
+  @Authorized(ValidRoles.admin, ValidRoles.customer)
+  @ApiBody({
+    type: CreateCustomerDto,
+    required: false,
+    description: 'email and password cannot be modified',
+  })
   update(
     @Param('id') id: string,
-    @Body() updateCustomerDto: UpdateCustomerDto
+    @Body() updateCustomerDto: UpdateCustomerDto,
+    @GetUser() currentCustomer: JwtInfo
   ) {
-    return this.customersService.update(id, updateCustomerDto);
+    return this.customersService.update(id, updateCustomerDto, currentCustomer);
   }
 
   @Delete(':id')
-  @UseGuards(JwtAuthGuard)
+  @Authorized(ValidRoles.admin)
   remove(@Param('id') id: string) {
     return this.customersService.remove(id);
   }

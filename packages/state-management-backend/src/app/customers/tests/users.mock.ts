@@ -1,3 +1,4 @@
+import { JwtInfo } from '../../auth/interfaces/jwtinfo.type';
 import { User } from '../../users/entities/user.entity';
 import { CreateCustomerDto } from '../dto/create-customer.dto';
 
@@ -12,6 +13,13 @@ export const mockUser: User = {
   userId: 'userid',
   role: 'admin',
   isLoggedIn: false,
+};
+
+export const mockCurrentCustomer: JwtInfo = {
+  sub: 'asdf',
+  role: 'customer',
+  iat: 0,
+  exp: 0,
 };
 
 export const mockUserResponse: Partial<User> = {
@@ -31,7 +39,7 @@ export const mockCreateCustomerDto: CreateCustomerDto = {
   email: 'test@example.com',
   username: 'test',
   password: 'test',
-  contactNumber: 1313412341,
+  contactNumber: '1313412341',
 };
 
 export const mockMultipleUsersResponse = [

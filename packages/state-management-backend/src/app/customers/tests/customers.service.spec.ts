@@ -16,6 +16,7 @@ import {
   mockUserResponse,
   mockMultipleUsersResponse,
   mockUser,
+  mockCurrentCustomer,
 } from './users.mock';
 import { UpdateCustomerDto } from '../dto/update-customer.dto';
 
@@ -30,6 +31,7 @@ describe('CustomersService', () => {
     findAndCount: jest.fn(),
     findOne: jest.fn(),
     flush: jest.fn(),
+    assign: jest.fn(),
   };
 
   beforeEach(async () => {
@@ -96,7 +98,7 @@ describe('CustomersService', () => {
       response.data = data;
 
       mockCustomerRepository.findAndCount.mockReturnValueOnce([data, total]);
-      const result = await service.findAll(mockPaginationQuery);
+      const result = await service.findAll({ ...mockPaginationQuery });
       expect(mockCustomerRepository.findAndCount).toBeCalledTimes(1);
       expect(result).toEqual(response);
     });
@@ -114,74 +116,181 @@ describe('CustomersService', () => {
       query.page = null;
 
       mockCustomerRepository.findAndCount.mockReturnValueOnce([data, total]);
-      const result = await service.findAll(mockPaginationQuery);
+      const result = await service.findAll({ ...mockPaginationQuery });
       expect(mockCustomerRepository.findAndCount).toBeCalledTimes(1);
       expect(result).toEqual(response);
     });
   });
 
   describe('should find one', () => {
-    it('should find one success ', async () => {
-      const data = [mockUserResponse];
-      const total = 1;
-      mockCustomerRepository.findAndCount.mockReturnValueOnce([data, total]);
-      const result = await service.findOne('id');
-      expect(mockCustomerRepository.findAndCount).toBeCalledTimes(1);
+    it('should find one success role!=customer ', async () => {
+      const currentCustomer = mockCurrentCustomer;
+      currentCustomer.role = 'admin';
+      const mockService = jest
+        .spyOn(service, 'findById')
+        .mockReturnValueOnce(mockUserResponse as any);
+      const result = await service.findOne('id', mockCurrentCustomer);
+      expect(mockService).toBeCalledTimes(1);
       expect(result).toBe(mockUserResponse);
     });
 
-    it('should find one failure ', async () => {
-      const data = [];
-      const total = 0;
-      mockCustomerRepository.findAndCount.mockReturnValueOnce([data, total]);
-      await expect(service.findOne('id')).rejects.toThrowError(
-        NotFoundException
-      );
-      expect(mockCustomerRepository.findAndCount).toBeCalledTimes(1);
+    it('should find one success role===customer ', async () => {
+      const currentCustomer = mockCurrentCustomer;
+      currentCustomer.role = 'customer';
+      const mockServiceValidation = jest
+        .spyOn(service, 'validateSameCustomer')
+        .mockReturnValueOnce();
+
+      const mockService = jest
+        .spyOn(service, 'findById')
+        .mockReturnValueOnce(mockUserResponse as any);
+      const result = await service.findOne('id', mockCurrentCustomer);
+      expect(mockService).toBeCalledTimes(1);
+      expect(result).toBe(mockUserResponse);
+      expect(mockServiceValidation).toBeCalledTimes(1);
     });
   });
 
-  it('should update', async () => {
-    const data = mockMultipleUsersResponse.slice(0, 1);
-    const total = data.length;
-    const { contactNumber, ...rest } = mockUserResponse;
-    const newNumber = +contactNumber;
-    const newCustomer = {
-      ...rest,
-      contactNumber: newNumber,
-    } as UpdateCustomerDto;
+  describe('should Update', () => {
+    it('should update role = customer', async () => {
+      const customer = mockUserResponse;
+      customer.role = 'customer';
+      const currentCustomer = mockCurrentCustomer;
+      currentCustomer.role = 'admin';
+      const expectedResult = { ...customer, refreshToken: 'password' };
 
-    const customer = mockCustomers[0];
-    customer.user = mockUser;
-    customer.user.userId = 'userid';
+      const tokenResponse = {
+        accessToken: 'access',
+        refreshToken: 'refresh',
+      };
 
-    mockCustomerRepository.findAndCount.mockReturnValueOnce([
-      [customer],
-      total,
-    ]);
+      const mockService = jest
+        .spyOn(service, 'findById')
+        .mockReturnValueOnce(customer as any);
 
-    jest.spyOn(service, 'findOne').mockReturnValueOnce(customer as any);
+      const mockHash = jest
+        .spyOn(hash, 'hashData')
+        .mockReturnValueOnce(Promise.resolve('password'));
 
-    jest
-      .spyOn(hash, 'hashData')
-      .mockReturnValueOnce(Promise.resolve('password'));
-    jest.spyOn(mockAuthService, 'getTokens');
-    const result = await service.update('id', newCustomer);
-    expect(service.findOne).toBeCalledTimes(1);
-    expect(mockAuthService.getTokens).toBeCalledTimes(1);
-    expect(hash.hashData).toBeCalledTimes(1);
-    expect(result).toEqual(mockUser);
+      const mockGetTokens = jest
+        .spyOn(mockAuthService, 'getTokens')
+        .mockReturnValueOnce(Promise.resolve(tokenResponse));
+
+      jest.spyOn(mockUserService, 'update');
+
+      const result = await service.update(
+        'id',
+        customer as User,
+        currentCustomer
+      );
+
+      expect(result).toEqual(expectedResult);
+      expect(mockService).toBeCalledTimes(1);
+      expect(mockHash).toBeCalledTimes(1);
+      expect(mockGetTokens).toBeCalledTimes(1);
+      expect(mockHash).toBeCalledTimes(1);
+      expect(mockCustomerRepository.assign).toBeCalledTimes(1);
+      expect(mockCustomerRepository.flush).toBeCalledTimes(1);
+      expect(mockUserService.update).toBeCalledTimes(1);
+    });
+
+    it('should update role = customer', async () => {
+      const customer = mockUserResponse;
+      customer.role = 'customer';
+      const currentCustomer = mockCurrentCustomer;
+      currentCustomer.role = 'customer';
+      const expectedResult = { ...customer, refreshToken: 'password' };
+
+      const tokenResponse = {
+        accessToken: 'access',
+        refreshToken: 'refresh',
+      };
+
+      const mockService = jest
+        .spyOn(service, 'findById')
+        .mockReturnValueOnce(customer as any);
+
+      const mockHash = jest
+        .spyOn(hash, 'hashData')
+        .mockReturnValueOnce(Promise.resolve('password'));
+
+      const mockGetTokens = jest
+        .spyOn(mockAuthService, 'getTokens')
+        .mockReturnValueOnce(Promise.resolve(tokenResponse));
+
+      jest.spyOn(mockUserService, 'update');
+
+      const mockServiceValidation = jest
+        .spyOn(service, 'validateSameCustomer')
+        .mockReturnValueOnce();
+
+      const result = await service.update(
+        'id',
+        customer as User,
+        currentCustomer
+      );
+
+      expect(result).toEqual(expectedResult);
+      expect(mockService).toBeCalledTimes(1);
+      expect(mockHash).toBeCalledTimes(1);
+      expect(mockGetTokens).toBeCalledTimes(1);
+      expect(mockHash).toBeCalledTimes(1);
+      expect(mockCustomerRepository.assign).toBeCalledTimes(1);
+      expect(mockCustomerRepository.flush).toBeCalledTimes(1);
+      expect(mockUserService.update).toBeCalledTimes(1);
+      expect(mockServiceValidation).toBeCalledTimes(1);
+    });
   });
 
   it('should delete', async () => {
-    const customer = mockCustomers[0];
-    customer.user = mockUser;
-    jest.spyOn(service, 'findOne').mockReturnValueOnce(customer as any);
+    const customer = mockUserResponse;
+    jest.spyOn(service, 'findById').mockReturnValueOnce(customer as any);
     await service.remove('userid');
-    expect(service.findOne).toBeCalledWith('userid');
+    expect(service.findById).toBeCalledWith('userid');
     expect(mockCustomerRepository.persistAndFlush).toHaveBeenCalledWith(
       customer
     );
     expect(customer?.['isDeleted']).toEqual(true);
+  });
+
+  it('should validate same customer', () => {
+    const foundCustomer = mockUser;
+    foundCustomer.role = 'customer';
+    const currentCustomer = mockCurrentCustomer;
+    currentCustomer.sub = 'userid';
+
+    expect(
+      service.validateSameCustomer(foundCustomer as Customer, currentCustomer)
+    ).toBeUndefined();
+
+    currentCustomer.sub = 'asdfas';
+
+    try {
+      service.validateSameCustomer(foundCustomer as Customer, currentCustomer);
+    } catch (error) {
+      expect(error).toBeTruthy();
+    }
+  });
+
+  describe('Should Find by id', () => {
+    it('should fin by id success', async () => {
+      const data = [mockUser];
+      const total = 1;
+      mockCustomerRepository.findAndCount.mockReturnValueOnce([data, total]);
+      const result = await service.findById('userId');
+
+      expect(result).toEqual(mockUser);
+      expect(mockCustomerRepository.findAndCount).toBeCalledTimes(1);
+    });
+
+    it('should fin by id failure', async () => {
+      const data = [];
+      const total = 0;
+      mockCustomerRepository.findAndCount.mockReturnValueOnce([data, total]);
+      await expect(
+        service.findOne('id', mockCurrentCustomer)
+      ).rejects.toThrowError(NotFoundException);
+      expect(mockCustomerRepository.findAndCount).toBeCalledTimes(1);
+    });
   });
 });

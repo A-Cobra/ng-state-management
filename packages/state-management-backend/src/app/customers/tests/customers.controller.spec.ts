@@ -1,14 +1,13 @@
 import { Loaded } from '@mikro-orm/core';
 import { Test, TestingModule } from '@nestjs/testing';
-import { User } from '../../users/entities/user.entity';
 import { CustomersController } from '../controllers/customers.controller';
 import { CreateCustomerDto } from '../dto/create-customer.dto';
 import { UpdateCustomerDto } from '../dto/update-customer.dto';
 import { Customer } from '../entities/customer.entity';
-import { CustomerSearchQuery } from '../interfaces/query.interface';
 import { CustomersService } from '../services/customers.service';
-import { mockUserResponse } from './users.mock';
+import { mockCurrentCustomer, mockUserResponse } from './users.mock';
 import { mockPaginationResponse, mockPaginationQuery } from './pagination.mock';
+import { SearchQueryDto } from '../dto/search-query.dto';
 
 describe('CustomersController', () => {
   let controller: CustomersController;
@@ -17,13 +16,13 @@ describe('CustomersController', () => {
   beforeEach(async () => {
     mockCustomersService = {
       create: (value: CreateCustomerDto) =>
-        Promise.resolve(mockUserResponse as User),
+        Promise.resolve(mockUserResponse as Customer),
       findOne: (id: string) =>
         Promise.resolve(mockUserResponse as Loaded<Customer, 'user'>),
-      remove: (id: string) => Promise.resolve(),
+      remove: (id: string) => Promise.resolve({ message: 'message' }),
       update: (id: string, updateCustomerDto: UpdateCustomerDto) =>
-        Promise.resolve(mockUserResponse as User),
-      findAll: (query: CustomerSearchQuery) =>
+        Promise.resolve(mockUserResponse as Customer),
+      findAll: (query: SearchQueryDto) =>
         Promise.resolve(mockPaginationResponse as any),
     };
 
@@ -43,7 +42,7 @@ describe('CustomersController', () => {
 
   it('should create a customer', async () => {
     const { contactNumber, ...rest } = mockUserResponse;
-    const newNumber = +contactNumber;
+    const newNumber = contactNumber;
     const customer = { ...rest, contactNumber: newNumber } as CreateCustomerDto;
     const mockService = jest.spyOn(mockCustomersService, 'create');
     const result = await controller.create(customer as any);
@@ -53,9 +52,9 @@ describe('CustomersController', () => {
   });
 
   it('should findAll', async () => {
-    const { queryTerm, limit, page } = mockPaginationQuery;
+    const { search, limit, page } = mockPaginationQuery;
     const mockService = jest.spyOn(mockCustomersService, 'findAll');
-    const result = await controller.findAll(queryTerm, page, limit);
+    const result = await controller.findAll({ search, page, limit });
     expect(result).toEqual(mockPaginationResponse);
     expect(mockService).toBeCalledTimes(1);
     expect(mockService).toBeCalledWith(mockPaginationQuery);
@@ -64,32 +63,36 @@ describe('CustomersController', () => {
   it('should findOne', async () => {
     const userId = 'userId';
     const mockService = jest.spyOn(mockCustomersService, 'findOne');
-    const result = await controller.findOne(userId);
+    const result = await controller.findOne(userId, mockCurrentCustomer);
     expect(result).toEqual(mockUserResponse);
     expect(mockService).toBeCalledTimes(1);
-    expect(mockService).toBeCalledWith(userId);
+    expect(mockService).toBeCalledWith(userId, mockCurrentCustomer);
   });
 
   it('should update', async () => {
     const userId = 'userId';
     const { contactNumber, ...rest } = mockUserResponse;
-    const newNumber = +contactNumber;
+    const newNumber = contactNumber;
     const customer = {
       ...rest,
       contactNumber: newNumber,
     } as UpdateCustomerDto;
     const mockService = jest.spyOn(mockCustomersService, 'update');
-    const result = await controller.update(userId, customer);
+    const result = await controller.update(
+      userId,
+      customer,
+      mockCurrentCustomer
+    );
     expect(result).toEqual(mockUserResponse);
     expect(mockService).toBeCalledTimes(1);
-    expect(mockService).toBeCalledWith(userId, customer);
+    expect(mockService).toBeCalledWith(userId, customer, mockCurrentCustomer);
   });
 
   it('should delete', async () => {
     const userId = 'userId';
     const mockService = jest.spyOn(mockCustomersService, 'remove');
     const result = await controller.remove(userId);
-    expect(result).toBeUndefined();
+    expect(result).toEqual({ message: 'message' });
     expect(mockService).toBeCalledTimes(1);
     expect(mockService).toBeCalledWith(userId);
   });

@@ -1,55 +1,59 @@
 import { EntityRepository, FilterQuery, Loaded } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { AuthService } from '../../auth/auth.service';
+import { ValidRoles } from '../../auth/interfaces/valid-roles.type';
 import { hashData } from '../../auth/utils/jwt.util';
 import { PaginationResult } from '../../common/interfaces/pagination-result.interface';
-import { User } from '../../users/entities/user.entity';
-import { UsersService } from '../../users/services/users.service';
 import { CreateCustomerDto } from '../dto/create-customer.dto';
 import { UpdateCustomerDto } from '../dto/update-customer.dto';
 import { Customer } from '../entities/customer.entity';
-import { PaginatedResult } from '../interfaces/pagination.interface';
 import { CustomerSearchQuery } from '../interfaces/query.interface';
+import { JwtInfo } from '../../auth/interfaces/jwtinfo.type';
+import { SignInDto } from '../../auth/dto/signin.dto';
+import { UsersService } from '../../users/services/users.service';
+import { SearchQueryDto } from '../dto/search-query.dto';
 
 @Injectable()
 export class CustomersService {
   constructor(
     @InjectRepository(Customer)
     private readonly customerRepository: EntityRepository<Customer>,
-    private readonly usersService: UsersService,
-    private readonly authService: AuthService
+    private readonly authService: AuthService,
+    private readonly userService: UsersService
   ) {}
 
-  async create(createCustomerDto: CreateCustomerDto): Promise<User> {
+  async create(createCustomerDto: CreateCustomerDto): Promise<Customer> {
     createCustomerDto.password = await hashData(createCustomerDto.password);
-    const user = await this.usersService.create(createCustomerDto);
-    const customer = this.customerRepository.create({ user });
+    const user = await this.userService.create(createCustomerDto);
+    const customer = this.customerRepository.create({ ...user });
     await this.customerRepository.persistAndFlush(customer);
-    return user;
+    return customer;
   }
 
   async findAll(
-    queryParams: CustomerSearchQuery
-  ): Promise<PaginationResult<Loaded<Customer, 'user'>>> {
-    const { queryTerm } = queryParams;
+    queryParams: SearchQueryDto
+  ): Promise<PaginationResult<Loaded<Customer>>> {
+    const { search } = queryParams;
     let { limit, page } = queryParams;
     limit = limit || 10;
     page = page || 1;
 
     let queryOptions: FilterQuery<Customer> = { isDeleted: false };
 
-    if (queryTerm) {
+    if (search) {
       queryOptions = {
         $and: [
           {
-            user: {
-              $or: [
-                { username: { $ilike: `%${queryTerm}%` } },
-                { lastname: { $ilike: `%${queryTerm}%` } },
-                { name: { $ilike: `%${queryTerm}%` } },
-              ],
-            },
+            $or: [
+              { username: { $ilike: `%${search}%` } },
+              { lastname: { $ilike: `%${search}%` } },
+              { name: { $ilike: `%${search}%` } },
+            ],
           },
           { isDeleted: false },
         ],
@@ -59,7 +63,6 @@ export class CustomersService {
     const [data, total] = await this.customerRepository.findAndCount(
       queryOptions,
       {
-        populate: ['user'],
         offset: (page - 1) * limit,
         limit,
       }
@@ -74,10 +77,22 @@ export class CustomersService {
     };
   }
 
-  async findOne(id: string): Promise<Loaded<Customer, 'user'>> {
+  async findOne(
+    id: string,
+    currentCustomer: JwtInfo
+  ): Promise<Loaded<Customer>> {
+    const customer = await this.findById(id);
+
+    if (currentCustomer.role === ValidRoles.customer)
+      this.validateSameCustomer(customer, currentCustomer);
+
+    return customer;
+  }
+
+  async findById(id: string): Promise<Loaded<Customer>> {
     const [find, count] = await this.customerRepository.findAndCount(
-      { $and: [{ user: { userId: id } }, { isDeleted: false }] },
-      { populate: ['user'], limit: 1 }
+      { $and: [{ userId: id }, { isDeleted: false }] },
+      { limit: 1 }
     );
     if (count === 0) {
       throw new NotFoundException(`user with id: ${id} not found`);
@@ -87,14 +102,18 @@ export class CustomersService {
 
   async update(
     id: string,
-    updateCustomerDto: UpdateCustomerDto
-  ): Promise<User> {
-    const customerInfo = await this.findOne(id);
+    updateCustomerDto: UpdateCustomerDto,
+    currentCustomer: JwtInfo
+  ): Promise<Partial<Customer>> {
+    const customerInfo = await this.findById(id);
+
+    if (currentCustomer.role === ValidRoles.customer)
+      this.validateSameCustomer(customerInfo, currentCustomer);
 
     const { refreshToken } = await this.authService.getTokens(
-      customerInfo.user.userId,
-      customerInfo.user.username,
-      'customer'
+      customerInfo.userId,
+      customerInfo.username,
+      customerInfo.role
     );
 
     const hashedRefreshToken = await hashData(refreshToken);
@@ -104,12 +123,24 @@ export class CustomersService {
       refreshToken: hashedRefreshToken,
     };
 
-    return this.usersService.update(id, userUpdate);
+    this.customerRepository.assign(customerInfo, userUpdate);
+    await this.userService.update(customerInfo.userId, userUpdate);
+    await this.customerRepository.flush();
+    return { ...customerInfo, ...userUpdate };
   }
 
-  async remove(id: string): Promise<void> {
-    const customer = await this.findOne(id);
+  async remove(id: string) {
+    const customer = await this.findById(id);
     customer.isDeleted = true;
-    return this.customerRepository.persistAndFlush(customer);
+    this.customerRepository.persistAndFlush(customer);
+
+    return { message: 'User Removed Successfully' };
+  }
+
+  validateSameCustomer(foundCustomer: Customer, jwtUser: JwtInfo) {
+    if (foundCustomer.userId !== jwtUser.sub) {
+      throw new UnauthorizedException('Not Authorized to perform this action');
+    }
+    return;
   }
 }
