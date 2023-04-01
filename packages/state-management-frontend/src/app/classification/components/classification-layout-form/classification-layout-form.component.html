@@ -1,4 +1,9 @@
-<h2>{{ currentStatus | titlecase }} classification</h2>
+<h2>
+  {{
+    (currentStatus === 'delete' ? 'detail' : currentStatus) | titlecase
+  }}
+  classification
+</h2>
 <form [formGroup]="classificationForm" (ngSubmit)="submit()">
   <section class="container-inputs">
     <div class="container-inputs__text">
@@ -10,28 +15,33 @@
         [success]="getControl('name').valid"
         id="name"
         label="Name*"
-        [maxLength]="100"
-        [minlength]="3"
         name="name"
         placeholder="Name classification"
         type="text"
-        (change)="changeFormatInput(textInput.value)"
       ></clapp-text-input>
 
       <clapp-helper-text
-        *ngIf="textInput.error && !textInput.success"
-        [textState]="
-          classificationForm.controls['name'].disabled ? 'disabled' : 'error'
+        *ngIf="
+          currentStatus === 'create'
+            ? textInput.error && !textInput.success
+            : !textInput.success
         "
+        [textState]="getControl('name').disabled ? 'disabled' : 'error'"
       >
-        {{getControl('name').errors?.['required'] ? 'Name is required' : ''}}
+        <ng-container *ngIf="getControl('name').hasError('required')">
+          Name is required
+        </ng-container>
+        <ng-container *ngIf="getControl('name').hasError('minlength')">
+          Enter at least 3 characters
+        </ng-container>
+        <ng-container *ngIf="getControl('name').hasError('notSpaces')">
+          No unnecessary spaces
+        </ng-container>
       </clapp-helper-text>
 
       <clapp-helper-text
         *ngIf="textInput.success && !textInput.error"
-        [textState]="
-          classificationForm.controls['name'].disabled ? 'disabled' : 'success'
-        "
+        [textState]="getControl('name').disabled ? 'disabled' : 'success'"
         >Valid name
       </clapp-helper-text>
 
@@ -54,7 +64,11 @@
       ></clapp-text-input>
 
       <clapp-helper-text
-        *ngIf="descriptionInput.error && !descriptionInput.success"
+        *ngIf="
+          currentStatus === 'create'
+            ? textInput.error && !textInput.success
+            : !textInput.success
+        "
         [textState]="
           classificationForm.controls['description'].disabled
             ? 'disabled'
@@ -67,9 +81,7 @@
       <clapp-helper-text
         *ngIf="descriptionInput.success && !descriptionInput.error"
         [textState]="
-          classificationForm.controls['description'].disabled
-            ? 'disabled'
-            : 'success'
+          getControl('description').disabled ? 'disabled' : 'success'
         "
         >Valid description
       </clapp-helper-text>

@@ -1,4 +1,4 @@
-import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Classification } from '../../models/api-response.model';
 import { filter, map, Subject, take, takeUntil } from 'rxjs';
 import {
@@ -36,8 +36,7 @@ export class ClassificationCreateEditDeleteComponent
     private readonly classificationService: ClassificationService,
     private readonly notificationService: NotificationService,
     private readonly modalService: ModalService,
-    private router: Router,
-    private ngZone: NgZone
+    private router: Router
   ) {
     this.router.events
       .pipe(
@@ -108,7 +107,7 @@ export class ClassificationCreateEditDeleteComponent
         this.handleRequestSuccess(false, 'created', [
           '/classifications',
           'detail',
-          this.classification.id as string,
+          result.id as string,
         ]);
       },
       error: () => {
@@ -157,7 +156,7 @@ export class ClassificationCreateEditDeleteComponent
         confirmButtonLabel: 'Yes',
         cancelButtonLabel: 'Cancel',
       },
-      width: '300px',
+      width: '400px',
       height: 'fit-content',
     });
     modalRef.afterClosed.pipe(take(1)).subscribe((result) => {
@@ -178,9 +177,7 @@ export class ClassificationCreateEditDeleteComponent
     this.isLoading = statusLoader;
     this.actionNotification = action;
     this.showNotificationSuccess();
-    this.ngZone.run(() => {
-      this.router.navigate(path);
-    });
+    this.router.navigate(path);
   }
 
   handleRequestError(statusLoader: boolean, action: string): void {

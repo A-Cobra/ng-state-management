@@ -75,10 +75,11 @@ describe('ClassificationCreateEditDeleteComponent', () => {
     fixture = TestBed.createComponent(ClassificationCreateEditDeleteComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    router = TestBed.inject(Router);
 
     jest.spyOn(component, 'showNotificationSuccess');
     jest.spyOn(component, 'showNotificationError');
+
+    router = TestBed.inject(Router);
     jest.spyOn(router, 'navigate');
   });
 

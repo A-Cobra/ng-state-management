@@ -6,6 +6,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Classification } from '../../models/api-response.model';
+import { notSpaces } from '../../validators/not-spaces.validators';
 
 @Component({
   selector: 'state-management-app-classification-layout-form',
@@ -45,19 +46,30 @@ export class ClassificationLayoutFormComponent {
 
   constructor(private fb: FormBuilder) {
     this.classificationForm = this.fb.group({
-      name: ['', Validators.required],
+      name: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(100),
+        ],
+        [notSpaces],
+      ],
       numberOfBusinesses: [0],
-      description: ['', Validators.required],
+      description: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(300),
+        ],
+      ],
       image: [''],
     });
   }
 
   getControl(controlName: string): AbstractControl {
     return this.classificationForm.get(controlName) as AbstractControl;
-  }
-
-  changeFormatInput(input: string): void {
-    this.getControl('name').setValue(input.trim());
   }
 
   addToFormControl(file: File): void {
@@ -94,10 +106,8 @@ export class ClassificationLayoutFormComponent {
   }
 
   setValueOnInputsWithoutFormControl(): void {
-    // set value image type string until to know input and output type of API
-    this.getControl('image').setValue(
-      JSON.stringify(this.getControl('image').value)
-    );
+    //TODO set value image by default until to know input type of API
+    this.getControl('image').setValue(this.imgDefault);
     this.getControl('numberOfBusinesses').setValue(0);
   }
 
