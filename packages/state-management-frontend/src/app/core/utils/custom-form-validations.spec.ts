@@ -1,4 +1,3 @@
-import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   NOT_VALID_IMG_URL_ERROR,
