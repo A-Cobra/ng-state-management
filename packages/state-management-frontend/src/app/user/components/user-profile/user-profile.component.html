@@ -30,6 +30,7 @@
           !getControl('name').pristine
         "
         [textState]="getControl('name').disabled ? 'disabled' : 'default'"
+        id="nameInputRequiredError"
       >
         This field is required.
       </clapp-helper-text>
@@ -40,6 +41,7 @@
           !getControl('name').pristine
         "
         [textState]="getControl('name').disabled ? 'disabled' : 'default'"
+        id="nameInputPatternError"
       >
         This field must contain only letters. It cannot start or finish with a
         space.
@@ -71,6 +73,7 @@
           !getControl('lastName').pristine
         "
         [textState]="getControl('lastName').disabled ? 'disabled' : 'default'"
+        id="lastNameInputRequiredError"
       >
         This field is required.
       </clapp-helper-text>
@@ -81,6 +84,7 @@
           !getControl('lastName').pristine
         "
         [textState]="getControl('lastName').disabled ? 'disabled' : 'default'"
+        id="lastNameInputPatternError"
       >
         This field must contain only letters. It cannot start or finish with a
         space.
@@ -110,20 +114,24 @@
       ></clapp-text-input>
       <clapp-helper-text
         *ngIf="
+          !getControl('email').disabled &&
           getControl('email').hasError('required') &&
           !getControl('email').pristine
         "
         textState="default"
+        id="emailInputRequiredError"
       >
         This field is required.
       </clapp-helper-text>
       <clapp-helper-text
         *ngIf="
+          !getControl('email').disabled &&
           (getControl('email').hasError('email') ||
             getControl('email').hasError('pattern')) &&
           !getControl('email').pristine
         "
         textState="default"
+        id="emailInputPatternError"
       >
         This field must contain a valid email.
       </clapp-helper-text>
@@ -153,6 +161,7 @@
           !getControl('phoneNumber').pristine
         "
         textState="default"
+        id="phoneNumberInputRequiredError"
       >
         This field is required.
       </clapp-helper-text>
@@ -162,6 +171,7 @@
           !getControl('phoneNumber').pristine
         "
         textState="default"
+        id="phoneNumberInputPatternError"
       >
         This field must contain only numbers. 0-9
       </clapp-helper-text>
@@ -179,6 +189,7 @@
         type="button"
         [routerLink]="['']"
         plusIcon="ri-arrow-go-back-fill"
+        id="backButton"
       >
         Back
       </clapp-button>
@@ -189,6 +200,7 @@
         (click)="onClickEdit()"
         type="button"
         plusIcon="ri-edit-fill"
+        id="editButton"
       >
         Edit
       </clapp-button>
@@ -200,6 +212,7 @@
         type="submit"
         (click)="onClickSave()"
         plusIcon="ri-save-fill"
+        id="saveButton"
       >
         Save
       </clapp-button>
