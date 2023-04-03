@@ -11,6 +11,8 @@ import { FORM_CONTROLS_DATA } from '../../utils/form-controls-data';
 import { BANK_ACCOUNT_TYPES } from '../../utils/bank-account-types';
 import { ConfirmationModalComponent } from '../../../shared/components/confirmation-modal/confirmation-modal.component';
 import { CustomFormValidations } from '../../../core/utils/custom-form-validations';
+import { createFormControlsData } from '../../utils/create-form-controls-data';
+import { Business } from '../../models/business.interface';
 
 @Component({
   selector: 'state-management-app-business-create',
@@ -26,7 +28,7 @@ export class CreateFormComponent implements OnInit {
     private router: Router
   ) {}
 
-  createForm: FormGroup;
+  createForm = this.fb.group(createFormControlsData);
   classification$!: Observable<Classification[]>;
   formControlsData: FormControlsData = FORM_CONTROLS_DATA;
   bankAccountTypes: BankAccountType[] = BANK_ACCOUNT_TYPES;
@@ -41,22 +43,24 @@ export class CreateFormComponent implements OnInit {
   onSubmit() {
     this.createForm.disable();
     this.isLoading = true;
-    this.businessService.addNewBusiness(this.createForm.value).subscribe({
-      next: () => {
-        this.notificationService.success(
-          'Business created successfully',
-          'Success!'
-        );
-        this.resetForm();
-        this.isLoading = false;
-        this.createForm.enable();
-      },
-      error: () =>
-        this.notificationService.error(
-          'Error creating new business, please try again later',
-          'Error! '
-        ),
-    });
+    this.businessService
+      .addNewBusiness(this.createForm.value as Business)
+      .subscribe({
+        next: () => {
+          this.notificationService.success(
+            'Business created successfully',
+            'Success!'
+          );
+          this.resetForm();
+          this.isLoading = false;
+          this.createForm.enable();
+        },
+        error: () =>
+          this.notificationService.error(
+            'Error creating new business, please try again later',
+            'Error! '
+          ),
+      });
   }
 
   handleGoBack() {

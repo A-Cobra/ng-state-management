@@ -40,37 +40,42 @@
         <div class="createForm__select-container">
           <ng-container *ngIf="classification$ | async as classifications">
             <clapp-select
-              formControlName="classification"
-              label="Options Label"
-              [displayLabel]="true"
-              label="Classification{{
+              [formControl]="createForm.controls['classification']"
+              [borderless]="false"
+              [displayLabel]="false"
+              inputName="classificationId"
+              placeholder="Select Category {{
                 formControlsData['classification'].isRequired ? '*' : ''
               }}"
-              inputName="classificationId"
-              placeholder="Select Option"
               [pagination]="false"
               [hasFilter]="false"
             >
               <clapp-select-option
-                #dropdown
                 *ngFor="let classification of classifications"
                 [key]="classification.name"
                 [value]="classification.name"
-              ></clapp-select-option> </clapp-select
-          ></ng-container>
-          <clapp-helper-text
-            *ngIf="
-              createForm.controls['classification'].errors &&
-              createForm.controls['classification'].touched
-            "
-            [textState]="
-              createForm.controls['classification'].disabled
-                ? 'disabled'
-                : 'error'
-            "
-          >
-            This field is required
-          </clapp-helper-text>
+              ></clapp-select-option>
+            </clapp-select>
+            <div
+              class="error"
+              *ngIf="
+                createForm.controls['classification'].errors &&
+                createForm.controls['classification'].touched
+              "
+            >
+              <clapp-helper-text
+                [textState]="
+                  createForm.controls['classification'].disabled
+                    ? 'disabled'
+                    : 'error'
+                "
+              >
+                {{
+                  createForm.controls['classification'].errors | fullErrorName
+                }}
+              </clapp-helper-text>
+            </div>
+          </ng-container>
         </div>
         <h4>Contact</h4>
         <div class="createForm__input-container">
@@ -167,25 +172,42 @@
         </div>
         <div class="createForm__select-container-optional">
           <clapp-select
-            formControlName="bankAccountType"
-            label="Options Label"
-            [displayLabel]="true"
-            label="Account type{{
+            [formControl]="createForm.controls['bankAccountType']"
+            [borderless]="false"
+            [displayLabel]="false"
+            inputName="classificationId"
+            placeholder="Select account type {{
               formControlsData['bankAccountType'].isRequired ? '*' : ''
             }}"
-            inputName="bankAccountTypeId"
-            placeholder="Select Option"
             [pagination]="false"
             [hasFilter]="false"
           >
             <clapp-select-option
-              #dropdown
               *ngFor="let bankAccountType of bankAccountTypes"
               [key]="bankAccountType.name"
               [value]="bankAccountType.name"
               [title]="bankAccountType.description"
             ></clapp-select-option>
           </clapp-select>
+          <div
+            class="error"
+            *ngIf="
+              createForm.controls['bankAccountType'].errors &&
+              createForm.controls['bankAccountType'].touched
+            "
+          >
+            <clapp-helper-text
+              [textState]="
+                createForm.controls['bankAccountType'].disabled
+                  ? 'disabled'
+                  : 'error'
+              "
+            >
+              {{
+                createForm.controls['bankAccountType'].errors | fullErrorName
+              }}
+            </clapp-helper-text>
+          </div>
         </div>
         <div class="createForm__input-container">
           <state-management-app-reactive-form-control-text-input
