@@ -30,11 +30,14 @@
           }
         ],
         "styles": [
-          "packages/state-management-frontend/src/styles.scss",
+          "packages/state-management-frontend/src/sass/styles.scss",
           "node_modules/@clapp1/clapp-angular/styles/clapp-fonts.scss",
           "node_modules/remixicon/fonts/remixicon.css",
           "node_modules/@angular/cdk/overlay-prebuilt.css"
         ],
+        "stylePreprocessorOptions": {
+          "includePaths": ["packages/state-management-frontend/src/sass"]
+        },
         "scripts": []
       },
       "configurations": {

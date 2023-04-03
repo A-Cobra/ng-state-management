@@ -1,0 +1,25 @@
+@use './base/variables' as *;
+
+@mixin flex(
+  $direction: row,
+  $align-items: normal,
+  $justify-content: center,
+  $align-content: center,
+  $flex-wrap: nowrap,
+  $gap: 0
+) {
+  display: flex;
+  flex-direction: $direction;
+  align-items: $align-items;
+  justify-content: $justify-content;
+  align-content: $align-content;
+  flex-wrap: $flex-wrap;
+  gap: $gap;
+}
+
+@mixin gridColumnsCentered($columns, $columnsWidth, $gap) {
+  display: grid;
+  grid-template-columns: repeat($columns, $columnsWidth);
+  grid-gap: $gap;
+  justify-items: center;
+}

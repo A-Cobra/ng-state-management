@@ -1,17 +1,13 @@
+@use 'styles.scss' as *;
+
 .classification-main {
   margin: 0 auto;
   max-width: 1450px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  @include flex($direction: column, $justify-content: space-between);
 
   &__header {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    @include flex($justify-content: space-between, $align-items: center);
     padding: 1rem;
-    align-items: center;
-
     @media (max-width: 550px) {
       flex-direction: column;
       gap: 1.5rem;
@@ -20,19 +16,12 @@
 
   &__container {
     margin: 0 auto;
-    display: grid;
-    gap: 1rem;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    @include gridColumnsCentered(auto-fit, minmax(350px, 1fr), 1rem);
     margin: 1.5rem 1rem;
-    justify-items: center;
   }
 
   &__card-body {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
+    @include flex($gap: 0.5rem);
   }
 
   &__card {
