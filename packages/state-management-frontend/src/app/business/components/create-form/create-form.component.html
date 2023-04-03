@@ -97,6 +97,10 @@
               label="Longitude"
               [maxLength]="formControlsData['longitude'].maxLength"
               [required]="formControlsData['longitude'].isRequired"
+              stateManagementAppFloatNumberOrNumberRange
+              [reactiveFormControl]="createForm.controls['longitude']"
+              [maxValue]="180"
+              [minValue]="-180"
             ></state-management-app-reactive-form-control-text-input>
           </div>
           <div class="individual-input">
@@ -107,6 +111,10 @@
               label="Latitude"
               [maxLength]="formControlsData['latitude'].maxLength"
               [required]="formControlsData['latitude'].isRequired"
+              stateManagementAppFloatNumberOrNumberRange
+              [reactiveFormControl]="createForm.controls['latitude']"
+              [maxValue]="90"
+              [minValue]="-90"
             ></state-management-app-reactive-form-control-text-input>
           </div>
         </div>
@@ -118,6 +126,8 @@
             label="Contact Number"
             [maxLength]="formControlsData['contact'].maxLength"
             [required]="formControlsData['contact'].isRequired"
+            stateManagementAppPhoneNumber
+            [reactiveFormControl]="createForm.controls['contact']"
           ></state-management-app-reactive-form-control-text-input>
         </div>
       </div>
@@ -227,6 +237,8 @@
             label="Document ID"
             [maxLength]="formControlsData['documentId'].maxLength"
             [required]="formControlsData['documentId'].isRequired"
+            stateManagementAppPhoneNumber
+            [reactiveFormControl]="createForm.controls['documentId']"
           ></state-management-app-reactive-form-control-text-input>
         </div>
         <div class="createForm__buttons-container">
