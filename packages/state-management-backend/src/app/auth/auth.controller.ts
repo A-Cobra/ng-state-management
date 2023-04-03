@@ -39,16 +39,6 @@ export class AuthController {
     return this.authService.signUp(userInfo);
   }
 
-  @UseGuards(JwtAuthGuard)
-  @Post('account/:userId/role/:newRole')
-  async changeRole(
-    @GetUser() currentUser: JwtInfo,
-    @Param('userId') userId: string,
-    @Param('newRole') newRole: string
-  ) {
-    return this.authService.changeRole(currentUser, userId, newRole);
-  }
-
   @UseGuards(RefreshTokenGuard)
   @Get('refresh')
   refreshTokens(@Req() req: Request) {

@@ -3,13 +3,17 @@ import { UserCredentials } from '../entities/user-credentials.entity';
 import { EntityRepository } from '@mikro-orm/core';
 import { BusinessHq } from '../../business/entities/business.entity';
 import { createUserCredentialsDto } from '../dto/create-user-credentials.dto';
+import { hashData } from '../../auth/utils/jwt.util';
 
 @Injectable()
 export class UsersDirectorysService {
   constructor(private readonly repository: EntityRepository<UserCredentials>) {}
 
   async createUserCredentials(dto: createUserCredentialsDto) {
-    const credentials = this.repository.create(dto);
+    const credentials = this.repository.create({
+      ...dto,
+      password: await hashData(dto.password),
+    });
 
     this.repository.persistAndFlush(credentials);
 

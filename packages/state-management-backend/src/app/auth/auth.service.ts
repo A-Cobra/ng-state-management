@@ -16,7 +16,6 @@ import { UsersDirectorysService } from '../users/services/users-directory.servic
 @Injectable()
 export class AuthService {
   constructor(
-    private userService: UsersService,
     private jwtService: JwtService,
     private configService: ConfigService,
     private directoryService: UsersDirectorysService
