@@ -8,7 +8,8 @@ import { InitialBusinessCreationDto } from '../dto/initial-creation.dto';
 import { BusinessHq } from '../entities/business.entity';
 import { BusinessClassification } from '../entities/business-classification.entity';
 import { MailService } from '../../notifications/mail/mail.service';
-import { UsersDirectorysService } from '../../users/services/users-directory.service';
+import { UsersDirectoryService } from '../../users/services/users-directory.service';
+import { PaginationResult } from '../../common/interfaces/pagination-result.interface';
 
 @Injectable()
 export class BusinessService {
@@ -18,7 +19,7 @@ export class BusinessService {
     @InjectRepository(BusinessClassification)
     private readonly businessClassificationRepository: EntityRepository<BusinessClassification>,
     private readonly mailService: MailService,
-    private readonly directoryService: UsersDirectorysService
+    private readonly directoryService: UsersDirectoryService
   ) {}
 
   async findById(userId: string): Promise<BusinessHq> {
@@ -93,7 +94,9 @@ export class BusinessService {
     return business;
   }
 
-  async search(businessSearch: BusinessSearchDto) {
+  async search(
+    businessSearch: BusinessSearchDto
+  ): Promise<PaginationResult<BusinessHq>> {
     const classificationsFound = await this.findClassifications(
       businessSearch.categories
     );
@@ -114,8 +117,8 @@ export class BusinessService {
 
     return {
       data: businessess,
-      currentPage: 1,
-      totalItems: totalBusinessess,
+      page: businessSearch.page,
+      totalResults: totalBusinessess,
       totalPages: totalPages,
     };
   }

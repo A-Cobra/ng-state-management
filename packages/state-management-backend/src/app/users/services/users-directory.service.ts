@@ -1,13 +1,16 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { UserCredentials } from '../entities/user-credentials.entity';
 import { EntityRepository } from '@mikro-orm/core';
-import { BusinessHq } from '../../business/entities/business.entity';
 import { createUserCredentialsDto } from '../dto/create-user-credentials.dto';
 import { hashData } from '../../auth/utils/jwt.util';
+import { InjectRepository } from '@mikro-orm/nestjs';
 
 @Injectable()
-export class UsersDirectorysService {
-  constructor(private readonly repository: EntityRepository<UserCredentials>) {}
+export class UsersDirectoryService {
+  constructor(
+    @InjectRepository(UserCredentials)
+    private readonly repository: EntityRepository<UserCredentials>
+  ) {}
 
   async createUserCredentials(dto: createUserCredentialsDto) {
     const credentials = this.repository.create({
