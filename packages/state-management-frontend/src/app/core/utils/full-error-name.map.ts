@@ -7,4 +7,9 @@ export const fullErrorNameMap: { [key: string]: string } = {
   namePattern: 'This field can contain only letters and spaces',
   minlength: 'This field requires a minimum number of characters: ',
   maxlength: 'This field requires a maximum number of characters: ',
+  weakPassword:
+    'The password must have 8 chars min, at least 1 upper case letter, 1 number, and 1 symbol',
+  notImageUrl:
+    'Only URL address with a ".jpg", ".png", or ".gif" extension allowed',
+  notBankNumber: 'Only letters and numbers are allowed',
 };

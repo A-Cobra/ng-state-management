@@ -24,7 +24,7 @@ export class TestFormComponent {
     nameControl: ['', [CustomFormValidations.namePattern]],
     passwordControl: ['', [CustomFormValidations.strongPassword]],
     cashControl: ['', [CustomFormValidations.floatNumber]],
-    phoneControl: ['', [CustomFormValidations.phoneNumber]],
+    phoneControl: ['', [CustomFormValidations.onlyNumbers]],
     imgControl: ['', [CustomFormValidations.imageUrl]],
   });
 }

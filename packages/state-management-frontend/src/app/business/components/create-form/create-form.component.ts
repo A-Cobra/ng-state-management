@@ -1,23 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { take, Observable } from 'rxjs';
 import { ModalService, NotificationService } from '@clapp1/clapp-angular';
 import { BusinessService } from '../../services/business.service';
-import {
-  FormCreateGroup,
-  FormControlsData,
-} from '../../models/create-form.interface';
+import { FormControlsData } from '../../models/create-form.interface';
 import { Classification } from '../../models/classification.interface';
 import { BankAccountType } from '../../models/bank-account-type.interface';
 import { FORM_CONTROLS_DATA } from '../../utils/form-controls-data';
 import { BANK_ACCOUNT_TYPES } from '../../utils/bank-account-types';
 import { ConfirmationModalComponent } from '../../../shared/components/confirmation-modal/confirmation-modal.component';
+import { CustomFormValidations } from '../../../core/utils/custom-form-validations';
 
 @Component({
   selector: 'state-management-app-business-create',
@@ -26,14 +19,14 @@ import { ConfirmationModalComponent } from '../../../shared/components/confirmat
 })
 export class CreateFormComponent implements OnInit {
   constructor(
-    private fb: FormBuilder,
+    private fb: NonNullableFormBuilder,
     private businessService: BusinessService,
     private modalService: ModalService,
     private notificationService: NotificationService,
     private router: Router
   ) {}
 
-  createForm!: FormGroup;
+  createForm: FormGroup;
   classification$!: Observable<Classification[]>;
   formControlsData: FormControlsData = FORM_CONTROLS_DATA;
   bankAccountTypes: BankAccountType[] = BANK_ACCOUNT_TYPES;
@@ -41,54 +34,8 @@ export class CreateFormComponent implements OnInit {
   goingBackConfirmed = false;
 
   ngOnInit(): void {
-    this.setUpForm();
+    this.resetForm();
     this.classification$ = this.businessService.getClassifications();
-  }
-
-  setUpForm(): void {
-    this.createForm = this.fb.group<FormCreateGroup>({
-      name: new FormControl('', [
-        Validators.required,
-        Validators.pattern(this.formControlsData['name'].pattern),
-      ]),
-      email: new FormControl('', [
-        Validators.required,
-        Validators.pattern(this.formControlsData['email'].pattern),
-      ]),
-      password: new FormControl('', [
-        Validators.required,
-        Validators.pattern(this.formControlsData['password'].pattern),
-      ]),
-      classification: new FormControl('', [Validators.required]),
-      address: new FormControl('', [Validators.required]),
-      longitude: new FormControl('', [
-        Validators.required,
-        Validators.pattern(this.formControlsData['longitude'].pattern),
-      ]),
-      latitude: new FormControl('', [
-        Validators.required,
-        Validators.pattern(this.formControlsData['latitude'].pattern),
-      ]),
-      contact: new FormControl('', [
-        Validators.required,
-        Validators.pattern(this.formControlsData['contact'].pattern),
-      ]),
-      picture: new FormControl(
-        '',
-        Validators.pattern(this.formControlsData['picture'].pattern)
-      ),
-      bankAccountNumber: new FormControl(
-        '',
-        Validators.pattern(this.formControlsData['bankAccountNumber'].pattern)
-      ),
-      bankName: new FormControl(''),
-      bankAccountType: new FormControl(''),
-      fullname: new FormControl('', [Validators.required]),
-      documentId: new FormControl('', [
-        Validators.required,
-        Validators.pattern(this.formControlsData['documentId'].pattern),
-      ]),
-    });
   }
 
   onSubmit() {
@@ -99,8 +46,8 @@ export class CreateFormComponent implements OnInit {
         this.notificationService.success(
           'Business created successfully',
           'Success!'
-        ),
-          this.createForm.reset();
+        );
+        this.resetForm();
         this.isLoading = false;
         this.createForm.enable();
       },
@@ -132,5 +79,34 @@ export class CreateFormComponent implements OnInit {
         this.isLoading = false;
       }
     });
+  }
+
+  getFormInitialValue() {
+    return this.fb.group({
+      name: ['', [Validators.required, CustomFormValidations.namePattern]],
+      email: ['', [Validators.required, CustomFormValidations.email]],
+      password: [
+        '',
+        [Validators.required, CustomFormValidations.strongPassword],
+      ],
+      classification: ['', [Validators.required]],
+      address: ['', [Validators.required]],
+      longitude: ['', [Validators.required, CustomFormValidations.floatNumber]],
+      latitude: ['', [Validators.required, CustomFormValidations.floatNumber]],
+      contact: ['', [Validators.required, CustomFormValidations.onlyNumbers]],
+      picture: ['', CustomFormValidations.imageUrl],
+      bankAccountNumber: ['', CustomFormValidations.bankNumber],
+      bankName: [''],
+      bankAccountType: [''],
+      fullname: ['', [Validators.required]],
+      documentId: [
+        '',
+        [Validators.required, CustomFormValidations.onlyNumbers],
+      ],
+    });
+  }
+
+  resetForm() {
+    this.createForm = this.getFormInitialValue();
   }
 }

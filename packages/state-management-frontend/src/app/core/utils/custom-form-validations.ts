@@ -34,7 +34,7 @@ export class CustomFormValidations {
     return null;
   }
 
-  static phoneNumber(control: AbstractControl): ValidationErrors | null {
+  static onlyNumbers(control: AbstractControl): ValidationErrors | null {
     const phoneNumberRegex = /^[0-9]+$/;
     if (!control.value.match(phoneNumberRegex)) {
       return { notPhoneNumber: true };
@@ -46,6 +46,14 @@ export class CustomFormValidations {
     const imageUrlRegex = /^(https:\/\/[^"]*?.(?:jpg|gif|png))$/;
     if (!control.value.match(imageUrlRegex)) {
       return { notImageUrl: true };
+    }
+    return null;
+  }
+
+  static bankNumber(control: AbstractControl): ValidationErrors | null {
+    const bankNumberRegex = /^[a-zA-Z0-9]+$/;
+    if (!control.value.match(bankNumberRegex)) {
+      return { notBankNumber: true };
     }
     return null;
   }

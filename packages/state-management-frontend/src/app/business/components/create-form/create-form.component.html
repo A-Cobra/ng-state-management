@@ -11,10 +11,8 @@
             [parentForm]="createForm"
             controlName="name"
             elementId="nameId"
-            label="Name{{ formControlsData['name'].isRequired }}"
-            patternMessage="{{ formControlsData['name'].errorMessage }}"
+            label="Name"
             [maxLength]="formControlsData['name'].maxLength"
-            displayText=""
             [required]="formControlsData['name'].isRequired"
           ></state-management-app-reactive-form-control-text-input>
         </div>
@@ -23,10 +21,9 @@
             [parentForm]="createForm"
             controlName="email"
             elementId="emailId"
-            label="Email{{ formControlsData['email'].isRequired ? '*' : '' }}"
-            patternMessage="{{ formControlsData['email'].errorMessage }}"
+            label="Email"
             [maxLength]="formControlsData['email'].maxLength"
-            displayText=""
+            [required]="formControlsData['email'].isRequired"
           ></state-management-app-reactive-form-control-text-input>
         </div>
         <div class="createForm__input-container">
@@ -34,13 +31,10 @@
             [parentForm]="createForm"
             controlName="password"
             elementId="passwordId"
-            label="Password{{
-              formControlsData['password'].isRequired ? '*' : ''
-            }}"
-            patternMessage="{{ formControlsData['password'].errorMessage }}"
+            label="Password"
             [maxLength]="formControlsData['password'].maxLength"
-            displayText=""
             inputType="password"
+            [required]="formControlsData['password'].isRequired"
           ></state-management-app-reactive-form-control-text-input>
         </div>
         <div class="createForm__select-container">
@@ -84,10 +78,9 @@
             [parentForm]="createForm"
             controlName="address"
             elementId="addressId"
-            label="Address{{
-              formControlsData['address'].isRequired ? '*' : ''
-            }}"
+            label="Address"
             [maxLength]="formControlsData['address'].maxLength"
+            [required]="formControlsData['address'].isRequired"
           ></state-management-app-reactive-form-control-text-input>
         </div>
         <div class="createForm__input-container-double">
@@ -96,11 +89,9 @@
               [parentForm]="createForm"
               controlName="longitude"
               elementId="longitudeId"
-              label="Longitude{{
-                formControlsData['longitude'].isRequired ? '*' : ''
-              }}"
-              patternMessage="{{ formControlsData['longitude'].errorMessage }}"
+              label="Longitude"
               [maxLength]="formControlsData['longitude'].maxLength"
+              [required]="formControlsData['longitude'].isRequired"
             ></state-management-app-reactive-form-control-text-input>
           </div>
           <div class="individual-input">
@@ -108,11 +99,9 @@
               [parentForm]="createForm"
               controlName="latitude"
               elementId="latitudeId"
-              label="Latitude{{
-                formControlsData['latitude'].isRequired ? '*' : ''
-              }}"
-              patternMessage="{{ formControlsData['latitude'].errorMessage }}"
+              label="Latitude"
               [maxLength]="formControlsData['latitude'].maxLength"
+              [required]="formControlsData['latitude'].isRequired"
             ></state-management-app-reactive-form-control-text-input>
           </div>
         </div>
@@ -121,11 +110,9 @@
             [parentForm]="createForm"
             controlName="contact"
             elementId="concatId"
-            label="Contact Number{{
-              formControlsData['contact'].isRequired ? '*' : ''
-            }}"
-            patternMessage="{{ formControlsData['contact'].errorMessage }}"
+            label="Contact Number"
             [maxLength]="formControlsData['contact'].maxLength"
+            [required]="formControlsData['contact'].isRequired"
           ></state-management-app-reactive-form-control-text-input>
         </div>
       </div>
@@ -136,12 +123,10 @@
             [parentForm]="createForm"
             controlName="picture"
             elementId="pictureId"
-            label="Picture {{
-              formControlsData['picture'].isRequired ? '*' : ''
-            }}"
-            patternMessage="{{ formControlsData['picture'].errorMessage }}"
+            label="Picture"
             [maxLength]="formControlsData['picture'].maxLength"
-            displayText='Please enter a ".jpg" extension URL address'
+            displayText='Please enter a ".jpg", ".png", or ".gif" extension URL address'
+            [required]="formControlsData['picture'].isRequired"
           ></state-management-app-reactive-form-control-text-input>
         </div>
         <div class="createForm__picture-container">
@@ -165,13 +150,9 @@
             [parentForm]="createForm"
             controlName="bankAccountNumber"
             elementId="bankAccountNumberId"
-            label="Bank account number{{
-              formControlsData['bankAccountNumber'].isRequired ? '*' : ''
-            }}"
-            patternMessage="{{
-              formControlsData['bankAccountNumber'].errorMessage
-            }}"
+            label="Bank account number"
             [maxLength]="formControlsData['bankAccountNumber'].maxLength"
+            [required]="formControlsData['bankAccountNumber'].isRequired"
           ></state-management-app-reactive-form-control-text-input>
         </div>
         <div class="createForm__input-container-optional">
@@ -179,10 +160,9 @@
             [parentForm]="createForm"
             controlName="bankName"
             elementId="bankNameId"
-            label="Bank name{{
-              formControlsData['bankName'].isRequired ? '*' : ''
-            }}"
+            label="Bank name"
             [maxLength]="formControlsData['bankName'].maxLength"
+            [required]="formControlsData['bankName'].isRequired"
           ></state-management-app-reactive-form-control-text-input>
         </div>
         <div class="createForm__select-container-optional">
@@ -212,10 +192,9 @@
             [parentForm]="createForm"
             controlName="fullname"
             elementId="fullnameId"
-            label="Fullname{{
-              formControlsData['fullname'].isRequired ? '*' : ''
-            }}"
+            label="Fullname"
             [maxLength]="formControlsData['fullname'].maxLength"
+            [required]="formControlsData['fullname'].isRequired"
           ></state-management-app-reactive-form-control-text-input>
         </div>
         <div class="createForm__input-container">
@@ -223,11 +202,9 @@
             [parentForm]="createForm"
             controlName="documentId"
             elementId="documentIdId"
-            label="Document ID{{
-              formControlsData['documentId'].isRequired ? '*' : ''
-            }}"
-            patternMessage="{{ formControlsData['documentId'].errorMessage }}"
+            label="Document ID"
             [maxLength]="formControlsData['documentId'].maxLength"
+            [required]="formControlsData['documentId'].isRequired"
           ></state-management-app-reactive-form-control-text-input>
         </div>
         <div class="createForm__buttons-container">

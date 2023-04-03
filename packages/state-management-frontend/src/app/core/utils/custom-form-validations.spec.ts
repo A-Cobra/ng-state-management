@@ -47,7 +47,7 @@ describe('CustomFormValidations Tests', () => {
     const phoneNumber = '87654321';
     const phoneControl = testFormComponent.testForm.controls['phoneControl'];
     phoneControl.setValue(phoneNumber);
-    const validatedField = CustomFormValidations.phoneNumber(phoneControl);
+    const validatedField = CustomFormValidations.onlyNumbers(phoneControl);
 
     expect(validatedField).toBe(null);
   });
