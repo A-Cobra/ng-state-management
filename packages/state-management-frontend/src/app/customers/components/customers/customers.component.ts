@@ -51,7 +51,7 @@ export class CustomersComponent {
   }
 
   public searchCustomer(customerQuery: string): void {
-    // TODO: implement search by branch name functionality when BE will be ready.
+    // TODO: implement search by customer name, last name or username functionality when BE will be ready.
     this.customers$ = this.#customersService
       .getCustomers(1, this.pageSize, customerQuery)
       .pipe(

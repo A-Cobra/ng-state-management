@@ -5,7 +5,7 @@
   </clapp-button>
   <clapp-search
     [formControl]="searchCustomerControl"
-    placeholder="Search branch by name"
+    placeholder="Search customer by name, last name or username"
   />
   <div class="spacer"></div>
 </div>
@@ -28,6 +28,8 @@
   </ng-container>
 
   <ng-template #noResults>
-    <clapp-no-results-found customText="Sorry, we couldn't find any branch." />
+    <clapp-no-results-found
+      customText="Sorry, we couldn't find any customer."
+    />
   </ng-template>
 </ng-container>
