@@ -5,9 +5,9 @@ import { User } from '../../users/entities/user.entity';
 
 export async function signToken(user: User): Promise<string> {
   const jwt = new JwtService();
-  const { user_id } = user;
+  const { userId } = user;
 
-  const data = { sub: user_id };
+  const data = { sub: userId };
 
   return jwt.signAsync(data, {
     secret: process.env.JWT_SECRET,

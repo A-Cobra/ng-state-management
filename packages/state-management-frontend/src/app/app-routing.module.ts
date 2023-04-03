@@ -23,8 +23,11 @@ const routes: Routes = [
     path: 'users',
     loadChildren: () => import('./user/user.module').then((m) => m.UserModule),
   },
+  {
+    path: '',
+    loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
+  },
 ];
-
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],

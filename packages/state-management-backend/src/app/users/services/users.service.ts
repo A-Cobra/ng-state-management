@@ -1,7 +1,8 @@
 import { EntityRepository, wrap } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { PrismaService } from '../../database/services/prisma.service';
+import { BusinessHq } from '../../business/entities/business.entity';
+import { BusinessService } from '../../business/services/business.service';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
 import { User } from '../entities/user.entity';
@@ -10,7 +11,8 @@ import { User } from '../entities/user.entity';
 export class UsersService {
   constructor(
     @InjectRepository(User)
-    private readonly userRepository: EntityRepository<User>
+    private readonly userRepository: EntityRepository<User>,
+    private readonly businessService: BusinessService
   ) {}
 
   async create(data: CreateUserDto): Promise<User> {
@@ -21,8 +23,8 @@ export class UsersService {
     return this.userRepository.findAll();
   }
 
-  async findOne(user_id: string): Promise<User> {
-    const user = await this.userRepository.findOne({ user_id });
+  async findOne(userId: string): Promise<User> {
+    const user = await this.userRepository.findOne({ userId });
 
     if (!user) {
       throw new NotFoundException('user not found');
@@ -32,7 +34,9 @@ export class UsersService {
   }
 
   async findOneByEmail(email: string): Promise<User> {
-    const user = await this.userRepository.findOne({ email });
+    const user =
+      (await this.userRepository.findOne({ email })) ||
+      (await this.businessService.findByEmail(email));
 
     if (!user) {
       throw new NotFoundException('user not found');
@@ -41,36 +45,44 @@ export class UsersService {
     return user;
   }
 
-  async update(user_id: string, updatedUserInfo: UpdateUserDto): Promise<User> {
-    const user = await this.userRepository.findOne({ user_id });
-    wrap(user).assign(updatedUserInfo);
+  async update(userId: string, updatedUserInfo: UpdateUserDto): Promise<User> {
+    const user = await this.userRepository.findOne({ userId });
+
+    //this.userRepository.assign(user, updatedUserInfo);
+
     await this.userRepository.flush();
 
     return user;
   }
 
-  async remove(user_id: string) {
-    const deletedUser = this.userRepository.remove({ user_id });
+  async remove(userId: string) {
+    const deletedUser = this.userRepository.remove({ userId });
 
     if (!deletedUser) {
-      throw new NotFoundException(`user with id: ${user_id} not found`);
+      throw new NotFoundException(`user with id: ${userId} not found`);
     }
   }
 
-  async changeUserLogState(user_id: string, state: boolean): Promise<User> {
-    const found_user = await this.userRepository.findOne({ user_id });
-    found_user.isLoggedIn = state;
+  async changeUserLogState(userId: string, state: boolean): Promise<User> {
+    const foundUser =
+      (await this.userRepository.findOne({ userId })) ||
+      (await this.businessService.findById(userId));
+
+    if (foundUser instanceof BusinessHq)
+      return this.businessService.changeBusinessLogState(userId, state);
+
+    foundUser.isLoggedIn = state;
 
     await this.userRepository.flush();
 
-    return found_user;
+    return foundUser;
   }
 
-  async updateRole(user_id: string, role_name: string): Promise<User> {
-    const found_user = await this.userRepository.findOne({ user_id });
-    found_user.role = role_name;
+  async updateRole(userId: string, roleName: string): Promise<User> {
+    const foundUser = await this.userRepository.findOne({ userId });
+    foundUser.role = roleName;
     await this.userRepository.flush();
 
-    return found_user;
+    return foundUser;
   }
 }

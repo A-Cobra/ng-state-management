@@ -9,13 +9,18 @@ import { BranchesRoutingModule } from './branches-routing.module';
 import {
   ClappButtonModule,
   ClappCardModule,
+  ClappImageDisplayModule,
+  ClappInputHelpersModule,
   ClappNoResultsModule,
   ClappPaginationModule,
   ClappSearchModule,
+  ClappSelectModule,
+  ClappTextInputModule,
 } from '@clapp1/clapp-angular';
+import { BranchCreateComponent } from './components/branch-create/branch-create.component';
 
 @NgModule({
-  declarations: [BranchesComponent, BranchCardComponent],
+  declarations: [BranchesComponent, BranchCardComponent, BranchCreateComponent],
   imports: [
     BranchesRoutingModule,
     ClappButtonModule,
@@ -23,7 +28,11 @@ import {
     ClappNoResultsModule,
     ClappPaginationModule,
     ClappSearchModule,
+    ClappSelectModule,
+    ClappTextInputModule,
+    ClappInputHelpersModule,
     CommonModule,
+    ClappImageDisplayModule,
     ReactiveFormsModule,
   ],
 })
