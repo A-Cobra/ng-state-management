@@ -2,7 +2,7 @@ import { ConfirmationMessage } from '../models/confirmation-message.model';
 
 export const MOCK_CONFIRMATION_MODAL: ConfirmationMessage = {
   title: 'Delete classification',
-  message: `Are you sure to delete this classification`,
+  message: 'Are you sure to delete this classification',
   confirmButtonLabel: 'Yes',
   cancelButtonLabel: 'Cancel',
 };

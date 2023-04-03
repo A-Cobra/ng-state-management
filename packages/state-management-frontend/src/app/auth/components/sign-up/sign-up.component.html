@@ -1,0 +1,162 @@
+<div class="container">
+  <div class="wrapper">
+    <clapp-card>
+      <clapp-card-header>
+        <h2>Sign Up</h2>
+      </clapp-card-header>
+      <clapp-card-content>
+        <div class="form-wrapper">
+          <form class="form" [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
+            <div class="row">
+              <div class="form-group">
+                <clapp-text-input
+                  id="firstName"
+                  name="firstName"
+                  label="Name"
+                  type="text"
+                  formControlName="firstName"
+                  [error]="firstName!.invalid && firstName!.touched"
+                >
+                </clapp-text-input>
+                <clapp-helper-text
+                  *ngIf="(firstName!.errors?.['required'] || firstName!.errors?.['noSpaces']) && firstName!.touched"
+                  [textState]="'error'"
+                >
+                  Name field is required.
+                </clapp-helper-text>
+              </div>
+              <div class="form-group">
+                <clapp-text-input
+                  id="lastName"
+                  name="lastName"
+                  label="Last Name"
+                  type="text"
+                  formControlName="lastName"
+                  [error]="lastName!.invalid && lastName!.touched"
+                ></clapp-text-input>
+                <clapp-helper-text
+                  *ngIf="(lastName!.errors?.['required'] || lastName!.errors?.['noSpaces']) && lastName!.touched"
+                  [textState]="'error'"
+                >
+                  Last name is required.
+                </clapp-helper-text>
+              </div>
+            </div>
+            <div class="form-group">
+              <clapp-text-input
+                id="username"
+                name="username"
+                label="Username"
+                type="text"
+                formControlName="userName"
+                [error]="userName!.invalid && userName!.touched"
+              >
+              </clapp-text-input>
+              <clapp-helper-text
+                *ngIf="(userName!.errors?.['required'] || userName!.errors?.['noSpaces']) && userName!.touched"
+                [textState]="'error'"
+              >
+                Username is required.
+              </clapp-helper-text>
+            </div>
+            <div class="form-group">
+              <clapp-text-input
+                id="email"
+                name="email"
+                label="Email"
+                type="email"
+                formControlName="email"
+                [error]="email!.invalid && email!.touched"
+              >
+              </clapp-text-input>
+              <clapp-helper-text
+                *ngIf="email?.errors?.['required'] && email!.touched"
+                [textState]="'error'"
+              >
+                Email is required.
+              </clapp-helper-text>
+              <clapp-helper-text
+                *ngIf="email?.errors?.['email'] && email!.touched"
+                [textState]="'error'"
+              >
+                Invalid email.
+              </clapp-helper-text>
+            </div>
+            <div class="form-group">
+              <clapp-text-input
+                id="contactNumber"
+                name="contactNumber"
+                label="Contact Number"
+                type="number"
+                formControlName="contactNumber"
+                [error]="contactNumber!.invalid && contactNumber!.touched"
+              ></clapp-text-input>
+              <clapp-helper-text
+                *ngIf="contactNumber?.errors?.['required'] && contactNumber!.touched"
+                [textState]="'error'"
+              >
+                Contact number is invalid.
+              </clapp-helper-text>
+            </div>
+            <div class="form-group">
+              <clapp-text-input
+                id="password"
+                name="password"
+                label="Password"
+                type="password"
+                formControlName="password"
+                [error]="password!.invalid && password!.touched"
+              ></clapp-text-input>
+              <clapp-helper-text
+                *ngIf="password?.errors?.['required'] && password!.touched"
+                [textState]="'error'"
+              >
+                Password is required.
+              </clapp-helper-text>
+              <clapp-helper-text
+                *ngIf="password?.errors?.['invalidPassword'] && password!.touched"
+                [textState]="'error'"
+              >
+                The password must be at least 8 characters long, it must contain
+                at least one uppercase letter, one number and one special
+                symbol.
+              </clapp-helper-text>
+            </div>
+            <div class="form-group">
+              <clapp-text-input
+                id="confirmPassword"
+                name="confirmPassword"
+                label="Confirm Password"
+                type="password"
+                formControlName="confirmPassword"
+                [error]="confirmPassword!.invalid && !confirmPassword!.pristine"
+              ></clapp-text-input>
+              <clapp-helper-text
+                *ngIf="confirmPassword?.errors?.['required'] && confirmPassword!.touched"
+                [textState]="'error'"
+              >
+                Confirm password is required.
+              </clapp-helper-text>
+              <clapp-helper-text
+                *ngIf="confirmPassword?.errors?.['passwordMismatch'] && !confirmPassword!.pristine"
+                [textState]="'error'"
+              >
+                The passwords do not match.
+              </clapp-helper-text>
+            </div>
+            <div class="sign-up">
+              <clapp-button
+                [type]="'submit'"
+                [size]="'big'"
+                [disabled]="signUpForm.invalid"
+                >Sign Up</clapp-button
+              >
+              <p>Already have an account? <a routerLink="/login">Log In</a></p>
+            </div>
+          </form>
+        </div>
+      </clapp-card-content>
+    </clapp-card>
+    <state-management-app-loader *ngIf="loading"></state-management-app-loader>
+  </div>
+</div>
