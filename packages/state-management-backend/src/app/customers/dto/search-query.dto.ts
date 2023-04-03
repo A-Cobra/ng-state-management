@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNumberString, IsOptional, IsPositive } from 'class-validator';
+import { Type } from 'class-transformer';
+import { IsInt, IsOptional, IsPositive } from 'class-validator';
 
 export class SearchQueryDto {
   @ApiProperty({ required: false })
@@ -7,10 +8,16 @@ export class SearchQueryDto {
   search?: string;
 
   @ApiProperty({ required: false })
+  @Type(() => Number)
   @IsOptional()
+  @IsPositive()
+  @IsInt()
   page?: number;
 
   @ApiProperty({ required: false })
+  @Type(() => Number)
   @IsOptional()
+  @IsPositive()
+  @IsInt()
   limit?: number;
 }
