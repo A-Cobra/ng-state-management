@@ -12,9 +12,7 @@ import { PaginationResult } from '../../common/interfaces/pagination-result.inte
 import { CreateCustomerDto } from '../dto/create-customer.dto';
 import { UpdateCustomerDto } from '../dto/update-customer.dto';
 import { Customer } from '../entities/customer.entity';
-import { CustomerSearchQuery } from '../interfaces/query.interface';
 import { JwtInfo } from '../../auth/interfaces/jwtinfo.type';
-import { SignInDto } from '../../auth/dto/signin.dto';
 import { UsersService } from '../../users/services/users.service';
 import { SearchQueryDto } from '../dto/search-query.dto';
 
@@ -28,6 +26,7 @@ export class CustomersService {
   ) {}
 
   async create(createCustomerDto: CreateCustomerDto): Promise<Customer> {
+    // todo Fix method when authService is ready
     createCustomerDto.password = await hashData(createCustomerDto.password);
     const user = await this.userService.create(createCustomerDto);
     const customer = this.customerRepository.create({ ...user });
@@ -38,10 +37,9 @@ export class CustomersService {
   async findAll(
     queryParams: SearchQueryDto
   ): Promise<PaginationResult<Loaded<Customer>>> {
-    const { search } = queryParams;
-    let { limit, page } = queryParams;
-    limit = limit || 10;
-    page = page || 1;
+    const limit = queryParams.limit ? +queryParams.limit : 10;
+    const page = queryParams.page ? +queryParams.page : 1;
+    const search = queryParams.search ? queryParams.search : undefined;
 
     let queryOptions: FilterQuery<Customer> = { isDeleted: false };
 
@@ -123,10 +121,13 @@ export class CustomersService {
       refreshToken: hashedRefreshToken,
     };
 
+    const { isDeleted, password, isLoggedIn, customer_id, ...rest } =
+      customerInfo;
+
     this.customerRepository.assign(customerInfo, userUpdate);
     await this.userService.update(customerInfo.userId, userUpdate);
     await this.customerRepository.flush();
-    return { ...customerInfo, ...userUpdate };
+    return { ...rest, ...userUpdate };
   }
 
   async remove(id: string) {

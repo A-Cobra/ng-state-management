@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   ParseUUIDPipe,
+  Query,
 } from '@nestjs/common';
 import { CustomersService } from '../services/customers.service';
 import { CreateCustomerDto } from '../dto/create-customer.dto';
@@ -31,7 +32,7 @@ export class CustomersController {
   @Get()
   @Authorized(ValidRoles.admin)
   @ApiQuery({ type: [SearchQueryDto] })
-  findAll(searchQuery: SearchQueryDto) {
+  findAll(@Query() searchQuery: SearchQueryDto) {
     return this.customersService.findAll(searchQuery);
   }
 
