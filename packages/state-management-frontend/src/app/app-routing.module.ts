@@ -19,6 +19,10 @@ const routes: Routes = [
         (m) => m.ClassificationModule
       ),
   },
+  {
+    path: '',
+    loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
+  },
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
