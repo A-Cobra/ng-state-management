@@ -98,8 +98,14 @@ export class BusinessEditFormComponent implements OnInit {
       .pipe(debounceTime(700))
       .subscribe((imgUrl: string) => {
         isALoadableImageUrl(imgUrl)
-          ? (this.currentBusinessImgUrl = imgUrl)
-          : (this.currentBusinessImgUrl = '');
+          .then(() => {
+            this.currentBusinessImgUrl = imgUrl;
+          })
+          .catch(() => {
+            this.currentBusinessImgUrl = '';
+          });
+        // ?
+        // : (this.currentBusinessImgUrl = '');
       });
   }
 

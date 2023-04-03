@@ -1,10 +1,11 @@
-export function isALoadableImageUrl(imageUrl: string): boolean {
-  // Create new offscreen image to test
+async function loadImage(url: string, elem: HTMLImageElement) {
+  return new Promise((resolve, reject) => {
+    elem.onload = () => resolve(true);
+    elem.onerror = () => reject(false);
+    elem.src = url;
+  });
+}
+export async function isALoadableImageUrl(imageUrl: string) {
   const testImage = new Image();
-  testImage.src = imageUrl;
-  if (testImage.width > 0 && testImage.height > 0) {
-    return true;
-  } else {
-    return false;
-  }
+  return await loadImage(imageUrl, testImage);
 }
