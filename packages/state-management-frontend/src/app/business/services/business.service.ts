@@ -16,6 +16,6 @@ export class BusinessService {
 
   getClassifications(): Observable<Classification[]> {
     //TODO: call GET from Backend
-    return of(this.classifications as Classification[]);
+    return of(this.classifications);
   }
 }
