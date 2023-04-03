@@ -1,0 +1,46 @@
+<div *ngIf="parentForm" [formGroup]="parentForm">
+  <clapp-text-input
+    [formControlName]="controlName"
+    [error]="
+      parentForm.controls[controlName].invalid &&
+      (parentForm.controls[controlName].touched ||
+        parentForm.controls[controlName].dirty)
+    "
+    [success]="
+      parentForm.controls[controlName].valid &&
+      (parentForm.controls[controlName].touched ||
+        parentForm.controls[controlName].dirty)
+    "
+    label="{{ label }}"
+    [maxLength]="maxLength"
+    type="{{ inputType }}"
+    id="{{ elementId }}"
+  ></clapp-text-input>
+  <clapp-helper-text
+    *ngIf="
+      !parentForm.controls[controlName].dirty &&
+      !parentForm.controls[controlName].touched
+    "
+    [textState]="
+      parentForm.controls[controlName].disabled ? 'disabled' : 'default'
+    "
+  >
+    {{ displayText }}
+  </clapp-helper-text>
+  <clapp-helper-text
+    *ngIf="
+      parentForm.controls[controlName].errors &&
+      (parentForm.controls[controlName].dirty ||
+        parentForm.controls[controlName].touched)
+    "
+    [textState]="
+      parentForm.controls[controlName].disabled ? 'disabled' : 'error'
+    "
+  >
+    {{
+      parentForm.controls[controlName].hasError('required')
+        ? 'This field is required'
+        : patternMessage
+    }}
+  </clapp-helper-text>
+</div>
