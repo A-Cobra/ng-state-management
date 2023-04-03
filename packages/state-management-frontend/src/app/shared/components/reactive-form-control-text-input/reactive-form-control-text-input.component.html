@@ -3,17 +3,20 @@
     [formControlName]="controlName"
     autocomplete=""
     [error]="
-      (false || parentForm.controls[controlName].invalid) &&
-      parentForm.controls[controlName].touched
+      parentForm.controls[controlName].invalid &&
+      (parentForm.controls[controlName].touched ||
+        parentForm.controls[controlName].dirty)
     "
     [success]="
-      (false || !parentForm.controls[controlName].errors) &&
-      parentForm.controls[controlName].touched
+      parentForm.controls[controlName].valid &&
+      (parentForm.controls[controlName].touched ||
+        parentForm.controls[controlName].dirty)
     "
     [label]="label ? (required ? label + ' *' : label) : ''"
     [maxLength]="maxLength"
     [minLength]="minLength"
     [type]="inputType"
+    [id]="elementId"
   ></clapp-text-input>
   <clapp-helper-text
     *ngIf="

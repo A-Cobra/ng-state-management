@@ -10,7 +10,6 @@ import { FullErrorNamePipe } from '../../pipes/full-error-name.pipe';
 @Component({
   selector: 'state-management-app-reactive-form-control-text-input',
   templateUrl: './reactive-form-control-text-input.component.html',
-  styleUrls: ['./reactive-form-control-text-input.component.scss'],
   standalone: true,
   imports: [
     CommonModule,
@@ -32,6 +31,8 @@ export class ReactiveFormControlTextInputComponent {
   label: string;
   @Input()
   inputType = 'text';
+  @Input()
+  elementId = '';
   @Input()
   required = true;
   @Input()
