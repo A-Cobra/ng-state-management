@@ -2,7 +2,6 @@ import {
   Collection,
   Entity,
   ManyToMany,
-  OneToOne,
   PrimaryKey,
   Property,
 } from '@mikro-orm/core';

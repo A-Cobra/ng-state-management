@@ -1,10 +1,4 @@
-import {
-  Entity,
-  OneToOne,
-  PrimaryKey,
-  PrimaryKeyType,
-  Property,
-} from '@mikro-orm/core';
+import { Entity, OneToOne, PrimaryKeyType, Property } from '@mikro-orm/core';
 import { User } from './user.entity';
 
 @Entity()
