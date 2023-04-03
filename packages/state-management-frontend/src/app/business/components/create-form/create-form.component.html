@@ -148,10 +148,7 @@
           <div>
             <clapp-image-display
               [src]="
-                createForm.controls['picture'].value &&
-                !createForm.controls['picture'].hasError('pattern')
-                  ? createForm.controls['picture'].value
-                  : 'assets/template-image.png'
+                currentBusinessImgUrl ? currentBusinessImgUrl : defaultImgUrl
               "
               type="avatar"
               size="large"

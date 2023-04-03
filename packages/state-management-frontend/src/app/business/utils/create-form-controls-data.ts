@@ -10,7 +10,7 @@ export const createFormControlsData = {
   longitude: ['', [Validators.required, CustomFormValidations.floatNumber]],
   latitude: ['', [Validators.required, CustomFormValidations.floatNumber]],
   contact: ['', [Validators.required, CustomFormValidations.onlyNumbers]],
-  picture: ['', CustomFormValidations.imageUrl],
+  picture: [''],
   bankAccountNumber: ['', CustomFormValidations.bankNumber],
   bankName: [''],
   bankAccountType: [''],

@@ -104,8 +104,6 @@ export class BusinessEditFormComponent implements OnInit {
           .catch(() => {
             this.currentBusinessImgUrl = '';
           });
-        // ?
-        // : (this.currentBusinessImgUrl = '');
       });
   }
 

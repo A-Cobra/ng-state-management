@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
+import { NonNullableFormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
-import { take, Observable } from 'rxjs';
+import { take, Observable, debounceTime } from 'rxjs';
 import { ModalService, NotificationService } from '@clapp1/clapp-angular';
 import { BusinessService } from '../../services/business.service';
 import { FormControlsData } from '../../models/create-form.interface';
@@ -10,9 +10,9 @@ import { BankAccountType } from '../../models/bank-account-type.interface';
 import { FORM_CONTROLS_DATA } from '../../utils/form-controls-data';
 import { BANK_ACCOUNT_TYPES } from '../../utils/bank-account-types';
 import { ConfirmationModalComponent } from '../../../shared/components/confirmation-modal/confirmation-modal.component';
-import { CustomFormValidations } from '../../../core/utils/custom-form-validations';
 import { createFormControlsData } from '../../utils/create-form-controls-data';
 import { Business } from '../../models/business.interface';
+import { isALoadableImageUrl } from '../../../core/utils/is-a-displayable-image-url';
 
 @Component({
   selector: 'state-management-app-business-create',
@@ -34,9 +34,12 @@ export class CreateFormComponent implements OnInit {
   bankAccountTypes: BankAccountType[] = BANK_ACCOUNT_TYPES;
   isLoading = false;
   goingBackConfirmed = false;
+  currentBusinessImgUrl = '';
+  defaultImgUrl = '../../../../assets/template-image.png';
 
   ngOnInit(): void {
     this.resetForm();
+    this.setupImgUrlDebounce();
     this.classification$ = this.businessService.getClassifications();
   }
 
@@ -86,31 +89,24 @@ export class CreateFormComponent implements OnInit {
   }
 
   getFormInitialValue() {
-    return this.fb.group({
-      name: ['', [Validators.required, CustomFormValidations.namePattern]],
-      email: ['', [Validators.required, CustomFormValidations.email]],
-      password: [
-        '',
-        [Validators.required, CustomFormValidations.strongPassword],
-      ],
-      classification: ['', [Validators.required]],
-      address: ['', [Validators.required]],
-      longitude: ['', [Validators.required, CustomFormValidations.floatNumber]],
-      latitude: ['', [Validators.required, CustomFormValidations.floatNumber]],
-      contact: ['', [Validators.required, CustomFormValidations.onlyNumbers]],
-      picture: ['', CustomFormValidations.imageUrl],
-      bankAccountNumber: ['', CustomFormValidations.bankNumber],
-      bankName: [''],
-      bankAccountType: [''],
-      fullname: ['', [Validators.required]],
-      documentId: [
-        '',
-        [Validators.required, CustomFormValidations.onlyNumbers],
-      ],
-    });
+    return this.fb.group(createFormControlsData);
   }
 
   resetForm() {
     this.createForm = this.getFormInitialValue();
+  }
+
+  setupImgUrlDebounce(): void {
+    this.createForm.controls['picture'].valueChanges
+      .pipe(debounceTime(700))
+      .subscribe((imgUrl: string) => {
+        isALoadableImageUrl(imgUrl)
+          .then(() => {
+            this.currentBusinessImgUrl = imgUrl;
+          })
+          .catch(() => {
+            this.currentBusinessImgUrl = '';
+          });
+      });
   }
 }
