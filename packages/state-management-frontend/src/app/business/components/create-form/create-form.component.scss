@@ -12,6 +12,7 @@
   &__input-container {
     height: 90px;
     width: 98%;
+    min-width: 350px;
     &-double {
       @include flex($justify-content: flex-start, $gap: 5%);
       .individual-input {

@@ -20,7 +20,7 @@ import { BANK_ACCOUNT_TYPES } from '../../utils/bank-account-types';
 import { ConfirmationModalComponent } from '../../../shared/components/confirmation-modal/confirmation-modal.component';
 
 @Component({
-  selector: 'state-management-app-business-create',
+  selector: 'app-business-create',
   templateUrl: './create-form.component.html',
   styleUrls: ['./create-form.component.scss'],
 })
