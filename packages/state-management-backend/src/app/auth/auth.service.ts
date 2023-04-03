@@ -11,24 +11,38 @@ import { UsersService } from '../users/services/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { User } from '../users/entities/user.entity';
+import { UsersDirectorysService } from '../users/services/users-directory.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private userService: UsersService,
     private jwtService: JwtService,
-    private configService: ConfigService
+    private configService: ConfigService,
+    private directoryService: UsersDirectorysService
   ) {}
 
   async signIn(credentials: SignInDto) {
-    const user = await this.userService.findOneByEmail(credentials.email);
+    const userCredentials = await this.directoryService.findUserByEmail(
+      credentials.email
+    );
 
-    await validateCode(user.password, credentials.password);
+    await validateCode(userCredentials.password, credentials.password);
 
-    await this.userService.changeUserLogState(user.userId, true);
+    await this.directoryService.changeUserLogState(
+      userCredentials.user.userId,
+      true
+    );
 
-    const tokens = await this.getTokens(user.userId, user.username, user.role);
-    await this.updateRefreshToken(user.userId, tokens.refreshToken);
+    const tokens = await this.getTokens(
+      userCredentials.user.userId,
+      userCredentials.email,
+      userCredentials.role
+    );
+    await this.updateRefreshToken(
+      userCredentials.user.userId,
+      tokens.refreshToken
+    );
 
     return {
       status: 'OK',
@@ -42,9 +56,12 @@ export class AuthService {
   }
 
   async signOut(userInfo: JwtInfo) {
-    const user = await this.userService.findOne(userInfo.sub);
+    const credentials = await this.directoryService.findUser(userInfo.sub);
 
-    await this.userService.changeUserLogState(user.userId, false);
+    await this.directoryService.changeUserLogState(
+      credentials.user.userId,
+      false
+    );
 
     return {
       status: 'OK',
@@ -53,36 +70,22 @@ export class AuthService {
     };
   }
 
-  async signUp(userInfo: CreateUserDto): Promise<User> {
+  async signUp(userInfo: CreateUserDto) {
     userInfo.password = await hashData(userInfo.password);
-    return this.userService.create(userInfo);
-  }
-
-  async changeRole(currentUser: JwtInfo, userId: string, newRole: string) {
-    const user = await this.userService.findOne(userId);
-
-    if (currentUser.sub !== user.userId) {
-      return this.userService.updateRole(user.userId, newRole);
-    } else {
-      throw new ConflictException(
-        "Can't change your own role, ask another admin for help"
-      );
-    }
+    //return this.userService.create(userInfo);
   }
 
   async updateRefreshToken(userId: string, refreshToken: string) {
     const hashedRefreshToken = await hashData(refreshToken);
-    await this.userService.update(userId, {
-      refresh_token: hashedRefreshToken,
-    });
+    await this.directoryService.updateRefreshToken(userId, hashedRefreshToken);
   }
 
-  async getTokens(userId: string, username: string, role: string) {
+  async getTokens(userId: string, email: string, role: string) {
     const [accessToken, refreshToken] = await Promise.all([
       this.jwtService.signAsync(
         {
           sub: userId,
-          username,
+          email: email,
           role: role,
         },
         {
@@ -93,7 +96,7 @@ export class AuthService {
       this.jwtService.signAsync(
         {
           sub: userId,
-          username,
+          email: email,
           role: role,
         },
         {
@@ -110,7 +113,7 @@ export class AuthService {
   }
 
   async createAdminUser(): Promise<void> {
-    const users = await this.userService.findAll();
+    const users = await this.directoryService.findAll();
 
     if (users.length === 0) {
       const adminUser: CreateUserDto = {
@@ -126,26 +129,28 @@ export class AuthService {
       };
 
       const admin = await this.signUp(adminUser);
-
-      await this.changeRole(currentUser, admin.userId, 'admin');
     }
   }
 
   async refreshTokens(userId: string, refreshToken: string) {
-    const user = await this.userService.findOne(userId);
+    const credentials = await this.directoryService.findUser(userId);
 
-    if (!user || !user.refreshToken)
+    if (!credentials || !credentials.refreshToken)
       throw new ForbiddenException('Access Denied');
 
     const refreshTokenMatches = await validateCode(
-      user.refreshToken,
+      credentials.refreshToken,
       refreshToken
     );
 
     if (!refreshTokenMatches) throw new ForbiddenException('Access Denied');
 
-    const tokens = await this.getTokens(user.userId, user.username, user.role);
-    await this.updateRefreshToken(user.userId, tokens.refreshToken);
+    const tokens = await this.getTokens(
+      credentials.user.userId,
+      credentials.email,
+      credentials.user.role
+    );
+    await this.updateRefreshToken(credentials.user.userId, tokens.refreshToken);
 
     return tokens;
   }

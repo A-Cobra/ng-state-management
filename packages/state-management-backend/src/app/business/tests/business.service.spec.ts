@@ -11,6 +11,7 @@ import {
   initialBusinessCreationDtoStub,
   paginatedBusinessessData,
 } from './business.stubs';
+import { UsersDirectorysService } from '../../users/services/users-directory.service';
 
 describe('BusinessService', () => {
   let businessService: BusinessService;
@@ -42,6 +43,13 @@ describe('BusinessService', () => {
           provide: MailService,
           useValue: {
             sendBusinessConfirmation: jest.fn(),
+          },
+        },
+        UsersDirectorysService,
+        {
+          provide: UsersDirectorysService,
+          useValue: {
+            createUserCredentials: jest.fn(),
           },
         },
       ],

@@ -6,11 +6,12 @@ import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { BusinessModule } from '../business/business.module';
 import { RoleController } from './controllers/roles.controller';
 import { RolesService } from './services/role.service';
+import { UsersDirectorysService } from './services/users-directory.service';
 
 @Module({
   imports: [MikroOrmModule.forFeature([User]), BusinessModule],
   controllers: [UsersController, RoleController],
-  providers: [UsersService, RolesService],
-  exports: [UsersService],
+  providers: [UsersService, RolesService, UsersDirectorysService],
+  exports: [UsersService, UsersDirectorysService],
 })
 export class UsersModule {}

@@ -25,14 +25,8 @@ export class User {
   email: string;
 
   @Property()
-  password: string;
-
-  @Property({ default: false })
-  isLoggedIn: boolean;
-
-  @Property()
   contactNumber: string;
 
-  @Property({ nullable: true })
-  refreshToken?: string;
+  @Property({ default: false })
+  deleted?: boolean;
 }

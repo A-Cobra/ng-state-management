@@ -1,9 +1,18 @@
-import { Entity, PrimaryKey, Property } from '@mikro-orm/core';
+import {
+  Entity,
+  OneToOne,
+  PrimaryKey,
+  PrimaryKeyType,
+  Property,
+} from '@mikro-orm/core';
+import { User } from './user.entity';
 
 @Entity()
 export class UserCredentials {
-  @PrimaryKey()
-  user: string;
+  @OneToOne({ primary: true })
+  user!: User;
+
+  [PrimaryKeyType]?: number; // this is needed for proper type checks in `FilterQuery`
 
   @Property({ unique: true })
   email: string;
