@@ -26,12 +26,15 @@ export class TestFormComponent {
     cashControl: ['', [CustomFormValidations.floatNumber]],
     phoneControl: ['', [CustomFormValidations.onlyNumbers]],
     imgControl: ['', [CustomFormValidations.imageUrl]],
+    bankControl: ['', [CustomFormValidations.bankNumber]],
   });
 }
 
 export const WEAK_PASSWORD_ERROR: ValidationErrors = { weakPassword: true };
 
 export const NOT_VALID_IMG_URL_ERROR: ValidationErrors = { notImageUrl: true };
+
+export const NOT_BANK_NUMBER: ValidationErrors = { notBankNumber: true };
 
 export const RIMAC_NEVERA_URL =
   'https://web-cdn.rimac-automobili.com/wp-content/uploads/2021/05/31101405/intro_slider_07_optimised.jpg';

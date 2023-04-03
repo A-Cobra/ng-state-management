@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
+  NOT_BANK_NUMBER,
   NOT_VALID_IMG_URL_ERROR,
   RIMAC_NEVERA_URL,
   TestFormComponent,
@@ -97,6 +98,26 @@ describe('CustomFormValidations Tests', () => {
         CustomFormValidations.strongPassword(passwordControl);
 
       expect(validatedField).toStrictEqual(WEAK_PASSWORD_ERROR);
+    });
+  });
+
+  describe('Bank account validations', () => {
+    it('should return null when bank account contains only number and letters', () => {
+      const bankAccount = 'a45652kbf';
+      const bankControl = testFormComponent.testForm.controls['bankControl'];
+      bankControl.setValue(bankAccount);
+      const validatedField = CustomFormValidations.bankNumber(bankControl);
+
+      expect(validatedField).toBe(null);
+    });
+
+    it('should return notBankNumber ValidationError when the bank account is incorrect', () => {
+      const bankAccount = 'a45652kbf-=213/.';
+      const bankControl = testFormComponent.testForm.controls['bankControl'];
+      bankControl.setValue(bankAccount);
+      const validatedField = CustomFormValidations.bankNumber(bankControl);
+
+      expect(validatedField).toStrictEqual(NOT_BANK_NUMBER);
     });
   });
 });
