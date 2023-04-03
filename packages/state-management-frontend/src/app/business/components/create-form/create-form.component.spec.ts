@@ -4,7 +4,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { of } from 'rxjs';
 
 import { CreateFormComponent } from './create-form.component';
-import { ReactiveFormTextInputComponent } from '../create-form-child/reactive-form-text-input-component/reactive-form-text-input.component';
 import { BusinessService } from '../../services/business.service';
 import {
   ClappButtonModule,
@@ -16,6 +15,7 @@ import {
   ClappNotificationModule,
 } from '@clapp1/clapp-angular';
 import { MOCK_FORM_VALUE, MOCK_FORM_CONTROLS } from '../../test/mocks';
+import { ReactiveFormControlTextInputComponent } from '../../../shared/components/reactive-form-control-text-input/reactive-form-control-text-input.component';
 
 describe('CreateFormComponent', () => {
   let component: CreateFormComponent;
@@ -29,7 +29,7 @@ describe('CreateFormComponent', () => {
     };
 
     await TestBed.configureTestingModule({
-      declarations: [CreateFormComponent, ReactiveFormTextInputComponent],
+      declarations: [CreateFormComponent],
       imports: [
         RouterTestingModule,
         ReactiveFormsModule,
@@ -40,6 +40,7 @@ describe('CreateFormComponent', () => {
         ClappImageDisplayModule,
         ModalModule,
         ClappNotificationModule,
+        ReactiveFormControlTextInputComponent,
       ],
       providers: [{ provide: BusinessService, useValue: mockBusinessService }],
     }).compileComponents();
@@ -64,7 +65,7 @@ describe('CreateFormComponent', () => {
   });
 
   it('should set up the form on setUpForm', () => {
-    component.setUpForm();
+    component.getFormInitialValue();
     expect(component.createForm).toBeDefined();
   });
 
