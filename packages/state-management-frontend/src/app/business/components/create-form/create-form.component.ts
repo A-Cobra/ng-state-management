@@ -15,7 +15,7 @@ import { Business } from '../../models/business.interface';
 import { isALoadableImageUrl } from '../../../core/utils/is-a-displayable-image-url';
 
 @Component({
-  selector: 'state-management-app-business-create',
+  selector: 'app-business-create',
   templateUrl: './create-form.component.html',
   styleUrls: ['./create-form.component.scss'],
 })

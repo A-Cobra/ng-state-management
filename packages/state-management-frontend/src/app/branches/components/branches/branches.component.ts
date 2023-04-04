@@ -16,7 +16,7 @@ import {
 } from 'rxjs';
 
 @Component({
-  selector: 'state-management-app-branches',
+  selector: 'app-branches',
   templateUrl: './branches.component.html',
   styleUrls: ['./branches.component.scss'],
 })

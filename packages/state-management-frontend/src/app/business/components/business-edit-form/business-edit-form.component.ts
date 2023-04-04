@@ -12,7 +12,7 @@ import { goToBusinessesListModalConfig } from '../../utils/go-to-business-list-m
 import { isALoadableImageUrl } from '../../../core/utils/is-a-displayable-image-url';
 
 @Component({
-  selector: 'state-management-app-business-edit-form',
+  selector: 'app-business-edit-form',
   templateUrl: './business-edit-form.component.html',
   styleUrls: ['./business-edit-form.component.scss'],
 })

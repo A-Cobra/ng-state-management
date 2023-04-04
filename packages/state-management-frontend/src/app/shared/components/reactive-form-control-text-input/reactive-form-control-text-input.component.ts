@@ -8,7 +8,7 @@ import {
 import { FullErrorNamePipe } from '../../pipes/full-error-name.pipe';
 
 @Component({
-  selector: 'state-management-app-reactive-form-control-text-input',
+  selector: 'app-reactive-form-control-text-input',
   templateUrl: './reactive-form-control-text-input.component.html',
   standalone: true,
   imports: [

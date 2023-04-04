@@ -6,7 +6,7 @@ import { FormEditPayload } from '../../models/form-edit-payload.interface';
 import { defaultBusinessData } from '../../utils/default-business-data';
 
 @Component({
-  selector: 'state-management-app-business-edit',
+  selector: 'app-business-edit',
   templateUrl: './business-edit.component.html',
   styleUrls: ['./business-edit.component.scss'],
 })

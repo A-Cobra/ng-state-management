@@ -1,33 +1,31 @@
-<ng-container *ngIf="isLoading">
-  <state-management-app-loader> </state-management-app-loader
-></ng-container>
+<ng-container *ngIf="isLoading"> <app-loader> </app-loader></ng-container>
 <div *ngIf="!isLoading" class="createForm" (ngSubmit)="onSubmit()">
   <div>
     <form [formGroup]="createForm">
       <div class="createForm__form-section-container">
         <h4>Profile</h4>
         <div class="createForm__input-container">
-          <state-management-app-reactive-form-control-text-input
+          <app-reactive-form-control-text-input
             [parentForm]="createForm"
             controlName="name"
             elementId="nameId"
             label="Name"
             [maxLength]="formControlsData['name'].maxLength"
             [required]="formControlsData['name'].isRequired"
-          ></state-management-app-reactive-form-control-text-input>
+          ></app-reactive-form-control-text-input>
         </div>
         <div class="createForm__input-container">
-          <state-management-app-reactive-form-control-text-input
+          <app-reactive-form-control-text-input
             [parentForm]="createForm"
             controlName="email"
             elementId="emailId"
             label="Email"
             [maxLength]="formControlsData['email'].maxLength"
             [required]="formControlsData['email'].isRequired"
-          ></state-management-app-reactive-form-control-text-input>
+          ></app-reactive-form-control-text-input>
         </div>
         <div class="createForm__input-container">
-          <state-management-app-reactive-form-control-text-input
+          <app-reactive-form-control-text-input
             [parentForm]="createForm"
             controlName="password"
             elementId="passwordId"
@@ -35,7 +33,7 @@
             [maxLength]="formControlsData['password'].maxLength"
             inputType="password"
             [required]="formControlsData['password'].isRequired"
-          ></state-management-app-reactive-form-control-text-input>
+          ></app-reactive-form-control-text-input>
         </div>
         <div class="createForm__select-container">
           <ng-container *ngIf="classification$ | async as classifications">
@@ -79,18 +77,18 @@
         </div>
         <h4>Contact</h4>
         <div class="createForm__input-container">
-          <state-management-app-reactive-form-control-text-input
+          <app-reactive-form-control-text-input
             [parentForm]="createForm"
             controlName="address"
             elementId="addressId"
             label="Address"
             [maxLength]="formControlsData['address'].maxLength"
             [required]="formControlsData['address'].isRequired"
-          ></state-management-app-reactive-form-control-text-input>
+          ></app-reactive-form-control-text-input>
         </div>
         <div class="createForm__input-container-double">
           <div class="individual-input">
-            <state-management-app-reactive-form-control-text-input
+            <app-reactive-form-control-text-input
               [parentForm]="createForm"
               controlName="longitude"
               elementId="longitudeId"
@@ -101,10 +99,10 @@
               [reactiveFormControl]="createForm.controls['longitude']"
               [maxValue]="180"
               [minValue]="-180"
-            ></state-management-app-reactive-form-control-text-input>
+            ></app-reactive-form-control-text-input>
           </div>
           <div class="individual-input">
-            <state-management-app-reactive-form-control-text-input
+            <app-reactive-form-control-text-input
               [parentForm]="createForm"
               controlName="latitude"
               elementId="latitudeId"
@@ -115,11 +113,11 @@
               [reactiveFormControl]="createForm.controls['latitude']"
               [maxValue]="90"
               [minValue]="-90"
-            ></state-management-app-reactive-form-control-text-input>
+            ></app-reactive-form-control-text-input>
           </div>
         </div>
         <div class="createForm__input-container">
-          <state-management-app-reactive-form-control-text-input
+          <app-reactive-form-control-text-input
             [parentForm]="createForm"
             controlName="contact"
             elementId="concatId"
@@ -128,13 +126,13 @@
             [required]="formControlsData['contact'].isRequired"
             stateManagementAppPhoneNumber
             [reactiveFormControl]="createForm.controls['contact']"
-          ></state-management-app-reactive-form-control-text-input>
+          ></app-reactive-form-control-text-input>
         </div>
       </div>
       <div class="createForm__form-section-container">
         <h4>Add picture</h4>
         <div class="createForm__picture-input-container">
-          <state-management-app-reactive-form-control-text-input
+          <app-reactive-form-control-text-input
             [parentForm]="createForm"
             controlName="picture"
             elementId="pictureId"
@@ -142,7 +140,7 @@
             [maxLength]="formControlsData['picture'].maxLength"
             displayText='Please enter a ".jpg", ".png", or ".gif" extension URL address'
             [required]="formControlsData['picture'].isRequired"
-          ></state-management-app-reactive-form-control-text-input>
+          ></app-reactive-form-control-text-input>
         </div>
         <div class="createForm__picture-container">
           <div>
@@ -158,24 +156,24 @@
         </div>
         <h4>Payment Information</h4>
         <div class="createForm__input-container">
-          <state-management-app-reactive-form-control-text-input
+          <app-reactive-form-control-text-input
             [parentForm]="createForm"
             controlName="bankAccountNumber"
             elementId="bankAccountNumberId"
             label="Bank account number"
             [maxLength]="formControlsData['bankAccountNumber'].maxLength"
             [required]="formControlsData['bankAccountNumber'].isRequired"
-          ></state-management-app-reactive-form-control-text-input>
+          ></app-reactive-form-control-text-input>
         </div>
         <div class="createForm__input-container-optional">
-          <state-management-app-reactive-form-control-text-input
+          <app-reactive-form-control-text-input
             [parentForm]="createForm"
             controlName="bankName"
             elementId="bankNameId"
             label="Bank name"
             [maxLength]="formControlsData['bankName'].maxLength"
             [required]="formControlsData['bankName'].isRequired"
-          ></state-management-app-reactive-form-control-text-input>
+          ></app-reactive-form-control-text-input>
         </div>
         <div class="createForm__select-container-optional">
           <clapp-select
@@ -217,17 +215,17 @@
           </div>
         </div>
         <div class="createForm__input-container">
-          <state-management-app-reactive-form-control-text-input
+          <app-reactive-form-control-text-input
             [parentForm]="createForm"
             controlName="fullname"
             elementId="fullnameId"
             label="Fullname"
             [maxLength]="formControlsData['fullname'].maxLength"
             [required]="formControlsData['fullname'].isRequired"
-          ></state-management-app-reactive-form-control-text-input>
+          ></app-reactive-form-control-text-input>
         </div>
         <div class="createForm__input-container">
-          <state-management-app-reactive-form-control-text-input
+          <app-reactive-form-control-text-input
             [parentForm]="createForm"
             controlName="documentId"
             elementId="documentIdId"
@@ -236,7 +234,7 @@
             [required]="formControlsData['documentId'].isRequired"
             stateManagementAppPhoneNumber
             [reactiveFormControl]="createForm.controls['documentId']"
-          ></state-management-app-reactive-form-control-text-input>
+          ></app-reactive-form-control-text-input>
         </div>
         <div class="createForm__buttons-container">
           <clapp-button

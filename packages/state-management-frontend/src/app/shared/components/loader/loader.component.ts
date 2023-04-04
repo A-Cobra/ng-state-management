@@ -3,7 +3,7 @@ import { Component, Input } from '@angular/core';
 
 @Component({
   standalone: true,
-  selector: 'state-management-app-loader',
+  selector: 'app-loader',
   templateUrl: './loader.component.html',
   styleUrls: ['./loader.component.scss'],
   imports: [CommonModule],

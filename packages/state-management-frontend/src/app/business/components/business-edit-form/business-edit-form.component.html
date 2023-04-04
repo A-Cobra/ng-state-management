@@ -21,45 +21,45 @@
         Total branches: {{ businessData.totalBranches }}
       </div>
 
-      <state-management-app-reactive-form-control-text-input
+      <app-reactive-form-control-text-input
         [parentForm]="businessFormEdit"
         controlName="imgUrl"
         displayText="Please enter the image URL"
         [required]="false"
         label="Image URL"
-      ></state-management-app-reactive-form-control-text-input>
+      ></app-reactive-form-control-text-input>
 
-      <state-management-app-reactive-form-control-text-input
+      <app-reactive-form-control-text-input
         [parentForm]="businessFormEdit"
         controlName="contactPhoneNumber"
         displayText="Please enter the contact number"
         label="Contact Number"
         stateManagementAppPhoneNumber
         [reactiveFormControl]="businessFormEdit.controls['contactPhoneNumber']"
-      ></state-management-app-reactive-form-control-text-input>
+      ></app-reactive-form-control-text-input>
 
-      <state-management-app-reactive-form-control-text-input
+      <app-reactive-form-control-text-input
         [parentForm]="businessFormEdit"
         controlName="contactEmail"
         displayText="Please enter the contact email"
         label="Contact Email"
-      ></state-management-app-reactive-form-control-text-input>
+      ></app-reactive-form-control-text-input>
     </div>
 
     <div class="right-column">
-      <state-management-app-reactive-form-control-text-input
+      <app-reactive-form-control-text-input
         [parentForm]="businessFormEdit"
         controlName="displayName"
         displayText="Please enter the display name"
         label="Display Name"
-      ></state-management-app-reactive-form-control-text-input>
+      ></app-reactive-form-control-text-input>
 
-      <state-management-app-reactive-form-control-text-input
+      <app-reactive-form-control-text-input
         [parentForm]="businessFormEdit"
         controlName="businessName"
         displayText="Please enter the business name"
         label="Business Name"
-      ></state-management-app-reactive-form-control-text-input>
+      ></app-reactive-form-control-text-input>
 
       <div class="form__group" *ngIf="editing; else disabledInputSelect">
         <clapp-select
@@ -107,22 +107,22 @@
         </div>
       </div>
       <ng-template #disabledInputSelect>
-        <state-management-app-reactive-form-control-text-input
+        <app-reactive-form-control-text-input
           [parentForm]="businessFormEdit"
           controlName="businessClassification"
           displayText="Please enter the business classification"
-        ></state-management-app-reactive-form-control-text-input>
+        ></app-reactive-form-control-text-input>
       </ng-template>
 
-      <state-management-app-reactive-form-control-text-input
+      <app-reactive-form-control-text-input
         [parentForm]="businessFormEdit"
         controlName="contactAddress"
         displayText="Please enter the contact address"
         label="Contact Address"
-      ></state-management-app-reactive-form-control-text-input>
+      ></app-reactive-form-control-text-input>
 
       <div class="coordinates">
-        <state-management-app-reactive-form-control-text-input
+        <app-reactive-form-control-text-input
           [parentForm]="businessFormEdit"
           controlName="longitude"
           displayText="Please enter the longitude"
@@ -131,9 +131,9 @@
           [reactiveFormControl]="businessFormEdit.controls['longitude']"
           [maxValue]="180"
           [minValue]="-180"
-        ></state-management-app-reactive-form-control-text-input>
+        ></app-reactive-form-control-text-input>
 
-        <state-management-app-reactive-form-control-text-input
+        <app-reactive-form-control-text-input
           [parentForm]="businessFormEdit"
           controlName="latitude"
           displayText="Please enter the latitude"
@@ -142,7 +142,7 @@
           [reactiveFormControl]="businessFormEdit.controls['latitude']"
           [maxValue]="90"
           [minValue]="-90"
-        ></state-management-app-reactive-form-control-text-input>
+        ></app-reactive-form-control-text-input>
       </div>
     </div>
   </form>

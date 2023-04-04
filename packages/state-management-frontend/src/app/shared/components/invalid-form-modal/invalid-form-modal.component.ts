@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { ClappButtonModule, ModalService } from '@clapp1/clapp-angular';
 
 @Component({
-  selector: 'state-management-app-invalid-form-modal',
+  selector: 'app-invalid-form-modal',
   styleUrls: ['./invalid-form-modal.component.scss'],
   template: `
     <div class="modal">
