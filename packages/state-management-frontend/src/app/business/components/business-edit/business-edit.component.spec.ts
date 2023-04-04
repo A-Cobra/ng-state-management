@@ -1,13 +1,13 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 import { BusinessEditComponent } from './business-edit.component';
 import { MockActivatedRoute } from '../../test/mocks';
 import { ReactiveFormControlTextInputComponent } from '../../../shared/components/reactive-form-control-text-input/reactive-form-control-text-input.component';
 import { BusinessEditFormComponent } from '../business-edit-form/business-edit-form.component';
 import { FloatNumberOrNumberRangeDirective } from '../../../shared/directives/float-number-or-number-range.directive';
-import { PhoneNumberDirective } from '../../../shared/directives/phone-number.directive';
-import { MockModalService } from '../../models/mock-modal-service.interface';
+import { OnlyNumberDirective } from '../../../shared/directives/only-number.directive';
+import { MockModalService } from '../../test/mock-modal-service.interface';
 import {
   ClappButtonModule,
   ClappImageDisplayModule,
@@ -32,7 +32,7 @@ describe('BusinessEditComponent', () => {
         ClappSearchModule,
         ReactiveFormControlTextInputComponent,
         FloatNumberOrNumberRangeDirective,
-        PhoneNumberDirective,
+        OnlyNumberDirective,
         ReactiveFormsModule,
       ],
       declarations: [BusinessEditComponent, BusinessEditFormComponent],

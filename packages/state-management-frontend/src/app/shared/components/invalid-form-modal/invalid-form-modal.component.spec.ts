@@ -2,7 +2,7 @@ import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ModalService } from '@clapp1/clapp-angular';
-import { MockModalService } from '../../../business/models/mock-modal-service.interface';
+import { MockModalService } from '../../../business/test/mock-modal-service.interface';
 
 import { InvalidFormModalComponent } from './invalid-form-modal.component';
 

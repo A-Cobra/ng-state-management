@@ -10,7 +10,7 @@ import { BankAccountType } from '../../models/bank-account-type.interface';
 import { FORM_CONTROLS_DATA } from '../../utils/form-controls-data';
 import { BANK_ACCOUNT_TYPES } from '../../utils/bank-account-types';
 import { ConfirmationModalComponent } from '../../../shared/components/confirmation-modal/confirmation-modal.component';
-import { createFormControlsData } from '../../utils/create-form-controls-data';
+import { createFormControlFields } from '../../utils/create-form-control-fields';
 import { Business } from '../../models/business.interface';
 import { isALoadableImageUrl } from '../../../core/utils/is-a-displayable-image-url';
 
@@ -28,7 +28,7 @@ export class CreateFormComponent implements OnInit {
     private router: Router
   ) {}
 
-  createForm = this.fb.group(createFormControlsData);
+  createForm = this.fb.group(createFormControlFields);
   classification$!: Observable<Classification[]>;
   formControlsData: FormControlsData = FORM_CONTROLS_DATA;
   bankAccountTypes: BankAccountType[] = BANK_ACCOUNT_TYPES;
@@ -89,7 +89,7 @@ export class CreateFormComponent implements OnInit {
   }
 
   getFormInitialValue() {
-    return this.fb.group(createFormControlsData);
+    return this.fb.group(createFormControlFields);
   }
 
   resetForm() {

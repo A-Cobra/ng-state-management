@@ -23,7 +23,7 @@ import { BusinessEditFormComponent } from './components/business-edit-form/busin
 import { ReactiveFormControlTextInputComponent } from '../shared/components/reactive-form-control-text-input/reactive-form-control-text-input.component';
 import { FullErrorNamePipe } from '../shared/pipes/full-error-name.pipe';
 import { FloatNumberOrNumberRangeDirective } from '../shared/directives/float-number-or-number-range.directive';
-import { PhoneNumberDirective } from '../shared/directives/phone-number.directive';
+import { OnlyNumberDirective } from '../shared/directives/only-number.directive';
 import { ConfirmationModalComponent } from '../shared/components/confirmation-modal/confirmation-modal.component';
 import { InvalidFormModalComponent } from '../shared/components/invalid-form-modal/invalid-form-modal.component';
 import { LoaderComponent } from '../shared/components/loader/loader.component';
@@ -69,7 +69,7 @@ import { LoaderComponent } from '../shared/components/loader/loader.component';
     ConfirmationModalComponent,
     FullErrorNamePipe,
     FloatNumberOrNumberRangeDirective,
-    PhoneNumberDirective,
+    OnlyNumberDirective,
     InvalidFormModalComponent,
     LoaderComponent,
   ],

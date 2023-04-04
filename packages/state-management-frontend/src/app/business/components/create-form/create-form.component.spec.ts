@@ -18,7 +18,7 @@ import {
 import { MOCK_FORM_VALUE, MOCK_FORM_CONTROLS } from '../../test/mocks';
 import { ReactiveFormControlTextInputComponent } from '../../../shared/components/reactive-form-control-text-input/reactive-form-control-text-input.component';
 import { FloatNumberOrNumberRangeDirective } from '../../../shared/directives/float-number-or-number-range.directive';
-import { PhoneNumberDirective } from '../../../shared/directives/phone-number.directive';
+import { OnlyNumberDirective } from '../../../shared/directives/only-number.directive';
 
 describe('CreateFormComponent', () => {
   let component: CreateFormComponent;
@@ -46,7 +46,7 @@ describe('CreateFormComponent', () => {
         ReactiveFormControlTextInputComponent,
         ClappSearchModule,
         FloatNumberOrNumberRangeDirective,
-        PhoneNumberDirective,
+        OnlyNumberDirective,
       ],
       providers: [{ provide: BusinessService, useValue: mockBusinessService }],
     }).compileComponents();

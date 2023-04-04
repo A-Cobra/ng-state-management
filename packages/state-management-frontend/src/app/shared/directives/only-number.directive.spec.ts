@@ -1,23 +1,23 @@
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { TestPhoneNumberDirectiveComponent } from '../test/phone-number.directive.mocks';
-import { PhoneNumberDirective } from './phone-number.directive';
+import { OnlyNumberDirective } from './only-number.directive';
+import { TestOnlyNumberDirectiveComponent } from '../test/only-number.directive.mocks';
 
 describe('PhoneNumberDirective testing', () => {
-  let floatNumberFixture: ComponentFixture<TestPhoneNumberDirectiveComponent>;
+  let floatNumberFixture: ComponentFixture<TestOnlyNumberDirectiveComponent>;
   let floatInputElement: DebugElement;
 
   beforeEach(() => {
     floatNumberFixture = TestBed.createComponent(
-      TestPhoneNumberDirectiveComponent
+      TestOnlyNumberDirectiveComponent
     );
     floatInputElement = floatNumberFixture.debugElement.query(By.css('input'));
     floatNumberFixture.detectChanges();
   });
 
   it('should create an instance', () => {
-    const directive = new PhoneNumberDirective();
+    const directive = new OnlyNumberDirective();
     expect(directive).toBeTruthy();
   });
 

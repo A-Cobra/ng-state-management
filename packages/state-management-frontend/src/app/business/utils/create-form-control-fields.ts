@@ -1,7 +1,7 @@
 import { Validators } from '@angular/forms';
 import { CustomFormValidations } from '../../core/utils/custom-form-validations';
 
-export const createFormControlsData = {
+export const createFormControlFields = {
   name: ['', [Validators.required, CustomFormValidations.namePattern]],
   email: ['', [Validators.required, CustomFormValidations.email]],
   password: ['', [Validators.required, CustomFormValidations.strongPassword]],

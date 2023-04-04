@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { PhoneNumberDirective } from '../directives/phone-number.directive';
+import { OnlyNumberDirective } from '../directives/only-number.directive';
 
 @Component({
   template: `
@@ -8,15 +8,15 @@ import { PhoneNumberDirective } from '../directives/phone-number.directive';
       <input
         type="text"
         formControlName="testControl"
-        stateManagementAppPhoneNumber
+        stateManagementAppOnlyNumber
         [reactiveFormControl]="testForm.controls['testControl']"
       />
     </form>
   `,
   standalone: true,
-  imports: [ReactiveFormsModule, PhoneNumberDirective],
+  imports: [ReactiveFormsModule, OnlyNumberDirective],
 })
-export class TestPhoneNumberDirectiveComponent {
+export class TestOnlyNumberDirectiveComponent {
   testForm: FormGroup = new FormGroup({
     testControl: new FormControl('89123', { nonNullable: true }),
   });

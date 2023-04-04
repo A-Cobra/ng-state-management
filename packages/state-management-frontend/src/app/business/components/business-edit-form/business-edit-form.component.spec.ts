@@ -7,7 +7,7 @@ import {
   ModalService,
 } from '@clapp1/clapp-angular';
 import { defaultBusinessClassificationBackendData } from '../../utils/default-business-classification-backend-data';
-import { MockModalService } from '../../models/mock-modal-service.interface';
+import { MockModalService } from '../../test/mock-modal-service.interface';
 
 import { BusinessEditFormComponent } from './business-edit-form.component';
 import { defaultBusinessData } from '../../utils/default-business-data';
@@ -15,7 +15,7 @@ import { CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { ReactiveFormControlTextInputComponent } from '../../../shared/components/reactive-form-control-text-input/reactive-form-control-text-input.component';
 import { FloatNumberOrNumberRangeDirective } from '../../../shared/directives/float-number-or-number-range.directive';
-import { PhoneNumberDirective } from '../../../shared/directives/phone-number.directive';
+import { OnlyNumberDirective } from '../../../shared/directives/only-number.directive';
 import { ReactiveFormsModule } from '@angular/forms';
 import { of } from 'rxjs';
 import { Router } from '@angular/router';
@@ -45,7 +45,7 @@ describe('BusinessEditFormComponent', () => {
         ClappSearchModule,
         ReactiveFormControlTextInputComponent,
         FloatNumberOrNumberRangeDirective,
-        PhoneNumberDirective,
+        OnlyNumberDirective,
         ReactiveFormsModule,
       ],
       providers: [

@@ -2,13 +2,12 @@ import { Directive, HostListener, Input } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 
 @Directive({
-  selector: '[stateManagementAppPhoneNumber]',
+  selector: '[stateManagementAppOnlyNumber]',
   standalone: true,
 })
-export class PhoneNumberDirective {
+export class OnlyNumberDirective {
   @Input()
   reactiveFormControl!: AbstractControl;
-  spaceRegex = /\s+/g;
   nonNumericalRegex = /[^0-9]+/g;
 
   @HostListener('input', ['$event'])

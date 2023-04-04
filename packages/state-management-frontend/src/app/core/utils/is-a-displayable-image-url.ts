@@ -1,8 +1,8 @@
-async function loadImage(url: string, elem: HTMLImageElement) {
+async function loadImage(imageUrl: string, elem: HTMLImageElement) {
   return new Promise((resolve, reject) => {
     elem.onload = () => resolve(true);
     elem.onerror = () => reject(false);
-    elem.src = url;
+    elem.src = imageUrl;
   });
 }
 export async function isALoadableImageUrl(imageUrl: string) {
