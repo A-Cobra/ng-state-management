@@ -4,7 +4,7 @@ WORKDIR /usr/src/app
 
 COPY --chown=node:node package*.json ./
 
-RUN npm ci
+RUN npm ci --force
 
 COPY --chown=node:node . .
 
