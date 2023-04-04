@@ -3,6 +3,7 @@ import {
   ClappButtonModule,
   ClappImageDisplayModule,
   ClappSearchModule,
+  ModalRef,
   ModalService,
 } from '@clapp1/clapp-angular';
 import { defaultBusinessClassificationBackendData } from '../../utils/default-business-classification-backend-data';
@@ -16,6 +17,7 @@ import { ReactiveFormControlTextInputComponent } from '../../../shared/component
 import { FloatNumberOrNumberRangeDirective } from '../../../shared/directives/float-number-or-number-range.directive';
 import { PhoneNumberDirective } from '../../../shared/directives/phone-number.directive';
 import { ReactiveFormsModule } from '@angular/forms';
+import { of } from 'rxjs';
 
 describe('BusinessEditFormComponent', () => {
   let component: BusinessEditFormComponent;
@@ -42,7 +44,6 @@ describe('BusinessEditFormComponent', () => {
       providers: [
         {
           provide: ModalService,
-          // provider: ModalService,
           useValue: mockModalService,
         },
       ],
@@ -78,12 +79,14 @@ describe('BusinessEditFormComponent', () => {
         return component.businessFormEdit.get(controlKey)?.enabled;
       }
     );
+
     expect(allEnabled).toBe(true);
   });
 
   it('the onSaveClick method should trigger some other methods and activate a request', () => {
     expect(component.activeRequest).toBe(false);
     component.onSaveClick();
+
     expect(component.activeRequest).toBe(true);
   });
 
@@ -92,6 +95,7 @@ describe('BusinessEditFormComponent', () => {
     component.onSaveClick();
     jest.spyOn(component.formSubmit, 'emit');
     jest.spyOn(component, 'toggleEditingStatus');
+
     expect(component.formSubmit.emit).toHaveBeenCalledTimes(0);
     expect(component.toggleEditingStatus).toHaveBeenCalledTimes(0);
   });
@@ -105,6 +109,16 @@ describe('BusinessEditFormComponent', () => {
       value: htmlInput,
     });
     component.onSearchKeyUp(keyEvent);
+
     expect(component.mockClassificationList.length).toBe(1);
+  });
+
+  it("should trigger the modal's open method once we call the onGoToBusinessesList method simulating a true in return of the modal", () => {
+    const modalRef = new ModalRef();
+    modalRef.close(true);
+    jest.spyOn(mockModalService, 'open').mockReturnValue(modalRef);
+    component.onGoToBusinessesList();
+
+    expect(mockModalService.open).toHaveBeenCalledTimes(1);
   });
 });

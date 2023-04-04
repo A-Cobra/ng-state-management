@@ -1,4 +1,6 @@
+import { ModalRef } from '@clapp1/clapp-angular';
+
 export interface MockModalService {
-  open: () => void;
+  open: () => ModalRef;
   close: () => void;
 }
