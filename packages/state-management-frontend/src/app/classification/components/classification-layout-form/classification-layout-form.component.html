@@ -1,0 +1,180 @@
+<h2>
+  {{
+    (currentStatus === 'delete' ? 'detail' : currentStatus) | titlecase
+  }}
+  classification
+</h2>
+<form [formGroup]="classificationForm" (ngSubmit)="submit()">
+  <section class="container-inputs">
+    <div class="container-inputs__text">
+      <clapp-text-input
+        #textInput
+        formControlName="name"
+        autocomplete="on"
+        [error]="getControl('name').touched && getControl('name').invalid"
+        [success]="getControl('name').valid"
+        id="name"
+        label="Name*"
+        name="name"
+        placeholder="Name classification"
+        type="text"
+      ></clapp-text-input>
+
+      <clapp-helper-text
+        *ngIf="
+          currentStatus === 'create'
+            ? textInput.error && !textInput.success
+            : !textInput.success
+        "
+        [textState]="getControl('name').disabled ? 'disabled' : 'error'"
+      >
+        <ng-container *ngIf="getControl('name').hasError('required')">
+          Name is required
+        </ng-container>
+        <ng-container *ngIf="getControl('name').hasError('minlength')">
+          Enter at least 3 characters
+        </ng-container>
+        <ng-container *ngIf="getControl('name').hasError('notSpaces')">
+          No unnecessary spaces
+        </ng-container>
+      </clapp-helper-text>
+
+      <clapp-helper-text
+        *ngIf="textInput.success && !textInput.error"
+        [textState]="getControl('name').disabled ? 'disabled' : 'success'"
+        >Valid name
+      </clapp-helper-text>
+
+      <clapp-text-input
+        #descriptionInput
+        formControlName="description"
+        [error]="
+          !!(
+            getControl('description').touched &&
+            getControl('description').invalid
+          )
+        "
+        [success]="getControl('description').valid"
+        id="description"
+        label="Description*"
+        [maxLength]="200"
+        [minlength]="3"
+        name="description"
+        type="text"
+      ></clapp-text-input>
+
+      <clapp-helper-text
+        *ngIf="
+          currentStatus === 'create'
+            ? textInput.error && !textInput.success
+            : !textInput.success
+        "
+        [textState]="
+          classificationForm.controls['description'].disabled
+            ? 'disabled'
+            : 'error'
+        "
+      >
+        {{getControl('description').errors?.['required'] ? 'Description is required' : ''}}
+      </clapp-helper-text>
+
+      <clapp-helper-text
+        *ngIf="descriptionInput.success && !descriptionInput.error"
+        [textState]="
+          getControl('description').disabled ? 'disabled' : 'success'
+        "
+        >Valid description
+      </clapp-helper-text>
+
+      <ng-container
+        *ngIf="
+          currentStatus !== 'create' &&
+          getControl('numberOfBusinesses').value > 0
+        "
+      >
+        <clapp-text-input
+          formControlName="numberOfBusinesses"
+          id="numberOfBusinesses"
+          label="Number of businesses"
+          [minlength]="0"
+          name="numberOfBusinesses"
+          type="number"
+        ></clapp-text-input>
+      </ng-container>
+    </div>
+    <div class="container-inputs__image">
+      <ng-container
+        *ngIf="currentStatus === 'create' || currentStatus === 'edit'"
+      >
+        <clapp-file-upload
+          [myPreviewImg]="imgDefault"
+          (fileUploaded)="addToFormControl($event)"
+        ></clapp-file-upload>
+      </ng-container>
+
+      <ng-container *ngIf="currentStatus === 'delete'">
+        <clapp-image-display
+          [src]="getControl('image').value"
+          type="square"
+          size="large"
+          alt="placeholder"
+        ></clapp-image-display>
+      </ng-container>
+    </div>
+  </section>
+
+  <section class="container-buttons">
+    <clapp-button
+      color="secondary"
+      size="small"
+      [disabled]="false"
+      plusIcon="ri-arrow-left-s-line"
+      type="button"
+      [routerLink]="getNavigate()"
+    >
+      Go Back
+    </clapp-button>
+
+    <div
+      [ngClass]="{
+        'container-buttons__create-delete-edit': currentStatus !== 'delete',
+        'container-buttons__detail': currentStatus === 'delete'
+      }"
+    >
+      <ng-container *ngIf="currentStatus === 'delete'">
+        <clapp-button
+          color="tertiary"
+          size="small"
+          [disabled]="classificationForm.invalid"
+          plusIcon="ri-pencil-line"
+          [routerLink]="['../../edit', this.idClassification]"
+          type="button"
+        >
+          Edit
+        </clapp-button>
+
+        <clapp-button
+          color="primary"
+          size="small"
+          [disabled]="classificationForm.invalid"
+          plusIcon="ri-delete-bin-line"
+          type="submit"
+        >
+          Delete
+        </clapp-button>
+      </ng-container>
+
+      <ng-container *ngIf="currentStatus !== 'delete'">
+        <clapp-button
+          color="primary"
+          size="small"
+          [disabled]="classificationForm.invalid"
+          [plusIcon]="iconButton"
+          type="submit"
+        >
+          {{ currentStatus | titlecase }}
+        </clapp-button>
+      </ng-container>
+    </div>
+  </section>
+</form>
