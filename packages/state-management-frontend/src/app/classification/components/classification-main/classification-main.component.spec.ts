@@ -20,7 +20,7 @@ import {
 } from '@clapp1/clapp-angular';
 import { ReactiveFormsModule } from '@angular/forms';
 
-fdescribe('ClassificationMainComponent', () => {
+describe('ClassificationMainComponent', () => {
   let component: ClassificationMainComponent;
   let fixture: ComponentFixture<ClassificationMainComponent>;
   let mockRouter: any;

@@ -17,16 +17,17 @@ describe('CustomersService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should return a list of customers', () => {
+  it('should return a list of customers', (done) => {
     service
       .getCustomers()
       .pipe(take(1))
       .subscribe((response) => {
-        expect(response.data).toEqual(CUSTOMERS);
+        expect(response.data).toEqual(CUSTOMERS.slice(0, 10));
+        done();
       });
   });
 
-  it('should return a list of customers filtered by query', () => {
+  it('should return a list of customers filtered by query', (done) => {
     service
       .getCustomers(1, 10, 'marksmith')
       .pipe(
@@ -35,6 +36,7 @@ describe('CustomersService', () => {
       )
       .subscribe((customers) => {
         expect(customers.length).toBe(3);
+        done();
       });
   });
 });
