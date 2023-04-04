@@ -18,17 +18,24 @@ import { FloatNumberOrNumberRangeDirective } from '../../../shared/directives/fl
 import { PhoneNumberDirective } from '../../../shared/directives/phone-number.directive';
 import { ReactiveFormsModule } from '@angular/forms';
 import { of } from 'rxjs';
+import { Router } from '@angular/router';
 
 describe('BusinessEditFormComponent', () => {
   let component: BusinessEditFormComponent;
   let fixture: ComponentFixture<BusinessEditFormComponent>;
   let debugElement: DebugElement;
   let mockModalService: MockModalService;
+  let mockRouter: {
+    navigate: () => void;
+  };
 
   beforeEach(async () => {
     mockModalService = {
       open: jest.fn(),
       close: jest.fn(),
+    };
+    mockRouter = {
+      navigate: jest.fn(),
     };
     await TestBed.configureTestingModule({
       declarations: [BusinessEditFormComponent],
@@ -45,6 +52,10 @@ describe('BusinessEditFormComponent', () => {
         {
           provide: ModalService,
           useValue: mockModalService,
+        },
+        {
+          provide: Router,
+          useValue: mockRouter,
         },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -113,12 +124,32 @@ describe('BusinessEditFormComponent', () => {
     expect(component.mockClassificationList.length).toBe(1);
   });
 
-  it("should trigger the modal's open method once we call the onGoToBusinessesList method simulating a true in return of the modal", () => {
+  it("should trigger the modal's open method once we call the onGoToBusinessesList method and call the router's navigate method", () => {
+    const route = ['businesses'];
     const modalRef = new ModalRef();
+    jest.spyOn(modalRef, 'afterClosed', 'get').mockReturnValue(of(true));
     modalRef.close(true);
     jest.spyOn(mockModalService, 'open').mockReturnValue(modalRef);
     component.onGoToBusinessesList();
 
     expect(mockModalService.open).toHaveBeenCalledTimes(1);
+    expect(mockRouter.navigate).toHaveBeenCalledTimes(1);
+    expect(mockRouter.navigate).toHaveBeenLastCalledWith(route);
+  });
+
+  it("should trigger the modal's open method once we call the onDeleteBusiness method and emits an event", () => {
+    jest.spyOn(component.businessDeletion, 'emit');
+    const modalRef = new ModalRef();
+    jest.spyOn(modalRef, 'afterClosed', 'get').mockReturnValue(of(true));
+    modalRef.close(true);
+    jest.spyOn(mockModalService, 'open').mockReturnValue(modalRef);
+
+    component.onDeleteBusiness();
+
+    expect(mockModalService.open).toHaveBeenCalledTimes(1);
+    expect(component.businessDeletion.emit).toHaveBeenCalledTimes(1);
+    // PROVISIONAL, TO CHANGE IN A FUTURE
+    expect(component.businessDeletion.emit).toHaveBeenLastCalledWith();
+    // PROVISIONAL, TO CHANGE IN A FUTURE
   });
 });
