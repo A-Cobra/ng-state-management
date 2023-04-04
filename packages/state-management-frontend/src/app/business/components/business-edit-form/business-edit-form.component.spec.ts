@@ -13,13 +13,9 @@ import { defaultBusinessData } from '../../utils/default-business-data';
 import { CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { ReactiveFormControlTextInputComponent } from '../../../shared/components/reactive-form-control-text-input/reactive-form-control-text-input.component';
-import { isALoadableImageUrl } from '../../../core/utils/is-a-displayable-image-url';
-import { of } from 'rxjs';
 import { FloatNumberOrNumberRangeDirective } from '../../../shared/directives/float-number-or-number-range.directive';
 import { PhoneNumberDirective } from '../../../shared/directives/phone-number.directive';
 import { ReactiveFormsModule } from '@angular/forms';
-import { RIMAC_NEVERA_URL } from '../../../core/test/mocks';
-import { CustomFormValidations } from '../../../core/utils/custom-form-validations';
 
 describe('BusinessEditFormComponent', () => {
   let component: BusinessEditFormComponent;
@@ -46,8 +42,8 @@ describe('BusinessEditFormComponent', () => {
       providers: [
         {
           provide: ModalService,
-          provider: ModalService,
-          // useValue: mockModalService,
+          // provider: ModalService,
+          useValue: mockModalService,
         },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -100,18 +96,15 @@ describe('BusinessEditFormComponent', () => {
     expect(component.toggleEditingStatus).toHaveBeenCalledTimes(0);
   });
 
-  // it('should trigger a method and return an array of just one element demonstrating that the search works', () => {
-  //   const editButton = debugElement.queryAll(By.css('clapp-button'))[1];
-  //   editButton.triggerEventHandler('click', null);
-
-  //   const selectInput = debugElement.queryAll(By.css('clapp-select'))[1];
-  //   selectInput.triggerEventHandler('click', null);
-  //   console.log('editButton');
-  //   console.log(editButton);
-  //   // fixture.detectChanges();
-
-  //   const clappSearchInput = debugElement.query(By.css('clapp-search'));
-  //   clappSearchInput.triggerEventHandler('keyup', { target: { value: '1' } });
-  //   expect(component.mockClassificationList.length).toBe(1);
-  // });
+  it('should trigger a method and return an array of just one element demonstrating that the search works', () => {
+    const htmlInput = document.createElement('input');
+    htmlInput.value = '1';
+    const keyEvent = new KeyboardEvent('keydown', { key: 'a' });
+    Object.defineProperty(keyEvent, 'target', {
+      writable: false,
+      value: htmlInput,
+    });
+    component.onSearchKeyUp(keyEvent);
+    expect(component.mockClassificationList.length).toBe(1);
+  });
 });
