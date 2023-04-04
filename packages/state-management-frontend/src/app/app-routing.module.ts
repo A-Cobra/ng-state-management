@@ -13,7 +13,7 @@ const routes: Routes = [
       import('./branches/branches.module').then((m) => m.BranchesModule),
   },
   {
-    path: 'classification',
+    path: 'classifications',
     loadChildren: () =>
       import('./classification/classification.module').then(
         (m) => m.ClassificationModule

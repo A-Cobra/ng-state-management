@@ -73,7 +73,7 @@ export class AuthService {
   async updateRefreshToken(userId: string, refreshToken: string) {
     const hashedRefreshToken = await hashData(refreshToken);
     await this.userService.update(userId, {
-      refresh_token: hashedRefreshToken,
+      refreshToken: hashedRefreshToken,
     });
   }
 
@@ -121,6 +121,7 @@ export class AuthService {
 
       const currentUser: JwtInfo = {
         sub: '0',
+        role: null,
         iat: 0,
         exp: 0,
       };

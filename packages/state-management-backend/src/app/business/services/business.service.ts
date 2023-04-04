@@ -11,6 +11,7 @@ import { BusinessessResult } from '../interfaces/businessess-result';
 import { MailService } from '../../notifications/mail/mail.service';
 import { hashData } from '../../auth/utils/jwt.util';
 import { User } from '../../users/entities/user.entity';
+import { ValidRoles } from '../../auth/interfaces/valid-roles.type';
 
 @Injectable()
 export class BusinessService {
@@ -45,7 +46,7 @@ export class BusinessService {
       name: dto.representativeName,
       ...dto,
       password: await hashData(dto.password),
-      role: 'business',
+      role: ValidRoles.business,
       username: dto.businessName,
     };
 

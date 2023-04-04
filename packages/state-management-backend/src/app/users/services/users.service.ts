@@ -48,7 +48,7 @@ export class UsersService {
   async update(userId: string, updatedUserInfo: UpdateUserDto): Promise<User> {
     const user = await this.userRepository.findOne({ userId });
 
-    //this.userRepository.assign(user, updatedUserInfo);
+    this.userRepository.assign(user, updatedUserInfo);
 
     await this.userRepository.flush();
 

@@ -13,7 +13,7 @@ import { ConfirmationMessage } from '../../models/confirmation-message.interface
   imports: [CommonModule, ModalModule, ClappButtonModule],
   selector: 'app-confirmation-modal',
   templateUrl: './confirmation-modal.component.html',
-  styles: [':host {text-align: center;padding: 0 8px 8px}'],
+  styles: [':host {text-align: left;padding: 0 8px 8px}'],
 })
 export class ConfirmationModalComponent {
   data: ConfirmationMessage;

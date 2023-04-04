@@ -9,6 +9,7 @@ import { BusinessModule } from './business/business.module';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { BranchesModule } from './branches/branches.module';
 import { ReviewsModule } from './reviews/reviews.module';
+import { CustomersModule } from './customers/customers.module';
 import { NotificationsModule } from './notifications/notifications.module';
 
 const envFilePath = getEnvPath(process.env.WORKDIR);
@@ -27,6 +28,7 @@ const envFilePath = getEnvPath(process.env.WORKDIR);
     MikroOrmModule.forRoot(),
     BranchesModule,
     ReviewsModule,
+    CustomersModule,
   ],
   controllers: [],
   providers: [],
