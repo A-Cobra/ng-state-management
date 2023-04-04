@@ -8,6 +8,7 @@ import {
   Delete,
   ParseUUIDPipe,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { CustomersService } from '../services/customers.service';
 import { CreateCustomerDto } from '../dto/create-customer.dto';
@@ -18,6 +19,7 @@ import { GetUser } from '../../auth/decorator/get-user.decorator';
 import { JwtInfo } from '../../auth/interfaces/jwtinfo.type';
 import { ApiBody, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { SearchQueryDto } from '../dto/search-query.dto';
+import { JwtAuthGuard } from '../../auth/guard/jwt-auth.guard';
 
 @ApiTags('Customers')
 @Controller('customers')
@@ -37,12 +39,7 @@ export class CustomersController {
   }
 
   @Get(':id')
-  @Authorized(
-    ValidRoles.customer,
-    ValidRoles.admin,
-    ValidRoles.courier,
-    ValidRoles.business
-  )
+  @UseGuards(JwtAuthGuard)
   findOne(
     @Param('id', ParseUUIDPipe) id: string,
     @GetUser() currentCustomer: JwtInfo
