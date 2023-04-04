@@ -7,7 +7,7 @@ import { FormControl } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, Subject, takeUntil } from 'rxjs';
 
 @Component({
-  selector: 'state-management-app-classification-main',
+  selector: 'app-classification-main',
   templateUrl: './classification-main.component.html',
   styleUrls: ['./classification-main.component.scss'],
 })

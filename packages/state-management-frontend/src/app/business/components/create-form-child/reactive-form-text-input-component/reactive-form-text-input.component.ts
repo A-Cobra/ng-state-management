@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 @Component({
-  selector: 'state-management-app-reactive-form-text-input-component',
+  selector: 'app-reactive-form-text-input-component',
   templateUrl: './reactive-form-text-input.component.html',
   styles: [''],
 })

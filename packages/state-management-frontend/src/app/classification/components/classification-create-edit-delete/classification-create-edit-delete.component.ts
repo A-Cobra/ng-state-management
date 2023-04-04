@@ -13,7 +13,7 @@ import { ModalService, NotificationService } from '@clapp1/clapp-angular';
 import { ConfirmationModalComponent } from '../../../shared/components/confirmation-modal/confirmation-modal.component';
 
 @Component({
-  selector: 'state-management-app-classification-create-edit-delete',
+  selector: 'app-classification-create-edit-delete',
   templateUrl: './classification-create-edit-delete.component.html',
   styles: [
     ' :host {width: 100%; height: 100%} clapp-button {display: flex;justify-content: center;}',

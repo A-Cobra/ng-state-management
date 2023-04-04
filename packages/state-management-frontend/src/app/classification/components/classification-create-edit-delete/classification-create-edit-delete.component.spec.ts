@@ -16,7 +16,7 @@ import { Classification } from '../../models/api-response.model';
 import { RouterTestingModule } from '@angular/router/testing';
 
 @Component({
-  selector: 'state-management-app-classification-layout-form',
+  selector: 'app-classification-layout-form',
   template: '',
 })
 class MockLayoutFormComponent {

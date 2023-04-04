@@ -9,7 +9,7 @@ import { Classification } from '../../models/api-response.model';
 import { notSpaces } from '../../validators/not-spaces.validators';
 
 @Component({
-  selector: 'state-management-app-classification-layout-form',
+  selector: 'app-classification-layout-form',
   templateUrl: './classification-layout-form.component.html',
   styleUrls: ['./classification-layout-form.component.scss'],
 })

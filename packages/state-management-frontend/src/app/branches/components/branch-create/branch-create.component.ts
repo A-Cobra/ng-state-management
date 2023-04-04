@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'state-management-app-branch-create',
+  selector: 'app-branch-create',
   templateUrl: './branch-create.component.html',
   styleUrls: ['./branch-create.component.scss'],
 })
