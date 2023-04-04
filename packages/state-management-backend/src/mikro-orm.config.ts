@@ -15,6 +15,7 @@ import 'reflect-metadata';
 import { Logger } from '@nestjs/common';
 import { Role } from './app/users/entities/role.entity';
 import { UserCredentials } from './app/users/entities/user-credentials.entity';
+import { Customer } from './app/customers/entities/customer.entity';
 
 dotenvExpand.expand(dotenv.config());
 
@@ -37,6 +38,7 @@ const MikroOrmConfig: Options = {
     BusinessBranch,
     UserCredentials,
     Role,
+    Customer,
   ],
   metadataProvider: ReflectMetadataProvider,
   migrations: {

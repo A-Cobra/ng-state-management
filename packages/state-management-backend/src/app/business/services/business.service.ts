@@ -10,6 +10,9 @@ import { BusinessClassification } from '../entities/business-classification.enti
 import { MailService } from '../../notifications/mail/mail.service';
 import { UsersDirectoryService } from '../../users/services/users-directory.service';
 import { PaginationResult } from '../../common/interfaces/pagination-result.interface';
+import { hashData } from '../../auth/utils/jwt.util';
+import { User } from '../../users/entities/user.entity';
+import { ValidRoles } from '../../auth/interfaces/valid-roles.type';
 
 @Injectable()
 export class BusinessService {
