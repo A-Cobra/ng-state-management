@@ -10,7 +10,7 @@ import {
 import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'state-management-app-business-card',
+  selector: 'app-business-card',
   template: '',
 })
 class MockBusinessCardComponent {

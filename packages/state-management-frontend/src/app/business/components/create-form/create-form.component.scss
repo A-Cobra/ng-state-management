@@ -1,13 +1,9 @@
+@use 'styles.scss' as *;
+
 .createForm {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
+  @include flex($direction: column, $gap: 5px, $align-items: center);
   form {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-gap: 30px;
+    @include gridColumnsCentered(2, 1fr, 30px);
     margin: 0 30px;
     h4 {
       margin: 10px 0 25px 0;
@@ -16,11 +12,9 @@
   &__input-container {
     height: 90px;
     width: 98%;
+    min-width: 350px;
     &-double {
-      display: flex;
-      flex-direction: row;
-      justify-content: flex-start;
-      gap: 5%;
+      @include flex($justify-content: flex-start, $gap: 5%);
       .individual-input {
         height: 90px;
         width: 45%;
@@ -47,10 +41,7 @@
     text-align: center;
   }
   &__buttons-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    gap: 5%;
+    @include flex($gap: 5%);
   }
 }
 @media (max-width: 768px) {
