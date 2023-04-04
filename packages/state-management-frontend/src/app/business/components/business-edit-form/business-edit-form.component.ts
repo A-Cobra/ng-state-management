@@ -37,6 +37,8 @@ export class BusinessEditFormComponent implements OnInit {
     key: string;
     disabled: boolean;
   }[] = [];
+  @Input()
+  activeRequest = false;
   @Output()
   formSubmit = new EventEmitter<FormEditPayload>();
   @Output()
@@ -47,10 +49,6 @@ export class BusinessEditFormComponent implements OnInit {
     disabled: boolean;
   }[] = [];
   editing = false;
-  // @Input()
-  // ongoingRequest = false;
-  @Input()
-  activeRequest = false;
   currentBusinessImgUrl = '';
   defaultImgUrl = '../../../../assets/template-image.png';
   businessFormEdit = this.formBuilder.group({

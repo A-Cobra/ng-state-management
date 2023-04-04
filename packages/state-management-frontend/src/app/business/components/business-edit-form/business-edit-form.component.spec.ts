@@ -95,18 +95,31 @@ describe('BusinessEditFormComponent', () => {
   });
 
   it('the onSaveClick method should trigger some other methods and activate a request', () => {
+    jest.spyOn(mockModalService, 'open');
+    jest.spyOn(component.formSubmit, 'emit');
+    jest.spyOn(component, 'toggleEditingStatus');
     expect(component.activeRequest).toBe(false);
     component.onSaveClick();
 
     expect(component.activeRequest).toBe(true);
+    expect(component.formSubmit.emit).toHaveBeenCalledTimes(1);
+    expect(component.toggleEditingStatus).toHaveBeenCalledTimes(1);
   });
 
   it('the onSaveClick method should trigger the modalService open method when it is invalid and not let other methods run', () => {
-    component.businessFormEdit.setErrors({ notPhoneNumber: true });
-    component.onSaveClick();
+    // Manually setting the form's invalidity state
+    jest.spyOn(mockModalService, 'open');
     jest.spyOn(component.formSubmit, 'emit');
     jest.spyOn(component, 'toggleEditingStatus');
+    Object.defineProperty(component.businessFormEdit, 'invalid', {
+      get: () => true,
+    });
 
+    expect(component.businessFormEdit.invalid).toBe(true);
+
+    component.onSaveClick();
+
+    expect(mockModalService.open).toHaveBeenCalledTimes(1);
     expect(component.formSubmit.emit).toHaveBeenCalledTimes(0);
     expect(component.toggleEditingStatus).toHaveBeenCalledTimes(0);
   });
