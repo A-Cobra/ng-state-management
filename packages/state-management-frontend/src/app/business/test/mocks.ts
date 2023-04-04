@@ -1,6 +1,8 @@
+import { Params } from '@angular/router';
 import { Business } from '../models/business.interface';
 import { Classification } from '../models/classification.interface';
 import { ModalConfig } from '@clapp1/clapp-angular';
+import { Observable, Subject } from 'rxjs';
 
 export const MOCK_CLASSIFICATIONS: Classification[] = [
   {
@@ -89,3 +91,20 @@ export const TEST_DELETE_BUSINESS_MODAL_CONFIG: ModalConfig = {
   width: '300px',
   height: 'fit-content',
 };
+
+export class MockActivatedRoute {
+  private params$ = new Subject<Params>();
+  private defaultParams = { id: '5' };
+
+  constructor(params?: Params) {
+    params ? this.params$.next(params) : this.params$.next(this.defaultParams);
+  }
+
+  get params() {
+    return this.params$ as Observable<Params>;
+  }
+
+  set params(params: Params) {
+    this.params$.next(params);
+  }
+}

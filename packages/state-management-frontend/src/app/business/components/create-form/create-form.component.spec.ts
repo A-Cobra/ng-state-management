@@ -13,9 +13,12 @@ import {
   ClappImageDisplayModule,
   ModalModule,
   ClappNotificationModule,
+  ClappSearchModule,
 } from '@clapp1/clapp-angular';
 import { MOCK_FORM_VALUE, MOCK_FORM_CONTROLS } from '../../test/mocks';
 import { ReactiveFormControlTextInputComponent } from '../../../shared/components/reactive-form-control-text-input/reactive-form-control-text-input.component';
+import { FloatNumberOrNumberRangeDirective } from '../../../shared/directives/float-number-or-number-range.directive';
+import { PhoneNumberDirective } from '../../../shared/directives/phone-number.directive';
 
 describe('CreateFormComponent', () => {
   let component: CreateFormComponent;
@@ -41,6 +44,9 @@ describe('CreateFormComponent', () => {
         ModalModule,
         ClappNotificationModule,
         ReactiveFormControlTextInputComponent,
+        ClappSearchModule,
+        FloatNumberOrNumberRangeDirective,
+        PhoneNumberDirective,
       ],
       providers: [{ provide: BusinessService, useValue: mockBusinessService }],
     }).compileComponents();

@@ -1,25 +1,49 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ActivatedRoute } from '@angular/router';
-import { of } from 'rxjs';
+import { ActivatedRoute, Params } from '@angular/router';
 
 import { BusinessEditComponent } from './business-edit.component';
+import { MockActivatedRoute } from '../../test/mocks';
+import { ReactiveFormControlTextInputComponent } from '../../../shared/components/reactive-form-control-text-input/reactive-form-control-text-input.component';
+import { BusinessEditFormComponent } from '../business-edit-form/business-edit-form.component';
+import { FloatNumberOrNumberRangeDirective } from '../../../shared/directives/float-number-or-number-range.directive';
+import { PhoneNumberDirective } from '../../../shared/directives/phone-number.directive';
+import { MockModalService } from '../../models/mock-modal-service.interface';
+import {
+  ClappButtonModule,
+  ClappImageDisplayModule,
+  ClappSearchModule,
+  ModalService,
+} from '@clapp1/clapp-angular';
+import { ReactiveFormsModule } from '@angular/forms';
 
 describe('BusinessEditComponent', () => {
   let component: BusinessEditComponent;
   let fixture: ComponentFixture<BusinessEditComponent>;
-  // CHANGE LATER FOR A PROPER MOCK
-  let mockActivatedRoute: any;
+  let mockModalService: MockModalService;
+  let mockActivatedRoute: MockActivatedRoute;
 
   beforeEach(async () => {
-    mockActivatedRoute = {
-      params: of({ id: '5' }),
-    };
+    mockActivatedRoute = new MockActivatedRoute();
     await TestBed.configureTestingModule({
-      declarations: [BusinessEditComponent],
+      imports: [
+        ClappButtonModule,
+        ClappButtonModule,
+        ClappImageDisplayModule,
+        ClappSearchModule,
+        ReactiveFormControlTextInputComponent,
+        FloatNumberOrNumberRangeDirective,
+        PhoneNumberDirective,
+        ReactiveFormsModule,
+      ],
+      declarations: [BusinessEditComponent, BusinessEditFormComponent],
       providers: [
         {
           provide: ActivatedRoute,
           useValue: mockActivatedRoute,
+        },
+        {
+          provide: ModalService,
+          useValue: mockModalService,
         },
       ],
     }).compileComponents();
@@ -31,5 +55,12 @@ describe('BusinessEditComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it("should activate the queryError flag once we navigate to a route that doesn't contain a number", () => {
+    const urlParams = { id: 'notValidId' };
+    mockActivatedRoute.params = urlParams;
+
+    expect(component.queryError).toBe(true);
   });
 });
