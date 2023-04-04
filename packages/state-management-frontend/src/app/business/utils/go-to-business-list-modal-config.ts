@@ -2,7 +2,7 @@ import { ModalConfig } from '@clapp1/clapp-angular';
 import { ConfirmationMessage } from '../../shared/models/confirmation-message.interface';
 
 const goToBusinessesListConfirmationData: ConfirmationMessage = {
-  title: 'Delete business',
+  title: 'Go to businesses list',
   message: 'Are you sure you want to go to the businesses list?',
   affirmativeButtonLabel: 'Yes',
   negativeButtonLabel: 'No',
