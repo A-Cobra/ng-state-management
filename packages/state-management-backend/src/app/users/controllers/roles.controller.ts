@@ -6,10 +6,16 @@ import {
   Param,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
 import { CreateRoleDto } from '../dto/create-role.dto';
 import { RolesService } from '../services/role.service';
+import { JwtAuthGuard } from '../../auth/guard/jwt-auth.guard';
+import { Authorized } from '../../auth/decorator/authorized.decorator';
+import { ValidRoles } from '../../auth/interfaces/valid-roles.type';
 
+@UseGuards(JwtAuthGuard)
+@Authorized(ValidRoles.admin)
 @Controller({
   path: 'roles',
   version: '1',
