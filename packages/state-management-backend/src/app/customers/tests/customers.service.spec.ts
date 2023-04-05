@@ -111,7 +111,7 @@ describe('CustomersService', () => {
       response.totalPages = 1;
       response.page = 1;
       response.data = data;
-      let query = mockPaginationQuery;
+      const query = mockPaginationQuery;
       query.limit = null;
       query.page = null;
 

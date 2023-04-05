@@ -17,16 +17,17 @@ describe('BranchesService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should return a list of branches', () => {
+  it('should return a list of branches', (done) => {
     service
       .getBranches()
       .pipe(take(1))
       .subscribe((response) => {
         expect(response.data).toEqual(BRANCHES);
+        done();
       });
   });
 
-  it('should return a list of branches filtered by query', () => {
+  it('should return a list of branches filtered by query', (done) => {
     service
       .getBranches(1, 10, 'san')
       .pipe(
@@ -35,6 +36,7 @@ describe('BranchesService', () => {
       )
       .subscribe((branches) => {
         expect(branches.length).toBe(2);
+        done();
       });
   });
 });

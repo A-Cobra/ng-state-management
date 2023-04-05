@@ -1,3 +1,4 @@
+import { By } from '@angular/platform-browser';
 import {
   ComponentFixture,
   fakeAsync,
@@ -11,7 +12,8 @@ import { Branch } from '../../models/branch.model';
 import { BranchCardComponent } from '../branch-card/branch-card.component';
 import { BranchesComponent } from './branches.component';
 import { BranchesService } from '../../services/branches.service';
-import { MOCK_BRANCHES, MOCK_PAGINATION } from '../../test/mocks';
+import { MOCK_BRANCHES } from '../../test/mocks';
+import { MOCK_PAGINATION } from '../../../shared/test/constants/mocks';
 
 import {
   ClappButtonModule,
@@ -19,9 +21,8 @@ import {
   ClappPaginationModule,
   ClappSearchModule,
 } from '@clapp1/clapp-angular';
+
 import { Observable, of, take } from 'rxjs';
-import { query } from '@angular/animations';
-import { By } from '@angular/platform-browser';
 
 const mockBranchesService = {
   getBranches: jest.fn(
