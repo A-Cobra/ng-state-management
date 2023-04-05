@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { NonNullableFormBuilder, Validators } from '@angular/forms';
+import { NonNullableFormBuilder } from '@angular/forms';
 import { ModalService } from '@clapp1/clapp-angular';
-import { CustomFormValidations } from '../../../core/utils/custom-form-validations';
 import { FormEditPayload } from '../../models/form-edit-payload.interface';
 import { InvalidFormModalComponent } from '../../../shared/components/invalid-form-modal/invalid-form-modal.component';
 import { ConfirmationModalComponent } from '../../../shared/components/confirmation-modal/confirmation-modal.component';
@@ -10,6 +9,7 @@ import { debounceTime, take } from 'rxjs';
 import { deleteBusinessModalConfig } from '../../utils/delete-business-modal-config';
 import { goToBusinessesListModalConfig } from '../../utils/go-to-business-list-modal-config';
 import { isALoadableImageUrl } from '../../../core/utils/is-a-displayable-image-url';
+import { editFormControlFields } from '../../utils/edit-form-control-fields';
 
 @Component({
   selector: 'app-business-edit-form',
@@ -51,32 +51,7 @@ export class BusinessEditFormComponent implements OnInit {
   editing = false;
   currentBusinessImgUrl = '';
   defaultImgUrl = '../../../../assets/template-image.png';
-  businessFormEdit = this.formBuilder.group({
-    displayName: ['', [Validators.required, CustomFormValidations.namePattern]],
-    businessName: [
-      '',
-      [Validators.required, CustomFormValidations.namePattern],
-    ],
-    businessClassification: ['', [Validators.required]],
-    contactPhoneNumber: [
-      '',
-      [Validators.required, CustomFormValidations.onlyNumbers],
-    ],
-    contactEmail: [
-      'name@domain.suffix',
-      [Validators.required, CustomFormValidations.email],
-    ],
-    contactAddress: ['Address', [Validators.required]],
-    longitude: [
-      'Longitude',
-      [Validators.required, CustomFormValidations.floatNumber],
-    ],
-    latitude: [
-      'Latitude',
-      [Validators.required, CustomFormValidations.floatNumber],
-    ],
-    imgUrl: [''],
-  });
+  businessFormEdit = this.formBuilder.group(editFormControlFields);
 
   constructor(
     private formBuilder: NonNullableFormBuilder,
@@ -113,8 +88,8 @@ export class BusinessEditFormComponent implements OnInit {
   onSaveClick(): void {
     if (this.businessFormEdit.invalid) {
       this.modalService.open(InvalidFormModalComponent, {
-        width: '420px',
-        height: '250px',
+        width: 'fit-content',
+        height: 'fit-content',
       });
       return;
     }
@@ -134,7 +109,7 @@ export class BusinessEditFormComponent implements OnInit {
     this.displayClassificationMatches(inputValue.toLowerCase());
   }
 
-  onSearchValueDeleted() {
+  onSearchValueDeleted(): void {
     this.mockClassificationList = [...this.classificationsBackendData];
   }
 
@@ -151,18 +126,15 @@ export class BusinessEditFormComponent implements OnInit {
     });
   }
 
-  onDeleteBusiness() {
+  onDeleteBusiness(): void {
     const modalRef = this.modalService.open(
       ConfirmationModalComponent,
       deleteBusinessModalConfig(this.businessData.businessName)
     );
     modalRef.afterClosed.pipe(take(1)).subscribe((result) => {
-      // this.loader = true;
       const confirmation = result as boolean;
       if (confirmation) {
         this.businessDeletion.emit();
-        console.log('Business being deleted');
-        // this.businessService.deleteBusiness(this.id);
       }
     });
   }
@@ -184,13 +156,7 @@ export class BusinessEditFormComponent implements OnInit {
   }
 
   fillFormControls(): void {
-    Object.keys(this.businessFormEdit.controls).forEach((key) => {
-      this.businessFormEdit
-        .get(key)
-        ?.setValue(
-          `${this.businessData[key as keyof typeof this.businessData]}`
-        );
-    });
+    this.businessFormEdit.patchValue(this.businessData);
   }
 
   displayClassificationMatches(pattern: string) {
