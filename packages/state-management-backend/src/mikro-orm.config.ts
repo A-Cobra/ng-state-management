@@ -13,6 +13,8 @@ import { ProductReview } from './app/reviews/entities/product-review.entity';
 import { Review } from './app/reviews/entities/review.entity';
 import 'reflect-metadata';
 import { Logger } from '@nestjs/common';
+import { Role } from './app/users/entities/role.entity';
+import { UserCredentials } from './app/users/entities/user-credentials.entity';
 import { Customer } from './app/customers/entities/customer.entity';
 
 dotenvExpand.expand(dotenv.config());
@@ -34,6 +36,8 @@ const MikroOrmConfig: Options = {
     ProductReview,
     Product,
     BusinessBranch,
+    UserCredentials,
+    Role,
     Customer,
   ],
   metadataProvider: ReflectMetadataProvider,

@@ -1,34 +1,20 @@
-import { Controller, Get, Body, Patch, Param, Delete } from '@nestjs/common';
-import { UsersService } from '../services/users.service';
-import { UpdateUserDto } from '../dto/update-user.dto';
+import { Controller, Get, UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from '../../auth/guard/jwt-auth.guard';
+import { GetUser } from '../../auth/decorator/get-user.decorator';
+import { JwtInfo } from '../../auth/interfaces/jwtinfo.type';
+import { UsersDirectoryService } from '../services/users-directory.service';
 
 @Controller({
   path: 'users',
   version: '1',
 })
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(private readonly directory: UsersDirectoryService) {}
 
-  @Get()
-  findAll() {
-    return this.usersService.findAll();
-  }
-
-  @Get(':userId')
-  findOne(@Param('userId') userId: string) {
-    return this.usersService.findOne(userId);
-  }
-
-  @Patch(':userId')
-  update(
-    @Param('userId') userId: string,
-    @Body() updateUserDto: UpdateUserDto
-  ) {
-    return this.usersService.update(userId, updateUserDto);
-  }
-
-  @Delete(':userId')
-  remove(@Param('userId') userId: string) {
-    return this.usersService.remove(userId);
+  @Get('profile')
+  @UseGuards(JwtAuthGuard)
+  async update(@GetUser() userInfo: JwtInfo) {
+    const { user } = await this.directory.findUser(userInfo.sub);
+    return user;
   }
 }

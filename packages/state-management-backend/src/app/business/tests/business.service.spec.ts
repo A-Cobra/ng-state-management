@@ -1,16 +1,15 @@
-import { EntityRepository } from '@mikro-orm/core';
 import { Test } from '@nestjs/testing';
 import { MailService } from '../../notifications/mail/mail.service';
 import { BusinessService } from '../services/business.service';
 import {
   BusinessClassificationStub,
   businessesStub,
-  businessModificationDtoStub,
   businessStub,
   completeBusinessCreationDTO,
   initialBusinessCreationDtoStub,
   paginatedBusinessessData,
 } from './business.stubs';
+import { UsersDirectoryService } from '../../users/services/users-directory.service';
 
 describe('BusinessService', () => {
   let businessService: BusinessService;
@@ -42,6 +41,13 @@ describe('BusinessService', () => {
           provide: MailService,
           useValue: {
             sendBusinessConfirmation: jest.fn(),
+          },
+        },
+        UsersDirectoryService,
+        {
+          provide: UsersDirectoryService,
+          useValue: {
+            createUserCredentials: jest.fn(),
           },
         },
       ],
