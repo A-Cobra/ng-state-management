@@ -1,4 +1,4 @@
-<ng-container *ngIf="activeRequest">
+<ng-container *ngIf="hasActiveRequest">
   <app-loader loaderText="Submission in progress, please wait!"> </app-loader>
 </ng-container>
 
@@ -10,7 +10,7 @@
     [id]="businessId"
     [businessData]="businessData"
     [classificationsBackendData]="mockBackendData"
-    [activeRequest]="activeRequest"
+    [hasActiveRequest]="hasActiveRequest"
     (formSubmit)="handleEditFormSubmission($event)"
     (businessDeletion)="handleBusinessDeletion($event)"
   >

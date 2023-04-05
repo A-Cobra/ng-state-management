@@ -96,10 +96,10 @@ describe('BusinessEditFormComponent', () => {
     jest.spyOn(mockModalService, 'open');
     jest.spyOn(component.formSubmit, 'emit');
     jest.spyOn(component, 'toggleEditingStatus');
-    expect(component.activeRequest).toBe(false);
+    expect(component.hasActiveRequest).toBe(false);
     component.onSaveClick();
 
-    expect(component.activeRequest).toBe(true);
+    expect(component.hasActiveRequest).toBe(true);
     expect(component.formSubmit.emit).toHaveBeenCalledTimes(1);
     expect(component.toggleEditingStatus).toHaveBeenCalledTimes(1);
   });

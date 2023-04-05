@@ -45,7 +45,7 @@ export class BusinessEditFormComponent implements OnInit, OnDestroy {
     disabled: boolean;
   }[] = [];
   @Input()
-  activeRequest = false;
+  hasActiveRequest = false;
   @Output()
   formSubmit = new EventEmitter<FormEditPayload>();
   @Output()
@@ -104,7 +104,7 @@ export class BusinessEditFormComponent implements OnInit, OnDestroy {
       });
       return;
     }
-    this.activeRequest = true;
+    this.hasActiveRequest = true;
     this.toggleEditingStatus();
     this.disableFormControls();
     const { businessName, contactEmail } = this.businessFormEdit.value;

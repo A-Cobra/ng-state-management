@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NonNullableFormBuilder } from '@angular/forms';
+import { FormGroup, NonNullableFormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { take, Observable, debounceTime } from 'rxjs';
 import { ModalService, NotificationService } from '@clapp1/clapp-angular';
@@ -35,7 +35,7 @@ export class CreateFormComponent implements OnInit {
   isLoading = false;
   goingBackConfirmed = false;
   currentBusinessImgUrl = '';
-  defaultImgUrl = '../../../../assets/template-image.png';
+  defaultImgUrl = 'assets/template-image.png';
 
   ngOnInit(): void {
     this.resetForm();
@@ -43,7 +43,7 @@ export class CreateFormComponent implements OnInit {
     this.classification$ = this.businessService.getClassifications();
   }
 
-  onSubmit() {
+  onSubmit(): void {
     this.createForm.disable();
     this.isLoading = true;
     this.businessService
@@ -66,7 +66,7 @@ export class CreateFormComponent implements OnInit {
       });
   }
 
-  handleGoBack() {
+  handleGoBack(): void {
     const modalRef = this.modalService.open(ConfirmationModalComponent, {
       data: {
         title: 'Create business',
@@ -88,11 +88,11 @@ export class CreateFormComponent implements OnInit {
     });
   }
 
-  getFormInitialValue() {
+  getFormInitialValue(): FormGroup {
     return this.fb.group(createFormControlFields);
   }
 
-  resetForm() {
+  resetForm(): void {
     this.createForm = this.getFormInitialValue();
   }
 

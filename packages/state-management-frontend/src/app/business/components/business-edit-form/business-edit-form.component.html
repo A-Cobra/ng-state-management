@@ -156,7 +156,7 @@
         >Businesses list</clapp-button
       >
     </div>
-    <div class="buttons__right" *ngIf="businessData && !activeRequest">
+    <div class="buttons__right" *ngIf="businessData && !hasActiveRequest">
       <clapp-button
         *ngIf="!editing; else saveButton"
         (click)="onEditClick()"
