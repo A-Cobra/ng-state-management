@@ -16,10 +16,10 @@ import { isALoadableImageUrl } from '../../../core/utils/is-a-displayable-image-
 
 @Component({
   selector: 'app-business-create',
-  templateUrl: './create-form.component.html',
-  styleUrls: ['./create-form.component.scss'],
+  templateUrl: './business-create-form.component.html',
+  styleUrls: ['./business-create-form.component.scss'],
 })
-export class CreateFormComponent implements OnInit, OnDestroy {
+export class BusinessCreateFormComponent implements OnInit, OnDestroy {
   constructor(
     private fb: NonNullableFormBuilder,
     private businessService: BusinessService,

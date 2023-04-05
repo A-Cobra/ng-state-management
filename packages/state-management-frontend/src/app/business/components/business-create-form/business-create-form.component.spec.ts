@@ -2,8 +2,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { of } from 'rxjs';
-
-import { CreateFormComponent } from './create-form.component';
 import { BusinessService } from '../../services/business.service';
 import {
   ClappButtonModule,
@@ -19,10 +17,11 @@ import { MOCK_FORM_VALUE, MOCK_FORM_CONTROLS } from '../../test/mocks';
 import { ReactiveFormControlTextInputComponent } from '../../../shared/components/reactive-form-control-text-input/reactive-form-control-text-input.component';
 import { FloatNumberOrNumberRangeDirective } from '../../../shared/directives/float-number-or-number-range.directive';
 import { OnlyNumberDirective } from '../../../shared/directives/only-number.directive';
+import { BusinessCreateFormComponent } from './business-create-form.component';
 
 describe('CreateFormComponent', () => {
-  let component: CreateFormComponent;
-  let fixture: ComponentFixture<CreateFormComponent>;
+  let component: BusinessCreateFormComponent;
+  let fixture: ComponentFixture<BusinessCreateFormComponent>;
   let mockBusinessService: any;
 
   beforeEach(async () => {
@@ -32,7 +31,7 @@ describe('CreateFormComponent', () => {
     };
 
     await TestBed.configureTestingModule({
-      declarations: [CreateFormComponent],
+      declarations: [BusinessCreateFormComponent],
       imports: [
         RouterTestingModule,
         ReactiveFormsModule,
@@ -53,7 +52,7 @@ describe('CreateFormComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CreateFormComponent);
+    fixture = TestBed.createComponent(BusinessCreateFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

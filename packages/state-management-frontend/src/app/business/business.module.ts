@@ -18,7 +18,6 @@ import {
 import { BusinessEditComponent } from './components/business-edit/business-edit.component';
 import { BusinessListComponent } from './components/business-list/business-list.component';
 import { BusinessCardComponent } from './components/business-card/business-card.component';
-import { CreateFormComponent } from './components/create-form/create-form.component';
 import { BusinessEditFormComponent } from './components/business-edit-form/business-edit-form.component';
 import { ReactiveFormControlTextInputComponent } from '../shared/components/reactive-form-control-text-input/reactive-form-control-text-input.component';
 import { FullErrorNamePipe } from '../shared/pipes/full-error-name.pipe';
@@ -27,13 +26,14 @@ import { OnlyNumberDirective } from '../shared/directives/only-number.directive'
 import { ConfirmationModalComponent } from '../shared/components/confirmation-modal/confirmation-modal.component';
 import { InvalidFormModalComponent } from '../shared/components/invalid-form-modal/invalid-form-modal.component';
 import { LoaderComponent } from '../shared/components/loader/loader.component';
+import { BusinessCreateFormComponent } from './components/business-create-form/business-create-form.component';
 
 @NgModule({
   declarations: [
     BusinessListComponent,
     BusinessCardComponent,
     BusinessEditComponent,
-    CreateFormComponent,
+    BusinessCreateFormComponent,
     BusinessEditFormComponent,
   ],
   imports: [
