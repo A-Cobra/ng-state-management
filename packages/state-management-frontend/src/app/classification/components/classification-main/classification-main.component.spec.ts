@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 
 import { ClassificationMainComponent } from './classification-main.component';
-import { mockClassification } from './mock-classification';
+import { MOCK_CLASSIFICATIONS_LIST } from '../../test/mocks';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import {
@@ -94,7 +94,7 @@ describe('ClassificationMainComponent', () => {
   });
 
   it('should show the exact amount of results', () => {
-    component.categoriesToShow = mockClassification.slice(0, 3);
+    component.categoriesToShow = MOCK_CLASSIFICATIONS_LIST.slice(0, 3);
     fixture.detectChanges();
     const results = el.queryAll(By.css('.classification-main__card'));
     expect(results.length).toBe(3);
@@ -131,7 +131,7 @@ describe('ClassificationMainComponent', () => {
 
   it('should navigate on handleCardClick', () => {
     const router = jest.spyOn(mockRouter, 'navigate');
-    component.handleCardClick(1);
+    component.handleCardClick('1');
     fixture.detectChanges();
     expect(router).toHaveBeenCalledTimes(1);
   });

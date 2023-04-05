@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`BranchCardComponent should render branch information 1`] = `
-<state-management-app-branch-card
+<app-branch-card
   branch={[Function Object]}
 >
   <clapp-card>
@@ -41,5 +41,5 @@ exports[`BranchCardComponent should render branch information 1`] = `
       </clapp-card-footer>
     </div>
   </clapp-card>
-</state-management-app-branch-card>
+</app-branch-card>
 `;

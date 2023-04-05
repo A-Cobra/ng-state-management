@@ -13,7 +13,7 @@
 <ng-container *ngIf="customers$ | async as customers">
   <ng-container *ngIf="totalRecords; else noResults">
     <div class="customers">
-      <state-management-app-customer-card
+      <app-customer-card
         *ngFor="let customer of customers"
         [customer]="customer"
       />

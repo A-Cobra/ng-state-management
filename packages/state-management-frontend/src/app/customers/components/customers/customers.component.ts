@@ -17,7 +17,7 @@ import {
 import { Pagination } from '@clapp1/clapp-angular/lib/pagination/interfaces/pagination.interface';
 
 @Component({
-  selector: 'state-management-app-customers',
+  selector: 'app-customers',
   templateUrl: './customers.component.html',
   styleUrls: ['./customers.component.scss'],
 })

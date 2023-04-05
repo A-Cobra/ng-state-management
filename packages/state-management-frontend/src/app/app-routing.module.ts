@@ -13,7 +13,7 @@ const routes: Routes = [
       import('./business/business.module').then((m) => m.BusinessModule),
   },
   {
-    path: 'classification',
+    path: 'classifications',
     loadChildren: () =>
       import('./classification/classification.module').then(
         (m) => m.ClassificationModule

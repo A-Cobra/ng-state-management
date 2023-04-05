@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'state-management-app-business-list',
+  selector: 'app-business-list',
   templateUrl: './business-list.component.html',
   styleUrls: ['./business-list.component.scss'],
 })

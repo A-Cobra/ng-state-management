@@ -1,0 +1,8 @@
+@forward './base/variables';
+@forward './base/mixins';
+
+@use './base/variables' as *;
+
+body {
+  margin: 0;
+}

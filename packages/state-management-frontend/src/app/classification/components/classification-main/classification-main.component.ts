@@ -1,13 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { mockClassification } from './mock-classification';
+import { MOCK_CLASSIFICATIONS_LIST } from '../../test/mocks';
 import { Location } from '@angular/common';
 import { Pagination } from '@clapp1/clapp-angular/lib/pagination/interfaces/pagination.interface';
 import { FormControl } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, Subject, takeUntil } from 'rxjs';
 
 @Component({
-  selector: 'state-management-app-classification-main',
+  selector: 'app-classification-main',
   templateUrl: './classification-main.component.html',
   styleUrls: ['./classification-main.component.scss'],
 })
@@ -15,7 +15,7 @@ export class ClassificationMainComponent implements OnInit, OnDestroy {
   private unsubscribe$ = new Subject<void>();
   currentPage = 1;
   pageSize = 9;
-  categories = mockClassification;
+  categories = MOCK_CLASSIFICATIONS_LIST;
   categoriesToShow = this.categories.slice(0, this.pageSize);
   totalRecords = this.categories.length;
   searchControl = new FormControl('');
@@ -47,8 +47,8 @@ export class ClassificationMainComponent implements OnInit, OnDestroy {
     this.location.back();
   }
 
-  handleCardClick(id: number): void {
-    this.router.navigate([id], { relativeTo: this.route });
+  handleCardClick(id: string): void {
+    this.router.navigate(['detail', id], { relativeTo: this.route });
   }
 
   handlePageChange($event: Pagination): void {
@@ -60,7 +60,7 @@ export class ClassificationMainComponent implements OnInit, OnDestroy {
 
   handleSubmit(query: string): void {
     //TODO needs to be adjusted when BE is ready
-    this.categories = mockClassification;
+    this.categories = MOCK_CLASSIFICATIONS_LIST;
     if (query !== '') {
       this.categories = this.categories.filter((category) =>
         category.name.toLowerCase().includes(query.toLowerCase())
