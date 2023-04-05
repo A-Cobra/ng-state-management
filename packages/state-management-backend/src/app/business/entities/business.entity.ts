@@ -2,7 +2,6 @@ import {
   Collection,
   Entity,
   ManyToMany,
-  OneToOne,
   PrimaryKey,
   Property,
 } from '@mikro-orm/core';
@@ -32,9 +31,6 @@ export class BusinessHq extends User {
 
   @Property({ default: false })
   approvedRegistration?: boolean;
-
-  @Property({ default: false })
-  deleted?: boolean;
 
   @ManyToMany(() => BusinessClassification)
   classifications?: Collection<BusinessClassification> =

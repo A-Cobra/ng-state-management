@@ -1,12 +1,11 @@
 import { getRepositoryToken } from '@mikro-orm/nestjs';
 import { NotFoundException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
-import { AuthService } from '../../auth/auth.service';
+
 import * as hash from '../../auth/utils/jwt.util';
 import { CreateUserDto } from '../../users/dto/create-user.dto';
 import { UpdateUserDto } from '../../users/dto/update-user.dto';
 import { User } from '../../users/entities/user.entity';
-import { UsersService } from '../../users/services/users.service';
 import { Customer } from '../entities/customer.entity';
 import { CustomersService } from '../services/customers.service';
 import { mockPaginationQuery, mockPaginationResponse } from './pagination.mock';
@@ -19,10 +18,12 @@ import {
   mockCurrentCustomer,
 } from './users.mock';
 import { UpdateCustomerDto } from '../dto/update-customer.dto';
+import { UsersDirectoryService } from '../../users/services/users-directory.service';
+import { AuthService } from '../../auth/services/auth.service';
 
 describe('CustomersService', () => {
   let service: CustomersService;
-  let mockUserService: Partial<UsersService>;
+  let mockDirectoryService: Partial<UsersDirectoryService>;
   let mockAuthService: Partial<AuthService>;
 
   const mockCustomerRepository = {
@@ -40,19 +41,15 @@ describe('CustomersService', () => {
         Promise.resolve({ accessToken: 'access', refreshToken: 'refresh' }),
     };
 
-    mockUserService = {
-      create: (data: CreateUserDto) =>
-        Promise.resolve(mockUserResponse as User),
-      findOne: (id: string) => Promise.resolve(mockUserResponse as User),
-      update: (userId: string, updatedUserInfo: UpdateUserDto) =>
-        Promise.resolve(mockUser),
+    mockDirectoryService = {
+      createUserCredentials: jest.fn(),
     };
 
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         CustomersService,
         { provide: AuthService, useValue: mockAuthService },
-        { provide: UsersService, useValue: mockUserService },
+        { provide: UsersDirectoryService, useValue: mockDirectoryService },
         {
           provide: getRepositoryToken(Customer),
           useValue: mockCustomerRepository,
@@ -76,13 +73,11 @@ describe('CustomersService', () => {
       .spyOn(hash, 'hashData')
       .mockReturnValueOnce(Promise.resolve('password'));
 
-    jest.spyOn(mockUserService, 'create');
     mockCustomerRepository.create.mockReturnValueOnce(mockUserResponse);
     mockCustomerRepository.persistAndFlush.mockResolvedValueOnce(
       mockUserResponse
     );
     const result = await service.create(mockCreateCustomerDto);
-    expect(mockUserService.create).toBeCalledTimes(1);
     expect(mockCustomerRepository.create).toBeCalledTimes(1);
     expect(mockCustomerRepository.persistAndFlush).toBeCalledTimes(1);
     expect(result).toEqual(mockUserResponse);
@@ -112,8 +107,8 @@ describe('CustomersService', () => {
       response.page = 1;
       response.data = data;
       const query = mockPaginationQuery;
-      query.limit = null;
-      query.page = null;
+      query.limit = undefined;
+      query.page = undefined;
 
       mockCustomerRepository.findAndCount.mockReturnValueOnce([data, total]);
       const result = await service.findAll({ ...mockPaginationQuery });
@@ -176,8 +171,6 @@ describe('CustomersService', () => {
         .spyOn(mockAuthService, 'getTokens')
         .mockReturnValueOnce(Promise.resolve(tokenResponse));
 
-      jest.spyOn(mockUserService, 'update');
-
       const result = await service.update(
         'id',
         customer as User,
@@ -191,7 +184,6 @@ describe('CustomersService', () => {
       expect(mockHash).toBeCalledTimes(1);
       expect(mockCustomerRepository.assign).toBeCalledTimes(1);
       expect(mockCustomerRepository.flush).toBeCalledTimes(1);
-      expect(mockUserService.update).toBeCalledTimes(1);
     });
 
     it('should update role = customer', async () => {
@@ -218,8 +210,6 @@ describe('CustomersService', () => {
         .spyOn(mockAuthService, 'getTokens')
         .mockReturnValueOnce(Promise.resolve(tokenResponse));
 
-      jest.spyOn(mockUserService, 'update');
-
       const mockServiceValidation = jest
         .spyOn(service, 'validateSameCustomer')
         .mockReturnValueOnce();
@@ -237,7 +227,6 @@ describe('CustomersService', () => {
       expect(mockHash).toBeCalledTimes(1);
       expect(mockCustomerRepository.assign).toBeCalledTimes(1);
       expect(mockCustomerRepository.flush).toBeCalledTimes(1);
-      expect(mockUserService.update).toBeCalledTimes(1);
       expect(mockServiceValidation).toBeCalledTimes(1);
     });
   });

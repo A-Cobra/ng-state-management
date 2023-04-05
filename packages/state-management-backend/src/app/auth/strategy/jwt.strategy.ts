@@ -2,14 +2,14 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
-import { UsersService } from '../../users/services/users.service';
 import { JwtInfo } from '../interfaces/jwtinfo.type';
+import { UsersDirectoryService } from '../../users/services/users-directory.service';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
     configService: ConfigService,
-    private usersService: UsersService,
+    private usersService: UsersDirectoryService
   ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -19,7 +19,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 
   async validate(userInfo: JwtInfo) {
     //find a user with jwt info
-    const user = await this.usersService.findOne(userInfo.sub);
+    const user = await this.usersService.findUser(userInfo.sub);
 
     //find out if the user is signed in, that means jwt is valid
     if (!user.isLoggedIn) {
