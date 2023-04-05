@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, NonNullableFormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
-import { take, Observable, debounceTime } from 'rxjs';
+import { take, Observable, debounceTime, Subject, takeUntil } from 'rxjs';
 import { ModalService, NotificationService } from '@clapp1/clapp-angular';
 import { BusinessService } from '../../services/business.service';
 import { FormControlsData } from '../../models/create-form.interface';
@@ -19,7 +19,7 @@ import { isALoadableImageUrl } from '../../../core/utils/is-a-displayable-image-
   templateUrl: './create-form.component.html',
   styleUrls: ['./create-form.component.scss'],
 })
-export class CreateFormComponent implements OnInit {
+export class CreateFormComponent implements OnInit, OnDestroy {
   constructor(
     private fb: NonNullableFormBuilder,
     private businessService: BusinessService,
@@ -36,11 +36,17 @@ export class CreateFormComponent implements OnInit {
   goingBackConfirmed = false;
   currentBusinessImgUrl = '';
   defaultImgUrl = 'assets/template-image.png';
+  unsubscribeAll$ = new Subject<string>();
 
   ngOnInit(): void {
     this.resetForm();
     this.setupImgUrlDebounce();
     this.classification$ = this.businessService.getClassifications();
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribeAll$.next('');
+    this.unsubscribeAll$.unsubscribe();
   }
 
   onSubmit(): void {
@@ -98,7 +104,7 @@ export class CreateFormComponent implements OnInit {
 
   setupImgUrlDebounce(): void {
     this.createForm.controls['picture'].valueChanges
-      .pipe(debounceTime(700))
+      .pipe(debounceTime(700), takeUntil(this.unsubscribeAll$))
       .subscribe((imgUrl: string) => {
         isALoadableImageUrl(imgUrl)
           .then(() => {

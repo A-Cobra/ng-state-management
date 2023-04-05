@@ -31,8 +31,8 @@ export class FloatNumberOrNumberRangeDirective {
 
   onlyInitialOperator(inputValue: string): string {
     let formattedString = inputValue;
-    const plusPosition = inputValue.lastIndexOf('+'); //Only 0 and -1 accepted
-    const minusPosition = inputValue.lastIndexOf('-'); //Only 0 and -1 accepted
+    const plusPosition = inputValue.lastIndexOf('+');
+    const minusPosition = inputValue.lastIndexOf('-');
     if (plusPosition > 0 || minusPosition > 0) {
       formattedString =
         formattedString[0] +
@@ -57,23 +57,18 @@ export class FloatNumberOrNumberRangeDirective {
   }
 
   verifyRange(inputValue: string): string {
-    // if no ranges were specified
     let formattedString = inputValue;
     const currentInputNumber = parseFloat(inputValue);
     if (!this.minValue && !this.maxValue) return inputValue;
-    // if just the min value was specified
     else if (this.minValue && !this.maxValue) {
       if (currentInputNumber < this.minValue) {
         formattedString = `${this.minValue}`;
       }
-    }
-    // if just the max value was specified
-    else if (!this.minValue && this.maxValue) {
+    } else if (!this.minValue && this.maxValue) {
       if (currentInputNumber > this.maxValue) {
         formattedString = `${this.maxValue}`;
       }
     } else {
-      // if both exist
       if (currentInputNumber <= this.minValue) {
         formattedString = `${this.minValue}`;
       } else if (currentInputNumber >= this.maxValue) {
