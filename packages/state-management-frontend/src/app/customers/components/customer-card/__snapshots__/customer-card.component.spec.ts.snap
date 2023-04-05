@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`CustomerCardComponent should render customer information 1`] = `
-<state-management-app-customer-card
+<app-customer-card
   customer={[Function Object]}
 >
   <clapp-card>
@@ -40,5 +40,5 @@ exports[`CustomerCardComponent should render customer information 1`] = `
       </clapp-card-content>
     </div>
   </clapp-card>
-</state-management-app-customer-card>
+</app-customer-card>
 `;
