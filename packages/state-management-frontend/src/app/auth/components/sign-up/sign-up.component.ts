@@ -10,7 +10,7 @@ import { passwordMatch } from '../../validators/password-match.validator';
 import { validPassword } from '../../validators/valid-password.validator';
 
 @Component({
-  selector: 'state-management-app-sign-up',
+  selector: 'app-sign-up',
   templateUrl: './sign-up.component.html',
   styleUrls: ['./sign-up.component.scss'],
 })

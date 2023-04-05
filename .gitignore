@@ -43,3 +43,10 @@ Thumbs.db
 .env
 prisma/migrations/
 package-lock.json
+
+
+## docker
+docker-compose.development.yaml
+
+## Db-data
+db-data/

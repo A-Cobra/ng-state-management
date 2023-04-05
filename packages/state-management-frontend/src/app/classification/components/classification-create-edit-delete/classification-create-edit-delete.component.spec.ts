@@ -16,7 +16,7 @@ import { Classification } from '../../models/api-response.model';
 import { RouterTestingModule } from '@angular/router/testing';
 
 @Component({
-  selector: 'state-management-app-classification-layout-form',
+  selector: 'app-classification-layout-form',
   template: '',
 })
 class MockLayoutFormComponent {
@@ -71,15 +71,15 @@ describe('ClassificationCreateEditDeleteComponent', () => {
         },
       ],
     }).compileComponents();
+    router = TestBed.inject(Router);
+    jest.spyOn(router, 'navigate');
 
     fixture = TestBed.createComponent(ClassificationCreateEditDeleteComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    router = TestBed.inject(Router);
 
     jest.spyOn(component, 'showNotificationSuccess');
     jest.spyOn(component, 'showNotificationError');
-    jest.spyOn(router, 'navigate');
   });
 
   it('should create', () => {

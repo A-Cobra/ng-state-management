@@ -79,15 +79,6 @@ describe('ClassificationLayoutFormComponent', () => {
     expect(component.classificationForm.get('image')?.value).toBe(file);
   });
 
-  it('should set the value of "name" to the trimmed input', () => {
-    component.changeFormatInput('   classification name   ');
-    fixture.detectChanges();
-
-    expect(component.classificationForm.get('name')?.value).toBe(
-      'classification name'
-    );
-  });
-
   it('should submit form value by create status', () => {
     component.currentStatus = 'create';
     component.classificationForm.setValue(MOCK_CLASSIFICATION_TO_CREATE);

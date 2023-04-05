@@ -1,15 +1,15 @@
 <ng-container *ngIf="isLoading">
-  <state-management-app-loader></state-management-app-loader>
+  <app-loader></app-loader>
 </ng-container>
 
 <ng-container *ngIf="notResult; then notFound; else result"></ng-container>
 <ng-template #result>
-  <state-management-app-classification-layout-form
+  <app-classification-layout-form
     [status]="status"
     [classification]="classification"
     (dataClassification)="createUpdateOrDeleteClassification($event)"
   >
-  </state-management-app-classification-layout-form>
+  </app-classification-layout-form>
 </ng-template>
 <ng-template #notFound>
   <clapp-no-results-found
