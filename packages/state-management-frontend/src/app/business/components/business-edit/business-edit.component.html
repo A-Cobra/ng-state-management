@@ -2,7 +2,10 @@
   <app-loader loaderText="Submission in progress, please wait!"> </app-loader>
 </ng-container>
 
-<div class="business-edit-form__wrapper" *ngIf="!queryError; else defaultError">
+<div
+  class="business-edit-form__wrapper"
+  *ngIf="!hasQueryError; else defaultError"
+>
   <app-business-edit-form
     [id]="businessId"
     [businessData]="businessData"

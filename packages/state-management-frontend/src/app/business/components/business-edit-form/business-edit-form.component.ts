@@ -1,11 +1,18 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { NonNullableFormBuilder } from '@angular/forms';
 import { ModalService } from '@clapp1/clapp-angular';
 import { FormEditPayload } from '../../models/form-edit-payload.interface';
 import { InvalidFormModalComponent } from '../../../shared/components/invalid-form-modal/invalid-form-modal.component';
 import { ConfirmationModalComponent } from '../../../shared/components/confirmation-modal/confirmation-modal.component';
 import { Router } from '@angular/router';
-import { debounceTime, take } from 'rxjs';
+import { Subject, debounceTime, take, takeUntil } from 'rxjs';
 import { deleteBusinessModalConfig } from '../../utils/delete-business-modal-config';
 import { goToBusinessesListModalConfig } from '../../utils/go-to-business-list-modal-config';
 import { isALoadableImageUrl } from '../../../core/utils/is-a-displayable-image-url';
@@ -16,7 +23,7 @@ import { editFormControlFields } from '../../utils/edit-form-control-fields';
   templateUrl: './business-edit-form.component.html',
   styleUrls: ['./business-edit-form.component.scss'],
 })
-export class BusinessEditFormComponent implements OnInit {
+export class BusinessEditFormComponent implements OnInit, OnDestroy {
   @Input()
   id: number;
   @Input()
@@ -42,7 +49,6 @@ export class BusinessEditFormComponent implements OnInit {
   @Output()
   formSubmit = new EventEmitter<FormEditPayload>();
   @Output()
-  // CHANGE THE EVENT EMITTER TYPE
   businessDeletion = new EventEmitter<FormEditPayload>();
   mockClassificationList: {
     key: string;
@@ -51,6 +57,7 @@ export class BusinessEditFormComponent implements OnInit {
   editing = false;
   currentBusinessImgUrl = '';
   defaultImgUrl = 'assets/template-image.png';
+  unsubscribeAll$ = new Subject<string>();
   businessFormEdit = this.formBuilder.group(editFormControlFields);
 
   constructor(
@@ -65,10 +72,15 @@ export class BusinessEditFormComponent implements OnInit {
     this.setupImgUrlDebounce();
     this.onSearchValueDeleted();
   }
+  ngOnDestroy(): void {
+    this.unsubscribeAll$.next('');
+    this.unsubscribeAll$.unsubscribe();
+    this.unsubscribeAll$.complete();
+  }
 
   setupImgUrlDebounce(): void {
     this.businessFormEdit.controls['imgUrl'].valueChanges
-      .pipe(debounceTime(700))
+      .pipe(debounceTime(700), takeUntil(this.unsubscribeAll$))
       .subscribe((imgUrl: string) => {
         isALoadableImageUrl(imgUrl)
           .then(() => {

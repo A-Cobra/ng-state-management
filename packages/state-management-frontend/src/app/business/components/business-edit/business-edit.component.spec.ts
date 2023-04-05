@@ -61,6 +61,6 @@ describe('BusinessEditComponent', () => {
     const urlParams = { id: 'notValidId' };
     mockActivatedRoute.params = urlParams;
 
-    expect(component.queryError).toBe(true);
+    expect(component.hasQueryError).toBe(true);
   });
 });

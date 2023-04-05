@@ -1,4 +1,4 @@
-import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BusinessRoutingModule } from './business-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -74,6 +74,5 @@ import { LoaderComponent } from '../shared/components/loader/loader.component';
     LoaderComponent,
   ],
   providers: [BusinessService],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class BusinessModule {}

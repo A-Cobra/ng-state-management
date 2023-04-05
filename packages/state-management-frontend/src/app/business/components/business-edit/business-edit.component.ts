@@ -14,8 +14,8 @@ export class BusinessEditComponent implements OnInit {
   // TO SIMULATE DATA FROM THE BE
   mockBusinessService$ = of(19);
   businessId = 5;
-  queryError = false;
-  editing = false;
+  hasQueryError = false;
+  isEditing = false;
   // Needs adequate typing when we know what the BE sends
   businessData = defaultBusinessData;
   mockBackendData = defaultBusinessClassificationBackendData;
@@ -29,7 +29,7 @@ export class BusinessEditComponent implements OnInit {
     this.route.params.subscribe((urlData: Params) => {
       const urlIdSting = urlData?.['id'];
       if (!urlIdSting.match(this.numberRegexPattern)) {
-        this.queryError = true;
+        this.hasQueryError = true;
         return;
       }
       // When the service is ready
@@ -37,7 +37,7 @@ export class BusinessEditComponent implements OnInit {
       // this.businessService.getBusinessData(urlId).
       this.mockBusinessService$.subscribe({
         error: (error) => {
-          this.queryError = true;
+          this.hasQueryError = true;
           // IMPLEMENT
           // this.handleQueryError(error);
         },

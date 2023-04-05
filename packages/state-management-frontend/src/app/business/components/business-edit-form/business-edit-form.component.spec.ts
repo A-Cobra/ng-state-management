@@ -11,7 +11,6 @@ import { MockModalService } from '../../test/mock-modal-service.interface';
 
 import { BusinessEditFormComponent } from './business-edit-form.component';
 import { defaultBusinessData } from '../../utils/default-business-data';
-import { CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { ReactiveFormControlTextInputComponent } from '../../../shared/components/reactive-form-control-text-input/reactive-form-control-text-input.component';
 import { FloatNumberOrNumberRangeDirective } from '../../../shared/directives/float-number-or-number-range.directive';
@@ -58,7 +57,6 @@ describe('BusinessEditFormComponent', () => {
           useValue: mockRouter,
         },
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
 
     fixture = TestBed.createComponent(BusinessEditFormComponent);
@@ -106,7 +104,6 @@ describe('BusinessEditFormComponent', () => {
   });
 
   it('the onSaveClick method should trigger the modalService open method when it is invalid and not let other methods run', () => {
-    // Manually setting the form's invalidity state
     jest.spyOn(mockModalService, 'open');
     jest.spyOn(component.formSubmit, 'emit');
     jest.spyOn(component, 'toggleEditingStatus');
