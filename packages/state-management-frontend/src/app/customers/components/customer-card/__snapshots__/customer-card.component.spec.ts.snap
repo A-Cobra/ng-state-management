@@ -1,0 +1,44 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CustomerCardComponent should render customer information 1`] = `
+<app-customer-card
+  customer={[Function Object]}
+>
+  <clapp-card>
+    <div
+      class="clapp-card-wrapper"
+    >
+      <clapp-card-content>
+        <div
+          class="clapp-card-content-wrapper"
+        >
+          <div
+            class="customer"
+          >
+            <clapp-image-display
+              size="medium"
+              type="avatar"
+            >
+              <img
+                alt="placeholder"
+                class="avatar medium"
+                src="assets/clapp/placeholder-avatar.png"
+              />
+            </clapp-image-display>
+            <div
+              class="customer__information"
+            >
+              <h3>
+                John Doe
+              </h3>
+              <p>
+                @johndoe1
+              </p>
+            </div>
+          </div>
+        </div>
+      </clapp-card-content>
+    </div>
+  </clapp-card>
+</app-customer-card>
+`;
