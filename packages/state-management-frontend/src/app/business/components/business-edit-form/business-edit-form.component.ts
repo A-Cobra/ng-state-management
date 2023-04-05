@@ -50,7 +50,7 @@ export class BusinessEditFormComponent implements OnInit {
   }[] = [];
   editing = false;
   currentBusinessImgUrl = '';
-  defaultImgUrl = '../../../../assets/template-image.png';
+  defaultImgUrl = 'assets/template-image.png';
   businessFormEdit = this.formBuilder.group(editFormControlFields);
 
   constructor(
@@ -144,15 +144,11 @@ export class BusinessEditFormComponent implements OnInit {
   }
 
   disableFormControls(): void {
-    Object.keys(this.businessFormEdit.controls).forEach((key) => {
-      this.businessFormEdit.get(key)?.disable();
-    });
+    this.businessFormEdit.disable();
   }
 
   enableFormControls(): void {
-    Object.keys(this.businessFormEdit.controls).forEach((key) => {
-      this.businessFormEdit.get(key)?.enable();
-    });
+    this.businessFormEdit.enable();
   }
 
   fillFormControls(): void {

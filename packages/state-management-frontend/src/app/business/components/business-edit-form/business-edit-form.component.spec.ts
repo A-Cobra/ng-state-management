@@ -64,7 +64,6 @@ describe('BusinessEditFormComponent', () => {
     fixture = TestBed.createComponent(BusinessEditFormComponent);
     component = fixture.componentInstance;
     debugElement = fixture.debugElement;
-    // Assigning data so that we can test just this component
     component.businessData = defaultBusinessData;
     component.id = 5;
     component.classificationsBackendData =
