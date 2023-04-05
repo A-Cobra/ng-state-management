@@ -1,9 +1,9 @@
 <clapp-sidebar
-  [navigation]="navigationMock"
-  [headerBrand]="headerBrandMock"
-  [logOutConfig]="logOutConfigMock"
+  [navigation]="navigationConfig"
+  [headerBrand]="headerBrandConfig"
+  [logOutConfig]="logOutConfiguration"
   [expanded]="isExpanded"
   [currentUserRole]="1"
-  (logout)="logoOutFunction()"
-  (navbarExpands)="navbarExpandsFunction()"
+  (logout)="logoOut()"
+  (navbarExpands)="navbarExpands()"
 ></clapp-sidebar>
