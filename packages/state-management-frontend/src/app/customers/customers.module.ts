@@ -14,9 +14,14 @@ import {
   ClappSearchModule,
 } from '@clapp1/clapp-angular';
 import { ReactiveFormsModule } from '@angular/forms';
+import { CustomerDetailsComponent } from './components/customer-details/customer-details.component';
 
 @NgModule({
-  declarations: [CustomersComponent, CustomerCardComponent],
+  declarations: [
+    CustomersComponent,
+    CustomerCardComponent,
+    CustomerDetailsComponent,
+  ],
   imports: [
     CommonModule,
     CustomersRoutingModule,
