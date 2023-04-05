@@ -14,11 +14,5 @@ export class UpdateCustomerDto extends PartialType(CreateCustomerDto) {
   role: string;
 
   @IsEmpty()
-  isLoggedIn: boolean;
-
-  @IsEmpty()
-  refreshToken?: string;
-
-  @IsEmpty()
   isDeleted?: boolean;
 }

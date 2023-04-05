@@ -1,7 +1,5 @@
 <h2>
-  {{
-    (currentStatus === 'delete' ? 'detail' : currentStatus) | titlecase
-  }}
+  {{ (currentStatus === 'delete' ? 'detail' : currentStatus) | titlecase }}
   classification
 </h2>
 <form [formGroup]="classificationForm" (ngSubmit)="submit()">

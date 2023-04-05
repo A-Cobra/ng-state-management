@@ -5,7 +5,7 @@ import {
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
-import { AuthService } from '../../auth/auth.service';
+
 import { ValidRoles } from '../../auth/interfaces/valid-roles.type';
 import { hashData } from '../../auth/utils/jwt.util';
 import { PaginationResult } from '../../common/interfaces/pagination-result.interface';
@@ -13,8 +13,9 @@ import { CreateCustomerDto } from '../dto/create-customer.dto';
 import { UpdateCustomerDto } from '../dto/update-customer.dto';
 import { Customer } from '../entities/customer.entity';
 import { JwtInfo } from '../../auth/interfaces/jwtinfo.type';
-import { UsersService } from '../../users/services/users.service';
 import { SearchQueryDto } from '../dto/search-query.dto';
+import { UsersDirectoryService } from '../../users/services/users-directory.service';
+import { AuthService } from '../../auth/services/auth.service';
 
 @Injectable()
 export class CustomersService {
@@ -22,14 +23,21 @@ export class CustomersService {
     @InjectRepository(Customer)
     private readonly customerRepository: EntityRepository<Customer>,
     private readonly authService: AuthService,
-    private readonly userService: UsersService
+    private readonly directoryService: UsersDirectoryService
   ) {}
 
   async create(createCustomerDto: CreateCustomerDto): Promise<Customer> {
     // todo Fix method when authService is ready
     createCustomerDto.password = await hashData(createCustomerDto.password);
-    const user = await this.userService.create(createCustomerDto);
-    const customer = this.customerRepository.create({ ...user });
+    const customer = this.customerRepository.create(createCustomerDto);
+
+    await this.directoryService.createUserCredentials({
+      user: customer,
+      email: createCustomerDto.email,
+      password: createCustomerDto.password,
+      role: ValidRoles.customer,
+    });
+
     await this.customerRepository.persistAndFlush(customer);
     return customer;
   }
@@ -121,11 +129,9 @@ export class CustomersService {
       refreshToken: hashedRefreshToken,
     };
 
-    const { isDeleted, password, isLoggedIn, customer_id, ...rest } =
-      customerInfo;
+    const { isDeleted, customer_id, ...rest } = customerInfo;
 
     this.customerRepository.assign(customerInfo, userUpdate);
-    await this.userService.update(customerInfo.userId, userUpdate);
     await this.customerRepository.flush();
     return { ...rest, ...userUpdate };
   }
