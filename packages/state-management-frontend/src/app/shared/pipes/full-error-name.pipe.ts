@@ -13,8 +13,6 @@ export class FullErrorNamePipe implements PipeTransform {
   ): string {
     if (validationErrors) {
       const errorCode = Object.keys(validationErrors)[0];
-      // This returns an array with just one Object, therefore, we access the first one
-      // For custom errors that take a parameter
       if (errorCode === 'minlength' && minLength)
         return getFullErrorName(errorCode) + minLength;
       if (errorCode === 'maxlength' && maxLength)
