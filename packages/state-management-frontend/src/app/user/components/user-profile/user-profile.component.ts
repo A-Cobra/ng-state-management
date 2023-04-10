@@ -6,15 +6,17 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
-import { switchMap, tap } from 'rxjs/operators';
+import { switchMap, take, tap } from 'rxjs/operators';
+import { ModalRef, ModalService } from '@clapp1/clapp-angular';
+import { ConfirmationModalComponent } from '../../../shared/components/confirmation-modal/confirmation-modal.component';
 
 const onlyTextRegex = /^[a-zA-Z][a-zA-Z\s]*[a-zA-Z]$/;
 const onlyNumberRegex = /^\d+$/;
 const emailRegex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
 @Component({
-  selector: 'state-management-app-user-profile',
+  selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
   styleUrls: ['./user-profile.component.scss'],
 })
@@ -25,11 +27,14 @@ export class UserProfileComponent implements OnInit {
   isEditing = false;
   isDisabled = true;
   isSending = false;
+  isLoading = true;
 
   constructor(
     private fb: FormBuilder,
     private userService: UserService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private modalService: ModalService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -39,6 +44,7 @@ export class UserProfileComponent implements OnInit {
         tap((userProfile) => {
           this.userProfile = userProfile;
           this.initForm();
+          this.isLoading = false;
         })
       )
       .subscribe();
@@ -67,13 +73,30 @@ export class UserProfileComponent implements OnInit {
     this.profileForm.disable();
   }
 
+  onClickBack() {
+    const backModalRef = this.backModal();
+    backModalRef.afterClosed.pipe(take(1)).subscribe((result) => {
+      if (result) this.router.navigate(['']);
+    });
+    this.isEditing = false;
+  }
+
   onClickEdit() {
     this.isEditing = true;
     this.profileForm.enable();
   }
 
   onClickSave() {
-    this.isSending = true;
+    const saveChangesModalRef = this.saveChangesModal();
+    saveChangesModalRef.afterClosed.pipe(take(1)).subscribe((result) => {
+      if (result) {
+        this.isSending = true;
+        this.saveChanges();
+      }
+    });
+  }
+
+  saveChanges() {
     this.userService
       .saveUserProfile({ ...this.profileForm.value, id: this.userProfile?.id })
       .subscribe({
@@ -86,6 +109,32 @@ export class UserProfileComponent implements OnInit {
           this.isEditing = false;
         },
       });
+  }
+
+  saveChangesModal(): ModalRef {
+    return this.modalService.open(ConfirmationModalComponent, {
+      data: {
+        title: 'Are you sure to save the changes?',
+        message: 'The changes made can be changed later',
+        confirmButtonLabel: 'Save',
+        cancelButtonLabel: 'Cancel',
+      },
+      width: 'fit-content',
+      height: 'fit-content',
+    });
+  }
+
+  backModal(): ModalRef {
+    return this.modalService.open(ConfirmationModalComponent, {
+      data: {
+        title: 'Are you sure leave?',
+        message: 'Changes will not be saved',
+        confirmButtonLabel: 'Leave',
+        cancelButtonLabel: 'Cancel',
+      },
+      width: 'fit-content',
+      height: 'fit-content',
+    });
   }
 
   getControl(controlName: string): AbstractControl {

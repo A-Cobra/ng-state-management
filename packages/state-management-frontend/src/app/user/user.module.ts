@@ -5,6 +5,7 @@ import {
   ClappButtonModule,
   ClappInputHelpersModule,
   ClappTextInputModule,
+  ModalService,
 } from '@clapp1/clapp-angular';
 
 import { LoaderComponent } from '../shared/components/loader/loader.component';
@@ -28,6 +29,6 @@ const standaloneComponents = [LoaderComponent];
     ...clappModules,
     ...standaloneComponents,
   ],
-  providers: [UserService],
+  providers: [UserService, ModalService],
 })
 export class UserModule {}

@@ -1,7 +1,28 @@
-<ng-container *ngIf="isSending">
-  <state-management-app-loader></state-management-app-loader>
+<ng-container *ngIf="isSending || isLoading">
+  <app-loader></app-loader>
 </ng-container>
-<form [formGroup]="profileForm" autocomplete="off" class="profile__form">
+<ng-container *ngIf="!userProfile">
+  <div class="error__container">
+    <h2 class="error__title">User not founded</h2>
+    <p class="error__paragraph">
+      Sorry, the user you were looking for, hasn't been founded.
+    </p>
+    <clapp-button
+      color="primary"
+      size="small"
+      type="button"
+      [routerLink]="['']"
+    >
+      Go home
+    </clapp-button>
+  </div>
+</ng-container>
+<form
+  [formGroup]="profileForm"
+  autocomplete="off"
+  class="profile__form"
+  *ngIf="userProfile"
+>
   <fieldset class="profile__form__wrapper">
     <legend class="profile__title">Profile</legend>
     <div class="profile__form__control">
@@ -187,9 +208,9 @@
         size="small"
         [disabled]="isSending"
         type="button"
-        [routerLink]="['']"
         plusIcon="ri-arrow-go-back-fill"
         id="backButton"
+        (click)="onClickBack()"
       >
         Back
       </clapp-button>
