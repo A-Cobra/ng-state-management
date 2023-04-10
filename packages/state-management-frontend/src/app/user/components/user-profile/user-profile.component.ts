@@ -1,5 +1,5 @@
 import { UserProfile } from './../../models/user.model';
-import { Component, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -34,7 +34,8 @@ export class UserProfileComponent implements OnInit {
     private userService: UserService,
     private activatedRoute: ActivatedRoute,
     private modalService: ModalService,
-    private router: Router
+    private router: Router,
+    private ngZone: NgZone
   ) {}
 
   ngOnInit() {
@@ -73,10 +74,23 @@ export class UserProfileComponent implements OnInit {
     this.profileForm.disable();
   }
 
+  onClickCancel() {
+    const cancelModalRef = this.cancelModal();
+    cancelModalRef.afterClosed.pipe(take(1)).subscribe((result) => {
+      if (result) {
+        this.initForm();
+        this.isEditing = false;
+      }
+    });
+  }
+
   onClickBack() {
     const backModalRef = this.backModal();
     backModalRef.afterClosed.pipe(take(1)).subscribe((result) => {
-      if (result) this.router.navigate(['']);
+      if (result)
+        this.ngZone.run(() => {
+          this.router.navigate(['']);
+        });
     });
     this.isEditing = false;
   }
@@ -131,6 +145,19 @@ export class UserProfileComponent implements OnInit {
         message: 'Changes will not be saved',
         confirmButtonLabel: 'Leave',
         cancelButtonLabel: 'Cancel',
+      },
+      width: 'fit-content',
+      height: 'fit-content',
+    });
+  }
+
+  cancelModal(): ModalRef {
+    return this.modalService.open(ConfirmationModalComponent, {
+      data: {
+        title: 'Are you sure to cancel?',
+        message: 'Changes will not be saved',
+        confirmButtonLabel: 'Cancel',
+        cancelButtonLabel: 'Edit',
       },
       width: 'fit-content',
       height: 'fit-content',

@@ -215,6 +215,16 @@
         Back
       </clapp-button>
       <clapp-button
+        *ngIf="isEditing"
+        color="tertiary"
+        size="small"
+        type="button"
+        plusIcon="ri-indeterminate-circle-line"
+        (click)="onClickCancel()"
+      >
+        Cancel
+      </clapp-button>
+      <clapp-button
         *ngIf="!isEditing"
         color="primary"
         size="small"
@@ -229,7 +239,7 @@
         *ngIf="isEditing"
         color="primary"
         size="small"
-        [disabled]="profileForm.invalid || isSending"
+        [disabled]="profileForm.invalid || isSending || profileForm.pristine"
         type="submit"
         (click)="onClickSave()"
         plusIcon="ri-save-fill"

@@ -329,66 +329,39 @@ describe('UserProfileComponent', () => {
   describe('backModal', () => {
     it('should open a confirmation modal with the correct parameters', () => {
       const openSpy = jest.spyOn(modalService, 'open');
+      const backModalSpy = jest.spyOn(component, 'backModal');
+      component.onClickBack();
 
-      const modalRef = modalService.open(ConfirmationModalComponent, {
+      expect(openSpy).toHaveBeenCalledWith(ConfirmationModalComponent, {
         data: {
           title: 'Are you sure leave?',
-          message: 'Changes wont be saved',
+          message: 'Changes will not be saved',
           confirmButtonLabel: 'Leave',
           cancelButtonLabel: 'Cancel',
         },
         width: 'fit-content',
         height: 'fit-content',
       });
-
-      expect(openSpy).toHaveBeenCalledWith(
-        ConfirmationModalComponent,
-        expect.objectContaining({
-          data: {
-            title: 'Are you sure leave?',
-            message: 'Changes wont be saved',
-            confirmButtonLabel: 'Leave',
-            cancelButtonLabel: 'Cancel',
-          },
-          width: 'fit-content',
-          height: 'fit-content',
-        })
-      );
-
-      expect(modalRef).toBeDefined();
+      expect(backModalSpy).toHaveBeenCalled();
     });
   });
-
-  describe('saveChangesModal', () => {
-    it('should open a confirmation modal with the correct parameters', () => {
+  describe('cancelModal', () => {
+    it('should open a confirmation modal with the correct parameters for cancel button', () => {
       const openSpy = jest.spyOn(modalService, 'open');
+      const cancelModalSpy = jest.spyOn(component, 'cancelModal');
+      component.onClickCancel();
 
-      const modalRef = modalService.open(ConfirmationModalComponent, {
+      expect(openSpy).toHaveBeenCalledWith(ConfirmationModalComponent, {
         data: {
-          title: 'Are you sure to save the changes?',
-          message: 'The changes made can be changed later',
-          confirmButtonLabel: 'Save',
-          cancelButtonLabel: 'Cancel',
+          title: 'Are you sure to cancel?',
+          message: 'Changes will not be saved',
+          confirmButtonLabel: 'Cancel',
+          cancelButtonLabel: 'Edit',
         },
         width: 'fit-content',
         height: 'fit-content',
       });
-
-      expect(openSpy).toHaveBeenCalledWith(
-        ConfirmationModalComponent,
-        expect.objectContaining({
-          data: {
-            title: 'Are you sure to save the changes?',
-            message: 'The changes made can be changed later',
-            confirmButtonLabel: 'Save',
-            cancelButtonLabel: 'Cancel',
-          },
-          width: 'fit-content',
-          height: 'fit-content',
-        })
-      );
-
-      expect(modalRef).toBeDefined();
+      expect(cancelModalSpy).toHaveBeenCalled();
     });
   });
 });

@@ -50,6 +50,7 @@ $color-primary: #ff4040;
     &__buttons {
       display: flex;
       gap: 1em;
+      flex-wrap: wrap;
     }
   }
 }
