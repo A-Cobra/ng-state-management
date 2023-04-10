@@ -14,9 +14,6 @@ export class Courier extends User {
   @Property()
   driversLicense: string;
 
-  @Property({ default: false, hidden: true })
-  validDriversLicense: boolean;
-
   @OneToOne({ nullable: true })
   vehicle: CourierVehicle;
 }

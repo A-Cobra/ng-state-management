@@ -112,7 +112,7 @@ export class CouriersService {
     return find[0];
   }
 
-  private validateSameCourier(foundCourier: Courier, jwtUser: JwtInfo) {
+  validateSameCourier(foundCourier: Courier, jwtUser: JwtInfo) {
     if (foundCourier.userId !== jwtUser.sub) {
       throw new UnauthorizedException('Not Authorized to perform this action');
     }
