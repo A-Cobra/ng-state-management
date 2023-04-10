@@ -149,7 +149,6 @@ describe('CustomersService', () => {
   describe('should Update', () => {
     it('should update role = customer', async () => {
       const customer = mockUserResponse;
-      customer.role = 'customer';
       const currentCustomer = mockCurrentCustomer;
       currentCustomer.role = 'admin';
       const expectedResult = { ...customer, refreshToken: 'password' };
@@ -188,7 +187,6 @@ describe('CustomersService', () => {
 
     it('should update role = customer', async () => {
       const customer = mockUserResponse;
-      customer.role = 'customer';
       const currentCustomer = mockCurrentCustomer;
       currentCustomer.role = 'customer';
       const expectedResult = { ...customer, refreshToken: 'password' };
@@ -244,7 +242,6 @@ describe('CustomersService', () => {
 
   it('should validate same customer', () => {
     const foundCustomer = mockUser;
-    foundCustomer.role = 'customer';
     const currentCustomer = mockCurrentCustomer;
     currentCustomer.sub = 'userid';
 

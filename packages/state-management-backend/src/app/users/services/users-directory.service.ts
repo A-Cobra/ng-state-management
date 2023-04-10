@@ -4,17 +4,22 @@ import { EntityRepository } from '@mikro-orm/core';
 import { createUserCredentialsDto } from '../dto/create-user-credentials.dto';
 import { hashData } from '../../auth/utils/jwt.util';
 import { InjectRepository } from '@mikro-orm/nestjs';
+import { RolesService } from './role.service';
 
 @Injectable()
 export class UsersDirectoryService {
   constructor(
     @InjectRepository(UserCredentials)
-    private readonly repository: EntityRepository<UserCredentials>
+    private readonly repository: EntityRepository<UserCredentials>,
+    private readonly roleService: RolesService
   ) {}
 
   async createUserCredentials(dto: createUserCredentialsDto) {
+    const role = await this.roleService.findRole(dto.role);
+
     const credentials = this.repository.create({
       ...dto,
+      role: role,
       password: await hashData(dto.password),
     });
 

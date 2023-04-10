@@ -98,15 +98,15 @@ describe('BranchesController', () => {
   });
 
   it('should return a created branch', async () => {
-    const businessId = '5f9f1b0b0b0b0b0b0b0b0b0b';
+    const userId = '5f9f1b0b0b0b0b0b0b0b0b0b';
     const expectedBranch: BusinessBranch = {
       ...branch,
       branchId: '6f9f1b0b0b0b0b0b0b0b0b0b',
       deleted: false,
-      businessId: { businessId: businessId } as BusinessHq,
+      business: { userId: userId } as BusinessHq,
     };
     jest.spyOn(service, 'create');
-    const result = await controller.create(businessId, branch);
+    const result = await controller.create(userId, branch);
     expect(result).toEqual(expectedBranch);
   });
 

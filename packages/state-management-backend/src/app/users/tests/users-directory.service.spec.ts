@@ -3,7 +3,6 @@ import { UsersDirectoryService } from '../services/users-directory.service';
 import { createCredentialsDtoStub, credentialsStub } from './users.stubs';
 import { UserCredentials } from '../entities/user-credentials.entity';
 import { getRepositoryToken } from '@mikro-orm/nestjs';
-import { EntityRepository } from '@mikro-orm/core';
 
 describe('UsersDirectoryService', () => {
   let directoryService: UsersDirectoryService;
