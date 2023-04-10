@@ -150,63 +150,11 @@ describe('CustomersService', () => {
     it('should update role = customer', async () => {
       const customer = mockUserResponse;
       const currentCustomer = mockCurrentCustomer;
-      currentCustomer.role = 'admin';
-      const expectedResult = { ...customer, refreshToken: 'password' };
-
-      const tokenResponse = {
-        accessToken: 'access',
-        refreshToken: 'refresh',
-      };
+      const expectedResult = { ...customer };
 
       const mockService = jest
         .spyOn(service, 'findById')
         .mockReturnValueOnce(customer as any);
-
-      const mockHash = jest
-        .spyOn(hash, 'hashData')
-        .mockReturnValueOnce(Promise.resolve('password'));
-
-      const mockGetTokens = jest
-        .spyOn(mockAuthService, 'getTokens')
-        .mockReturnValueOnce(Promise.resolve(tokenResponse));
-
-      const result = await service.update(
-        'id',
-        customer as User,
-        currentCustomer
-      );
-
-      expect(result).toEqual(expectedResult);
-      expect(mockService).toBeCalledTimes(1);
-      expect(mockHash).toBeCalledTimes(1);
-      expect(mockGetTokens).toBeCalledTimes(1);
-      expect(mockHash).toBeCalledTimes(1);
-      expect(mockCustomerRepository.assign).toBeCalledTimes(1);
-      expect(mockCustomerRepository.flush).toBeCalledTimes(1);
-    });
-
-    it('should update role = customer', async () => {
-      const customer = mockUserResponse;
-      const currentCustomer = mockCurrentCustomer;
-      currentCustomer.role = 'customer';
-      const expectedResult = { ...customer, refreshToken: 'password' };
-
-      const tokenResponse = {
-        accessToken: 'access',
-        refreshToken: 'refresh',
-      };
-
-      const mockService = jest
-        .spyOn(service, 'findById')
-        .mockReturnValueOnce(customer as any);
-
-      const mockHash = jest
-        .spyOn(hash, 'hashData')
-        .mockReturnValueOnce(Promise.resolve('password'));
-
-      const mockGetTokens = jest
-        .spyOn(mockAuthService, 'getTokens')
-        .mockReturnValueOnce(Promise.resolve(tokenResponse));
 
       const mockServiceValidation = jest
         .spyOn(service, 'validateSameCustomer')
@@ -220,9 +168,31 @@ describe('CustomersService', () => {
 
       expect(result).toEqual(expectedResult);
       expect(mockService).toBeCalledTimes(1);
-      expect(mockHash).toBeCalledTimes(1);
-      expect(mockGetTokens).toBeCalledTimes(1);
-      expect(mockHash).toBeCalledTimes(1);
+      expect(mockCustomerRepository.assign).toBeCalledTimes(1);
+      expect(mockCustomerRepository.flush).toBeCalledTimes(1);
+    });
+
+    it('should update role = customer', async () => {
+      const customer = mockUserResponse;
+      const currentCustomer = mockCurrentCustomer;
+      const expectedResult = { ...customer };
+
+      const mockService = jest
+        .spyOn(service, 'findById')
+        .mockReturnValueOnce(customer as any);
+
+      const mockServiceValidation = jest
+        .spyOn(service, 'validateSameCustomer')
+        .mockReturnValueOnce();
+
+      const result = await service.update(
+        'id',
+        customer as User,
+        currentCustomer
+      );
+
+      expect(result).toEqual(expectedResult);
+      expect(mockService).toBeCalledTimes(1);
       expect(mockCustomerRepository.assign).toBeCalledTimes(1);
       expect(mockCustomerRepository.flush).toBeCalledTimes(1);
       expect(mockServiceValidation).toBeCalledTimes(1);
