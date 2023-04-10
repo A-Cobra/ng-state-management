@@ -87,12 +87,13 @@ export class UserProfileComponent implements OnInit {
   onClickBack() {
     const backModalRef = this.backModal();
     backModalRef.afterClosed.pipe(take(1)).subscribe((result) => {
-      if (result)
+      if (result) {
         this.ngZone.run(() => {
           this.router.navigate(['']);
         });
+        this.isEditing = false;
+      }
     });
-    this.isEditing = false;
   }
 
   onClickEdit() {
