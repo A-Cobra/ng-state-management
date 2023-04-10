@@ -1,1 +1,11 @@
-<p>topbar works!</p>
+<clapp-topbar key="title" title="">
+  <label>{{ userData.name + ' ' + userData.lastName }}</label>
+  <clapp-image-display
+    [src]="
+      userData.picture ? userData.picture : 'assets/images/templateImage.png'
+    "
+    type="avatar"
+    size="small"
+    alt="Picture"
+  ></clapp-image-display>
+</clapp-topbar>

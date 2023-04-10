@@ -5,6 +5,7 @@ import {
   logOutConfig,
   navigationOptions,
 } from '../../utils/sidebar-options';
+import { MOCK_USER_LAYOUT } from '../../tests/layout-mocks';
 
 @Component({
   selector: 'app-sidebar',
@@ -19,6 +20,7 @@ export class SidebarComponent {
   logOutConfiguration = logOutConfig;
   headerBrandConfig = headerBrand;
   isExpanded = false;
+  userData = MOCK_USER_LAYOUT;
 
   logoOut() {
     // this.logoutEvent.emit(event);
