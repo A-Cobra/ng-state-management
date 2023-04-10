@@ -7,8 +7,9 @@ import { CompleteBusinessCreationDTO } from '../dto/complete-creation.dto';
 import { InitialBusinessCreationDto } from '../dto/initial-creation.dto';
 import { BusinessHq } from '../entities/business.entity';
 import { BusinessClassification } from '../entities/business-classification.entity';
-import { BusinessessResult } from '../interfaces/businessess-result';
 import { MailService } from '../../notifications/mail/mail.service';
+import { UsersDirectoryService } from '../../users/services/users-directory.service';
+import { PaginationResult } from '../../common/interfaces/pagination-result.interface';
 import { hashData } from '../../auth/utils/jwt.util';
 import { User } from '../../users/entities/user.entity';
 import { ValidRoles } from '../../auth/interfaces/valid-roles.type';
@@ -20,7 +21,8 @@ export class BusinessService {
     private readonly businessRepository: EntityRepository<BusinessHq>,
     @InjectRepository(BusinessClassification)
     private readonly businessClassificationRepository: EntityRepository<BusinessClassification>,
-    private readonly mailService: MailService
+    private readonly mailService: MailService,
+    private readonly directoryService: UsersDirectoryService
   ) {}
 
   async findById(userId: string): Promise<BusinessHq> {
@@ -45,13 +47,19 @@ export class BusinessService {
       approvedRegistration: false,
       name: dto.representativeName,
       ...dto,
-      password: await hashData(dto.password),
-      role: ValidRoles.business,
       username: dto.businessName,
     };
 
     const createdBusiness = this.businessRepository.create(business);
     await this.businessRepository.persistAndFlush(createdBusiness);
+
+    this.directoryService.createUserCredentials({
+      user: createdBusiness,
+      email: dto.email,
+      password: dto.password,
+      role: 'BUSINESS',
+    });
+
     return createdBusiness;
   }
 
@@ -72,7 +80,6 @@ export class BusinessService {
     const business = await this.findById(businessId);
 
     business.picture = dto.businessPicture;
-    business.password = dto.password;
     business.deleted = false;
 
     await this.businessRepository.persistAndFlush(business);
@@ -90,7 +97,9 @@ export class BusinessService {
     return business;
   }
 
-  async search(businessSearch: BusinessSearchDto) {
+  async search(
+    businessSearch: BusinessSearchDto
+  ): Promise<PaginationResult<BusinessHq>> {
     const classificationsFound = await this.findClassifications(
       businessSearch.categories
     );
@@ -111,8 +120,8 @@ export class BusinessService {
 
     return {
       data: businessess,
-      currentPage: 1,
-      totalItems: totalBusinessess,
+      page: businessSearch.page,
+      totalResults: totalBusinessess,
       totalPages: totalPages,
     };
   }
@@ -126,16 +135,6 @@ export class BusinessService {
     await this.businessRepository.flush();
 
     return business;
-  }
-
-  async changeBusinessLogState(userId: string, state: boolean): Promise<User> {
-    const foundUser = await this.businessRepository.findOne({ userId });
-
-    foundUser.isLoggedIn = state;
-
-    await this.businessRepository.flush();
-
-    return foundUser;
   }
 
   async findClassifications(

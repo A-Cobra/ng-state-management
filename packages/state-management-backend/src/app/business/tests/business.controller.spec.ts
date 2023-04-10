@@ -14,7 +14,6 @@ import {
   initialBusinessCreationDtoStub,
   paginatedBusinessessData,
 } from './business.stubs';
-import { NotificationsModule } from '../../notifications/notifications.module';
 import { createMock } from '@golevelup/ts-jest';
 
 describe('BusinessController', () => {
