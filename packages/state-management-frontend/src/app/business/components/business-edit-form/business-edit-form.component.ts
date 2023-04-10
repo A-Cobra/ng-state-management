@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { NonNullableFormBuilder } from '@angular/forms';
 import { ModalService } from '@clapp1/clapp-angular';
-import { FormEditPayload } from '../../models/form-edit-payload.interface';
+import { FormEditPayload } from '../../models/form-edit-payload.model';
 import { InvalidFormModalComponent } from '../../../shared/components/invalid-form-modal/invalid-form-modal.component';
 import { ConfirmationModalComponent } from '../../../shared/components/confirmation-modal/confirmation-modal.component';
 import { Router } from '@angular/router';

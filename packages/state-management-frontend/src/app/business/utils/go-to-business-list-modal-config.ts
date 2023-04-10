@@ -1,5 +1,5 @@
 import { ModalConfig } from '@clapp1/clapp-angular';
-import { ConfirmationMessage } from '../../shared/models/confirmation-message.interface';
+import { ConfirmationMessage } from '../../shared/models/confirmation-message.model';
 
 const goToBusinessesListConfirmationData: ConfirmationMessage = {
   title: 'Go to businesses list',

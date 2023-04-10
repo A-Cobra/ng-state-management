@@ -6,7 +6,7 @@ import {
   ModalModule,
   ModalRef,
 } from '@clapp1/clapp-angular';
-import { ConfirmationMessage } from '../../models/confirmation-message.interface';
+import { ConfirmationMessage } from '../../models/confirmation-message.model';
 
 @Component({
   standalone: true,

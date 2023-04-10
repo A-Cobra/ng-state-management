@@ -1,6 +1,6 @@
 import { Params } from '@angular/router';
-import { Business } from '../models/business.interface';
-import { Classification } from '../models/classification.interface';
+import { Business } from '../models/business.model';
+import { Classification } from '../models/classification.model';
 import { ModalConfig } from '@clapp1/clapp-angular';
 import { Observable, Subject } from 'rxjs';
 

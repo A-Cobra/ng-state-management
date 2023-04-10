@@ -1,4 +1,4 @@
-import { ConfirmationMessage } from './confirmation-message.interface';
+import { ConfirmationMessage } from './confirmation-message.model';
 
 export interface MockModalConfig {
   data: ConfirmationMessage | null;

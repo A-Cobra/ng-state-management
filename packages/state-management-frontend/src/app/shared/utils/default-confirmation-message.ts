@@ -1,4 +1,4 @@
-import { ConfirmationMessage } from '../models/confirmation-message.interface';
+import { ConfirmationMessage } from '../models/confirmation-message.model';
 
 export const defaultConfirmationMessage: ConfirmationMessage = {
   title: 'Confirmation Title',

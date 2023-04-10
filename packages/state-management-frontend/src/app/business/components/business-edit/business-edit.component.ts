@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { of } from 'rxjs';
 import { defaultBusinessClassificationBackendData } from '../../utils/default-business-classification-backend-data';
-import { FormEditPayload } from '../../models/form-edit-payload.interface';
+import { FormEditPayload } from '../../models/form-edit-payload.model';
 import { defaultBusinessData } from '../../utils/default-business-data';
 
 @Component({
