@@ -16,6 +16,7 @@ import { JwtInfo } from '../../auth/interfaces/jwtinfo.type';
 import { SearchQueryDto } from '../dto/search-query.dto';
 import { UsersDirectoryService } from '../../users/services/users-directory.service';
 import { AuthService } from '../../auth/services/auth.service';
+import { paginationParameters } from '../../common/methods/pagination-parameters';
 
 @Injectable()
 export class CustomersService {
@@ -45,9 +46,7 @@ export class CustomersService {
   async findAll(
     queryParams: SearchQueryDto
   ): Promise<PaginationResult<Loaded<Customer>>> {
-    const limit = queryParams.limit ? +queryParams.limit : 10;
-    const page = queryParams.page ? +queryParams.page : 1;
-    const search = queryParams.search ? queryParams.search : undefined;
+    const { limit, page, search } = paginationParameters(queryParams);
 
     let queryOptions: FilterQuery<Customer> = { isDeleted: false };
 
