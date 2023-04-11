@@ -81,6 +81,7 @@
     "@nestjs/swagger": "^6.2.1",
     "argon2": "^0.30.3",
     "axios": "^1.0.0",
+    "cache-manager": "^5.2.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
     "handlebars": "^4.7.7",
@@ -92,7 +93,9 @@
     "reflect-metadata": "^0.1.13",
     "remixicon": "^2.5.0",
     "rxjs": "~7.5.0",
+    "stream": "^0.0.2",
     "tslib": "^2.3.0",
+    "util": "^0.12.5",
     "zone.js": "~0.11.4"
   },
   "mikro-orm": {

@@ -1,0 +1,11 @@
+<ng-container *ngIf="userData$ | async as user">
+  <clapp-sidebar
+    [navigation]="navigationConfig"
+    [headerBrand]="headerBrandConfig"
+    [logOutConfig]="logOutConfiguration"
+    [expanded]="isExpanded"
+    [currentUserRole]="uuidToNumber(user.roleId)"
+    (logout)="logoOut()"
+    (navbarExpands)="navbarExpands()"
+  ></clapp-sidebar>
+</ng-container>

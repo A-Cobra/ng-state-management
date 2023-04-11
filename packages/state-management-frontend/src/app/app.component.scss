@@ -1,9 +1,14 @@
 .container {
-  margin: 0 auto;
-  width: 90%;
   max-width: 1200px;
-  padding: 20px 0;
   height: 100vh;
   height: 100svh;
+  min-height: 80vh;
+  display: flex;
   box-sizing: border-box;
+}
+.page-container {
+  max-height: 100vh;
+  width: calc(100vw - 64px);
+  display: flex;
+  flex-direction: column;
 }

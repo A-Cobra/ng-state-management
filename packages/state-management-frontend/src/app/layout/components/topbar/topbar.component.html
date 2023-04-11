@@ -1,0 +1,13 @@
+<clapp-topbar key="title" title="">
+  <label>{{ userData.name + ' ' + userData.lastName }}</label>
+  <div (click)="goToProfile()" class="topbar__image-container">
+    <clapp-image-display
+      [src]="
+        userData.picture ? userData.picture : 'assets/images/template-image.png'
+      "
+      type="avatar"
+      size="small"
+      alt="Picture"
+    ></clapp-image-display>
+  </div>
+</clapp-topbar>
