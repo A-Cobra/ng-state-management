@@ -5,8 +5,10 @@ import { getRepositoryToken } from '@mikro-orm/nestjs';
 import { Courier } from '../entities/courier.entity';
 import {
   mockCourier,
+  mockCourierPaginationResponse,
   mockCreateCourierDto,
   mockCurrentCourier,
+  mockPaginationQuery,
 } from './mock-courier';
 import { NotFoundException } from '@nestjs/common';
 
@@ -206,6 +208,28 @@ describe('CouriersService', () => {
       expect(result).toEqual(mockCourier);
       expect(findById).toHaveBeenCalledTimes(1);
       expect(validate).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('should find all users', () => {
+    it('should find all users with queries', async () => {
+      const data = [mockCourier];
+      const total = data.length;
+      const response = mockCourierPaginationResponse;
+      response.totalResults = total;
+      response.totalPages = 1;
+      response.page = 1;
+      response.data = data;
+      const query = mockPaginationQuery;
+      query.page = 1;
+
+      const courierRepository = jest
+        .spyOn(mockCourierRepository, 'findAndCount')
+        .mockReturnValueOnce([data, total]);
+
+      const result = await service.findAll({ ...mockPaginationQuery });
+      expect(courierRepository).toBeCalledTimes(1);
+      expect(result).toEqual(response);
     });
   });
 });

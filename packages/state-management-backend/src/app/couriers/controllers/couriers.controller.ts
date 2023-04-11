@@ -16,7 +16,9 @@ import { Authorized } from '../../auth/decorator/authorized.decorator';
 import { ValidRoles } from '../../auth/interfaces/valid-roles.type';
 import { GetUser } from '../../auth/decorator/get-user.decorator';
 import { JwtInfo } from '../../auth/interfaces/jwtinfo.type';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Couriers/Delivery')
 @Controller('couriers')
 export class CouriersController {
   constructor(private readonly couriersService: CouriersService) {}

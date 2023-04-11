@@ -1,4 +1,6 @@
 import { JwtInfo } from '../../auth/interfaces/jwtinfo.type';
+import { PaginationResult } from '../../common/interfaces/pagination-result.interface';
+import { SearchQueryDto } from '../../customers/dto/search-query.dto';
 import { CreateCourierDto } from '../dto/create-courier.dto';
 import { CourierVehicle } from '../entities/courier-vehicle.entity';
 import { Courier } from '../entities/courier.entity';
@@ -32,4 +34,17 @@ export const mockCurrentCourier: JwtInfo = {
   role: 'courier',
   iat: 0,
   exp: 0,
+};
+
+export const mockCourierPaginationResponse: PaginationResult<Courier> = {
+  data: [],
+  totalResults: 1,
+  page: 1,
+  totalPages: 2,
+};
+
+export const mockPaginationQuery: SearchQueryDto = {
+  search: 'term',
+  page: 2,
+  limit: 10,
 };

@@ -6,7 +6,9 @@ import { CouriersVehicleService } from '../services/couriers-vehicle.service';
 import { Authorized } from '../../auth/decorator/authorized.decorator';
 import { ValidRoles } from '../../auth/interfaces/valid-roles.type';
 import { UpdateCourierVehicleDto } from '../dto/update-courier-vehicle';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Couriers/Delivery Vehicle')
 @Controller('couriers-vehicle')
 export class CouriersVehicleController {
   constructor(

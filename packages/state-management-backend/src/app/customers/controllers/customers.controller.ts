@@ -33,7 +33,6 @@ export class CustomersController {
 
   @Get()
   @Authorized(ValidRoles.admin)
-  @ApiQuery({ type: [SearchQueryDto] })
   findAll(@Query() searchQuery: SearchQueryDto) {
     return this.customersService.findAll(searchQuery);
   }
