@@ -11,10 +11,9 @@ import { UserService } from '../../services/user.service';
 import { switchMap, take, tap } from 'rxjs/operators';
 import { ModalRef, ModalService } from '@clapp1/clapp-angular';
 import { ConfirmationModalComponent } from '../../../shared/components/confirmation-modal/confirmation-modal.component';
+import { Observable } from 'rxjs';
+import { emailRegex, onlyNumberRegex, onlyTextRegex } from '../../utils/regex';
 
-const onlyTextRegex = /^[a-zA-Z][a-zA-Z\s]*[a-zA-Z]$/;
-const onlyNumberRegex = /^\d+$/;
-const emailRegex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
@@ -38,11 +37,14 @@ export class UserProfileComponent implements OnInit {
     private ngZone: NgZone
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.activatedRoute.params
       .pipe(
-        switchMap(({ userId }) => this.userService.getUserProfile(userId)),
-        tap((userProfile) => {
+        switchMap(
+          ({ userId }): Observable<UserProfile | undefined> =>
+            this.userService.getUserProfile(userId)
+        ),
+        tap((userProfile): void => {
           this.userProfile = userProfile;
           this.initForm();
           this.isLoading = false;
@@ -51,7 +53,7 @@ export class UserProfileComponent implements OnInit {
       .subscribe();
   }
 
-  initForm() {
+  initForm(): void {
     this.profileForm = this.fb.group({
       name: [
         this.userProfile?.name,
@@ -74,7 +76,7 @@ export class UserProfileComponent implements OnInit {
     this.profileForm.disable();
   }
 
-  onClickCancel() {
+  onClickCancel(): void {
     const cancelModalRef = this.cancelModal();
     cancelModalRef.afterClosed.pipe(take(1)).subscribe((result) => {
       if (result) {
@@ -84,7 +86,7 @@ export class UserProfileComponent implements OnInit {
     });
   }
 
-  onClickBack() {
+  onClickBack(): void {
     const backModalRef = this.backModal();
     backModalRef.afterClosed.pipe(take(1)).subscribe((result) => {
       if (result) {
@@ -96,12 +98,12 @@ export class UserProfileComponent implements OnInit {
     });
   }
 
-  onClickEdit() {
+  onClickEdit(): void {
     this.isEditing = true;
     this.profileForm.enable();
   }
 
-  onClickSave() {
+  onClickSave(): void {
     const saveChangesModalRef = this.saveChangesModal();
     saveChangesModalRef.afterClosed.pipe(take(1)).subscribe((result) => {
       if (result) {
@@ -111,9 +113,19 @@ export class UserProfileComponent implements OnInit {
     });
   }
 
-  saveChanges() {
+  saveChanges(): void {
+    const userInfo: UserProfile = {
+      name: this.getControl('name').value.trim(),
+      lastName: this.getControl('lastName').value.trim(),
+      phoneNumber: this.getControl('phoneNumber').value.trim(),
+      email: this.getControl('email').value.trim(),
+    };
+
     this.userService
-      .saveUserProfile({ ...this.profileForm.value, id: this.userProfile?.id })
+      .saveUserProfile({
+        ...userInfo,
+        id: this.userProfile?.id,
+      })
       .subscribe({
         next: (userProfile) => {
           this.userProfile = userProfile;

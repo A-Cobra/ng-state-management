@@ -3,9 +3,9 @@
 </ng-container>
 <ng-container *ngIf="!userProfile">
   <div class="error__container">
-    <h2 class="error__title">User not founded</h2>
+    <h2 class="error__title">User not found</h2>
     <p class="error__paragraph">
-      Sorry, the user you were looking for, hasn't been founded.
+      Sorry, the user you were looking for, hasn't been found.
     </p>
     <clapp-button
       color="primary"
@@ -64,8 +64,7 @@
         [textState]="getControl('name').disabled ? 'disabled' : 'default'"
         id="nameInputPatternError"
       >
-        This field must contain only letters. It cannot start or finish with a
-        space.
+        This field must contain only letters.
       </clapp-helper-text>
     </div>
     <div class="profile__form__control">
@@ -107,8 +106,7 @@
         [textState]="getControl('lastName').disabled ? 'disabled' : 'default'"
         id="lastNameInputPatternError"
       >
-        This field must contain only letters. It cannot start or finish with a
-        space.
+        This field must contain only letters.
       </clapp-helper-text>
     </div>
   </fieldset>

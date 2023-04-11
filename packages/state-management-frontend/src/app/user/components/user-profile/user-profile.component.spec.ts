@@ -9,31 +9,26 @@ import {
   ClappTextInputModule,
   ModalService,
 } from '@clapp1/clapp-angular';
-import { of } from 'rxjs';
 
 import { LoaderComponent } from '../../../shared/components/loader/loader.component';
-import { UserProfile } from '../../models/user.model';
 import { UserService } from '../../services/user.service';
 import { UserProfileComponent } from './user-profile.component';
 import { ConfirmationModalComponent } from '../../../shared/components/confirmation-modal/confirmation-modal.component';
+import {
+  activatedRouteMock,
+  backModalMock,
+  cancelModalMock,
+  mockUser,
+  modalServiceMock,
+  saveChangesModalMock,
+  userServiceMock,
+} from '../../test/mocks';
 
 describe('UserProfileComponent', () => {
   let component: UserProfileComponent;
   let fixture: ComponentFixture<UserProfileComponent>;
   let userService: UserService;
   let modalService: ModalService;
-
-  const activatedRouteMock = {
-    params: of({ userId: '123' }),
-  };
-
-  const mockUser: UserProfile = {
-    id: '123',
-    name: 'John',
-    lastName: 'Doe',
-    email: 'john.doe@example.com',
-    phoneNumber: '5555555555',
-  };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -50,18 +45,11 @@ describe('UserProfileComponent', () => {
         RouterTestingModule,
         {
           provide: UserService,
-          useValue: {
-            getUserProfile: jest.fn().mockReturnValue(of(mockUser)),
-            saveUserProfile: jest.fn().mockReturnValue(of(mockUser)),
-          },
+          useValue: userServiceMock,
         },
         {
           provide: ModalService,
-          useValue: {
-            open: jest.fn(() => ({
-              afterClosed: of(true),
-            })),
-          },
+          useValue: modalServiceMock,
         },
         {
           provide: ActivatedRoute,
@@ -69,9 +57,7 @@ describe('UserProfileComponent', () => {
         },
       ],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(UserProfileComponent);
     component = fixture.componentInstance;
     userService = TestBed.inject(UserService);
@@ -83,6 +69,7 @@ describe('UserProfileComponent', () => {
   it('should create component', () => {
     expect(component).toBeTruthy();
   });
+
   it('should show loader while submitting form', () => {
     component.isSending = true;
     fixture.detectChanges();
@@ -94,14 +81,15 @@ describe('UserProfileComponent', () => {
     expect({
       ...component.profileForm.value,
       id: component.userProfile?.id,
-    }).toEqual(mockUser);
+    }).toStrictEqual(mockUser);
     expect(component.profileForm.disabled).toBe(true);
   });
 
   it('should enable the form when clicking edit', () => {
     component.onClickEdit();
-    expect(component.profileForm.disabled).toBe(false);
+    expect(component.profileForm.enabled).toBe(true);
   });
+
   it('should save user profile', () => {
     component.onClickEdit();
     component.profileForm.setValue({
@@ -118,7 +106,7 @@ describe('UserProfileComponent', () => {
     expect(component.userProfile).toEqual(mockUser);
   });
 
-  describe('display form fields and errors', () => {
+  describe('should display inputs', () => {
     it('should display the name input', () => {
       const nameInput = fixture.debugElement.query(By.css('#nameInput'));
       expect(nameInput).toBeTruthy();
@@ -142,9 +130,14 @@ describe('UserProfileComponent', () => {
       );
       expect(phoneNumberInput).toBeTruthy();
     });
+  });
+
+  describe('display form fields and errors', () => {
+    beforeEach(() => {
+      component.onClickEdit();
+    });
 
     it('should display the name required error', () => {
-      component.onClickEdit();
       const nameControl = component.getControl('name');
       nameControl.setValue('');
       nameControl.markAsDirty();
@@ -164,7 +157,6 @@ describe('UserProfileComponent', () => {
     });
 
     it('should display the name pattern error', () => {
-      component.onClickEdit();
       const nameControl = component.getControl('name');
       nameControl.setValue('1234');
       nameControl.markAsDirty();
@@ -176,7 +168,7 @@ describe('UserProfileComponent', () => {
 
       expect(namePatternError).toBeTruthy();
       expect(namePatternError.nativeElement.textContent.trim()).toBe(
-        'This field must contain only letters. It cannot start or finish with a space.'
+        'This field must contain only letters.'
       );
       expect(nameControl.pristine).toBe(false);
       expect(component.profileForm.disabled).toBe(false);
@@ -184,7 +176,6 @@ describe('UserProfileComponent', () => {
     });
 
     it('should display the lastName required error', () => {
-      component.onClickEdit();
       const lastName = component.getControl('lastName');
       lastName.setValue('');
       lastName.markAsDirty();
@@ -204,7 +195,6 @@ describe('UserProfileComponent', () => {
     });
 
     it('should display the lastName pattern error', () => {
-      component.onClickEdit();
       const lastNameControl = component.getControl('lastName');
       lastNameControl.setValue('1234');
       lastNameControl.markAsDirty();
@@ -216,14 +206,14 @@ describe('UserProfileComponent', () => {
 
       expect(lastNamePatternError).toBeTruthy();
       expect(lastNamePatternError.nativeElement.textContent.trim()).toBe(
-        'This field must contain only letters. It cannot start or finish with a space.'
+        'This field must contain only letters.'
       );
       expect(lastNameControl.pristine).toBe(false);
       expect(component.profileForm.disabled).toBe(false);
       expect(lastNameControl.hasError('pattern')).toBe(true);
     });
+
     it('should display the email required error', () => {
-      component.onClickEdit();
       const email = component.getControl('email');
       email.setValue('');
       email.markAsDirty();
@@ -243,7 +233,6 @@ describe('UserProfileComponent', () => {
     });
 
     it('should display the email pattern error', () => {
-      component.onClickEdit();
       const emailControl = component.getControl('email');
       emailControl.setValue('invalidEmail');
       emailControl.markAsDirty();
@@ -264,7 +253,6 @@ describe('UserProfileComponent', () => {
     });
 
     it('should display the phone number required error', () => {
-      component.onClickEdit();
       const phoneNumber = component.getControl('phoneNumber');
       phoneNumber.setValue('');
       phoneNumber.markAsDirty();
@@ -284,7 +272,6 @@ describe('UserProfileComponent', () => {
     });
 
     it('should display the phoneNumber pattern error', () => {
-      component.onClickEdit();
       const phoneNumberControl = component.getControl('phoneNumber');
       phoneNumberControl.setValue('invalidphoneNumber');
       phoneNumberControl.markAsDirty();
@@ -312,55 +299,39 @@ describe('UserProfileComponent', () => {
       component.onClickEdit();
       component.onClickSave();
 
-      expect(openSpy).toHaveBeenCalledWith(ConfirmationModalComponent, {
-        data: {
-          title: 'Are you sure to save the changes?',
-          message: 'The changes made can be changed later',
-          confirmButtonLabel: 'Save',
-          cancelButtonLabel: 'Cancel',
-        },
-        width: 'fit-content',
-        height: 'fit-content',
-      });
+      expect(openSpy).toHaveBeenCalledWith(
+        ConfirmationModalComponent,
+        saveChangesModalMock
+      );
       expect(saveChangesSpy).toHaveBeenCalled();
       expect(saveChangesModalSpy).toHaveBeenCalled();
     });
   });
+
   describe('backModal', () => {
     it('should open a confirmation modal with the correct parameters', () => {
       const openSpy = jest.spyOn(modalService, 'open');
       const backModalSpy = jest.spyOn(component, 'backModal');
       component.onClickBack();
 
-      expect(openSpy).toHaveBeenCalledWith(ConfirmationModalComponent, {
-        data: {
-          title: 'Are you sure leave?',
-          message: 'Changes will not be saved',
-          confirmButtonLabel: 'Leave',
-          cancelButtonLabel: 'Cancel',
-        },
-        width: 'fit-content',
-        height: 'fit-content',
-      });
+      expect(openSpy).toHaveBeenCalledWith(
+        ConfirmationModalComponent,
+        backModalMock
+      );
       expect(backModalSpy).toHaveBeenCalled();
     });
   });
+
   describe('cancelModal', () => {
     it('should open a confirmation modal with the correct parameters for cancel button', () => {
       const openSpy = jest.spyOn(modalService, 'open');
       const cancelModalSpy = jest.spyOn(component, 'cancelModal');
       component.onClickCancel();
 
-      expect(openSpy).toHaveBeenCalledWith(ConfirmationModalComponent, {
-        data: {
-          title: 'Are you sure to cancel?',
-          message: 'Changes will not be saved',
-          confirmButtonLabel: 'Cancel',
-          cancelButtonLabel: 'Edit',
-        },
-        width: 'fit-content',
-        height: 'fit-content',
-      });
+      expect(openSpy).toHaveBeenCalledWith(
+        ConfirmationModalComponent,
+        cancelModalMock
+      );
       expect(cancelModalSpy).toHaveBeenCalled();
     });
   });
