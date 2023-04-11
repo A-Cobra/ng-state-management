@@ -24,7 +24,6 @@ export class UserProfileComponent implements OnInit {
   userProfile: UserProfile | undefined;
 
   isEditing = false;
-  isDisabled = true;
   isSending = false;
   isLoading = true;
 
