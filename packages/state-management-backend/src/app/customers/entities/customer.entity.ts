@@ -7,8 +7,5 @@ export class Customer extends User {
   @PrimaryKey({ hidden: true })
   customer_id: string = v4();
 
-  @Property({ default: false, hidden: true })
-  isDeleted: boolean;
-
   //Todo Add address relation
 }

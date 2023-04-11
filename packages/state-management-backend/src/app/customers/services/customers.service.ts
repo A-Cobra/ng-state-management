@@ -16,7 +16,10 @@ import { JwtInfo } from '../../auth/interfaces/jwtinfo.type';
 import { SearchQueryDto } from '../dto/search-query.dto';
 import { UsersDirectoryService } from '../../users/services/users-directory.service';
 import { AuthService } from '../../auth/services/auth.service';
-import { paginationParameters } from '../../common/methods/pagination-parameters';
+import {
+  extractUser,
+  paginationParameters,
+} from '../../common/methods/pagination-parameters';
 
 @Injectable()
 export class CustomersService {
@@ -29,11 +32,16 @@ export class CustomersService {
 
   async create(createCustomerDto: CreateCustomerDto): Promise<Customer> {
     // todo Fix method when authService is ready
-    createCustomerDto.password = await hashData(createCustomerDto.password);
-    const customer = this.customerRepository.create(createCustomerDto);
+    // createCustomerDto.password = await hashData(createCustomerDto.password);
+    const customer = this.customerRepository.create({
+      ...createCustomerDto,
+      role: ValidRoles.customer,
+    });
+
+    const { user } = extractUser(customer);
 
     await this.directoryService.createUserCredentials({
-      user: customer,
+      user: user,
       email: createCustomerDto.email,
       password: createCustomerDto.password,
       role: ValidRoles.customer,
@@ -48,7 +56,7 @@ export class CustomersService {
   ): Promise<PaginationResult<Loaded<Customer>>> {
     const { limit, page, search } = paginationParameters(queryParams);
 
-    let queryOptions: FilterQuery<Customer> = { isDeleted: false };
+    let queryOptions: FilterQuery<Customer> = { deleted: false };
 
     if (search) {
       queryOptions = {
@@ -60,7 +68,7 @@ export class CustomersService {
               { name: { $ilike: `%${search}%` } },
             ],
           },
-          { isDeleted: false },
+          { deleted: false },
         ],
       };
     }
@@ -96,7 +104,7 @@ export class CustomersService {
 
   async findById(id: string): Promise<Loaded<Customer>> {
     const [find, count] = await this.customerRepository.findAndCount(
-      { $and: [{ userId: id }, { isDeleted: false }] },
+      { $and: [{ userId: id }, { deleted: false }] },
       { limit: 1 }
     );
     if (count === 0) {
@@ -128,7 +136,7 @@ export class CustomersService {
       refreshToken: hashedRefreshToken,
     };
 
-    const { isDeleted, customer_id, ...rest } = customerInfo;
+    const { deleted, customer_id, ...rest } = customerInfo;
 
     this.customerRepository.assign(customerInfo, userUpdate);
     await this.customerRepository.flush();
@@ -137,7 +145,7 @@ export class CustomersService {
 
   async remove(id: string) {
     const customer = await this.findById(id);
-    customer.isDeleted = true;
+    customer.deleted = true;
     this.customerRepository.persistAndFlush(customer);
 
     return { message: 'User Removed Successfully' };

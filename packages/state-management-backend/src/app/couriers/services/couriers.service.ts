@@ -12,7 +12,10 @@ import { UsersDirectoryService } from '../../users/services/users-directory.serv
 import { ValidRoles } from '../../auth/interfaces/valid-roles.type';
 import { SearchQueryDto } from '../../customers/dto/search-query.dto';
 import { PaginationResult } from '../../common/interfaces/pagination-result.interface';
-import { paginationParameters } from '../../common/methods/pagination-parameters';
+import {
+  extractUser,
+  paginationParameters,
+} from '../../common/methods/pagination-parameters';
 import { JwtInfo } from '../../auth/interfaces/jwtinfo.type';
 
 @Injectable()
@@ -28,7 +31,8 @@ export class CouriersService {
       ...createCourierDto,
       role: ValidRoles.courier,
     });
-    const { driversLicense, ...user } = courier;
+
+    const { user } = extractUser(courier);
 
     await this.directoryService.createUserCredentials({
       user: user,

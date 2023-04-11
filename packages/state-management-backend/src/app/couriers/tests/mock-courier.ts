@@ -6,7 +6,6 @@ import { CourierVehicle } from '../entities/courier-vehicle.entity';
 import { Courier } from '../entities/courier.entity';
 
 export const mockCourier: Courier = {
-  courierId: 'courierId',
   status: 'offline',
   driversLicense: 'license',
   vehicle: new CourierVehicle(),
