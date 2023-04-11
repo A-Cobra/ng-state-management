@@ -1,5 +1,6 @@
-import { Entity, OneToOne, Property } from '@mikro-orm/core';
+import { Collection, Entity, OneToOne, Property } from '@mikro-orm/core';
 import { v4 } from 'uuid';
+import { Payroll } from '../../payroll/entities/payroll.entity';
 import { User } from '../../users/entities/user.entity';
 
 @Entity()
@@ -10,8 +11,8 @@ export class Courier extends User {
   @Property()
   driversLicense: string;
 
-  @OneToOne()
-  payrollIdPayroll: string;
+  @OneToOne(() => Payroll, (payroll) => payroll.idPayroll)
+  payroll = new Collection<Payroll>(this);
 
   @OneToOne()
   vehicleIdVehicle: string;
