@@ -87,7 +87,7 @@ export class BusinessCreateFormComponent implements OnInit, OnDestroy {
       this.isLoading = true;
       this.goingBackConfirmed = result as boolean;
       if (this.goingBackConfirmed) {
-        this.router.navigate(['/businesses']); //TODO: update to businesses profile route
+        this.router.navigate(['/businesses']);
       } else {
         this.isLoading = false;
       }
