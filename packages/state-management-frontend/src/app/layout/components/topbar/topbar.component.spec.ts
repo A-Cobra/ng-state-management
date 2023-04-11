@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { LayoutService } from '../../services/layout.service';
 import { TopbarComponent } from './topbar.component';
 
 describe('TopbarComponent', () => {
@@ -9,6 +9,7 @@ describe('TopbarComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [TopbarComponent],
+      providers: [{ provide: LayoutService }],
     }).compileComponents();
 
     fixture = TestBed.createComponent(TopbarComponent);
