@@ -1,4 +1,6 @@
-import { Component, EventEmitter } from '@angular/core';
+import { Component } from '@angular/core';
+
+import { LayoutService } from '../../services/layout.service';
 
 import {
   headerBrand,
@@ -13,8 +15,7 @@ import { MOCK_USER_LAYOUT } from '../../tests/layout-mocks';
   styleUrls: ['./sidebar.component.scss'],
 })
 export class SidebarComponent {
-  expandEvent = new EventEmitter<boolean>();
-  logoutEvent = new EventEmitter<boolean>();
+  constructor(private layoutService: LayoutService) {}
 
   navigationConfig = navigationOptions;
   logOutConfiguration = logOutConfig;
@@ -22,8 +23,9 @@ export class SidebarComponent {
   isExpanded = false;
   userData = MOCK_USER_LAYOUT;
 
+  appUuidToNumber = this.layoutService.uuidToNumber;
+
   logoOut() {
-    // this.logoutEvent.emit(event);
     console.log('LOGOUT');
   }
 

@@ -3,7 +3,7 @@
   [headerBrand]="headerBrandConfig"
   [logOutConfig]="logOutConfiguration"
   [expanded]="isExpanded"
-  [currentUserRole]="userData.rol"
+  [currentUserRole]="appUuidToNumber(userData.roleId)"
   (logout)="logoOut()"
   (navbarExpands)="navbarExpands()"
 ></clapp-sidebar>
