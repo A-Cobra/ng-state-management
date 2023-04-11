@@ -3,7 +3,7 @@ import { UsersDirectoryService } from '../services/users-directory.service';
 import { createCredentialsDtoStub, credentialsStub } from './users.stubs';
 import { UserCredentials } from '../entities/user-credentials.entity';
 import { getRepositoryToken } from '@mikro-orm/nestjs';
-import { EntityRepository } from '@mikro-orm/core';
+import { RolesService } from '../services/role.service';
 
 describe('UsersDirectoryService', () => {
   let directoryService: UsersDirectoryService;
@@ -19,6 +19,16 @@ describe('UsersDirectoryService', () => {
             create: jest.fn().mockReturnValue(credentialsStub),
             persistAndFlush: jest.fn().mockReturnValue(true),
             flush: jest.fn().mockReturnValue(true),
+          },
+        },
+        RolesService,
+        {
+          provide: RolesService,
+          useValue: {
+            findRole: jest.fn().mockReturnValue({
+              roleId: 'roleid',
+              roleName: 'roleName',
+            }),
           },
         },
       ],

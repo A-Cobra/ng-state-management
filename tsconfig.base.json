@@ -15,7 +15,9 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@state-management-app/types": ["packages/shared-libs/types/src/public-api.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

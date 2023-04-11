@@ -123,12 +123,9 @@ export class CustomersService {
     if (currentCustomer.role === ValidRoles.customer)
       this.validateSameCustomer(customerInfo, currentCustomer);
 
-    const { refreshToken } = await this.authService.getTokens(
-      customerInfo.userId,
-      customerInfo.username,
-      customerInfo.role
-    );
+    const { isDeleted, ...rest } = customerInfo;
 
+<<<<<<< HEAD
     const hashedRefreshToken = await hashData(refreshToken);
 
     const userUpdate = {
@@ -139,8 +136,11 @@ export class CustomersService {
     const { deleted, customer_id, ...rest } = customerInfo;
 
     this.customerRepository.assign(customerInfo, userUpdate);
+=======
+    this.customerRepository.assign(customerInfo, updateCustomerDto);
+>>>>>>> develop
     await this.customerRepository.flush();
-    return { ...rest, ...userUpdate };
+    return { ...rest, ...updateCustomerDto };
   }
 
   async remove(id: string) {

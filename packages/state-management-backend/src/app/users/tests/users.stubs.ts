@@ -2,7 +2,6 @@ import { User } from '../entities/user.entity';
 
 export const userDto: User = {
   userId: '1',
-  role: 'customer',
   username: 'c',
   name: 'c',
   lastname: 'c',
