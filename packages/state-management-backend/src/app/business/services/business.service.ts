@@ -57,7 +57,7 @@ export class BusinessService {
       user: createdBusiness,
       email: dto.email,
       password: dto.password,
-      role: 'BUSINESS',
+      role: ValidRoles.business,
     });
 
     return createdBusiness;
@@ -127,10 +127,10 @@ export class BusinessService {
   }
 
   async modify(
-    businessId: string,
+    userId: string,
     businessModificationDto: BusinessModificationDto
   ): Promise<BusinessHq> {
-    const business = await this.businessRepository.findOne({ businessId });
+    const business = await this.businessRepository.findOne({ userId });
     this.businessRepository.assign(business, businessModificationDto);
     await this.businessRepository.flush();
 

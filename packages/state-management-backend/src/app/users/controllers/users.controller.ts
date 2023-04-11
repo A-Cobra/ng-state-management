@@ -14,7 +14,11 @@ export class UsersController {
   @Get('profile')
   @UseGuards(JwtAuthGuard)
   async update(@GetUser() userInfo: JwtInfo) {
-    const { user } = await this.directory.findUser(userInfo.sub);
-    return user;
+    const { user, role } = await this.directory.findUser(userInfo.sub);
+    return {
+      ...user,
+      role: role.roleName,
+      roleId: role.roleId,
+    };
   }
 }

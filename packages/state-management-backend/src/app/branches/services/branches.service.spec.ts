@@ -118,12 +118,12 @@ describe('BranchesService', () => {
     const createdBranch = {
       branchId: '123',
       ...newBranch,
-      businessId: { businessId: '123' },
+      business: { userId: '123' },
     };
     const responseBranch = {
       branchId: '123',
       ...newBranch,
-      businessId: '123',
+      userId: '123',
     };
     jest.spyOn(businessService, 'findById').mockResolvedValueOnce(businessStub);
     mockBranchRepository.create.mockReturnValueOnce(createdBranch);

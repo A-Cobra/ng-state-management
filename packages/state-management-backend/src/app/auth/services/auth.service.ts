@@ -31,7 +31,7 @@ export class AuthService {
     const tokens = await this.getTokens(
       userCredentials.user.userId,
       userCredentials.email,
-      userCredentials.role
+      userCredentials.role.roleName
     );
     await this.updateRefreshToken(
       userCredentials.user.userId,
@@ -121,7 +121,7 @@ export class AuthService {
     const tokens = await this.getTokens(
       credentials.user.userId,
       credentials.email,
-      credentials.user.role
+      credentials.role.roleName
     );
     await this.updateRefreshToken(credentials.user.userId, tokens.refreshToken);
 
