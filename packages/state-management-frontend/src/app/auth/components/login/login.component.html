@@ -1,0 +1,74 @@
+<div class="container">
+  <div class="wrapper">
+    <clapp-card>
+      <clapp-card-header>
+        <h2>Login</h2>
+      </clapp-card-header>
+      <clapp-card-content>
+        <div class="form-wrapper">
+          <form class="form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <div class="form-group">
+              <clapp-text-input
+                id="email"
+                name="email"
+                label="Email"
+                type="email"
+                formControlName="email"
+                [error]="email!.invalid && email!.touched"
+              >
+              </clapp-text-input>
+              <clapp-helper-text
+                *ngIf="email?.errors?.['required'] && email!.touched"
+                [textState]="'error'"
+              >
+                Email is required.
+              </clapp-helper-text>
+              <clapp-helper-text
+                *ngIf="email?.errors?.['email'] && email!.touched"
+                [textState]="'error'"
+              >
+                Invalid email.
+              </clapp-helper-text>
+            </div>
+            <div class="form-group">
+              <clapp-text-input
+                id="password"
+                name="password"
+                label="Password"
+                type="password"
+                formControlName="password"
+                [error]="password!.invalid && password!.touched"
+              ></clapp-text-input>
+              <clapp-helper-text
+                *ngIf="password?.errors?.['required'] && password!.touched"
+                [textState]="'error'"
+              >
+                Password is required.
+              </clapp-helper-text>
+              <clapp-helper-text
+                *ngIf="password?.errors?.['invalidPassword'] && password!.touched"
+                [textState]="'error'"
+              >
+                The password must be at least 8 characters long, it must contain
+                at least one uppercase letter, one number and one special
+                symbol.
+              </clapp-helper-text>
+            </div>
+            <div class="login">
+              <clapp-button
+                [type]="'submit'"
+                [size]="'big'"
+                [disabled]="loginForm.invalid"
+                >Login</clapp-button
+              >
+              <p>
+                Already have an account? <a routerLink="/signup">Sign up</a>
+              </p>
+            </div>
+          </form>
+        </div>
+      </clapp-card-content>
+    </clapp-card>
+    <app-loader *ngIf="isLoading"></app-loader>
+  </div>
+</div>

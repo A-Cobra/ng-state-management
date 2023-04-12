@@ -13,9 +13,11 @@ import { LoaderComponent } from '../shared/components/loader/loader.component';
 import { AuthRoutingModule } from './auth-routing.module';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { SignUpService } from './services/sign-up.service';
+import { LoginService } from './services/login.service';
+import { LoginComponent } from './components/login/login.component';
 
 @NgModule({
-  declarations: [SignUpComponent],
+  declarations: [SignUpComponent, LoginComponent],
   imports: [
     CommonModule,
     AuthRoutingModule,
@@ -29,6 +31,6 @@ import { SignUpService } from './services/sign-up.service';
     ClappNotificationModule,
     AuthRoutingModule,
   ],
-  providers: [SignUpService],
+  providers: [SignUpService, LoginService],
 })
 export class AuthModule {}

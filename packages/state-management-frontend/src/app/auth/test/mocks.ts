@@ -1,4 +1,4 @@
-import { User } from '../interfaces/user.interface';
+import { User, UserLogin } from '../interfaces/user.interface';
 
 export const MOCK_USER: User = {
   name: 'John',
@@ -6,5 +6,10 @@ export const MOCK_USER: User = {
   username: 'johndoe',
   email: 'johndoe@example.com',
   contactNumber: '1234567890',
+  password: 'password',
+};
+
+export const MOCK_USER_LOGIN: UserLogin = {
+  email: 'johndoe@example.com',
   password: 'password',
 };
