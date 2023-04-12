@@ -10,7 +10,6 @@ export const mockUser: User = {
   username: 'test',
   contactNumber: '1313412341',
   userId: 'userid',
-  role: 'admin',
 };
 
 export const mockCurrentCustomer: JwtInfo = {

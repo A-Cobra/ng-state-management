@@ -38,5 +38,5 @@ export class BusinessBranch {
   deleted = false;
 
   @ManyToOne(() => BusinessHq)
-  businessId: BusinessHq;
+  business: BusinessHq;
 }

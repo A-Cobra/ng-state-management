@@ -1,5 +1,6 @@
 import { Entity, OneToOne, PrimaryKeyType, Property } from '@mikro-orm/core';
 import { User } from './user.entity';
+import { Role } from './role.entity';
 
 @Entity()
 export class UserCredentials {
@@ -15,7 +16,7 @@ export class UserCredentials {
   password: string;
 
   @Property()
-  role: string;
+  role: Role;
 
   @Property({ default: false })
   isLoggedIn?: boolean;
