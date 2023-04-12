@@ -9,7 +9,6 @@ export class UsersListener {
 
   @OnEvent('user.created')
   handleOrderCreatedEvent(payload: createUserCredentialsDto) {
-    console.log('sup');
     this.usersDirectory.createUserCredentials(payload);
   }
 }

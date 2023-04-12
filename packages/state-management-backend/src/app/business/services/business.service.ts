@@ -62,8 +62,6 @@ export class BusinessService {
       password: dto.password,
     });
 
-    console.log('order emitted');
-
     return createdBusiness;
   }
 
