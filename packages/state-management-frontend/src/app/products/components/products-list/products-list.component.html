@@ -10,25 +10,43 @@
     <clapp-button
       color="secondary"
       plusIcon="ri-add-fill"
-      [routerLink]="['create']"
+      [routerLink]="['/products', 'create']"
     >
       Add Product</clapp-button
     >
   </div>
-  <div class="cardsContainer">
-    <app-products-card
-      *ngFor="let product of productsList"
-      [productData]="product"
-    ></app-products-card>
+  <div
+    class="main"
+    *ngIf="productsList$ | async as productsList; else noProducts"
+  >
+    <div class="cardsContainer">
+      <app-products-card
+        *ngFor="let product of productsList"
+        [productData]="product"
+      ></app-products-card>
+    </div>
+    <div>
+      <clapp-pagination
+        *ngIf="
+          paginationConfiguration.totalRecords >
+          paginationConfiguration.recordsPerPage
+        "
+        [totalRecords]="paginationConfiguration.totalRecords"
+        [pageSize]="paginationConfiguration.recordsPerPage"
+      ></clapp-pagination>
+    </div>
   </div>
-  <div>
-    <clapp-pagination
-      *ngIf="
-        paginationConfiguration.totalRecords >
-        paginationConfiguration.recordsPerPage
-      "
-      [totalRecords]="paginationConfiguration.totalRecords"
-      [pageSize]="paginationConfiguration.recordsPerPage"
-    ></clapp-pagination>
-  </div>
+  <ng-template #noProducts>
+    <div class="no-products">
+      <h1>No products</h1>
+      <p>Please add new ones</p>
+      <clapp-button
+        color="secondary"
+        plusIcon="ri-add-fill"
+        [routerLink]="['/products', 'create']"
+      >
+        Add Product</clapp-button
+      >
+    </div>
+  </ng-template>
 </div>
