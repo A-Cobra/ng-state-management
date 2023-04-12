@@ -6,3 +6,8 @@ export interface User {
   password: string;
   contactNumber: string;
 }
+
+export interface UserLogin {
+  email: string;
+  password: string;
+}
