@@ -8,6 +8,7 @@ import {
   ClappNoResultsModule,
   ClappPaginationModule,
   ClappSearchModule,
+  ModalService,
 } from '@clapp1/clapp-angular';
 
 import { CustomerCardComponent } from './components/customer-card/customer-card.component';
@@ -32,5 +33,6 @@ import { CustomersRoutingModule } from './customers-routing.module';
     ClappImageDisplayModule,
     ReactiveFormsModule,
   ],
+  providers: [ModalService],
 })
 export class CustomersModule {}

@@ -4,20 +4,26 @@ $secondary-color: #f5f5f5;
 .container {
   display: grid;
   place-items: center;
+
+  min-height: 100%;
 }
 
 .customer {
   display: grid;
   gap: 1em;
 
+  align-content: center;
+  min-height: 100%;
+
   &__header {
     display: grid;
     gap: 0.5em;
+    justify-items: flex-start;
   }
 
   &__image {
     display: block;
-    width: min(100% - 3em);
+    width: min(100% - 3em, 400px);
     margin-inline: auto;
     border-radius: 0.3em;
   }
@@ -28,7 +34,12 @@ $secondary-color: #f5f5f5;
   }
 
   &__tag {
+    padding: 0.5em 1em;
+
     font-weight: 500;
+
+    background-color: $secondary-color;
+    border-radius: 0.3em;
   }
 
   &__name {
@@ -37,8 +48,10 @@ $secondary-color: #f5f5f5;
 
   &__actions {
     display: flex;
+    justify-content: flex-end;
     gap: 1em;
     grid-column: 1 / -1;
+    flex-wrap: wrap;
   }
 
   &__contact {

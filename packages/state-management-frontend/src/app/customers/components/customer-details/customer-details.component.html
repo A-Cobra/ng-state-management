@@ -8,25 +8,24 @@
       </p>
 
       <clapp-button
+        [routerLink]="['']"
         color="primary"
         size="small"
         type="button"
-        [routerLink]="['']"
       >
         Go home
       </clapp-button>
     </div>
   </ng-container>
-  <div class="customer" *ngIf="customer">
+  <div *ngIf="customer" class="customer">
     <div class="customer__header">
-      <img
-        alt="Profile Picture"
+      <clapp-image-display
+        [alt]="customer.name + ' profile image'"
+        [src]="customer.image || null"
         class="customer__image"
-        [src]="
-          customer.image ??
-          'https://rickandmortyapi.com/api/character/avatar/380.jpeg'
-        "
-      />
+        type="thumbnail"
+      >
+      </clapp-image-display>
       <h2 class="customer__name">
         {{ customer.name }} {{ customer.lastName }}
       </h2>
@@ -48,7 +47,7 @@
       </p>
     </div>
     <div class="customer__actions">
-      <clapp-button plusIcon="ri-arrow-left-s-line" [routerLink]="['']">
+      <clapp-button (click)="onClickBack()" plusIcon="ri-arrow-left-s-line">
         Go back
       </clapp-button>
       <clapp-button
