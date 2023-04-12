@@ -4,6 +4,7 @@ import { FormControl } from '@angular/forms';
 import { Branch } from '../../models/branch.model';
 import { BranchesService } from '../../services/branches.service';
 
+import { Pagination } from '@clapp1/clapp-angular/lib/pagination/interfaces/pagination.interface';
 import {
   debounceTime,
   distinctUntilChanged,
@@ -13,10 +14,9 @@ import {
   takeUntil,
   tap,
 } from 'rxjs';
-import { Pagination } from '@clapp1/clapp-angular/lib/pagination/interfaces/pagination.interface';
 
 @Component({
-  selector: 'state-management-app-branches',
+  selector: 'app-branches',
   templateUrl: './branches.component.html',
   styleUrls: ['./branches.component.scss'],
 })

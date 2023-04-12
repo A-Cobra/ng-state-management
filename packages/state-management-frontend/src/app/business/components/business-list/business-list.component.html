@@ -7,10 +7,10 @@
     >
   </div>
   <div class="cardContainer">
-    <state-management-app-business-card
+    <app-business-card
       *ngFor="let record of mockRecords; index as i"
       [businessId]="record.id"
-    ></state-management-app-business-card>
+    ></app-business-card>
   </div>
   <div>
     <clapp-pagination

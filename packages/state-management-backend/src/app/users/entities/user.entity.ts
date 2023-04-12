@@ -1,13 +1,12 @@
-import { Entity, ManyToOne, PrimaryKey, Property } from '@mikro-orm/core';
+import { Entity, PrimaryKey, Property } from '@mikro-orm/core';
 import { v4 } from 'uuid';
+import { ValidRoles } from '../../auth/interfaces/valid-roles.type';
+import { Role } from './role.entity';
 
 @Entity()
 export class User {
   @PrimaryKey()
-  user_id: string = v4();
-
-  @Property()
-  role: string;
+  userId: string = v4();
 
   @Property()
   username: string;
@@ -15,24 +14,18 @@ export class User {
   @Property()
   name: string;
 
-  @Property()
-  lastname: string;
+  @Property({ nullable: true })
+  lastname?: string;
 
-  @Property()
-  picture: string;
+  @Property({ nullable: true })
+  picture?: string;
 
   @Property()
   email: string;
 
   @Property()
-  password: string;
+  contactNumber: string;
 
-  @Property()
-  isLoggedIn: boolean;
-
-  @Property()
-  contact_number: string;
-
-  @Property()
-  refreshToken?: string;
+  @Property({ default: false })
+  deleted?: boolean;
 }

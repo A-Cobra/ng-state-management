@@ -8,9 +8,9 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { CreateUserDto } from '../users/dto/create-user.dto';
-import { AuthService } from './auth.service';
+import { AuthService } from './services/auth.service';
 import { GetUser } from './decorator/get-user.decorator';
-import { SignInDto } from './dto/sigin.dto';
+import { SignInDto } from './dto/signin.dto';
 import { JwtAuthGuard } from './guard/jwt-auth.guard';
 import { RefreshTokenGuard } from './guard/refrest-token.guard';
 import { JwtInfo } from './interfaces/jwtinfo.type';
@@ -37,16 +37,6 @@ export class AuthController {
   @Post('/local/signup')
   async signUp(@Body() userInfo: CreateUserDto) {
     return this.authService.signUp(userInfo);
-  }
-
-  @UseGuards(JwtAuthGuard)
-  @Post('account/:userId/role/:newRole')
-  async changeRole(
-    @GetUser() currentUser: JwtInfo,
-    @Param('userId') userId: string,
-    @Param('newRole') newRole: string
-  ) {
-    return this.authService.changeRole(currentUser, userId, newRole);
   }
 
   @UseGuards(RefreshTokenGuard)

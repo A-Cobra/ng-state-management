@@ -15,10 +15,7 @@
 <ng-container *ngIf="branches$ | async as branches">
   <ng-container *ngIf="totalRecords; else noResults">
     <div class="branches">
-      <state-management-app-branch-card
-        *ngFor="let branch of branches"
-        [branch]="branch"
-      />
+      <app-branch-card *ngFor="let branch of branches" [branch]="branch" />
     </div>
 
     <clapp-pagination
