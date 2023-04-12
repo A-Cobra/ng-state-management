@@ -9,17 +9,29 @@ import {
   ClappTextInputModule,
   ModalService,
 } from '@clapp1/clapp-angular';
+import { of } from 'rxjs';
 
 import { ConfirmationModalComponent } from '../../../shared/components/confirmation-modal/confirmation-modal.component';
 import { LoaderComponent } from '../../../shared/components/loader/loader.component';
 import { UserService } from '../../services/user.service';
-import { mockUser, modalServiceMock, userServiceMock } from '../../test/mocks';
+import { mockUser } from '../../test/mocks';
 import {
   backModalConfig,
   cancelModalConfig,
   saveChangesModalConfig,
 } from '../../utils/modal-config';
 import { UserProfileComponent } from './user-profile.component';
+
+const userServiceMock = {
+  getUserProfile: jest.fn().mockReturnValue(of(mockUser)),
+  saveUserProfile: jest.fn().mockReturnValue(of(mockUser)),
+};
+
+const modalServiceMock = {
+  open: jest.fn(() => ({
+    afterClosed: of(true),
+  })),
+};
 
 describe('UserProfileComponent', () => {
   let component: UserProfileComponent;
