@@ -31,7 +31,7 @@ export class BranchesServiceMock {
       ...createBranchDto,
       branchId: '6f9f1b0b0b0b0b0b0b0b0b0b',
       deleted: false,
-      businessId: { businessId: businessId } as BusinessHq,
+      business: { userId: businessId } as BusinessHq,
     };
   }
 

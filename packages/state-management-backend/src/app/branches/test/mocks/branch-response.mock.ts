@@ -14,8 +14,8 @@ export const mockBranchesResponse = {
       contactEmail: 'example@gmail.com',
       deleted: false,
       contactPhoneNumber: '77867555',
-      businessId: {
-        businessId: '6c84fb90-12c4-11e1-840d-7b25c5ee775a',
+      business: {
+        userId: '6c84fb90-12c4-11e1-840d-7b25c5ee775a',
       } as BusinessHq,
     },
     {
@@ -30,8 +30,8 @@ export const mockBranchesResponse = {
       closeTime: '16:00:00',
       contactEmail: 'example@gmail.com',
       contactPhoneNumber: '77867555',
-      businessId: {
-        businessId: '6c84fb90-12c4-11e1-840d-7b25c5ee775a',
+      business: {
+        userId: '6c84fb90-12c4-11e1-840d-7b25c5ee775a',
       } as BusinessHq,
     },
     {
@@ -46,8 +46,8 @@ export const mockBranchesResponse = {
       closeTime: '16:00:00',
       contactEmail: 'example@gmail.com',
       contactPhoneNumber: '77867555',
-      businessId: {
-        businessId: '6c84fb90-12c4-11e1-840d-7b25c5ee775a',
+      business: {
+        userId: '6c84fb90-12c4-11e1-840d-7b25c5ee775a',
       } as BusinessHq,
     },
   ],
