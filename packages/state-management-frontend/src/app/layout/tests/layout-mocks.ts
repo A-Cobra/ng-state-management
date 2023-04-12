@@ -1,5 +1,5 @@
-import { UserLayout } from '../models/layout.interface';
-import { RoleLayout } from '../models/layout.interface';
+import { UserLayout } from '../models/layout.model';
+import { RoleLayout } from '../models/layout.model';
 
 export const MOCK_USER_LAYOUT: UserLayout = {
   id: 'a25a3836-9d8e-4a09-a5f5-85f7c741a5a4',

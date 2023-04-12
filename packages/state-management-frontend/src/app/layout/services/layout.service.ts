@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 
-import { RoleLayout, UserLayout } from '../models/layout.interface';
+import { RoleLayout, UserLayout } from '../models/layout.model';
 import { MOCK_ROLES, MOCK_USER_LAYOUT } from '../tests/layout-mocks';
 
 @Injectable()

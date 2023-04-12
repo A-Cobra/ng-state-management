@@ -1,7 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
-import { UserLayout } from '../../models/layout.interface';
+import { NotificationService } from '@clapp1/clapp-angular';
+import { UserLayout } from '../../models/layout.model';
 import { LayoutService } from '../../services/layout.service';
 
 @Component({
@@ -10,7 +11,11 @@ import { LayoutService } from '../../services/layout.service';
   styleUrls: ['./topbar.component.scss'],
 })
 export class TopbarComponent implements OnInit, OnDestroy {
-  constructor(private layoutService: LayoutService, private route: Router) {}
+  constructor(
+    private layoutService: LayoutService,
+    private route: Router,
+    private notificationService: NotificationService
+  ) {}
   userData: UserLayout;
   unsubscribe$: Subject<void> = new Subject<void>();
 
@@ -19,12 +24,18 @@ export class TopbarComponent implements OnInit, OnDestroy {
       next: (res) => {
         this.userData = res;
       },
-      error: (err) => console.log(err), // TODO: add notification
+      error: () =>
+        this.notificationService.error(
+          'Error loading user data, please try again later',
+          'Error! '
+        ),
     });
   }
 
   goToProfile() {
-    this.route.navigate([`/users/profile/${this.userData.id}`]);
+    // TODO: update route to [`/users/profile/${this.userData.id}`]
+
+    this.route.navigate(['/businesses']);
   }
 
   ngOnDestroy(): void {

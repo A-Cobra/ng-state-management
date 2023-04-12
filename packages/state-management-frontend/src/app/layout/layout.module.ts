@@ -9,6 +9,7 @@ import {
   ClappSideBarModule,
   ClappTopbarModule,
   ClappImageDisplayModule,
+  ClappNotificationModule,
 } from '@clapp1/clapp-angular';
 
 @NgModule({
@@ -18,6 +19,7 @@ import {
     ClappSideBarModule,
     ClappTopbarModule,
     ClappImageDisplayModule,
+    ClappNotificationModule,
   ],
   exports: [SidebarComponent, TopbarComponent],
   providers: [LayoutService],
