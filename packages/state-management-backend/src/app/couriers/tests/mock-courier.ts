@@ -10,7 +10,6 @@ export const mockCourier: Courier = {
   driversLicense: 'license',
   vehicle: new CourierVehicle(),
   userId: 'userId',
-  role: 'courier',
   username: 'username',
   name: 'name',
   email: 'email@example.com',

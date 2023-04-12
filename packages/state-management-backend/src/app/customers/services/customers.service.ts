@@ -7,7 +7,6 @@ import {
 } from '@nestjs/common';
 
 import { ValidRoles } from '../../auth/interfaces/valid-roles.type';
-import { hashData } from '../../auth/utils/jwt.util';
 import { PaginationResult } from '../../common/interfaces/pagination-result.interface';
 import { CreateCustomerDto } from '../dto/create-customer.dto';
 import { UpdateCustomerDto } from '../dto/update-customer.dto';
@@ -33,10 +32,7 @@ export class CustomersService {
   async create(createCustomerDto: CreateCustomerDto): Promise<Customer> {
     // todo Fix method when authService is ready
     // createCustomerDto.password = await hashData(createCustomerDto.password);
-    const customer = this.customerRepository.create({
-      ...createCustomerDto,
-      role: ValidRoles.customer,
-    });
+    const customer = this.customerRepository.create(createCustomerDto);
 
     const { user } = extractUser(customer);
 
@@ -123,22 +119,9 @@ export class CustomersService {
     if (currentCustomer.role === ValidRoles.customer)
       this.validateSameCustomer(customerInfo, currentCustomer);
 
-    const { isDeleted, ...rest } = customerInfo;
+    const { deleted, ...rest } = customerInfo;
 
-<<<<<<< HEAD
-    const hashedRefreshToken = await hashData(refreshToken);
-
-    const userUpdate = {
-      ...updateCustomerDto,
-      refreshToken: hashedRefreshToken,
-    };
-
-    const { deleted, customer_id, ...rest } = customerInfo;
-
-    this.customerRepository.assign(customerInfo, userUpdate);
-=======
     this.customerRepository.assign(customerInfo, updateCustomerDto);
->>>>>>> develop
     await this.customerRepository.flush();
     return { ...rest, ...updateCustomerDto };
   }

@@ -73,7 +73,6 @@ describe('CouriersController', () => {
     const response = mockCourier;
     const update: UpdateCourierDto = {
       name: 'newName',
-      role: 'courier',
     };
     const service = jest
       .spyOn(mockCouriersService, 'update')

@@ -27,10 +27,7 @@ export class CouriersService {
   ) {}
 
   async create(createCourierDto: CreateCourierDto) {
-    const courier = this.courierRepository.create({
-      ...createCourierDto,
-      role: ValidRoles.courier,
-    });
+    const courier = this.courierRepository.create(createCourierDto);
 
     const { user } = extractUser(courier);
 

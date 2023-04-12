@@ -96,7 +96,6 @@ describe('CouriersService', () => {
 
   it('should validate same courier', () => {
     const foundCourier = mockCourier;
-    foundCourier.role = 'courier';
     const currentCourier = mockCurrentCourier;
     currentCourier.sub = 'userId';
 

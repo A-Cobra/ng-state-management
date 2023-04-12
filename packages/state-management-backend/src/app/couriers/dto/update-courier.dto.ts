@@ -9,9 +9,6 @@ export class UpdateCourierDto extends PartialType(CreateCourierDto) {
   @IsEmpty({ message: 'cant update email' })
   email?: string;
 
-  @IsEmpty({ message: 'To change role please contact an admin' })
-  role: string;
-
   @IsEmpty()
   isDeleted?: boolean;
 }
