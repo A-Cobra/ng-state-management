@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-
-import { CUSTOMERS } from '../data/customers';
-import { ApiResponse } from '../../branches/models/api-response.model';
-import { Customer } from '../models/customer.model';
-
 import { Observable, of } from 'rxjs';
+
+import { ApiResponse } from '../../branches/models/api-response.model';
+import { CUSTOMERS } from '../data/customers';
+import { Customer } from '../models/customer.model';
 
 @Injectable({
   providedIn: 'root',
@@ -39,5 +38,17 @@ export class CustomersService {
         pageSize,
       },
     });
+  }
+
+  getCustomer(id: string): Observable<Customer> {
+    // TODO: Replace with real implementation when BE will be ready. Some logic will be removed since BE will handle it.
+    return of(
+      this.#customers.filter((customer: Customer) => customer.id === id)[0]
+    );
+  }
+
+  deleteCustomer(id: string): Observable<void> {
+    // TODO: Replace with real implementation when BE will be ready. Some logic will be removed since BE will handle it.
+    return of(undefined);
   }
 }
