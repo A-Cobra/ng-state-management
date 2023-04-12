@@ -9,4 +9,7 @@ import { ProductInterface } from '@state-management-app/types';
 export class ProductsCardComponent {
   @Input()
   productData: ProductInterface;
+  countryCode = 'USD';
+  currencyDisplay = 'symbol';
+  currencyDigits = '1.2-2';
 }

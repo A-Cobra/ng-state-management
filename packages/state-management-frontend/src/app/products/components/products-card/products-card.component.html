@@ -1,6 +1,9 @@
-<clapp-card>
+<clapp-card *ngIf="productData">
   <img src="assets/templateImage.png" alt="" srcset="" />
-  <clapp-card-header>Business Name</clapp-card-header>
-  <clapp-card-content>Business Content</clapp-card-content>
-  <clapp-card-content>Business Content</clapp-card-content>
+  <clapp-card-header>{{ productData.productName }}</clapp-card-header>
+  <clapp-card-content>{{ productData.description }}</clapp-card-content>
+  <clapp-card-content>{{
+    productData.price
+      | currency : countryCode : currencyDisplay : currencyDigits
+  }}</clapp-card-content>
 </clapp-card>
