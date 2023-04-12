@@ -1,6 +1,6 @@
 export const saveChangesModalConfig = {
   data: {
-    title: 'Are you sure to save the changes?',
+    title: 'Are you sure you want to save the changes?',
     message: 'The changes made can be changed later',
     confirmButtonLabel: 'Save',
     cancelButtonLabel: 'Cancel',
@@ -11,7 +11,7 @@ export const saveChangesModalConfig = {
 
 export const backModalConfig = {
   data: {
-    title: 'Are you sure leave?',
+    title: 'Are you sure you want to leave?',
     message: 'Changes will not be saved',
     confirmButtonLabel: 'Leave',
     cancelButtonLabel: 'Cancel',
@@ -22,7 +22,7 @@ export const backModalConfig = {
 
 export const cancelModalConfig = {
   data: {
-    title: 'Are you sure to cancel?',
+    title: 'Are you sure you want to cancel?',
     message: 'Changes will not be saved',
     confirmButtonLabel: 'Cancel',
     cancelButtonLabel: 'Edit',
