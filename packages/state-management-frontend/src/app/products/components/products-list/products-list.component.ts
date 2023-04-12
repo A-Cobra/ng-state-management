@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component } from '@angular/core';
 import { ProductInterface } from '@state-management-app/types';
 
@@ -40,4 +41,10 @@ export class ProductsListComponent {
     recordsPerPage: 40,
     totalRecords: 201,
   };
+
+  constructor(private location: Location) {}
+
+  onGoBack(): void {
+    this.location.back();
+  }
 }
