@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ProductInterface } from '@state-management-app/types';
 
 @Component({
   selector: 'app-products-list',
@@ -6,31 +7,33 @@ import { Component } from '@angular/core';
   styleUrls: ['./products-list.component.scss'],
 })
 export class ProductsListComponent {
-  mockRecords = [
+  productsList: ProductInterface[] = [
     {
-      id: 1,
-      name: 'test',
-      description: 'test',
+      idProduct: '1',
+      productName: 'name1',
+      description: 'description1',
+      price: 1,
+      discount: 5,
+      stock: 500,
+      status: 'available',
     },
     {
-      id: 2,
-      name: 'test',
-      description: 'test',
+      idProduct: '2',
+      productName: 'name2',
+      description: 'description2',
+      price: 6,
+      discount: 12,
+      stock: 400,
+      status: 'available',
     },
     {
-      id: 3,
-      name: 'test',
-      description: 'test',
-    },
-    {
-      id: 4,
-      name: 'test',
-      description: 'test',
-    },
-    {
-      id: 6,
-      name: 'test',
-      description: 'test',
+      idProduct: '3',
+      productName: 'name3',
+      description: 'description3',
+      price: 30,
+      discount: 20,
+      stock: 10,
+      status: 'available',
     },
   ];
   paginationConfiguration = {

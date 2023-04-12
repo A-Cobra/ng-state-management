@@ -9,7 +9,12 @@
       Add Product</clapp-button
     >
   </div>
-  <div class="cardsContainer">Cards Container</div>
+  <div class="cardsContainer">
+    <app-products-card
+      *ngFor="let product of productsList"
+      [productData]="product"
+    ></app-products-card>
+  </div>
   <div>
     <clapp-pagination
       *ngIf="
