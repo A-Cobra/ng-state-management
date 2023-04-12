@@ -1,7 +1,7 @@
 export const saveChangesModalConfig = {
   data: {
     title: 'Are you sure you want to save the changes?',
-    message: 'The changes made can be changed later',
+    message: 'The user information can be updated again later.',
     confirmButtonLabel: 'Save',
     cancelButtonLabel: 'Cancel',
   },
