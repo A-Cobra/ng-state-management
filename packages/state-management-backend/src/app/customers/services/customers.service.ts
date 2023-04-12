@@ -12,13 +12,11 @@ import { CreateCustomerDto } from '../dto/create-customer.dto';
 import { UpdateCustomerDto } from '../dto/update-customer.dto';
 import { Customer } from '../entities/customer.entity';
 import { JwtInfo } from '../../auth/interfaces/jwtinfo.type';
-import { SearchQueryDto } from '../dto/search-query.dto';
+import { SearchQueryDto } from '../../common/dtos/search-query.dto';
 import { UsersDirectoryService } from '../../users/services/users-directory.service';
 import { AuthService } from '../../auth/services/auth.service';
-import {
-  extractUser,
-  paginationParameters,
-} from '../../common/methods/pagination-parameters';
+import { paginationParameters } from '../../common/methods/pagination-parameters';
+import { extractUser } from '../../common/methods/extract-user';
 
 @Injectable()
 export class CustomersService {

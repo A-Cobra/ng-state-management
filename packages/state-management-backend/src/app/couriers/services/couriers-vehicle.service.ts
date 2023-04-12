@@ -2,10 +2,10 @@ import { EntityRepository } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { Courier } from '../entities/courier.entity';
-import { CreateCourierVehicleDto } from '../dto/create-courier-vehicle';
+import { CreateCourierVehicleDto } from '../dto/create-courier-vehicle.dto';
 import { CouriersService } from './couriers.service';
 import { JwtInfo } from '../../auth/interfaces/jwtinfo.type';
-import { UpdateCourierVehicleDto } from '../dto/update-courier-vehicle';
+import { UpdateCourierVehicleDto } from '../dto/update-courier-vehicle.dto';
 import { CourierVehicle } from '../entities/courier-vehicle.entity';
 
 @Injectable()

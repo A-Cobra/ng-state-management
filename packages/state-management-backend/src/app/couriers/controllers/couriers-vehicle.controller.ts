@@ -1,11 +1,11 @@
 import { Body, Controller, Patch, Post } from '@nestjs/common';
-import { CreateCourierVehicleDto } from '../dto/create-courier-vehicle';
+import { CreateCourierVehicleDto } from '../dto/create-courier-vehicle.dto';
 import { GetUser } from '../../auth/decorator/get-user.decorator';
 import { JwtInfo } from '../../auth/interfaces/jwtinfo.type';
 import { CouriersVehicleService } from '../services/couriers-vehicle.service';
 import { Authorized } from '../../auth/decorator/authorized.decorator';
 import { ValidRoles } from '../../auth/interfaces/valid-roles.type';
-import { UpdateCourierVehicleDto } from '../dto/update-courier-vehicle';
+import { UpdateCourierVehicleDto } from '../dto/update-courier-vehicle.dto';
 import { ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Couriers/Delivery Vehicle')

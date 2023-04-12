@@ -1,6 +1,6 @@
 import { JwtInfo } from '../../auth/interfaces/jwtinfo.type';
 import { PaginationResult } from '../../common/interfaces/pagination-result.interface';
-import { SearchQueryDto } from '../../customers/dto/search-query.dto';
+import { SearchQueryDto } from '../../common/dtos/search-query.dto';
 import { CreateCourierDto } from '../dto/create-courier.dto';
 import { CourierVehicle } from '../entities/courier-vehicle.entity';
 import { Courier } from '../entities/courier.entity';

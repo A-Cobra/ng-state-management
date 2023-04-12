@@ -10,12 +10,10 @@ import { Courier } from '../entities/courier.entity';
 import { EntityRepository, FilterQuery, Loaded } from '@mikro-orm/core';
 import { UsersDirectoryService } from '../../users/services/users-directory.service';
 import { ValidRoles } from '../../auth/interfaces/valid-roles.type';
-import { SearchQueryDto } from '../../customers/dto/search-query.dto';
+import { SearchQueryDto } from '../../common/dtos/search-query.dto';
 import { PaginationResult } from '../../common/interfaces/pagination-result.interface';
-import {
-  extractUser,
-  paginationParameters,
-} from '../../common/methods/pagination-parameters';
+import { paginationParameters } from '../../common/methods/pagination-parameters';
+import { extractUser } from '../../common/methods/extract-user';
 import { JwtInfo } from '../../auth/interfaces/jwtinfo.type';
 
 @Injectable()
