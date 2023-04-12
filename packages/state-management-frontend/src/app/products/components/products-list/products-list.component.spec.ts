@@ -6,8 +6,13 @@ import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { CLAPP_MODULES } from '../../test/mocks';
 import { ProductsCardComponent } from '../products-card/products-card.component';
+import { RouterTestingModule } from '@angular/router/testing';
 
 export interface MockLocation {
+  back: () => void;
+}
+
+export interface MockRouterLink {
   back: () => void;
 }
 
@@ -23,7 +28,7 @@ describe('ProductsListComponent', () => {
     };
 
     await TestBed.configureTestingModule({
-      imports: [...CLAPP_MODULES],
+      imports: [...CLAPP_MODULES, RouterTestingModule],
       declarations: [ProductsListComponent, ProductsCardComponent],
       providers: [{ provide: Location, useValue: mockLocation }],
     }).compileComponents();

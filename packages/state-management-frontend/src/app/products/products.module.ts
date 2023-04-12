@@ -10,7 +10,7 @@ import {
 } from '@clapp1/clapp-angular';
 import { ProductsCardComponent } from './components/products-card/products-card.component';
 
-const clappImports = [
+const CLAPP_MODULES = [
   ClappPaginationModule,
   ClappButtonModule,
   ClappSearchModule,
@@ -19,6 +19,6 @@ const clappImports = [
 
 @NgModule({
   declarations: [ProductsListComponent, ProductsCardComponent],
-  imports: [CommonModule, ProductsRoutingModule, ...clappImports],
+  imports: [CommonModule, ProductsRoutingModule, ...CLAPP_MODULES],
 })
 export class ProductsModule {}
