@@ -7,7 +7,6 @@
 
   &__header {
     @include flex($justify-content: space-between, $align-items: center);
-    padding: 1rem;
     @media (max-width: 550px) {
       flex-direction: column;
       gap: 1.5rem;
@@ -15,9 +14,8 @@
   }
 
   &__container {
-    margin: 0 auto;
     @include gridColumnsCentered(auto-fit, minmax(350px, 1fr), 1rem);
-    margin: 1.5rem 1rem;
+    margin: 1.5rem 0;
   }
 
   &__card-body {

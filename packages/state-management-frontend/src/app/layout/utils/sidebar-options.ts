@@ -55,6 +55,6 @@ export const logOutConfig: LogOutConfig = {
 };
 
 export const headerBrand: HeaderBrand = {
-  expandedBrandSrc: 'assets/images/state-management-expanded.png',
+  expandedBrandSrc: 'assets/images/mock-logo-app-expanded.png',
   collapsedBrandSrc: 'assets/images/logo-applaudo-red.png',
 };
