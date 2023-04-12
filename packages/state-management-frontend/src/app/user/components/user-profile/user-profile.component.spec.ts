@@ -10,19 +10,16 @@ import {
   ModalService,
 } from '@clapp1/clapp-angular';
 
+import { ConfirmationModalComponent } from '../../../shared/components/confirmation-modal/confirmation-modal.component';
 import { LoaderComponent } from '../../../shared/components/loader/loader.component';
 import { UserService } from '../../services/user.service';
-import { UserProfileComponent } from './user-profile.component';
-import { ConfirmationModalComponent } from '../../../shared/components/confirmation-modal/confirmation-modal.component';
+import { mockUser, modalServiceMock, userServiceMock } from '../../test/mocks';
 import {
-  activatedRouteMock,
-  backModalMock,
-  cancelModalMock,
-  mockUser,
-  modalServiceMock,
-  saveChangesModalMock,
-  userServiceMock,
-} from '../../test/mocks';
+  backModalConfig,
+  cancelModalConfig,
+  saveChangesModalConfig,
+} from '../../utils/modal-config';
+import { UserProfileComponent } from './user-profile.component';
 
 describe('UserProfileComponent', () => {
   let component: UserProfileComponent;
@@ -50,10 +47,6 @@ describe('UserProfileComponent', () => {
         {
           provide: ModalService,
           useValue: modalServiceMock,
-        },
-        {
-          provide: ActivatedRoute,
-          useValue: activatedRouteMock,
         },
       ],
     }).compileComponents();
@@ -301,7 +294,7 @@ describe('UserProfileComponent', () => {
 
       expect(openSpy).toHaveBeenCalledWith(
         ConfirmationModalComponent,
-        saveChangesModalMock
+        saveChangesModalConfig
       );
       expect(saveChangesSpy).toHaveBeenCalled();
       expect(saveChangesModalSpy).toHaveBeenCalled();
@@ -316,7 +309,7 @@ describe('UserProfileComponent', () => {
 
       expect(openSpy).toHaveBeenCalledWith(
         ConfirmationModalComponent,
-        backModalMock
+        backModalConfig
       );
       expect(backModalSpy).toHaveBeenCalled();
     });
@@ -330,7 +323,7 @@ describe('UserProfileComponent', () => {
 
       expect(openSpy).toHaveBeenCalledWith(
         ConfirmationModalComponent,
-        cancelModalMock
+        cancelModalConfig
       );
       expect(cancelModalSpy).toHaveBeenCalled();
     });

@@ -1,4 +1,3 @@
-import { UserProfile } from './../../models/user.model';
 import { Component, NgZone, OnInit } from '@angular/core';
 import {
   AbstractControl,
@@ -6,13 +5,19 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { UserService } from '../../services/user.service';
-import { switchMap, take, tap } from 'rxjs/operators';
+import { Router } from '@angular/router';
 import { ModalRef, ModalService } from '@clapp1/clapp-angular';
+import { take, tap } from 'rxjs/operators';
+
 import { ConfirmationModalComponent } from '../../../shared/components/confirmation-modal/confirmation-modal.component';
-import { Observable } from 'rxjs';
+import { UserService } from '../../services/user.service';
+import {
+  backModalConfig,
+  cancelModalConfig,
+  saveChangesModalConfig,
+} from '../../utils/modal-config';
 import { emailRegex, onlyNumberRegex, onlyTextRegex } from '../../utils/regex';
+import { UserProfile } from './../../models/user.model';
 
 @Component({
   selector: 'app-user-profile',
@@ -30,19 +35,15 @@ export class UserProfileComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private userService: UserService,
-    private activatedRoute: ActivatedRoute,
     private modalService: ModalService,
     private router: Router,
     private ngZone: NgZone
   ) {}
 
   ngOnInit(): void {
-    this.activatedRoute.params
+    this.userService
+      .getUserProfile()
       .pipe(
-        switchMap(
-          ({ userId }): Observable<UserProfile | undefined> =>
-            this.userService.getUserProfile(userId)
-        ),
         tap((userProfile): void => {
           this.userProfile = userProfile;
           this.initForm();
@@ -138,42 +139,21 @@ export class UserProfileComponent implements OnInit {
   }
 
   saveChangesModal(): ModalRef {
-    return this.modalService.open(ConfirmationModalComponent, {
-      data: {
-        title: 'Are you sure to save the changes?',
-        message: 'The changes made can be changed later',
-        confirmButtonLabel: 'Save',
-        cancelButtonLabel: 'Cancel',
-      },
-      width: 'fit-content',
-      height: 'fit-content',
-    });
+    return this.modalService.open(
+      ConfirmationModalComponent,
+      saveChangesModalConfig
+    );
   }
 
   backModal(): ModalRef {
-    return this.modalService.open(ConfirmationModalComponent, {
-      data: {
-        title: 'Are you sure leave?',
-        message: 'Changes will not be saved',
-        confirmButtonLabel: 'Leave',
-        cancelButtonLabel: 'Cancel',
-      },
-      width: 'fit-content',
-      height: 'fit-content',
-    });
+    return this.modalService.open(ConfirmationModalComponent, backModalConfig);
   }
 
   cancelModal(): ModalRef {
-    return this.modalService.open(ConfirmationModalComponent, {
-      data: {
-        title: 'Are you sure to cancel?',
-        message: 'Changes will not be saved',
-        confirmButtonLabel: 'Cancel',
-        cancelButtonLabel: 'Edit',
-      },
-      width: 'fit-content',
-      height: 'fit-content',
-    });
+    return this.modalService.open(
+      ConfirmationModalComponent,
+      cancelModalConfig
+    );
   }
 
   getControl(controlName: string): AbstractControl {

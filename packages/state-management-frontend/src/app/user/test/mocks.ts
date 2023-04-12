@@ -1,9 +1,6 @@
 import { of } from 'rxjs';
-import { UserProfile } from '../models/user.model';
 
-export const activatedRouteMock = {
-  params: of({ userId: '123' }),
-};
+import { UserProfile } from '../models/user.model';
 
 export const mockUser: UserProfile = {
   id: '123',
@@ -22,37 +19,4 @@ export const modalServiceMock = {
   open: jest.fn(() => ({
     afterClosed: of(true),
   })),
-};
-
-export const saveChangesModalMock = {
-  data: {
-    title: 'Are you sure to save the changes?',
-    message: 'The changes made can be changed later',
-    confirmButtonLabel: 'Save',
-    cancelButtonLabel: 'Cancel',
-  },
-  width: 'fit-content',
-  height: 'fit-content',
-};
-
-export const backModalMock = {
-  data: {
-    title: 'Are you sure leave?',
-    message: 'Changes will not be saved',
-    confirmButtonLabel: 'Leave',
-    cancelButtonLabel: 'Cancel',
-  },
-  width: 'fit-content',
-  height: 'fit-content',
-};
-
-export const cancelModalMock = {
-  data: {
-    title: 'Are you sure to cancel?',
-    message: 'Changes will not be saved',
-    confirmButtonLabel: 'Cancel',
-    cancelButtonLabel: 'Edit',
-  },
-  width: 'fit-content',
-  height: 'fit-content',
 };
