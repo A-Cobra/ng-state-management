@@ -11,6 +11,7 @@ import { BranchesModule } from './branches/branches.module';
 import { ReviewsModule } from './reviews/reviews.module';
 import { CustomersModule } from './customers/customers.module';
 import { NotificationsModule } from './notifications/notifications.module';
+import { EventEmitterModule } from '@nestjs/event-emitter';
 
 const envFilePath = getEnvPath(process.env.WORKDIR);
 
@@ -21,6 +22,7 @@ const envFilePath = getEnvPath(process.env.WORKDIR);
       validate,
       isGlobal: true,
     }),
+    EventEmitterModule.forRoot(),
     UsersModule,
     AuthModule,
     BusinessModule,

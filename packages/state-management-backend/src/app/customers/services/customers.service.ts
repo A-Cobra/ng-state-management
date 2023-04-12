@@ -14,28 +14,24 @@ import { UpdateCustomerDto } from '../dto/update-customer.dto';
 import { Customer } from '../entities/customer.entity';
 import { JwtInfo } from '../../auth/interfaces/jwtinfo.type';
 import { SearchQueryDto } from '../dto/search-query.dto';
-import { UsersDirectoryService } from '../../users/services/users-directory.service';
-import { AuthService } from '../../auth/services/auth.service';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 
 @Injectable()
 export class CustomersService {
   constructor(
     @InjectRepository(Customer)
     private readonly customerRepository: EntityRepository<Customer>,
-    private readonly authService: AuthService,
-    private readonly directoryService: UsersDirectoryService
+    private eventEmitter: EventEmitter2
   ) {}
 
   async create(createCustomerDto: CreateCustomerDto): Promise<Customer> {
-    // todo Fix method when authService is ready
-    createCustomerDto.password = await hashData(createCustomerDto.password);
     const customer = this.customerRepository.create(createCustomerDto);
 
-    await this.directoryService.createUserCredentials({
-      user: customer,
-      email: createCustomerDto.email,
-      password: createCustomerDto.password,
+    this.eventEmitter.emit('user.created', {
+      userId: customer.userId,
+      email: customer.email,
       role: ValidRoles.customer,
+      password: createCustomerDto.password,
     });
 
     await this.customerRepository.persistAndFlush(customer);
