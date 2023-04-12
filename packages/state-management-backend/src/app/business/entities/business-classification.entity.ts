@@ -17,4 +17,7 @@ export class BusinessClassification {
 
   @Property()
   description: string;
+
+  @Property({ default: false })
+  deleted?: boolean;
 }
