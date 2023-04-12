@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { delay, Observable, of } from 'rxjs';
 
 import { UserProfile } from '../models/user.model';
 import { mockUser } from '../test/mocks';
@@ -9,12 +9,13 @@ export class UserService {
   #usersProfileData: UserProfile = mockUser;
 
   getUserProfile(): Observable<UserProfile | undefined> {
-    // TODO: Replace with real implementation when BE will be ready.
-    return of(this.#usersProfileData);
+    // TODO: Replace with real implementation when BE be ready.
+
+    return of(this.#usersProfileData).pipe(delay(5000));
   }
 
   saveUserProfile(userProfile: UserProfile): Observable<UserProfile> {
-    // TODO: Replace with real implementation when BE will be ready.
+    // TODO: Replace with real implementation when BE be ready.
     return of(userProfile);
   }
 }

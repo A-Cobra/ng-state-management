@@ -1,4 +1,4 @@
-import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -7,7 +7,7 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ModalRef, ModalService } from '@clapp1/clapp-angular';
-import { take, tap } from 'rxjs/operators';
+import { finalize, take } from 'rxjs/operators';
 
 import { ConfirmationModalComponent } from '../../../shared/components/confirmation-modal/confirmation-modal.component';
 import { UserService } from '../../services/user.service';
@@ -18,21 +18,23 @@ import {
 } from '../../utils/modal-config';
 import { emailRegex, onlyNumberRegex, onlyTextRegex } from '../../utils/regex';
 import { UserProfile } from './../../models/user.model';
-import { Subject, takeUntil } from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
   styleUrls: ['./user-profile.component.scss'],
 })
-export class UserProfileComponent implements OnInit, OnDestroy {
+export class UserProfileComponent implements OnInit {
   profileForm: FormGroup;
+
+  userProfile$: Observable<UserProfile | undefined>;
   userProfile: UserProfile | undefined;
 
   isEditing = false;
   isSending = false;
   isLoading = true;
-  readonly #unsubscribe$ = new Subject<void>();
+  hasUser = true;
 
   constructor(
     private fb: FormBuilder,
@@ -46,18 +48,19 @@ export class UserProfileComponent implements OnInit, OnDestroy {
     this.userService
       .getUserProfile()
       .pipe(
-        tap((userProfile): void => {
-          this.userProfile = userProfile;
-          this.initForm();
+        finalize(() => {
           this.isLoading = false;
         })
       )
-      .subscribe();
-  }
-
-  ngOnDestroy() {
-    this.#unsubscribe$.next();
-    this.#unsubscribe$.complete();
+      .subscribe({
+        next: (userProfile: UserProfile | undefined) => {
+          this.userProfile = userProfile;
+          this.initForm();
+        },
+        error: () => {
+          this.hasUser = false;
+        },
+      });
   }
 
   initForm(): void {
@@ -85,28 +88,23 @@ export class UserProfileComponent implements OnInit, OnDestroy {
 
   onClickCancel(): void {
     const cancelModalRef = this.cancelModal();
-    cancelModalRef.afterClosed
-      .pipe(take(1), takeUntil(this.#unsubscribe$))
-      .subscribe((result) => {
-        if (result) {
-          this.initForm();
-          this.isEditing = false;
-        }
-      });
+    cancelModalRef.afterClosed.pipe(take(1)).subscribe((result) => {
+      if (!result) return;
+      this.initForm();
+      this.isEditing = false;
+    });
   }
 
   onClickBack(): void {
     const backModalRef = this.backModal();
-    backModalRef.afterClosed
-      .pipe(take(1), takeUntil(this.#unsubscribe$))
-      .subscribe((result) => {
-        if (result) {
-          this.ngZone.run(() => {
-            this.router.navigate(['']);
-          });
-          this.isEditing = false;
-        }
+    backModalRef.afterClosed.pipe(take(1)).subscribe((result) => {
+      if (!result) return;
+
+      this.isEditing = false;
+      this.ngZone.run(() => {
+        this.router.navigate(['']);
       });
+    });
   }
 
   onClickEdit(): void {
@@ -116,14 +114,12 @@ export class UserProfileComponent implements OnInit, OnDestroy {
 
   onClickSave(): void {
     const saveChangesModalRef = this.saveChangesModal();
-    saveChangesModalRef.afterClosed
-      .pipe(take(1), takeUntil(this.#unsubscribe$))
-      .subscribe((result) => {
-        if (result) {
-          this.isSending = true;
-          this.saveChanges();
-        }
-      });
+    saveChangesModalRef.afterClosed.pipe(take(1)).subscribe((result) => {
+      if (!result) return;
+
+      this.isSending = true;
+      this.saveChanges();
+    });
   }
 
   saveChanges(): void {
