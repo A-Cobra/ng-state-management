@@ -1,4 +1,4 @@
-import { Component, NgZone, OnInit } from '@angular/core';
+import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -18,19 +18,21 @@ import {
 } from '../../utils/modal-config';
 import { emailRegex, onlyNumberRegex, onlyTextRegex } from '../../utils/regex';
 import { UserProfile } from './../../models/user.model';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
   styleUrls: ['./user-profile.component.scss'],
 })
-export class UserProfileComponent implements OnInit {
+export class UserProfileComponent implements OnInit, OnDestroy {
   profileForm: FormGroup;
   userProfile: UserProfile | undefined;
 
   isEditing = false;
   isSending = false;
   isLoading = true;
+  readonly #unsubscribe$ = new Subject<void>();
 
   constructor(
     private fb: FormBuilder,
@@ -51,6 +53,11 @@ export class UserProfileComponent implements OnInit {
         })
       )
       .subscribe();
+  }
+
+  ngOnDestroy() {
+    this.#unsubscribe$.next();
+    this.#unsubscribe$.complete();
   }
 
   initForm(): void {
@@ -78,24 +85,28 @@ export class UserProfileComponent implements OnInit {
 
   onClickCancel(): void {
     const cancelModalRef = this.cancelModal();
-    cancelModalRef.afterClosed.pipe(take(1)).subscribe((result) => {
-      if (result) {
-        this.initForm();
-        this.isEditing = false;
-      }
-    });
+    cancelModalRef.afterClosed
+      .pipe(take(1), takeUntil(this.#unsubscribe$))
+      .subscribe((result) => {
+        if (result) {
+          this.initForm();
+          this.isEditing = false;
+        }
+      });
   }
 
   onClickBack(): void {
     const backModalRef = this.backModal();
-    backModalRef.afterClosed.pipe(take(1)).subscribe((result) => {
-      if (result) {
-        this.ngZone.run(() => {
-          this.router.navigate(['']);
-        });
-        this.isEditing = false;
-      }
-    });
+    backModalRef.afterClosed
+      .pipe(take(1), takeUntil(this.#unsubscribe$))
+      .subscribe((result) => {
+        if (result) {
+          this.ngZone.run(() => {
+            this.router.navigate(['']);
+          });
+          this.isEditing = false;
+        }
+      });
   }
 
   onClickEdit(): void {
@@ -105,12 +116,14 @@ export class UserProfileComponent implements OnInit {
 
   onClickSave(): void {
     const saveChangesModalRef = this.saveChangesModal();
-    saveChangesModalRef.afterClosed.pipe(take(1)).subscribe((result) => {
-      if (result) {
-        this.isSending = true;
-        this.saveChanges();
-      }
-    });
+    saveChangesModalRef.afterClosed
+      .pipe(take(1), takeUntil(this.#unsubscribe$))
+      .subscribe((result) => {
+        if (result) {
+          this.isSending = true;
+          this.saveChanges();
+        }
+      });
   }
 
   saveChanges(): void {
