@@ -43,7 +43,7 @@ export class BranchesService {
     }
     const { page, limit } = paginationDto;
     const [data, total] = await this.branchRepository.findAndCount(
-      { businessId: business, deleted: false },
+      { business: business, deleted: false },
       { offset: (page - 1) * limit, limit: limit }
     );
     const totalPages = Math.ceil(total / limit);
@@ -91,13 +91,13 @@ export class BranchesService {
     }
     const newBranch = this.branchRepository.create({
       ...branch,
-      businessId: business,
+      business: business,
     });
     await this.branchRepository.persistAndFlush(newBranch);
     return {
       branchId: newBranch.branchId,
       ...branch,
-      businessId: newBranch.businessId.businessId,
+      userId: newBranch.business.userId,
     };
   }
 

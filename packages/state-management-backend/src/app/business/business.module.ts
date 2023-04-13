@@ -5,6 +5,7 @@ import { BusinessHq } from './entities/business.entity';
 import { BusinessClassification } from './entities/business-classification.entity';
 import { BusinessService } from './services/business.service';
 import { NotificationsModule } from '../notifications/notifications.module';
+import { UsersModule } from '../users/users.module';
 
 @Module({
   imports: [

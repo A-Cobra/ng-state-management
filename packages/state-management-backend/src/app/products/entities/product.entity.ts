@@ -1,8 +1,10 @@
 import { Entity, PrimaryKey, Property } from '@mikro-orm/core';
 import { v4 } from 'uuid';
 
+import { ProductInterface } from '@state-management-app/types';
+
 @Entity()
-export class Product {
+export class Product implements ProductInterface {
   @PrimaryKey()
   idProduct: string = v4();
 

@@ -57,7 +57,7 @@ export const businessesStub = [businessStub];
 
 export const paginatedBusinessessData = {
   data: businessesStub,
-  currentPage: 1,
-  totalItems: businessesStub.length,
+  page: 1,
+  totalResults: businessesStub.length,
   totalPages: Math.ceil(businessesStub.length / 10),
 };

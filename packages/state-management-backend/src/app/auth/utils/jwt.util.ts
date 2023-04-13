@@ -1,13 +1,12 @@
 import { ForbiddenException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as argon from 'argon2';
-import { User } from '../../users/entities/user.entity';
+import { UserCredentials } from '../../users/entities/user-credentials.entity';
 
-export async function signToken(user: User): Promise<string> {
+export async function signToken(credentials: UserCredentials): Promise<string> {
   const jwt = new JwtService();
-  const { userId } = user;
 
-  const data = { sub: userId };
+  const data = { sub: credentials.userId, role: credentials.role.roleName };
 
   return jwt.signAsync(data, {
     secret: process.env.JWT_SECRET,

@@ -3,27 +3,37 @@ import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
-    path: 'businesses',
-    loadChildren: () =>
-      import('./business/business.module').then((m) => m.BusinessModule),
-  },
-  {
     path: 'branches',
     loadChildren: () =>
       import('./branches/branches.module').then((m) => m.BranchesModule),
   },
   {
-    path: 'classification',
+    path: 'businesses',
+    loadChildren: () =>
+      import('./business/business.module').then((m) => m.BusinessModule),
+  },
+  {
+    path: 'classifications',
     loadChildren: () =>
       import('./classification/classification.module').then(
         (m) => m.ClassificationModule
       ),
   },
   {
+    path: 'customers',
+    loadChildren: () =>
+      import('./customers/customers.module').then((m) => m.CustomersModule),
+  },
+  {
     path: '',
     loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
   },
+  {
+    path: 'users',
+    loadChildren: () => import('./user/user.module').then((m) => m.UserModule),
+  },
 ];
+
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],

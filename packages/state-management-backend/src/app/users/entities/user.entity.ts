@@ -1,17 +1,16 @@
-import { Entity, PrimaryKey, Property } from '@mikro-orm/core';
+import { Entity, OneToOne, PrimaryKey, Property } from '@mikro-orm/core';
 import { v4 } from 'uuid';
 import { Role } from '../../roles/entities/role.entity';
 
-@Entity()
-export class User {
+export abstract class User {
   @PrimaryKey()
   userId: string = v4();
 
   @Property({ type: 'string', length: 50 })
   name: string;
 
-  @Property({ type: 'string', length: 100 })
-  picture: string;
+  @Property({ nullable: true, type: 'string', length: 100 })
+  picture?: string;
 
   @Property({ nullable: true, type: 'string', length: 100 })
   lastname?: string;
@@ -36,4 +35,7 @@ export class User {
 
   @Property({ nullable: true })
   refreshToken?: string;
+
+  @Property({ default: false })
+  deleted?: boolean;
 }

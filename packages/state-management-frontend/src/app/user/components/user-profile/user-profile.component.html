@@ -1,0 +1,243 @@
+<ng-container *ngIf="isSending || isLoading">
+  <app-loader></app-loader>
+</ng-container>
+<ng-container *ngIf="!hasUser">
+  <div class="error__container">
+    <h2 class="error__title">User not found</h2>
+    <p class="error__paragraph">
+      Sorry, the user you were looking for, hasn't been found.
+    </p>
+    <clapp-button
+      [routerLink]="['']"
+      color="primary"
+      size="small"
+      type="button"
+    >
+      Go home
+    </clapp-button>
+  </div>
+</ng-container>
+<form
+  *ngIf="userProfile"
+  [formGroup]="profileForm"
+  autocomplete="off"
+  class="profile__form"
+>
+  <fieldset class="profile__form__wrapper">
+    <legend class="profile__title">Profile</legend>
+    <div class="profile__form__control">
+      <clapp-text-input
+        [error]="
+          getControl('name').invalid &&
+          !getControl('name').disabled &&
+          !getControl('name').pristine
+        "
+        [success]="
+          getControl('name').valid &&
+          !getControl('name').disabled &&
+          !getControl('name').pristine
+        "
+        formControlName="name"
+        id="nameInput"
+        label="Name*"
+        name="nameInput"
+        type="text"
+      ></clapp-text-input>
+      <clapp-helper-text
+        *ngIf="
+          !getControl('name').disabled &&
+          getControl('name').hasError('required') &&
+          !getControl('name').pristine
+        "
+        id="nameInputRequiredError"
+        textState="error"
+      >
+        This field is required.
+      </clapp-helper-text>
+      <clapp-helper-text
+        *ngIf="
+          !getControl('name').disabled &&
+          getControl('name').hasError('pattern') &&
+          !getControl('name').pristine
+        "
+        id="nameInputPatternError"
+        textState="error"
+      >
+        This field must contain only letters.
+      </clapp-helper-text>
+    </div>
+    <div class="profile__form__control">
+      <clapp-text-input
+        [error]="
+          getControl('lastName').invalid &&
+          !getControl('lastName').disabled &&
+          !getControl('lastName').pristine
+        "
+        [success]="
+          getControl('lastName').valid &&
+          !getControl('lastName').disabled &&
+          !getControl('lastName').pristine
+        "
+        formControlName="lastName"
+        id="lastNameInput"
+        label="Last name*"
+        name="lastNameInput"
+        type="text"
+      ></clapp-text-input>
+      <clapp-helper-text
+        *ngIf="
+          !getControl('lastName').disabled &&
+          getControl('lastName').hasError('required') &&
+          !getControl('lastName').pristine
+        "
+        id="lastNameInputRequiredError"
+        textState="error"
+      >
+        This field is required.
+      </clapp-helper-text>
+      <clapp-helper-text
+        *ngIf="
+          !getControl('lastName').disabled &&
+          getControl('lastName').hasError('pattern') &&
+          !getControl('lastName').pristine
+        "
+        id="lastNameInputPatternError"
+        textState="error"
+      >
+        This field must contain only letters.
+      </clapp-helper-text>
+    </div>
+  </fieldset>
+  <fieldset class="profile__form__wrapper">
+    <legend class="profile__subtitle">Contact information</legend>
+    <div class="profile__form__control">
+      <clapp-text-input
+        [error]="
+          getControl('email').invalid &&
+          !getControl('email').disabled &&
+          !getControl('email').pristine
+        "
+        [success]="
+          getControl('email').valid &&
+          !getControl('email').disabled &&
+          !getControl('email').pristine
+        "
+        formControlName="email"
+        id="emailInput"
+        label="Email*"
+        name="emailInput"
+        type="email"
+      ></clapp-text-input>
+      <clapp-helper-text
+        *ngIf="
+          !getControl('email').disabled &&
+          getControl('email').hasError('required') &&
+          !getControl('email').pristine
+        "
+        id="emailInputRequiredError"
+        textState="error"
+      >
+        This field is required.
+      </clapp-helper-text>
+      <clapp-helper-text
+        *ngIf="
+          !getControl('email').disabled &&
+          (getControl('email').hasError('email') ||
+            getControl('email').hasError('pattern')) &&
+          !getControl('email').pristine
+        "
+        id="emailInputPatternError"
+        textState="error"
+      >
+        This field must contain a valid email.
+      </clapp-helper-text>
+    </div>
+    <div class="profile__form__control">
+      <clapp-text-input
+        [error]="
+          getControl('phoneNumber').invalid &&
+          !getControl('phoneNumber').disabled &&
+          !getControl('phoneNumber').pristine
+        "
+        [success]="
+          getControl('phoneNumber').valid &&
+          !getControl('phoneNumber').disabled &&
+          !getControl('phoneNumber').pristine
+        "
+        formControlName="phoneNumber"
+        id="phoneNumberInput"
+        label="Phone number*"
+        name="phoneNumberInput"
+        type="tel"
+      ></clapp-text-input>
+      <clapp-helper-text
+        *ngIf="
+          getControl('phoneNumber').hasError('required') &&
+          !getControl('phoneNumber').pristine
+        "
+        id="phoneNumberInputRequiredError"
+        textState="error"
+      >
+        This field is required.
+      </clapp-helper-text>
+      <clapp-helper-text
+        *ngIf="
+          getControl('phoneNumber').hasError('pattern') &&
+          !getControl('phoneNumber').pristine
+        "
+        id="phoneNumberInputPatternError"
+        textState="error"
+      >
+        This field must contain only numbers. 0-9
+      </clapp-helper-text>
+    </div>
+  </fieldset>
+  <div class="profile__form__actions">
+    <!-- TODO: Add change password link  -->
+    <a [routerLink]="['']" class="profile__link">Manage your password</a>
+    <!-- TODO: Add back to page link -->
+    <div class="profile__form__buttons">
+      <clapp-button
+        (click)="onClickBack()"
+        [disabled]="isSending"
+        color="secondary"
+        plusIcon="ri-arrow-go-back-fill"
+        size="small"
+        type="button"
+      >
+        Back
+      </clapp-button>
+      <clapp-button
+        (click)="onClickCancel()"
+        *ngIf="isEditing"
+        color="tertiary"
+        plusIcon="ri-indeterminate-circle-line"
+        size="small"
+        type="button"
+      >
+        Cancel
+      </clapp-button>
+      <clapp-button
+        (click)="onClickEdit()"
+        *ngIf="!isEditing"
+        color="primary"
+        plusIcon="ri-edit-fill"
+        size="small"
+        type="button"
+      >
+        Edit
+      </clapp-button>
+      <clapp-button
+        (click)="onClickSave()"
+        *ngIf="isEditing"
+        [disabled]="profileForm.invalid || isSending || profileForm.pristine"
+        color="primary"
+        plusIcon="ri-save-fill"
+        size="small"
+        type="submit"
+      >
+        Save
+      </clapp-button>
+    </div>
+  </div>
+</form>
