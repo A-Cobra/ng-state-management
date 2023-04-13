@@ -1,6 +1,7 @@
+import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Router } from '@angular/router';
+import { Router, Routes } from '@angular/router';
 import { of, throwError } from 'rxjs';
 import {
   ClappTopbarModule,
@@ -13,31 +14,49 @@ import { TopbarComponent } from './topbar.component';
 import { LayoutService } from '../../services/layout.service';
 import { MOCK_USER_LAYOUT } from '../../tests/layout-mocks';
 
+@Component({
+  selector: 'app-mock-user-profile',
+  template: '<span>Mock user profile</span>',
+})
+class MockUserProfileComponent {}
+
+const routes: Routes = [
+  {
+    path: 'users/profile',
+    component: MockUserProfileComponent,
+  },
+];
+
 describe('TopbarComponent', () => {
   let component: TopbarComponent;
   let fixture: ComponentFixture<TopbarComponent>;
-  let mockRouter: any;
-  let mockLayoutService: any;
+  let mockLayoutService: LayoutService;
+  let mockNotificationService: NotificationService;
+  let router: Router;
 
   beforeEach(async () => {
     mockLayoutService = {
-      getUserData: jest.fn(() => of()),
-    };
-    mockRouter = {
-      navigate: jest.fn(),
-    };
+      getUserData: jest.fn(() => of(MOCK_USER_LAYOUT)),
+    } as unknown as LayoutService;
+    mockNotificationService = {
+      error: jest.fn(),
+    } as unknown as NotificationService;
 
     await TestBed.configureTestingModule({
       declarations: [TopbarComponent],
       imports: [
-        RouterTestingModule,
+        RouterTestingModule.withRoutes(routes),
         ClappTopbarModule,
         ClappImageDisplayModule,
         ClappNotificationModule,
       ],
-      providers: [LayoutService],
+      providers: [
+        { provide: LayoutService, useValue: mockLayoutService },
+        { provide: NotificationService, useValue: mockNotificationService },
+      ],
     }).compileComponents();
 
+    router = TestBed.inject(Router);
     fixture = TestBed.createComponent(TopbarComponent);
     component = fixture.componentInstance;
     mockLayoutService = TestBed.inject(LayoutService);
@@ -47,73 +66,61 @@ describe('TopbarComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
-  it('should navigate to the user profile when clicking on the profile picture', () => {
-    const directlyInstantiatedComponent = new TopbarComponent(
-      {} as LayoutService,
-      mockRouter as Router,
-      {} as NotificationService
-    );
-    directlyInstantiatedComponent.userData = MOCK_USER_LAYOUT;
-    directlyInstantiatedComponent.goToProfile();
-    //  TODO: update test route to [`/users/profile/${MOCK_USER_LAYOUT.id}`]
-    expect(mockRouter.navigate).toHaveBeenCalledWith(['/users/profile']);
+  describe('when component is destroyed', () => {
+    it('should unsubscribe from subscriptions on destroy', () => {
+      const unsubscribeSpy = jest.spyOn(component.unsubscribe$, 'next');
+      component.ngOnDestroy();
+      expect(unsubscribeSpy).toHaveBeenCalled();
+    });
   });
 
-  it('should load the user data on init', () => {
-    const mockUserData = MOCK_USER_LAYOUT;
-    const getUserDataSpy = jest
-      .spyOn(mockLayoutService, 'getUserData')
-      .mockImplementation(() => of(mockUserData));
-    component.ngOnInit();
-    expect(getUserDataSpy).toHaveBeenCalled();
-    expect(component.userData).toBe(mockUserData);
+  describe('when the getUserData() call succeeds', () => {
+    it('should load the user data on init', () => {
+      component.ngOnInit();
+      expect(mockLayoutService.getUserData).toHaveBeenCalled();
+      expect(component.userData).toBe(MOCK_USER_LAYOUT);
+    });
+
+    it('should render the user name and last name in the label', () => {
+      component.userData = MOCK_USER_LAYOUT;
+      fixture.detectChanges();
+      const label = fixture.nativeElement.querySelector('label');
+      expect(label.textContent.trim()).toEqual(
+        `${MOCK_USER_LAYOUT.name} ${MOCK_USER_LAYOUT.lastName}`
+      );
+    });
+
+    it('should navigate to the user profile when clicking on the profile picture', () => {
+      const navigateSpy = jest.spyOn(router, 'navigate');
+      component.goToProfile();
+      expect(navigateSpy).toHaveBeenCalledWith(['/users/profile']);
+    });
+
+    it('should call goToProfile() when the image container is clicked', () => {
+      fixture.detectChanges();
+      const imageContainer = fixture.debugElement.nativeElement.querySelector(
+        '.topbar__image-container'
+      );
+      const goToProfileSpy = jest.spyOn(component, 'goToProfile');
+      imageContainer.click();
+      expect(goToProfileSpy).toHaveBeenCalled();
+    });
   });
 
-  it('should render the user name and last name in the label', () => {
-    component.userData = MOCK_USER_LAYOUT;
-    fixture.detectChanges();
-    const label = fixture.nativeElement.querySelector('label');
-    expect(label.textContent.trim()).toEqual(
-      `${MOCK_USER_LAYOUT.name} ${MOCK_USER_LAYOUT.lastName}`
-    );
-  });
+  describe('when the getUserData() call fails', () => {
+    beforeEach(() => {
+      mockLayoutService.getUserData = jest.fn(() =>
+        throwError(() => new Error('Failed to load user data'))
+      );
+    });
 
-  it('should show an error message if user data fails to load', () => {
-    // Arrange
-    const mockNotificationService = {
-      error: jest.fn(),
-    } as unknown as NotificationService;
-    mockLayoutService = {
-      getUserData: () =>
-        throwError(() => new Error('Failed to load user data')),
-    };
-    const directlyInstantiatedComponent = new TopbarComponent(
-      mockLayoutService,
-      {} as Router,
-      mockNotificationService
-    );
-    directlyInstantiatedComponent.ngOnInit();
-    expect(mockNotificationService.error).toHaveBeenCalledWith(
-      'Error loading user data, please try again later',
-      'Error! '
-    );
-  });
-
-  it('should call goToProfile() when the image container is clicked', () => {
-    component.userData = MOCK_USER_LAYOUT;
-    fixture.detectChanges();
-    const imageContainer = fixture.debugElement.nativeElement.querySelector(
-      '.topbar__image-container'
-    );
-    const goToProfileSpy = jest.spyOn(component, 'goToProfile');
-    imageContainer.click();
-    expect(goToProfileSpy).toHaveBeenCalled();
-  });
-
-  it('should unsubscribe from subscriptions on destroy', () => {
-    const unsubscribeSpy = jest.spyOn(component.unsubscribe$, 'next');
-    component.ngOnDestroy();
-    expect(unsubscribeSpy).toHaveBeenCalled();
+    it('should show an error message', () => {
+      component.ngOnInit();
+      expect(mockLayoutService.getUserData).toHaveBeenCalled();
+      expect(mockNotificationService.error).toHaveBeenCalledWith(
+        'Error loading user data, please try again later',
+        'Error! '
+      );
+    });
   });
 });

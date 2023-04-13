@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of, throwError } from 'rxjs';
-import { By } from '@angular/platform-browser';
 import {
   ClappSideBarModule,
   ClappImageDisplayModule,
@@ -11,7 +10,6 @@ import {
 
 import { SidebarComponent } from './sidebar.component';
 import { LayoutService } from '../../services/layout.service';
-import { MOCK_USER_LAYOUT } from '../../tests/layout-mocks';
 
 export class ActivatedRouteStub {
   public paramMap = of({});
