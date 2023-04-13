@@ -1,5 +1,4 @@
 import {
-  Collection,
   Entity,
   ManyToOne,
   OneToOne,
@@ -8,7 +7,7 @@ import {
 } from '@mikro-orm/core';
 import { v4 } from 'uuid';
 import { BusinessHq } from '../../business/entities/business.entity';
-import { Courier } from '../../courier/entities/courier.entity';
+import { Courier } from '../../couriers/entities/courier.entity';
 import { Customer } from '../../customer/entities/customer.entity';
 import { Payment } from '../../payment/entities/payment.entity';
 import { OrderStatus } from './order-status.entity';
@@ -43,17 +42,17 @@ export class Order {
   shippingAddress: string;
 
   @OneToOne(() => OrderStatus, (orderStatus) => orderStatus.idStatus)
-  status = new Collection<OrderStatus>(this);
+  status: OrderStatus;
 
   @ManyToOne(() => Courier)
   courier: Courier;
 
   @OneToOne(() => Payment, (payment) => payment.idPayment)
-  payment = new Collection<Payment>(this);
+  payment: Payment;
 
   @ManyToOne(() => Customer)
   customer: Customer;
 
   @OneToOne(() => BusinessHq, (business) => business.businessId)
-  business = new Collection<BusinessHq>(this);
+  business: Payment;
 }

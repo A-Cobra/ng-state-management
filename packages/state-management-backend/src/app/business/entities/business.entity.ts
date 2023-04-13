@@ -44,10 +44,10 @@ export class BusinessHq extends User {
   approvedRegistration?: boolean;
 
   @OneToOne(() => Payroll, (payroll) => payroll.idPayroll)
-  payroll = new Collection<Payroll>(this);
+  payroll: Payroll;
 
   @OneToOne(() => User, (user) => user.userId)
-  user = new Collection<Payroll>(this);
+  user: User;
 
   @Property({ default: false })
   deleted?: boolean;

@@ -1,5 +1,4 @@
 import {
-  Collection,
   Entity,
   ManyToOne,
   OneToOne,
@@ -11,6 +10,7 @@ import { User } from '../../users/entities/user.entity';
 import { Vehicle } from '../../vehicle/entities/vehicle.entity';
 import { v4 } from 'uuid';
 import { Role } from '../../roles/entities/role.entity';
+import { CourierVehicle } from './courier-vehicle.entity';
 
 @Entity()
 export class Courier extends User {
@@ -24,13 +24,13 @@ export class Courier extends User {
   driversLicense: string;
 
   @OneToOne(() => Payroll, (payroll) => payroll.idPayroll)
-  payroll = new Collection<Payroll>(this);
+  payroll: Payroll;
 
   @OneToOne(() => User, (user) => user.userId)
-  user = new Collection<User>(this);
+  user: User;
 
   @OneToOne(() => Vehicle, (vehicle) => vehicle.idVehicle)
-  vehicle = new Collection<Vehicle>(this);
+  vehicle: CourierVehicle;
 
   @ManyToOne(() => Role)
   role: Role;

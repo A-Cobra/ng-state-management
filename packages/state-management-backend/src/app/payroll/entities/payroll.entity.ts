@@ -1,10 +1,4 @@
-import {
-  Collection,
-  Entity,
-  OneToOne,
-  PrimaryKey,
-  Property,
-} from '@mikro-orm/core';
+import { Entity, OneToOne, PrimaryKey, Property } from '@mikro-orm/core';
 import { v4 } from 'uuid';
 import { AccountType } from '../../account/entities/account-type.entity';
 
@@ -26,5 +20,5 @@ export class Payroll {
   documentNumber: string;
 
   @OneToOne(() => AccountType, (accountType) => accountType.idAccount)
-  account = new Collection<AccountType>(this);
+  account: AccountType;
 }

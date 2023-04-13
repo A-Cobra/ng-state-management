@@ -1,10 +1,4 @@
-import {
-  Collection,
-  Entity,
-  ManyToOne,
-  OneToOne,
-  PrimaryKey,
-} from '@mikro-orm/core';
+import { Entity, ManyToOne, OneToOne, PrimaryKey } from '@mikro-orm/core';
 import { Review } from './review.entity';
 import { v4 } from 'uuid';
 import { BusinessBranch } from '../../branches/entities/business-branch.entity';
@@ -18,5 +12,5 @@ export class BusinessBranchReview {
   businessbranch: BusinessBranch;
 
   @OneToOne(() => Review, (review) => review.reviewId)
-  review = new Collection<Review>(this);
+  review: Review;
 }

@@ -4,9 +4,10 @@ import { SearchQueryDto } from '../../common/dtos/search-query.dto';
 import { CreateCourierDto } from '../dto/create-courier.dto';
 import { CourierVehicle } from '../entities/courier-vehicle.entity';
 import { Courier } from '../entities/courier.entity';
+import { Role } from '../../roles/entities/role.entity';
 
 export const mockCourier: Courier = {
-  status: 'offline',
+  status: false,
   driversLicense: 'license',
   vehicle: new CourierVehicle(),
   userId: 'userId',
@@ -14,6 +15,12 @@ export const mockCourier: Courier = {
   name: 'name',
   email: 'email@example.com',
   contactNumber: '+166113121',
+  idCourier: '',
+  payroll: undefined,
+  user: undefined,
+  role: new Role(),
+  password: '',
+  isLoggedIn: false,
 };
 
 export const mockCreateCourierDto: CreateCourierDto = {
