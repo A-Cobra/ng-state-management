@@ -207,7 +207,7 @@ describe('CustomersService', () => {
     expect(mockCustomerRepository.persistAndFlush).toHaveBeenCalledWith(
       customer
     );
-    expect(customer?.['isDeleted']).toEqual(true);
+    expect(customer?.['deleted']).toEqual(true);
   });
 
   it('should validate same customer', () => {

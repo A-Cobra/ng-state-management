@@ -11,6 +11,7 @@ import { BranchesModule } from './branches/branches.module';
 import { ReviewsModule } from './reviews/reviews.module';
 import { CustomersModule } from './customers/customers.module';
 import { NotificationsModule } from './notifications/notifications.module';
+import { CouriersModule } from './couriers/couriers.module';
 
 const envFilePath = getEnvPath(process.env.WORKDIR);
 
@@ -29,6 +30,7 @@ const envFilePath = getEnvPath(process.env.WORKDIR);
     BranchesModule,
     ReviewsModule,
     CustomersModule,
+    CouriersModule,
   ],
   controllers: [],
   providers: [],

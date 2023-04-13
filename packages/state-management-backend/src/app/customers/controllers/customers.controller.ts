@@ -18,7 +18,7 @@ import { Authorized } from '../../auth/decorator/authorized.decorator';
 import { GetUser } from '../../auth/decorator/get-user.decorator';
 import { JwtInfo } from '../../auth/interfaces/jwtinfo.type';
 import { ApiBody, ApiQuery, ApiTags } from '@nestjs/swagger';
-import { SearchQueryDto } from '../dto/search-query.dto';
+import { SearchQueryDto } from '../../common/dtos/search-query.dto';
 import { JwtAuthGuard } from '../../auth/guard/jwt-auth.guard';
 
 @ApiTags('Customers')
@@ -33,7 +33,6 @@ export class CustomersController {
 
   @Get()
   @Authorized(ValidRoles.admin)
-  @ApiQuery({ type: [SearchQueryDto] })
   findAll(@Query() searchQuery: SearchQueryDto) {
     return this.customersService.findAll(searchQuery);
   }
