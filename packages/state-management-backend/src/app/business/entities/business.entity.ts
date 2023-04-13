@@ -7,6 +7,7 @@ import {
   Property,
 } from '@mikro-orm/core';
 import { v4 } from 'uuid';
+import { Payroll } from '../../payroll/entities/payroll.entity';
 import { User } from '../../users/entities/user.entity';
 import { BusinessClassification } from './business-classification.entity';
 
@@ -15,28 +16,43 @@ export class BusinessHq extends User {
   @PrimaryKey()
   businessId: string = v4();
 
-  @Property()
+  @Property({ type: 'string', length: 50 })
   businessName: string;
+
+  @Property({ type: 'string', length: 50 })
+  businessPicture: string;
 
   @Property({ nullable: true })
   rating?: number;
 
-  @Property()
+  @Property({ type: 'string', length: 100 })
+  contactEmail: string;
+
+  @Property({ type: 'string', length: 100 })
+  contactPhoneNumber: string;
+
+  @Property({ type: 'string', length: 20 })
   longitude: string;
 
-  @Property()
+  @Property({ type: 'string', length: 20 })
   latitude: string;
 
-  @Property()
+  @Property({ type: 'string', length: 100 })
   contactAddress: string;
 
   @Property({ default: false })
   approvedRegistration?: boolean;
 
+  @OneToOne(() => Payroll, (payroll) => payroll.idPayroll)
+  payroll = new Collection<Payroll>(this);
+
+  @OneToOne(() => User, (user) => user.userId)
+  user = new Collection<Payroll>(this);
+
   @Property({ default: false })
   deleted?: boolean;
 
-  @ManyToMany(() => BusinessClassification)
+  /*   @ManyToMany(() => BusinessClassification)
   classifications?: Collection<BusinessClassification> =
-    new Collection<BusinessClassification>(this);
+    new Collection<BusinessClassification>(this); */
 }
