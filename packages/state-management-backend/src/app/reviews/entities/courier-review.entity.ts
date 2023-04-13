@@ -4,7 +4,6 @@ import {
   ManyToOne,
   OneToOne,
   PrimaryKey,
-  Property,
 } from '@mikro-orm/core';
 import { Review } from './review.entity';
 import { v4 } from 'uuid';

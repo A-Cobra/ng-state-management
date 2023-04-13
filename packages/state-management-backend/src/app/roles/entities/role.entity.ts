@@ -2,10 +2,10 @@ import { Entity, PrimaryKey, Property } from '@mikro-orm/core';
 import { v4 } from 'uuid';
 
 @Entity()
-export class AccountType {
+export class Role {
   @PrimaryKey()
-  idAccount: string = v4();
+  idRole: string = v4();
 
-  @Property({ type: 'string', length: 50 })
-  name: string;
+  @Property({ type: 'string', length: 20 })
+  roleName: string;
 }

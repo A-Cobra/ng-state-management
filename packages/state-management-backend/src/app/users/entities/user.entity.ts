@@ -1,5 +1,6 @@
 import { Entity, PrimaryKey, Property } from '@mikro-orm/core';
 import { v4 } from 'uuid';
+import { Role } from '../../roles/entities/role.entity';
 
 @Entity()
 export class User {
@@ -7,7 +8,7 @@ export class User {
   userId: string = v4();
 
   @Property()
-  role: string;
+  role: Role;
 
   @Property()
   username: string;

@@ -13,16 +13,16 @@ export class Payroll {
   @PrimaryKey()
   idPayroll: string = v4();
 
-  @Property()
+  @Property({ type: 'string', length: 20 })
   accountNumber: string;
 
-  @Property()
+  @Property({ type: 'string', length: 50 })
   bankName: string;
 
-  @Property()
+  @Property({ type: 'string', length: 50 })
   fullName: string;
 
-  @Property()
+  @Property({ type: 'string', length: 50 })
   documentNumber: string;
 
   @OneToOne(() => AccountType, (accountType) => accountType.idAccount)
