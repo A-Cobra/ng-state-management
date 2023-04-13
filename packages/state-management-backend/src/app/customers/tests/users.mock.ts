@@ -1,4 +1,5 @@
 import { JwtInfo } from '../../auth/interfaces/jwtinfo.type';
+import { UserCredentials } from '../../users/entities/user-credentials.entity';
 import { User } from '../../users/entities/user.entity';
 import { CreateCustomerDto } from '../dto/create-customer.dto';
 

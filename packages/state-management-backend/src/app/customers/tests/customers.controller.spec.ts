@@ -7,7 +7,7 @@ import { Customer } from '../entities/customer.entity';
 import { CustomersService } from '../services/customers.service';
 import { mockCurrentCustomer, mockUserResponse } from './users.mock';
 import { mockPaginationResponse, mockPaginationQuery } from './pagination.mock';
-import { SearchQueryDto } from '../dto/search-query.dto';
+import { SearchQueryDto } from '../../common/dtos/search-query.dto';
 
 describe('CustomersController', () => {
   let controller: CustomersController;

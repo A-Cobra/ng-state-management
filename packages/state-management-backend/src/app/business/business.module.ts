@@ -11,7 +11,6 @@ import { UsersModule } from '../users/users.module';
   imports: [
     MikroOrmModule.forFeature([BusinessHq, BusinessClassification]),
     NotificationsModule,
-    UsersModule,
   ],
   providers: [BusinessService],
   controllers: [BusinessController],

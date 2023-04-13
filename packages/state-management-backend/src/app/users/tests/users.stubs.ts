@@ -1,3 +1,4 @@
+import { UserCredentials } from '../entities/user-credentials.entity';
 import { User } from '../entities/user.entity';
 
 export const userDto: User = {
@@ -21,7 +22,7 @@ export const credentialsStub = {
 };
 
 export const createCredentialsDtoStub = {
-  user: userDto,
+  userId: '1',
   email: 'user@mail.com',
   role: 'ADMIN',
   password: '123',
