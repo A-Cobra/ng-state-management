@@ -15,6 +15,16 @@ import { CustomerCardComponent } from './components/customer-card/customer-card.
 import { CustomerDetailsComponent } from './components/customer-details/customer-details.component';
 import { CustomersComponent } from './components/customers/customers.component';
 import { CustomersRoutingModule } from './customers-routing.module';
+import { LoaderComponent } from '../shared/components/loader/loader.component';
+
+const clappModules = [
+  ClappCardModule,
+  ClappButtonModule,
+  ClappSearchModule,
+  ClappNoResultsModule,
+  ClappImageDisplayModule,
+  ClappPaginationModule,
+];
 
 @NgModule({
   declarations: [
@@ -24,14 +34,10 @@ import { CustomersRoutingModule } from './customers-routing.module';
   ],
   imports: [
     CommonModule,
-    CustomersRoutingModule,
-    ClappCardModule,
-    ClappButtonModule,
-    ClappSearchModule,
-    ClappNoResultsModule,
-    ClappPaginationModule,
-    ClappImageDisplayModule,
     ReactiveFormsModule,
+    CustomersRoutingModule,
+    ...clappModules,
+    LoaderComponent,
   ],
   providers: [ModalService],
 })

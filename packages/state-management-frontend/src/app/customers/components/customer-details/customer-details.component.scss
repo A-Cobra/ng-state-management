@@ -21,6 +21,10 @@ $secondary-color: #f5f5f5;
     justify-items: flex-start;
   }
 
+  &__subtitle {
+    color: $primary-color;
+  }
+
   &__image {
     display: block;
     width: min(100% - 3em, 400px);
@@ -70,6 +74,31 @@ $secondary-color: #f5f5f5;
 
   &__detail {
     font-weight: 400;
+  }
+}
+
+.error {
+  &__container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1em;
+    height: 100%;
+  }
+
+  &__title {
+    font-size: 2.5rem;
+    font-weight: 700;
+  }
+
+  &__paragraph {
+    font-size: 1.5rem;
+    font-weight: 500;
+  }
+
+  &__title,
+  &__paragraph {
+    width: 100%;
   }
 }
 

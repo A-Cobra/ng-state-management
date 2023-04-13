@@ -1,5 +1,5 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, inject, NgZone, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { Customer } from '../../models/customer.model';
 import { CustomersService } from '../../services/customers.service';
@@ -7,6 +7,7 @@ import { Subject, take, takeUntil } from 'rxjs';
 import { ModalRef, ModalService } from '@clapp1/clapp-angular';
 import { ConfirmationModalComponent } from '../../../shared/components/confirmation-modal/confirmation-modal.component';
 import { backModalConfig, deleteModalConfig } from '../../utils/modal-config';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-customer-details',
@@ -15,21 +16,45 @@ import { backModalConfig, deleteModalConfig } from '../../utils/modal-config';
 })
 export class CustomerDetailsComponent implements OnInit, OnDestroy {
   customer: Customer;
-  readonly #customersService = inject(CustomersService);
-  readonly #activatedRoute = inject(ActivatedRoute);
-  readonly #modalService = inject(ModalService);
+  hasCustomer = true;
+  isLoading = true;
+  isAdmin = false;
   readonly #unsubscribe$ = new Subject<void>();
+  readonly #customersService = inject(CustomersService);
+  readonly #modalService = inject(ModalService);
+  readonly #activatedRoute = inject(ActivatedRoute);
+  readonly #router = inject(Router);
+  readonly #ngZone = inject(NgZone);
 
   public ngOnInit(): void {
     this.#activatedRoute.params.subscribe({
       next: ({ customerId }): void => {
-        this.#customersService.getCustomer(customerId).subscribe({
-          next: (customer) => {
-            this.customer = customer;
-          },
-        });
+        this.#customersService
+          .getCustomer(customerId)
+          .pipe(
+            finalize(() => {
+              this.isLoading = false;
+            })
+          )
+          .subscribe({
+            next: (customer) => {
+              this.customer = customer;
+            },
+            error: () => {
+              this.hasCustomer = false;
+            },
+          });
       },
     });
+
+    this.#customersService
+      .getIsAdminInfo()
+      .pipe(takeUntil(this.#unsubscribe$))
+      .subscribe({
+        next: (isAdmin: boolean) => {
+          this.isAdmin = isAdmin;
+        },
+      });
   }
 
   public ngOnDestroy(): void {
@@ -40,20 +65,18 @@ export class CustomerDetailsComponent implements OnInit, OnDestroy {
   onClickDelete(): void {
     const deleteModalRef = this.deleteModal();
 
-    deleteModalRef.afterClosed
-      .pipe(take(1), takeUntil(this.#unsubscribe$))
-      .subscribe((result) => {
-        if (result) {
-          this.deleteCustomer();
-        }
-      });
+    deleteModalRef.afterClosed.pipe(take(1)).subscribe((result) => {
+      if (!result) return;
+      this.deleteCustomer();
+    });
   }
 
   deleteCustomer(): void {
     this.#customersService.deleteCustomer(this.customer.id).subscribe({
       next: () => {
-        // Navigate to customers list
-        console.log('Navigating to customers list');
+        this.#ngZone.run(() => {
+          this.#router.navigate(['/customers']);
+        });
       },
     });
   }
@@ -61,14 +84,12 @@ export class CustomerDetailsComponent implements OnInit, OnDestroy {
   onClickBack(): void {
     const backModalRef = this.backModal();
 
-    backModalRef.afterClosed
-      .pipe(take(1), takeUntil(this.#unsubscribe$))
-      .subscribe((result) => {
-        if (result) {
-          // Navigate back
-          console.log('Navigating back');
-        }
+    backModalRef.afterClosed.pipe(take(1)).subscribe((result) => {
+      if (!result) return;
+      this.#ngZone.run(() => {
+        this.#router.navigate(['/customers']);
       });
+    });
   }
 
   backModal(): ModalRef {

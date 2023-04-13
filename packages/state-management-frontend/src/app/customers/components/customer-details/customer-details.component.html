@@ -1,10 +1,9 @@
 <div class="container">
-  <ng-container *ngIf="!customer">
+  <ng-container *ngIf="!hasCustomer">
     <div class="error__container">
       <h2 class="error__title">Customer not found</h2>
-
       <p class="error__paragraph">
-        Sorry, the user you were looking for, hasn't been found.
+        Sorry, the customer you were looking for, hasn't been found.
       </p>
 
       <clapp-button
@@ -17,11 +16,14 @@
       </clapp-button>
     </div>
   </ng-container>
+  <ng-container *ngIf="isLoading">
+    <app-loader></app-loader>
+  </ng-container>
   <div *ngIf="customer" class="customer">
     <div class="customer__header">
       <clapp-image-display
         [alt]="customer.name + ' profile image'"
-        [src]="customer.image || null"
+        [src]="customer.image || null || 'https://via.placeholder.com/500'"
         class="customer__image"
         type="thumbnail"
       >
@@ -52,6 +54,7 @@
       </clapp-button>
       <clapp-button
         (click)="onClickDelete()"
+        *ngIf="isAdmin"
         color="tertiary"
         plusIcon="ri-delete-bin-fill"
       >

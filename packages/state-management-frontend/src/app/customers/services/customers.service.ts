@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { delay, Observable, of } from 'rxjs';
 
 import { ApiResponse } from '../../branches/models/api-response.model';
 import { CUSTOMERS } from '../data/customers';
@@ -42,13 +42,19 @@ export class CustomersService {
 
   getCustomer(id: string): Observable<Customer> {
     // TODO: Replace with real implementation when BE will be ready. Some logic will be removed since BE will handle it.
+
+    // return throwError(new Error('Not implemented yet'));
     return of(
       this.#customers.filter((customer: Customer) => customer.id === id)[0]
-    );
+    ).pipe(delay(2000));
   }
 
   deleteCustomer(id: string): Observable<void> {
     // TODO: Replace with real implementation when BE will be ready. Some logic will be removed since BE will handle it.
     return of(undefined);
+  }
+
+  getIsAdminInfo(): Observable<boolean> {
+    return of(false).pipe(delay(2000));
   }
 }
