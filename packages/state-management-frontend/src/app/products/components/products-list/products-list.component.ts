@@ -2,6 +2,7 @@ import { Location } from '@angular/common';
 import { Component } from '@angular/core';
 import { ProductInterface } from '@state-management-app/types';
 import { Observable, of } from 'rxjs';
+import { MOCK_PRODUCTS_DATA } from '../../test/mocks';
 
 @Component({
   selector: 'app-products-list',
@@ -10,36 +11,8 @@ import { Observable, of } from 'rxjs';
 })
 export class ProductsListComponent {
   productsList$: Observable<ProductInterface[]> =
-    // of();
-    of([
-      {
-        idProduct: '1',
-        productName: 'name1',
-        description: 'description1',
-        price: 1,
-        discount: 5,
-        stock: 500,
-        status: 'available',
-      },
-      {
-        idProduct: '2',
-        productName: 'name2',
-        description: 'description2',
-        price: 6,
-        discount: 12,
-        stock: 400,
-        status: 'available',
-      },
-      {
-        idProduct: '3',
-        productName: 'name3',
-        description: 'description3',
-        price: 30,
-        discount: 20,
-        stock: 10,
-        status: 'available',
-      },
-    ]);
+    // of([]);
+    of(MOCK_PRODUCTS_DATA);
   paginationConfiguration = {
     recordsPerPage: 40,
     totalRecords: 201,

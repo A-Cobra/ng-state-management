@@ -8,7 +8,9 @@ import {
   ClappPaginationModule,
   ClappSearchModule,
 } from '@clapp1/clapp-angular';
+import { HttpClientModule } from '@angular/common/http';
 import { ProductsCardComponent } from './components/products-card/products-card.component';
+import { ProductsService } from './services/products.service';
 
 const CLAPP_MODULES = [
   ClappPaginationModule,
@@ -19,6 +21,12 @@ const CLAPP_MODULES = [
 
 @NgModule({
   declarations: [ProductsListComponent, ProductsCardComponent],
-  imports: [CommonModule, ProductsRoutingModule, ...CLAPP_MODULES],
+  imports: [
+    CommonModule,
+    ProductsRoutingModule,
+    HttpClientModule,
+    ...CLAPP_MODULES,
+  ],
+  providers: [ProductsService],
 })
 export class ProductsModule {}
