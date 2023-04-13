@@ -11,7 +11,7 @@ export class UserService {
   getUserProfile(): Observable<UserProfile | undefined> {
     // TODO: Replace with real implementation when BE be ready.
 
-    return of(this.#usersProfileData).pipe(delay(5000));
+    return of(this.#usersProfileData).pipe(delay(2000));
   }
 
   saveUserProfile(userProfile: UserProfile): Observable<UserProfile> {
