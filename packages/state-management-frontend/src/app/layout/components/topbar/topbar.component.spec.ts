@@ -5,8 +5,8 @@ import { of, throwError } from 'rxjs';
 import {
   ClappTopbarModule,
   ClappImageDisplayModule,
-  NotificationService,
   ClappNotificationModule,
+  NotificationService,
 } from '@clapp1/clapp-angular';
 
 import { TopbarComponent } from './topbar.component';
@@ -18,7 +18,6 @@ describe('TopbarComponent', () => {
   let fixture: ComponentFixture<TopbarComponent>;
   let mockRouter: any;
   let mockLayoutService: any;
-  let notificationService: NotificationService;
 
   beforeEach(async () => {
     mockLayoutService = {
@@ -36,17 +35,12 @@ describe('TopbarComponent', () => {
         ClappImageDisplayModule,
         ClappNotificationModule,
       ],
-      providers: [
-        LayoutService,
-        //  { provide: Router, useValue: mockRouter }
-        NotificationService,
-      ],
+      providers: [LayoutService],
     }).compileComponents();
 
     fixture = TestBed.createComponent(TopbarComponent);
     component = fixture.componentInstance;
     mockLayoutService = TestBed.inject(LayoutService);
-    notificationService = TestBed.inject(NotificationService);
     fixture.detectChanges();
   });
 
@@ -63,7 +57,7 @@ describe('TopbarComponent', () => {
     directlyInstantiatedComponent.userData = MOCK_USER_LAYOUT;
     directlyInstantiatedComponent.goToProfile();
     //  TODO: update test route to [`/users/profile/${MOCK_USER_LAYOUT.id}`]
-    expect(mockRouter.navigate).toHaveBeenCalledWith(['/businesses']);
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['/users/profile']);
   });
 
   it('should load the user data on init', () => {

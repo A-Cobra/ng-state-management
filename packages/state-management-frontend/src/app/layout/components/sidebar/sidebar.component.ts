@@ -16,8 +16,8 @@ import { RoleLayout, UserLayout } from '../../models/layout.model';
 })
 export class SidebarComponent implements OnInit, OnDestroy {
   constructor(
-    private notificationService: NotificationService,
-    private layoutService: LayoutService
+    private layoutService: LayoutService,
+    private notificationService: NotificationService
   ) {}
 
   navigationConfig = navigationOptions;

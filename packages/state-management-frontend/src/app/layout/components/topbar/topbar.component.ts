@@ -35,7 +35,7 @@ export class TopbarComponent implements OnInit, OnDestroy {
   goToProfile() {
     // TODO: update route to [`/users/profile/${this.userData.id}`]
 
-    this.route.navigate(['/businesses']);
+    this.route.navigate(['/users/profile']);
   }
 
   ngOnDestroy(): void {
