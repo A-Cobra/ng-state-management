@@ -52,7 +52,7 @@ export class BusinessHq extends User {
   @Property({ default: false })
   deleted?: boolean;
 
-  /*   @ManyToMany(() => BusinessClassification)
+  @ManyToMany(() => BusinessClassification)
   classifications?: Collection<BusinessClassification> =
-    new Collection<BusinessClassification>(this); */
+    new Collection<BusinessClassification>(this);
 }
