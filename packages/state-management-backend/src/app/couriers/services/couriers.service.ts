@@ -15,26 +15,26 @@ import { PaginationResult } from '../../common/interfaces/pagination-result.inte
 import { paginationParameters } from '../../common/methods/pagination-parameters';
 import { extractUser } from '../../common/methods/extract-user';
 import { JwtInfo } from '../../auth/interfaces/jwtinfo.type';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 
 @Injectable()
 export class CouriersService {
   constructor(
     @InjectRepository(Courier)
     private readonly courierRepository: EntityRepository<Courier>,
-    private readonly directoryService: UsersDirectoryService
+    private eventEmitter: EventEmitter2
   ) {}
 
   async create(createCourierDto: CreateCourierDto) {
     const courier = this.courierRepository.create(createCourierDto);
 
-    const { user } = extractUser(courier);
-
-    await this.directoryService.createUserCredentials({
-      user: user,
-      email: createCourierDto.email,
+    this.eventEmitter.emit('user.created', {
+      userId: courier.userId,
+      email: courier.email,
+      role: ValidRoles.customer,
       password: createCourierDto.password,
-      role: ValidRoles.courier,
     });
+
     await this.courierRepository.persistAndFlush(courier);
     return courier;
   }
