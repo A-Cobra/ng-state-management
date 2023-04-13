@@ -21,6 +21,6 @@ export class Product {
   @Property({ type: 'int' })
   stock: number;
 
-  @Property({ type: 'string', length: '25' })
+  @Property({ type: 'string', length: 25 })
   status: string;
 }
