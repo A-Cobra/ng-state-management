@@ -1,154 +1,152 @@
 <ng-container *ngIf="isLoading"> <app-loader> </app-loader></ng-container>
-<div *ngIf="!isLoading" class="createForm">
+<div *ngIf="!isLoading" class="createForm" (ngSubmit)="onSubmit()">
   <div>
     <form [formGroup]="createForm">
       <div class="createForm__form-section-container">
         <h4>Profile</h4>
         <div class="createForm__input-container">
-          <app-reactive-form-text-input-component
+          <app-reactive-form-control-text-input
             [parentForm]="createForm"
             controlName="name"
             elementId="nameId"
-            label="Name{{ formControlsData['name'].isRequired ? '*' : '' }}"
-            patternMessage="{{ formControlsData['name'].errorMessage }}"
+            label="Name"
             [maxLength]="formControlsData['name'].maxLength"
-            displayText=""
-          ></app-reactive-form-text-input-component>
+            [required]="formControlsData['name'].isRequired"
+          ></app-reactive-form-control-text-input>
         </div>
         <div class="createForm__input-container">
-          <app-reactive-form-text-input-component
+          <app-reactive-form-control-text-input
             [parentForm]="createForm"
             controlName="email"
             elementId="emailId"
-            label="Email{{ formControlsData['email'].isRequired ? '*' : '' }}"
-            patternMessage="{{ formControlsData['email'].errorMessage }}"
+            label="Email"
             [maxLength]="formControlsData['email'].maxLength"
-            displayText=""
-          ></app-reactive-form-text-input-component>
+            [required]="formControlsData['email'].isRequired"
+          ></app-reactive-form-control-text-input>
         </div>
         <div class="createForm__input-container">
-          <app-reactive-form-text-input-component
+          <app-reactive-form-control-text-input
             [parentForm]="createForm"
             controlName="password"
             elementId="passwordId"
-            label="Password{{
-              formControlsData['password'].isRequired ? '*' : ''
-            }}"
-            patternMessage="{{ formControlsData['password'].errorMessage }}"
+            label="Password"
             [maxLength]="formControlsData['password'].maxLength"
-            displayText=""
             inputType="password"
-          ></app-reactive-form-text-input-component>
+            [required]="formControlsData['password'].isRequired"
+          ></app-reactive-form-control-text-input>
         </div>
         <div class="createForm__select-container">
           <ng-container *ngIf="classification$ | async as classifications">
             <clapp-select
-              formControlName="classification"
-              label="Options Label"
-              [displayLabel]="true"
-              label="Classification{{
+              [formControl]="createForm.controls['classification']"
+              [borderless]="false"
+              [displayLabel]="false"
+              inputName="classificationId"
+              placeholder="Select Category {{
                 formControlsData['classification'].isRequired ? '*' : ''
               }}"
-              inputName="classificationId"
-              placeholder="Select Option"
               [pagination]="false"
               [hasFilter]="false"
             >
               <clapp-select-option
-                #dropdown
                 *ngFor="let classification of classifications"
                 [key]="classification.name"
                 [value]="classification.name"
-              ></clapp-select-option> </clapp-select
-          ></ng-container>
-          <clapp-helper-text
-            *ngIf="
-              createForm.controls['classification'].errors &&
-              createForm.controls['classification'].touched
-            "
-            [textState]="
-              createForm.controls['classification'].disabled
-                ? 'disabled'
-                : 'error'
-            "
-          >
-            This field is required
-          </clapp-helper-text>
+              ></clapp-select-option>
+            </clapp-select>
+            <div
+              class="error"
+              *ngIf="
+                createForm.controls['classification'].errors &&
+                createForm.controls['classification'].touched
+              "
+            >
+              <clapp-helper-text
+                [textState]="
+                  createForm.controls['classification'].disabled
+                    ? 'disabled'
+                    : 'error'
+                "
+              >
+                {{
+                  createForm.controls['classification'].errors | fullErrorName
+                }}
+              </clapp-helper-text>
+            </div>
+          </ng-container>
         </div>
         <h4>Contact</h4>
         <div class="createForm__input-container">
-          <app-reactive-form-text-input-component
+          <app-reactive-form-control-text-input
             [parentForm]="createForm"
             controlName="address"
             elementId="addressId"
-            label="Address{{
-              formControlsData['address'].isRequired ? '*' : ''
-            }}"
+            label="Address"
             [maxLength]="formControlsData['address'].maxLength"
-          ></app-reactive-form-text-input-component>
+            [required]="formControlsData['address'].isRequired"
+          ></app-reactive-form-control-text-input>
         </div>
         <div class="createForm__input-container-double">
           <div class="individual-input">
-            <app-reactive-form-text-input-component
+            <app-reactive-form-control-text-input
               [parentForm]="createForm"
               controlName="longitude"
               elementId="longitudeId"
-              label="Longitude{{
-                formControlsData['longitude'].isRequired ? '*' : ''
-              }}"
-              patternMessage="{{ formControlsData['longitude'].errorMessage }}"
+              label="Longitude"
               [maxLength]="formControlsData['longitude'].maxLength"
-            ></app-reactive-form-text-input-component>
+              [required]="formControlsData['longitude'].isRequired"
+              stateManagementAppFloatNumberOrNumberRange
+              [reactiveFormControl]="createForm.controls['longitude']"
+              [maxValue]="180"
+              [minValue]="-180"
+            ></app-reactive-form-control-text-input>
           </div>
           <div class="individual-input">
-            <app-reactive-form-text-input-component
+            <app-reactive-form-control-text-input
               [parentForm]="createForm"
               controlName="latitude"
               elementId="latitudeId"
-              label="Latitude{{
-                formControlsData['latitude'].isRequired ? '*' : ''
-              }}"
-              patternMessage="{{ formControlsData['latitude'].errorMessage }}"
+              label="Latitude"
               [maxLength]="formControlsData['latitude'].maxLength"
-            ></app-reactive-form-text-input-component>
+              [required]="formControlsData['latitude'].isRequired"
+              stateManagementAppFloatNumberOrNumberRange
+              [reactiveFormControl]="createForm.controls['latitude']"
+              [maxValue]="90"
+              [minValue]="-90"
+            ></app-reactive-form-control-text-input>
           </div>
         </div>
         <div class="createForm__input-container">
-          <app-reactive-form-text-input-component
+          <app-reactive-form-control-text-input
             [parentForm]="createForm"
             controlName="contact"
             elementId="concatId"
-            label="Contact Number{{
-              formControlsData['contact'].isRequired ? '*' : ''
-            }}"
-            patternMessage="{{ formControlsData['contact'].errorMessage }}"
+            label="Contact Number"
             [maxLength]="formControlsData['contact'].maxLength"
-          ></app-reactive-form-text-input-component>
+            [required]="formControlsData['contact'].isRequired"
+            stateManagementAppOnlyNumber
+            [reactiveFormControl]="createForm.controls['contact']"
+          ></app-reactive-form-control-text-input>
         </div>
       </div>
       <div class="createForm__form-section-container">
         <h4>Add picture</h4>
         <div class="createForm__picture-input-container">
-          <app-reactive-form-text-input-component
+          <app-reactive-form-control-text-input
             [parentForm]="createForm"
             controlName="picture"
             elementId="pictureId"
-            label="Picture {{
-              formControlsData['picture'].isRequired ? '*' : ''
-            }}"
-            patternMessage="{{ formControlsData['picture'].errorMessage }}"
+            label="Picture"
             [maxLength]="formControlsData['picture'].maxLength"
-            displayText='Please enter a ".jpg" extension URL address'
-          ></app-reactive-form-text-input-component>
+            displayText='Please enter a ".jpg", ".png", or ".gif" extension URL address'
+            [required]="formControlsData['picture'].isRequired"
+          ></app-reactive-form-control-text-input>
         </div>
         <div class="createForm__picture-container">
           <div>
             <clapp-image-display
               [src]="
-                createForm.controls['picture'].value &&
-                !createForm.controls['picture'].hasError('pattern')
-                  ? createForm.controls['picture'].value
-                  : 'assets/templateImage.png'
+                currentBusinessImgUrl ? currentBusinessImgUrl : defaultImgUrl
               "
               type="avatar"
               size="large"
@@ -158,74 +156,85 @@
         </div>
         <h4>Payment Information</h4>
         <div class="createForm__input-container">
-          <app-reactive-form-text-input-component
+          <app-reactive-form-control-text-input
             [parentForm]="createForm"
             controlName="bankAccountNumber"
             elementId="bankAccountNumberId"
-            label="Bank account number{{
-              formControlsData['bankAccountNumber'].isRequired ? '*' : ''
-            }}"
-            patternMessage="{{
-              formControlsData['bankAccountNumber'].errorMessage
-            }}"
+            label="Bank account number"
             [maxLength]="formControlsData['bankAccountNumber'].maxLength"
-          ></app-reactive-form-text-input-component>
+            [required]="formControlsData['bankAccountNumber'].isRequired"
+          ></app-reactive-form-control-text-input>
         </div>
         <div class="createForm__input-container-optional">
-          <app-reactive-form-text-input-component
+          <app-reactive-form-control-text-input
             [parentForm]="createForm"
             controlName="bankName"
             elementId="bankNameId"
-            label="Bank name{{
-              formControlsData['bankName'].isRequired ? '*' : ''
-            }}"
+            label="Bank name"
             [maxLength]="formControlsData['bankName'].maxLength"
-          ></app-reactive-form-text-input-component>
+            [required]="formControlsData['bankName'].isRequired"
+          ></app-reactive-form-control-text-input>
         </div>
         <div class="createForm__select-container-optional">
           <clapp-select
-            formControlName="bankAccountType"
-            label="Options Label"
-            [displayLabel]="true"
-            label="Account type{{
+            [formControl]="createForm.controls['bankAccountType']"
+            [borderless]="false"
+            [displayLabel]="false"
+            inputName="classificationId"
+            placeholder="Select account type {{
               formControlsData['bankAccountType'].isRequired ? '*' : ''
             }}"
-            inputName="bankAccountTypeId"
-            placeholder="Select Option"
             [pagination]="false"
             [hasFilter]="false"
           >
             <clapp-select-option
-              #dropdown
               *ngFor="let bankAccountType of bankAccountTypes"
               [key]="bankAccountType.name"
               [value]="bankAccountType.name"
               [title]="bankAccountType.description"
             ></clapp-select-option>
           </clapp-select>
+          <div
+            class="error"
+            *ngIf="
+              createForm.controls['bankAccountType'].errors &&
+              createForm.controls['bankAccountType'].touched
+            "
+          >
+            <clapp-helper-text
+              [textState]="
+                createForm.controls['bankAccountType'].disabled
+                  ? 'disabled'
+                  : 'error'
+              "
+            >
+              {{
+                createForm.controls['bankAccountType'].errors | fullErrorName
+              }}
+            </clapp-helper-text>
+          </div>
         </div>
         <div class="createForm__input-container">
-          <app-reactive-form-text-input-component
+          <app-reactive-form-control-text-input
             [parentForm]="createForm"
             controlName="fullname"
             elementId="fullnameId"
-            label="Fullname{{
-              formControlsData['fullname'].isRequired ? '*' : ''
-            }}"
+            label="Fullname"
             [maxLength]="formControlsData['fullname'].maxLength"
-          ></app-reactive-form-text-input-component>
+            [required]="formControlsData['fullname'].isRequired"
+          ></app-reactive-form-control-text-input>
         </div>
         <div class="createForm__input-container">
-          <app-reactive-form-text-input-component
+          <app-reactive-form-control-text-input
             [parentForm]="createForm"
             controlName="documentId"
             elementId="documentIdId"
-            label="Document ID{{
-              formControlsData['documentId'].isRequired ? '*' : ''
-            }}"
-            patternMessage="{{ formControlsData['documentId'].errorMessage }}"
+            label="Document ID"
             [maxLength]="formControlsData['documentId'].maxLength"
-          ></app-reactive-form-text-input-component>
+            [required]="formControlsData['documentId'].isRequired"
+            stateManagementAppOnlyNumber
+            [reactiveFormControl]="createForm.controls['documentId']"
+          ></app-reactive-form-control-text-input>
         </div>
         <div class="createForm__buttons-container">
           <clapp-button
