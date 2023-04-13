@@ -5,13 +5,15 @@ import { createUserCredentialsDto } from '../dto/create-user-credentials.dto';
 import { hashData } from '../../auth/utils/jwt.util';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { RolesService } from './role.service';
+import { UsersService } from './users.service';
 
 @Injectable()
 export class UsersDirectoryService {
   constructor(
     @InjectRepository(UserCredentials)
     private readonly repository: EntityRepository<UserCredentials>,
-    private readonly roleService: RolesService
+    private readonly roleService: RolesService,
+    private readonly usersService: UsersService
   ) {}
 
   async createUserCredentials(dto: createUserCredentialsDto) {
@@ -29,18 +31,27 @@ export class UsersDirectoryService {
   }
 
   async findUser(userId: string) {
-    const user = await this.repository.findOne({
-      user: { userId: userId, deleted: false },
+    const credentials = await this.repository.findOne({
+      userId: userId,
     });
 
-    if (!user) throw new NotFoundException('User not found');
+    if (!credentials) throw new NotFoundException('User not found');
 
-    return user;
+    const user = await this.usersService.findUser(
+      credentials.userId,
+      credentials.role.roleName
+    );
+
+    return {
+      ...credentials,
+      user: user,
+      role: credentials.role,
+    };
   }
 
   async findUserByEmail(email: string) {
     const user = await this.repository.findOne({
-      user: { email: email, deleted: false },
+      email: email,
     });
 
     if (!user) throw new NotFoundException('User not found');
@@ -50,7 +61,7 @@ export class UsersDirectoryService {
 
   async changeUserLogState(userId: string, state: boolean) {
     const user = await this.repository.findOne({
-      user: { userId: userId, deleted: false },
+      userId: userId,
     });
 
     if (!user) throw new NotFoundException('User not found');
@@ -64,7 +75,7 @@ export class UsersDirectoryService {
 
   async updateRefreshToken(userId: string, refreshToken: string) {
     const user = await this.repository.findOne({
-      user: { userId: userId, deleted: false },
+      userId: userId,
     });
 
     if (!user) throw new NotFoundException('User not found');

@@ -21,13 +21,11 @@ import { Authorized } from '../../auth/decorator/authorized.decorator';
 import { ValidRoles } from '../../auth/interfaces/valid-roles.type';
 
 @ApiTags('Businessesss')
-@UseGuards(JwtAuthGuard)
 @Controller('businessess')
 export class BusinessController {
   constructor(private readonly businesService: BusinessService) {}
 
   @Post()
-  @Authorized(ValidRoles.admin)
   submitBusiness(@Body() dto: InitialBusinessCreationDto) {
     return this.businesService.initialCreation(dto);
   }
