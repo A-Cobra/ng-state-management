@@ -31,7 +31,6 @@ const MikroOrmConfig: Options = {
   type: 'postgresql',
   clientUrl: configService.get('DATABASE_URL'),
   entities: [
-    User,
     BusinessHq,
     BusinessClassification,
     Review,
@@ -44,7 +43,6 @@ const MikroOrmConfig: Options = {
     Courier,
     CourierVehicle,
   ],
-  metadataProvider: ReflectMetadataProvider,
   migrations: {
     path: './database/migrations',
   },

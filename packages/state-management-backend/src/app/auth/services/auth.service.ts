@@ -24,19 +24,16 @@ export class AuthService {
     await validateCode(userCredentials.password, credentials.password);
 
     await this.directoryService.changeUserLogState(
-      userCredentials.user.userId,
+      userCredentials.userId,
       true
     );
 
     const tokens = await this.getTokens(
-      userCredentials.user.userId,
+      userCredentials.userId,
       userCredentials.email,
       userCredentials.role.roleName
     );
-    await this.updateRefreshToken(
-      userCredentials.user.userId,
-      tokens.refreshToken
-    );
+    await this.updateRefreshToken(userCredentials.userId, tokens.refreshToken);
 
     return {
       accessToken: tokens.accessToken,
@@ -47,10 +44,7 @@ export class AuthService {
   async signOut(userInfo: JwtInfo) {
     const credentials = await this.directoryService.findUser(userInfo.sub);
 
-    await this.directoryService.changeUserLogState(
-      credentials.user.userId,
-      false
-    );
+    await this.directoryService.changeUserLogState(credentials.userId, false);
 
     return {
       status: 'OK',
@@ -119,11 +113,11 @@ export class AuthService {
     if (!refreshTokenMatches) throw new ForbiddenException('Access Denied');
 
     const tokens = await this.getTokens(
-      credentials.user.userId,
+      credentials.userId,
       credentials.email,
       credentials.role.roleName
     );
-    await this.updateRefreshToken(credentials.user.userId, tokens.refreshToken);
+    await this.updateRefreshToken(credentials.userId, tokens.refreshToken);
 
     return tokens;
   }

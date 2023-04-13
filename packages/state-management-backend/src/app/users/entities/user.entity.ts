@@ -1,10 +1,10 @@
-import { Entity, PrimaryKey, Property } from '@mikro-orm/core';
+import { Entity, OneToOne, PrimaryKey, Property } from '@mikro-orm/core';
 import { v4 } from 'uuid';
 import { ValidRoles } from '../../auth/interfaces/valid-roles.type';
 import { Role } from './role.entity';
+import { UserCredentials } from './user-credentials.entity';
 
-@Entity()
-export class User {
+export abstract class User {
   @PrimaryKey()
   userId: string = v4();
 

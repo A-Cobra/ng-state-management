@@ -10,6 +10,7 @@ import {
   paginatedBusinessessData,
 } from './business.stubs';
 import { UsersDirectoryService } from '../../users/services/users-directory.service';
+import { createMock } from '@golevelup/ts-jest';
 
 describe('BusinessService', () => {
   let businessService: BusinessService;
@@ -51,7 +52,9 @@ describe('BusinessService', () => {
           },
         },
       ],
-    }).compile();
+    })
+      .useMocker(createMock)
+      .compile();
 
     businessService = moduleRef.get<BusinessService>(BusinessService);
   });
