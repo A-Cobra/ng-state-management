@@ -1,6 +1,6 @@
 import { PaginationResult } from '../../common/interfaces/pagination-result.interface';
 import { User } from '../../users/entities/user.entity';
-import { SearchQueryDto } from '../dto/search-query.dto';
+import { SearchQueryDto } from '../../common/dtos/search-query.dto';
 
 export const mockPaginationQuery: SearchQueryDto = {
   search: 'term',

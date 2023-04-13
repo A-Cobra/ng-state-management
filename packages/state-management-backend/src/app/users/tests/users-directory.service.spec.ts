@@ -1,9 +1,14 @@
 import { Test } from '@nestjs/testing';
 import { UsersDirectoryService } from '../services/users-directory.service';
-import { createCredentialsDtoStub, credentialsStub } from './users.stubs';
+import {
+  createCredentialsDtoStub,
+  credentialsStub,
+  userDto,
+} from './users.stubs';
 import { UserCredentials } from '../entities/user-credentials.entity';
 import { getRepositoryToken } from '@mikro-orm/nestjs';
 import { RolesService } from '../services/role.service';
+import { UsersService } from '../services/users.service';
 
 describe('UsersDirectoryService', () => {
   let directoryService: UsersDirectoryService;
@@ -29,6 +34,13 @@ describe('UsersDirectoryService', () => {
               roleId: 'roleid',
               roleName: 'roleName',
             }),
+          },
+        },
+        UsersService,
+        {
+          provide: UsersService,
+          useValue: {
+            findUser: jest.fn().mockReturnValue(userDto),
           },
         },
       ],
