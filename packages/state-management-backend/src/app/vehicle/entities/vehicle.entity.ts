@@ -6,9 +6,9 @@ export class Vehicle {
   @PrimaryKey()
   idVehicle: string = v4();
 
-  @Property()
+  @Property({ type: 'string', length: 25 })
   vehicleType: string;
 
-  @Property()
+  @Property({ type: 'string', length: 120 })
   description: string;
 }

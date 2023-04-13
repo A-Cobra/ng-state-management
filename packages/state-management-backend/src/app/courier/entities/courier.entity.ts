@@ -34,7 +34,4 @@ export class Courier extends User {
 
   @ManyToOne(() => Role)
   role: Role;
-
-  //@ManyToOne(() => Product)
-  //product: Product;
 }
