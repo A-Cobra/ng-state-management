@@ -1,20 +1,9 @@
-import {
-  Collection,
-  Entity,
-  ManyToMany,
-  OneToOne,
-  PrimaryKey,
-  Property,
-} from '@mikro-orm/core';
-import { v4 } from 'uuid';
+import { Collection, Entity, ManyToMany, Property } from '@mikro-orm/core';
 import { User } from '../../users/entities/user.entity';
 import { BusinessClassification } from './business-classification.entity';
 
 @Entity()
 export class BusinessHq extends User {
-  @PrimaryKey()
-  businessId: string = v4();
-
   @Property()
   businessName: string;
 
@@ -32,9 +21,6 @@ export class BusinessHq extends User {
 
   @Property({ default: false })
   approvedRegistration?: boolean;
-
-  @Property({ default: false })
-  deleted?: boolean;
 
   @ManyToMany(() => BusinessClassification)
   classifications?: Collection<BusinessClassification> =

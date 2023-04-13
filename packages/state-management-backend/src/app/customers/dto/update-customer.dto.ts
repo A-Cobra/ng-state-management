@@ -10,15 +10,6 @@ export class UpdateCustomerDto extends PartialType(CreateCustomerDto) {
   @IsEmpty({ message: 'cant update email' })
   email?: string;
 
-  @IsEmpty({ message: 'To change role please contact an admin' })
-  role: string;
-
-  @IsEmpty()
-  isLoggedIn: boolean;
-
-  @IsEmpty()
-  refreshToken?: string;
-
   @IsEmpty()
   isDeleted?: boolean;
 }
