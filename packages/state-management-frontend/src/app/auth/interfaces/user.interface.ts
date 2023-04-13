@@ -5,8 +5,6 @@ export interface User {
   email: string;
   password: string;
   contactNumber: string;
-  rol?: number;
-  picture?: string;
 }
 
 export interface UserLogin {

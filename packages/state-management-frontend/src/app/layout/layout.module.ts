@@ -17,7 +17,6 @@ import {
   declarations: [SidebarComponent, TopbarComponent],
   imports: [
     CommonModule,
-    RouterModule,
     ClappSideBarModule,
     ClappTopbarModule,
     ClappImageDisplayModule,
