@@ -20,6 +20,7 @@ import {
 import { UpdateCustomerDto } from '../dto/update-customer.dto';
 import { UsersDirectoryService } from '../../users/services/users-directory.service';
 import { AuthService } from '../../auth/services/auth.service';
+import { createMock } from '@golevelup/ts-jest';
 
 describe('CustomersService', () => {
   let service: CustomersService;
@@ -55,7 +56,9 @@ describe('CustomersService', () => {
           useValue: mockCustomerRepository,
         },
       ],
-    }).compile();
+    })
+      .useMocker(createMock)
+      .compile();
 
     service = module.get<CustomersService>(CustomersService);
   });
@@ -207,7 +210,7 @@ describe('CustomersService', () => {
     expect(mockCustomerRepository.persistAndFlush).toHaveBeenCalledWith(
       customer
     );
-    expect(customer?.['isDeleted']).toEqual(true);
+    expect(customer?.['deleted']).toEqual(true);
   });
 
   it('should validate same customer', () => {
