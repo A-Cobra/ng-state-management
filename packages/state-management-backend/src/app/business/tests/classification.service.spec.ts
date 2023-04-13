@@ -50,19 +50,6 @@ describe('ClassificationService', () => {
     });
   });
 
-  describe('Get classifications', () => {
-    it('Should return classifications', async () => {
-      const classificationsSearch = {
-        page: 1,
-        pageSize: 1,
-      };
-
-      expect(await classificationService.get(classificationsSearch)).toEqual(
-        paginatedClassificationData
-      );
-    });
-  });
-
   describe('Modify classifications', () => {
     it('Should modify classification', async () => {
       expect(

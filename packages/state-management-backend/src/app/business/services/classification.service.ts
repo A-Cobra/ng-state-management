@@ -70,16 +70,24 @@ export class ClassificationService {
       {
         offset: (dto.page - 1) * dto.pageSize,
         limit: dto.pageSize,
+        populate: ['businessess'],
       }
     );
 
-    const [businessess, totalBusinessess] = result;
-    const totalPages = Math.ceil(totalBusinessess / dto.pageSize);
+    const [classifications, totals] = result;
+    const totalPages = Math.ceil(totals / dto.pageSize);
+
+    const serialized = classifications.map((classification) => {
+      return {
+        ...classification,
+        numberOfBusinessess: classification.businessess.getItems().length,
+      };
+    });
 
     return {
-      data: businessess,
+      data: serialized,
       page: dto.page,
-      totalResults: totalBusinessess,
+      totalResults: totals,
       totalPages: totalPages,
     };
   }
