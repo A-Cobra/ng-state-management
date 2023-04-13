@@ -2,9 +2,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { of } from 'rxjs';
-
-import { CreateFormComponent } from './create-form.component';
-import { ReactiveFormTextInputComponent } from '../create-form-child/reactive-form-text-input-component/reactive-form-text-input.component';
 import { BusinessService } from '../../services/business.service';
 import {
   ClappButtonModule,
@@ -14,12 +11,17 @@ import {
   ClappImageDisplayModule,
   ModalModule,
   ClappNotificationModule,
+  ClappSearchModule,
 } from '@clapp1/clapp-angular';
 import { MOCK_FORM_VALUE, MOCK_FORM_CONTROLS } from '../../test/mocks';
+import { ReactiveFormControlTextInputComponent } from '../../../shared/components/reactive-form-control-text-input/reactive-form-control-text-input.component';
+import { FloatNumberOrNumberRangeDirective } from '../../../shared/directives/float-number-or-number-range.directive';
+import { OnlyNumberDirective } from '../../../shared/directives/only-number.directive';
+import { BusinessCreateFormComponent } from './business-create-form.component';
 
 describe('CreateFormComponent', () => {
-  let component: CreateFormComponent;
-  let fixture: ComponentFixture<CreateFormComponent>;
+  let component: BusinessCreateFormComponent;
+  let fixture: ComponentFixture<BusinessCreateFormComponent>;
   let mockBusinessService: any;
 
   beforeEach(async () => {
@@ -29,7 +31,7 @@ describe('CreateFormComponent', () => {
     };
 
     await TestBed.configureTestingModule({
-      declarations: [CreateFormComponent, ReactiveFormTextInputComponent],
+      declarations: [BusinessCreateFormComponent],
       imports: [
         RouterTestingModule,
         ReactiveFormsModule,
@@ -40,13 +42,17 @@ describe('CreateFormComponent', () => {
         ClappImageDisplayModule,
         ModalModule,
         ClappNotificationModule,
+        ReactiveFormControlTextInputComponent,
+        ClappSearchModule,
+        FloatNumberOrNumberRangeDirective,
+        OnlyNumberDirective,
       ],
       providers: [{ provide: BusinessService, useValue: mockBusinessService }],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CreateFormComponent);
+    fixture = TestBed.createComponent(BusinessCreateFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -64,7 +70,7 @@ describe('CreateFormComponent', () => {
   });
 
   it('should set up the form on setUpForm', () => {
-    component.setUpForm();
+    component.getFormInitialValue();
     expect(component.createForm).toBeDefined();
   });
 

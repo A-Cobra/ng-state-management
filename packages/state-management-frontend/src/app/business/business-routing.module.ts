@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CreateFormComponent } from './components/create-form/create-form.component';
+import { BusinessCreateFormComponent } from './components/business-create-form/business-create-form.component';
+import { BusinessEditComponent } from './components/business-edit/business-edit.component';
 import { BusinessListComponent } from './components/business-list/business-list.component';
 
 const routes: Routes = [
@@ -10,7 +11,11 @@ const routes: Routes = [
   },
   {
     path: 'create',
-    component: CreateFormComponent,
+    component: BusinessCreateFormComponent,
+  },
+  {
+    path: ':id',
+    component: BusinessEditComponent,
   },
 ];
 

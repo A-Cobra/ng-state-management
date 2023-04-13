@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { NotificationService } from '@clapp1/clapp-angular';
-import { UserLogin } from '../../interfaces/user.interface';
+import { UserLogin } from '../../interfaces/user.model';
 import { LoginService } from '../../services/login.service';
 import { validPassword } from '../../validators/valid-password.validator';
 
