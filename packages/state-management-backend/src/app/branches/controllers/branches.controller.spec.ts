@@ -6,7 +6,7 @@ import { BranchesController } from './branches.controller';
 import { BranchesServiceMock } from '../test/branch.service.mock';
 import { PaginationDto } from '../../common/dtos/pagination.dto';
 import { CreateBranchDto } from '../dto/create-branch.dto';
-import { BusinessBranch } from '../entities/businessBranch.entity';
+import { BusinessBranch } from '../entities/business-branch.entity';
 import { BusinessHq } from '../../business/entities/business.entity';
 import { UpdateBranchDto } from '../dto/update-branch.dto';
 
