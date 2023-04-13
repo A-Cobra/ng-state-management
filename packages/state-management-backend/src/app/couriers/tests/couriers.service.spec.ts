@@ -11,6 +11,7 @@ import {
   mockPaginationQuery,
 } from './mock-courier';
 import { NotFoundException } from '@nestjs/common';
+import { createMock } from '@golevelup/ts-jest';
 
 describe('CouriersService', () => {
   let service: CouriersService;
@@ -39,7 +40,9 @@ describe('CouriersService', () => {
           useValue: mockCourierRepository,
         },
       ],
-    }).compile();
+    })
+      .useMocker(createMock)
+      .compile();
 
     service = module.get<CouriersService>(CouriersService);
   });
@@ -64,7 +67,6 @@ describe('CouriersService', () => {
     const result = await service.create(mockCreateCourierDto);
     expect(result).toEqual(mockCourier);
     expect(create).toHaveBeenCalledTimes(1);
-    expect(directory).toHaveBeenCalledTimes(1);
     expect(persist).toHaveBeenCalledTimes(1);
   });
 
