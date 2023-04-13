@@ -9,8 +9,8 @@ import { Payroll } from '../../payroll/entities/payroll.entity';
 import { User } from '../../users/entities/user.entity';
 import { Vehicle } from '../../vehicle/entities/vehicle.entity';
 import { v4 } from 'uuid';
-import { Role } from '../../roles/entities/role.entity';
 import { CourierVehicle } from './courier-vehicle.entity';
+import { Role } from '../../users/entities/role.entity';
 
 @Entity()
 export class Courier extends User {

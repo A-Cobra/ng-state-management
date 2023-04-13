@@ -1,7 +1,7 @@
 import { CourierVehicle } from '../entities/courier-vehicle.entity';
 
 export const mockCourierVehicle: CourierVehicle = {
-  vehicleId: 'vehicleId',
+  idVehicle: 'vehicleId',
   vehicleType: 'vehicleType',
   description: 'description',
 };

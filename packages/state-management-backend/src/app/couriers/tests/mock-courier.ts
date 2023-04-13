@@ -4,7 +4,7 @@ import { SearchQueryDto } from '../../common/dtos/search-query.dto';
 import { CreateCourierDto } from '../dto/create-courier.dto';
 import { CourierVehicle } from '../entities/courier-vehicle.entity';
 import { Courier } from '../entities/courier.entity';
-import { Role } from '../../roles/entities/role.entity';
+import { Role } from '../../users/entities/role.entity';
 
 export const mockCourier: Courier = {
   status: false,

@@ -84,10 +84,12 @@ describe('ReviewsService', () => {
         product.idProduct
       );
 
-      const id = product.idProduct;
-
       expect(mockProductReviewRepository.findAndCount).toHaveBeenCalledWith(
-        { id },
+        {
+          product: {
+            idProduct: '123',
+          },
+        },
         {
           offset: (page - 1) * limit,
           limit,
@@ -109,7 +111,7 @@ describe('ReviewsService', () => {
     it('should create a new review and product review and return the review', async () => {
       const mockCreateReviewDto: CreateReviewDto = {
         customerId: '123',
-        productId: '456',
+        productId: '123',
         comment: 'Test comment',
       };
       const mockReview: Review = {
@@ -143,7 +145,9 @@ describe('ReviewsService', () => {
         mockCreateReviewDto
       );
       expect(mockProductReviewRepository.create).toHaveBeenCalledWith({
-        productId: '123',
+        product: {
+          idProduct: '123',
+        },
         review: mockReview,
       });
       expect(mockReviewRepository.persistAndFlush).toHaveBeenCalledWith(
