@@ -7,7 +7,7 @@ import * as dotenvExpand from 'dotenv-expand';
 import { BusinessHq } from './app/business/entities/business.entity';
 import { BusinessClassification } from './app/business/entities/business-classification.entity';
 import { TsMorphMetadataProvider } from '@mikro-orm/reflection';
-import { BusinessBranch } from './app/branches/entities/businessBranch.entity';
+import { BusinessBranch } from './app/branches/entities/business-branch.entity';
 import { Product } from './app/products/entities/product.entity';
 import { ProductReview } from './app/reviews/entities/product-review.entity';
 import { Review } from './app/reviews/entities/review.entity';

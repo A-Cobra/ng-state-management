@@ -1,5 +1,4 @@
 import { Collection, Entity, OneToOne, Property } from '@mikro-orm/core';
-import { v4 } from 'uuid';
 import { Payroll } from '../../payroll/entities/payroll.entity';
 import { User } from '../../users/entities/user.entity';
 
