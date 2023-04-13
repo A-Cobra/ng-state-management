@@ -5,6 +5,7 @@ import { ReviewsService } from '../services/reviews.service';
 import { Review } from '../entities/review.entity';
 import { ProductReview } from '../entities/product-review.entity';
 import { CreateReviewDto } from '../dto/create-review.dto';
+import { Product } from '../../products/entities/product.entity';
 
 describe('ReviewsService', () => {
   let reviewsService: ReviewsService;
@@ -46,7 +47,15 @@ describe('ReviewsService', () => {
 
   describe('getProductsReviews', () => {
     it('should return paginated reviews for a given product ID', async () => {
-      const productId = '123';
+      const product: Product = {
+        idProduct: '123',
+        productName: 'test',
+        description: 'test',
+        price: 0,
+        discount: 0,
+        stock: 0,
+        status: '',
+      };
       const page = 1;
       const limit = 10;
       const review: Review = {
@@ -56,7 +65,9 @@ describe('ReviewsService', () => {
         productReviews: new Collection<ProductReview>(this),
       };
 
-      const productsReviews: ProductReview[] = [{ productId, review }];
+      const productsReviews: ProductReview[] = [
+        { product, review, productReviewId: 'uuid' },
+      ];
 
       const reviews = [review];
 
@@ -70,11 +81,13 @@ describe('ReviewsService', () => {
       const result = await reviewsService.getProductsReviews(
         page,
         limit,
-        productId
+        product.idProduct
       );
 
+      const id = product.idProduct;
+
       expect(mockProductReviewRepository.findAndCount).toHaveBeenCalledWith(
-        { productId },
+        { id },
         {
           offset: (page - 1) * limit,
           limit,
@@ -106,9 +119,19 @@ describe('ReviewsService', () => {
         productReviews: new Collection<ProductReview>(this),
       };
       mockReviewRepository.create.mockReturnValueOnce(mockReview);
+      const product: Product = {
+        idProduct: '123',
+        productName: 'test',
+        description: 'test',
+        price: 0,
+        discount: 0,
+        stock: 0,
+        status: '',
+      };
       const mockProductReview: ProductReview = {
-        productId: '456',
+        product,
         review: mockReview,
+        productReviewId: 'uuid',
       };
       mockProductReviewRepository.create.mockReturnValueOnce(mockProductReview);
 
@@ -120,7 +143,7 @@ describe('ReviewsService', () => {
         mockCreateReviewDto
       );
       expect(mockProductReviewRepository.create).toHaveBeenCalledWith({
-        productId: '456',
+        productId: '123',
         review: mockReview,
       });
       expect(mockReviewRepository.persistAndFlush).toHaveBeenCalledWith(
