@@ -1,4 +1,4 @@
-import { Component, inject, NgZone, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Customer } from '../../models/customer.model';
@@ -23,10 +23,10 @@ export class CustomerDetailsComponent implements OnInit, OnDestroy {
   readonly #customersService = inject(CustomersService);
   readonly #modalService = inject(ModalService);
   readonly #activatedRoute = inject(ActivatedRoute);
-  readonly #router = inject(Router);
-  readonly #ngZone = inject(NgZone);
 
-  public ngOnInit(): void {
+  readonly #router = inject(Router);
+
+  ngOnInit(): void {
     this.#activatedRoute.params.subscribe({
       next: ({ customerId }): void => {
         this.#customersService
@@ -57,7 +57,7 @@ export class CustomerDetailsComponent implements OnInit, OnDestroy {
       });
   }
 
-  public ngOnDestroy(): void {
+  ngOnDestroy(): void {
     this.#unsubscribe$.next();
     this.#unsubscribe$.complete();
   }
@@ -74,9 +74,7 @@ export class CustomerDetailsComponent implements OnInit, OnDestroy {
   deleteCustomer(): void {
     this.#customersService.deleteCustomer(this.customer.id).subscribe({
       next: () => {
-        this.#ngZone.run(() => {
-          this.#router.navigate(['/customers']);
-        });
+        this.navigateToCustomers();
       },
     });
   }
@@ -86,9 +84,7 @@ export class CustomerDetailsComponent implements OnInit, OnDestroy {
 
     backModalRef.afterClosed.pipe(take(1)).subscribe((result) => {
       if (!result) return;
-      this.#ngZone.run(() => {
-        this.#router.navigate(['/customers']);
-      });
+      this.navigateToCustomers();
     });
   }
 
@@ -101,5 +97,9 @@ export class CustomerDetailsComponent implements OnInit, OnDestroy {
       ConfirmationModalComponent,
       deleteModalConfig
     );
+  }
+
+  navigateToCustomers(): void {
+    this.#router.navigate(['/customers']);
   }
 }

@@ -66,11 +66,11 @@ describe('CustomerDetailsComponent', () => {
     }).compileComponents();
 
     fixture = TestBed.createComponent(CustomerDetailsComponent);
+    router = TestBed.inject(Router);
     component = fixture.componentInstance;
     customersService = TestBed.inject(CustomersService);
     modalService = TestBed.inject(ModalService);
     activatedRoute = TestBed.inject(ActivatedRoute);
-    router = TestBed.inject(Router);
     fixture.detectChanges();
   });
 
@@ -107,6 +107,13 @@ describe('CustomerDetailsComponent', () => {
     component.deleteCustomer();
 
     expect(deleteCustomerSpy).toHaveBeenCalledWith(MOCK_CUSTOMER.id);
+    expect(navigateSpy).toHaveBeenCalledWith(['/customers']);
+  });
+
+  it('should navigate to /customers', () => {
+    const navigateSpy = jest.spyOn(router, 'navigate');
+    component.navigateToCustomers();
+    expect(navigateSpy).toHaveBeenCalled();
     expect(navigateSpy).toHaveBeenCalledWith(['/customers']);
   });
 
