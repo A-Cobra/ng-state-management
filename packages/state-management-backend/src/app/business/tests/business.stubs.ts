@@ -61,3 +61,33 @@ export const paginatedBusinessessData = {
   totalResults: businessesStub.length,
   totalPages: Math.ceil(businessesStub.length / 10),
 };
+
+export const classificationStub = {
+  BusinessClassificationId: '9',
+  name: 'food',
+  description: 'tasty',
+};
+
+export const classificationsStub = [classificationStub];
+
+export const classificationDtoStub = {
+  name: 'food',
+  description: 'tasty',
+};
+
+export const paginatedClassificationData = {
+  data: classificationsStub,
+  page: 1,
+  totalResults: classificationsStub.length,
+  totalPages: Math.ceil(classificationsStub.length / 10),
+};
+
+export const modifyClassificationDtoStub = {
+  name: 'pizza',
+  description: 'spicy',
+};
+
+export const modifiedClassificationStub = {
+  ...classificationDtoStub,
+  ...modifyClassificationDtoStub,
+};

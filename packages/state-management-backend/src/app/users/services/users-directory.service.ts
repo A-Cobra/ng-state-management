@@ -6,6 +6,7 @@ import { hashData } from '../../auth/utils/jwt.util';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { RolesService } from './role.service';
 import { UsersService } from './users.service';
+import { ValidRoles } from '../../auth/interfaces/valid-roles.type';
 
 @Injectable()
 export class UsersDirectoryService {
@@ -31,11 +32,24 @@ export class UsersDirectoryService {
   }
 
   async findUser(userId: string) {
-    const credentials = await this.repository.findOne({
-      userId: userId,
-    });
+    const credentials = await this.repository.findOne(
+      {
+        userId: userId,
+      },
+      {
+        populate: ['role'],
+      }
+    );
 
     if (!credentials) throw new NotFoundException('User not found');
+
+    if (credentials.role.roleName === ValidRoles.admin) {
+      return {
+        ...credentials,
+        user: undefined,
+        role: credentials.role,
+      };
+    }
 
     const user = await this.usersService.findUser(
       credentials.userId,
