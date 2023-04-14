@@ -62,7 +62,6 @@ describe('ReviewsService', () => {
         reviewId: '1',
         comment: 'Review 1',
         customerId: '1',
-        productReviews: new ProductReview(),
       };
 
       const productsReviews: ProductReview[] = [
@@ -118,7 +117,6 @@ describe('ReviewsService', () => {
         customerId: '123',
         comment: 'Test comment',
         reviewId: '789',
-        productReviews: new ProductReview(),
       };
       mockReviewRepository.create.mockReturnValueOnce(mockReview);
       const product: Product = {

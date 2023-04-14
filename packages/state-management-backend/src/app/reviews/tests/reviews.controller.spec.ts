@@ -80,7 +80,6 @@ describe('ReviewsController', () => {
         reviewId: 'review-id',
         customerId: createReviewDto.customerId,
         comment: createReviewDto.comment,
-        productReviews: new ProductReview(),
       };
       jest
         .spyOn(reviewsService, 'createProductReview')
