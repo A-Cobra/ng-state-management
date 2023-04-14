@@ -13,18 +13,32 @@ export class ProductsService {
   constructor(private http: HttpClient) {}
 
   getProducts(): Observable<ProductInterface[]> {
-    return of(MOCK_PRODUCTS_DATA);
+    return of([...MOCK_PRODUCTS_DATA]);
     return this.http.get<ProductInterface[]>(API_URL);
   }
 
   getProductsByName(searchName: string): Observable<ProductInterface[]> {
     return of(
-      MOCK_PRODUCTS_DATA.filter((product: ProductInterface) =>
+      [...MOCK_PRODUCTS_DATA].filter((product: ProductInterface) =>
         product.productName.toLowerCase().match(searchName.toLowerCase())
       )
     );
     return this.http.get<ProductInterface[]>(
       `${API_URL}&search_name=${searchName.toLowerCase()}`
+    );
+  }
+
+  getProductsByQueries(
+    searchName: string,
+    currentPage: number
+  ): Observable<ProductInterface[]> {
+    return of(
+      [...MOCK_PRODUCTS_DATA].filter((product: ProductInterface) =>
+        product.productName.toLowerCase().match(searchName.toLowerCase())
+      )
+    );
+    return this.http.get<ProductInterface[]>(
+      `${API_URL}?search_name=${searchName.toLowerCase()}&current_page=${currentPage}`
     );
   }
 }

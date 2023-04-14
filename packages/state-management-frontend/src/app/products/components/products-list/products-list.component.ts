@@ -4,6 +4,7 @@ import { ProductInterface } from '@state-management-app/types';
 import { Observable, Subject, debounceTime, takeUntil } from 'rxjs';
 import { ProductsService } from '../../services/products.service';
 import { NonNullableFormBuilder } from '@angular/forms';
+import { Pagination } from '@clapp1/clapp-angular/lib/pagination/interfaces/pagination.interface';
 
 @Component({
   selector: 'app-products-list',
@@ -15,6 +16,12 @@ export class ProductsListComponent implements OnInit, OnDestroy {
   paginationConfiguration = {
     recordsPerPage: 40,
     totalRecords: 201,
+  };
+  paginationData: Pagination = {
+    previousPage: null,
+    currentPage: 1,
+    nextPage: null,
+    lastPage: 0,
   };
   searchForm = this.formBuilder.group({
     input: [''],
@@ -40,6 +47,10 @@ export class ProductsListComponent implements OnInit, OnDestroy {
     this.location.back();
   }
 
+  onPageChange(paginationData: Pagination): void {
+    console.log(paginationData);
+  }
+
   onSearchByName(searchName: string): void {
     this.productsList$ = this.productsService.getProductsByName(searchName);
   }
@@ -49,7 +60,6 @@ export class ProductsListComponent implements OnInit, OnDestroy {
       .pipe(debounceTime(700), takeUntil(this.unsubscribeAll$))
       .subscribe({
         next: (searchName: string) => {
-          console.log('Searching');
           this.onSearchByName(searchName);
         },
       });

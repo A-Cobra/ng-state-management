@@ -34,11 +34,12 @@ describe('ProductsService', () => {
 
   // it('should call the get method from the HttpClient once we call the getProductsByName method', () => {
   //   const SEARCH_NAME = 'Alienware'.toLowerCase();
-  //   service.getProductsByName(SEARCH_NAME);
+  //   const CURRENT_PAGE = 2
+  //   service.getProductsByQueries(SEARCH_NAME, CURRENT_PAGE);
 
   //   expect(mockHttpClient.get).toHaveBeenCalledTimes(1);
   //   expect(mockHttpClient.get).toHaveBeenCalledWith(
-  //     `${API_URL}&search_name=${SEARCH_NAME}`
+  //     `${API_URL}?search_name=${searchName.toLowerCase()}&current_page=${currentPage}`
   //   );
   // });
   // WORKS

@@ -32,6 +32,7 @@
           "
           [totalRecords]="paginationConfiguration.totalRecords"
           [pageSize]="paginationConfiguration.recordsPerPage"
+          (pageChange)="onPageChange($event)"
         ></clapp-pagination>
       </div>
     </div>

@@ -77,8 +77,8 @@ export class BusinessCreateFormComponent implements OnInit, OnDestroy {
       data: {
         title: 'Create business',
         message: 'Are you sure you want to leave? Changes have not been saved',
-        confirmButtonLabel: 'LEAVE',
-        cancelButtonLabel: 'CANCEL',
+        affirmativeButtonLabel: 'LEAVE',
+        negativeButtonLabel: 'CANCEL',
       },
       width: 'fit-content',
       height: 'fit-content',
