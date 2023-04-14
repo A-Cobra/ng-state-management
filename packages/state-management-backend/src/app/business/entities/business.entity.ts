@@ -43,7 +43,7 @@ export class BusinessHq extends User {
   @Property({ default: false })
   approvedRegistration?: boolean;
 
-  @OneToOne(() => Payroll, (payroll) => payroll.idPayroll)
+  @OneToOne()
   payroll: Payroll;
 
   @Property({ default: false })
