@@ -46,9 +46,6 @@ export class BusinessHq extends User {
   @OneToOne(() => Payroll, (payroll) => payroll.idPayroll)
   payroll: Payroll;
 
-  @OneToOne(() => User, (user) => user.userId)
-  user: User;
-
   @Property({ default: false })
   deleted?: boolean;
 
