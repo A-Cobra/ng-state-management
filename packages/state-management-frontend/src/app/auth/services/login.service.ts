@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { UserLogin } from '../interfaces/user.interface';
+import { UserLogin } from '../interfaces/user.model';
 
 @Injectable()
 export class LoginService {

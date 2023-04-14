@@ -1,4 +1,4 @@
-import { BankAccountType } from '../models/bank-account-type.interface';
+import { BankAccountType } from '../models/bank-account-type.model';
 
 export const BANK_ACCOUNT_TYPES: BankAccountType[] = [
   {

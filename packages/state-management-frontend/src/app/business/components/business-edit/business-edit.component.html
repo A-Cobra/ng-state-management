@@ -1,0 +1,30 @@
+<ng-container *ngIf="hasActiveRequest">
+  <app-loader loaderText="Submission in progress, please wait!"> </app-loader>
+</ng-container>
+
+<div
+  class="business-edit-form__wrapper"
+  *ngIf="!hasQueryError; else defaultError"
+>
+  <app-business-edit-form
+    [id]="businessId"
+    [businessData]="businessData"
+    [classificationsBackendData]="mockBackendData"
+    [hasActiveRequest]="hasActiveRequest"
+    (formSubmit)="handleEditFormSubmission($event)"
+    (businessDeletion)="handleBusinessDeletion($event)"
+  >
+  </app-business-edit-form>
+</div>
+
+<ng-template #defaultError>
+  <div class="error__display">
+    <h1>Business not found</h1>
+    <p>
+      Sorry, the business you want to edit, hasn't been found, please try again
+    </p>
+    <clapp-button color="primary" size="small" type="button">
+      Go home
+    </clapp-button>
+  </div>
+</ng-template>
