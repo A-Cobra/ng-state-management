@@ -6,7 +6,9 @@ import { PaginatedData } from '../interfaces/pagination.interface';
 import { ReviewsController } from '../controllers/reviews.controller';
 import { Collection } from '@mikro-orm/core';
 import { ProductReview } from '../entities/product-review.entity';
+import { CourierReview } from '../entities/courier-review.entity';
 import { getRepositoryToken } from '@mikro-orm/nestjs';
+import { CreateCourierReviewDto } from '../dto/create-courier-review';
 
 describe('ReviewsController', () => {
   let reviewsController: ReviewsController;
@@ -18,6 +20,10 @@ describe('ReviewsController', () => {
     persistAndFlush: jest.fn(),
   };
   const mockProductReviewRepository = {
+    create: jest.fn(),
+    persistAndFlush: jest.fn(),
+  };
+  const mockCourierReviewRepository = {
     create: jest.fn(),
     persistAndFlush: jest.fn(),
   };
@@ -34,6 +40,10 @@ describe('ReviewsController', () => {
         {
           provide: getRepositoryToken(ProductReview),
           useValue: mockProductReviewRepository,
+        },
+        {
+          provide: getRepositoryToken(CourierReview),
+          useValue: mockCourierReviewRepository,
         },
       ],
     }).compile();
@@ -95,6 +105,67 @@ describe('ReviewsController', () => {
       expect(reviewsService.createProductReview).toHaveBeenCalledWith({
         ...createReviewDto,
         productId,
+      });
+    });
+  });
+
+  describe('getCourierReviews', () => {
+    it('should return paginated courier reviews', async () => {
+      const courierId = 'courier-id';
+      const page = 1;
+      const limit = 10;
+      const reviews: Review[] = [];
+      const paginatedData: PaginatedData<Review> = {
+        data: reviews,
+        currentPage: page,
+        totalItems: reviews.length,
+        totalPages: Math.ceil(reviews.length / limit),
+      };
+      jest
+        .spyOn(reviewsService, 'getCourierReviews')
+        .mockResolvedValue(paginatedData);
+
+      const result = await reviewsController.getCourierReviews(
+        courierId,
+        page,
+        limit
+      );
+
+      expect(result).toEqual(paginatedData);
+      expect(reviewsService.getCourierReviews).toHaveBeenCalledWith(
+        page,
+        limit,
+        courierId
+      );
+    });
+  });
+
+  describe('createCourierReview', () => {
+    it('should create a new courier review', async () => {
+      const courierId = 'courier-id';
+      const createReviewDto: CreateCourierReviewDto = {
+        customerId: 'customer-id',
+        comment: 'review comment',
+      };
+      const review: Review = {
+        reviewId: 'review-id',
+        customerId: createReviewDto.customerId,
+        comment: createReviewDto.comment,
+        courierReviews: new Collection<CourierReview>(this),
+      };
+      jest
+        .spyOn(reviewsService, 'createCourierReview')
+        .mockResolvedValue(review);
+
+      const result = await reviewsController.createCourierReview(
+        createReviewDto,
+        courierId
+      );
+
+      expect(result).toEqual(review);
+      expect(reviewsService.createCourierReview).toHaveBeenCalledWith({
+        ...createReviewDto,
+        courierId: courierId,
       });
     });
   });

@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { UserCredentials } from '../entities/user-credentials.entity';
 import { EntityRepository } from '@mikro-orm/core';
 import { createUserCredentialsDto } from '../dto/create-user-credentials.dto';
@@ -50,13 +50,18 @@ export class UsersDirectoryService {
   }
 
   async findUserByEmail(email: string) {
-    const user = await this.repository.findOne({
-      email: email,
-    });
+    const credentials = await this.repository.findOne(
+      {
+        email: email,
+      },
+      {
+        populate: ['role'],
+      }
+    );
 
-    if (!user) throw new NotFoundException('User not found');
+    if (!credentials) throw new NotFoundException('User not found');
 
-    return user;
+    return credentials;
   }
 
   async changeUserLogState(userId: string, state: boolean) {

@@ -1,18 +1,18 @@
 import {
+  Body,
   Controller,
   Get,
-  Post,
-  Body,
   Param,
-  UseGuards,
+  Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
-import { ReviewsService } from '../services/reviews.service';
-import { CreateReviewDto } from '../dto/create-review.dto';
 import { JwtAuthGuard } from '../../auth/guard/jwt-auth.guard';
-import { PaginatedData } from '../interfaces/pagination.interface';
+import { CreateCourierReviewDto } from '../dto/create-courier-review';
+import { CreateReviewDto } from '../dto/create-review.dto';
 import { Review } from '../entities/review.entity';
-import { ProductReview } from '../entities/product-review.entity';
+import { PaginatedData } from '../interfaces/pagination.interface';
+import { ReviewsService } from '../services/reviews.service';
 
 @Controller({
   path: 'reviews',
@@ -38,5 +38,24 @@ export class ReviewsController {
     @Param('id') productId: string
   ): Promise<Review> {
     return this.reviewsService.createProductReview({ ...body, productId });
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('courier/:id')
+  getCourierReviews(
+    @Param('id') courierId: string,
+    @Query('page') page = 1,
+    @Query('limit') limit = 15
+  ): Promise<PaginatedData<Review>> {
+    return this.reviewsService.getCourierReviews(page, limit, courierId);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('courier/:id')
+  createCourierReview(
+    @Body() body: CreateCourierReviewDto,
+    @Param('id') courierId: string
+  ): Promise<Review> {
+    return this.reviewsService.createCourierReview({ ...body, courierId });
   }
 }
