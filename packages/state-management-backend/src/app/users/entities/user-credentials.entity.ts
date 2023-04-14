@@ -1,15 +1,6 @@
-import {
-  Entity,
-  OneToOne,
-  PrimaryKey,
-  PrimaryKeyType,
-  Property,
-} from '@mikro-orm/core';
-import { User } from './user.entity';
+import { Entity, ManyToOne, PrimaryKey, Property } from '@mikro-orm/core';
 import { Role } from './role.entity';
 import { v4 } from 'uuid';
-import { BusinessHq } from '../../business/entities/business.entity';
-import { Customer } from '../../customers/entities/customer.entity';
 
 @Entity()
 export class UserCredentials {
@@ -25,7 +16,7 @@ export class UserCredentials {
   @Property({ hidden: true })
   password: string;
 
-  @Property()
+  @ManyToOne(() => Role)
   role: Role;
 
   @Property({ default: false })

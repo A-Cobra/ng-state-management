@@ -1,7 +1,14 @@
-import { Entity, OneToOne, PrimaryKey, Property } from '@mikro-orm/core';
+import {
+  Entity,
+  ManyToOne,
+  OneToOne,
+  PrimaryKey,
+  Property,
+} from '@mikro-orm/core';
 import { v4 } from 'uuid';
 import { Role } from '../entities/role.entity';
 
+@Entity()
 export abstract class User {
   @PrimaryKey()
   userId: string = v4();
@@ -27,7 +34,7 @@ export abstract class User {
   @Property({ type: 'string', length: 15 })
   contactNumber: string;
 
-  @Property()
+  @ManyToOne(() => Role)
   role: Role;
 
   @Property({ default: false })

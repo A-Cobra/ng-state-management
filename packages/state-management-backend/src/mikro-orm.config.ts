@@ -56,7 +56,6 @@ const MikroOrmConfig: Options = {
     Payroll,
     ProductClassification,
     CourierReview,
-    User,
   ],
   migrations: {
     path: './database/migrations',

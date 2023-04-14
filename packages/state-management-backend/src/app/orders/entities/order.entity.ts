@@ -55,5 +55,5 @@ export class Order {
   customer: Customer;
 
   @OneToOne(() => BusinessHq)
-  business: Payment;
+  business: BusinessHq;
 }
