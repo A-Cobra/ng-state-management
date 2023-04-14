@@ -42,18 +42,18 @@ export class Order {
   @Property({ type: 'string' })
   shippingAddress: string;
 
-  @OneToOne(() => OrderStatus, (orderStatus) => orderStatus.idStatus)
+  @OneToOne(() => OrderStatus)
   status: OrderStatus;
 
   @ManyToOne(() => Courier)
   courier: Courier;
 
-  @OneToOne(() => Payment, (payment) => payment.idPayment)
+  @OneToOne(() => Payment)
   payment: Payment;
 
   @ManyToOne(() => Customer)
   customer: Customer;
 
-  @OneToOne(() => BusinessHq, (business) => business.businessId)
+  @OneToOne(() => BusinessHq)
   business: Payment;
 }

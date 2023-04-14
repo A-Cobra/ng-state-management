@@ -22,13 +22,13 @@ export class Courier extends User {
   @Property({ type: 'string', length: 50 })
   driversLicense: string;
 
-  @OneToOne(() => Payroll, (payroll) => payroll.idPayroll)
+  @OneToOne(() => Payroll)
   payroll: Payroll;
 
-  @OneToOne(() => User, (user) => user.userId)
+  @OneToOne(() => User)
   user: User;
 
-  @OneToOne(() => CourierVehicle, (vehicle) => vehicle.idVehicle)
+  @OneToOne(() => CourierVehicle)
   vehicle: CourierVehicle;
 
   @ManyToOne(() => Role)

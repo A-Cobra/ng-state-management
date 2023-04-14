@@ -11,6 +11,6 @@ export class ProductReview {
   @ManyToOne(() => Product)
   product: Product;
 
-  @OneToOne(() => Review, (review) => review.reviewId)
+  @OneToOne(() => Review)
   review: Review;
 }

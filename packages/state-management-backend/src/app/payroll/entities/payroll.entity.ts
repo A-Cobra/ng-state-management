@@ -1,7 +1,6 @@
 import { Entity, OneToOne, PrimaryKey, Property } from '@mikro-orm/core';
 import { v4 } from 'uuid';
 import { AccountType } from '../../account/entities/account-type.entity';
-import { BusinessHq } from '../../business/entities/business.entity';
 
 @Entity()
 export class Payroll {
@@ -20,6 +19,6 @@ export class Payroll {
   @Property({ type: 'string', length: 50 })
   documentNumber: string;
 
-  @OneToOne(() => AccountType, (accountType) => accountType.idAccount)
+  @OneToOne(() => AccountType)
   account: AccountType;
 }

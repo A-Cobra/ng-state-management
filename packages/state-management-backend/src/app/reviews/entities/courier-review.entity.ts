@@ -11,6 +11,6 @@ export class CourierReview {
   @ManyToOne(() => Courier)
   courier: Courier;
 
-  @OneToOne(() => Review, (review) => review.reviewId)
+  @OneToOne(() => Review)
   review: Review;
 }

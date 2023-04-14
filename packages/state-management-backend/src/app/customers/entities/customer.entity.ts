@@ -4,6 +4,6 @@ import { User } from '../../users/entities/user.entity';
 
 @Entity()
 export class Customer extends User {
-  @OneToOne(() => Address, (address) => address.idAddress)
+  @OneToOne(() => Address)
   address: Address;
 }
