@@ -11,6 +11,7 @@ import {
 import { HttpClientModule } from '@angular/common/http';
 import { ProductsCardComponent } from './components/products-card/products-card.component';
 import { ProductsService } from './services/products.service';
+import { ReactiveFormsModule } from '@angular/forms';
 
 const CLAPP_MODULES = [
   ClappPaginationModule,
@@ -25,6 +26,7 @@ const CLAPP_MODULES = [
     CommonModule,
     ProductsRoutingModule,
     HttpClientModule,
+    ReactiveFormsModule,
     ...CLAPP_MODULES,
   ],
   providers: [ProductsService],

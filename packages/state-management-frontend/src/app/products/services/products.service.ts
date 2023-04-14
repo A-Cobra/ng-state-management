@@ -20,7 +20,7 @@ export class ProductsService {
   getProductsByName(searchName: string): Observable<ProductInterface[]> {
     return of(
       MOCK_PRODUCTS_DATA.filter((product: ProductInterface) =>
-        product.productName.toLowerCase().match(searchName)
+        product.productName.toLowerCase().match(searchName.toLowerCase())
       )
     );
     return this.http.get<ProductInterface[]>(

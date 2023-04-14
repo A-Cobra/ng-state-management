@@ -1,40 +1,57 @@
 import { Location } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ProductInterface } from '@state-management-app/types';
-import { Observable } from 'rxjs';
+import { Observable, Subject, debounceTime, takeUntil } from 'rxjs';
 import { ProductsService } from '../../services/products.service';
+import { NonNullableFormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-products-list',
   templateUrl: './products-list.component.html',
   styleUrls: ['./products-list.component.scss'],
 })
-export class ProductsListComponent implements OnInit {
+export class ProductsListComponent implements OnInit, OnDestroy {
   productsList$: Observable<ProductInterface[]>;
   paginationConfiguration = {
     recordsPerPage: 40,
     totalRecords: 201,
   };
-  // searchForm =
+  searchForm = this.formBuilder.group({
+    input: [''],
+  });
+  searchInput = this.formBuilder.control(['']);
+  unsubscribeAll$ = new Subject<string>();
 
   constructor(
     private location: Location,
-    private productsService: ProductsService
+    private productsService: ProductsService,
+    private formBuilder: NonNullableFormBuilder
   ) {}
-
   ngOnInit(): void {
     this.productsList$ = this.productsService.getProducts();
+    this.setupInputDebounce();
+  }
+  ngOnDestroy(): void {
+    this.unsubscribeAll$.next('');
+    this.unsubscribeAll$.unsubscribe();
   }
 
   onGoBack(): void {
     this.location.back();
   }
 
-  // onInputSearch(searchName: string):void{
-
-  // }
-
   onSearchByName(searchName: string): void {
     this.productsList$ = this.productsService.getProductsByName(searchName);
+  }
+
+  setupInputDebounce(): void {
+    this.searchForm.controls['input'].valueChanges
+      .pipe(debounceTime(700), takeUntil(this.unsubscribeAll$))
+      .subscribe({
+        next: (searchName: string) => {
+          console.log('Searching');
+          this.onSearchByName(searchName);
+        },
+      });
   }
 }
