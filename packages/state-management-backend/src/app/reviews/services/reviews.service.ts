@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreateReviewDto } from '../dto/create-review.dto';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { Review } from '../entities/review.entity';

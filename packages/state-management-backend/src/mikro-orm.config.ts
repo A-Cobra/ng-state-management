@@ -44,7 +44,6 @@ const MikroOrmConfig: Options = {
     Courier,
     CourierVehicle,
     CourierReview,
-    User,
   ],
   migrations: {
     path: './database/migrations',

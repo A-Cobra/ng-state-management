@@ -18,8 +18,7 @@ export async function validateCode(
   hash: string,
   rawCode: string
 ): Promise<boolean> {
-  // const codeCorrect = await argon.verify(hash, rawCode);
-  const codeCorrect = true;
+  const codeCorrect = await argon.verify(hash, rawCode);
 
   if (!codeCorrect) {
     throw new ForbiddenException('Codes does not match');
