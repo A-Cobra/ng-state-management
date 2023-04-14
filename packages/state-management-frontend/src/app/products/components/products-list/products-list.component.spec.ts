@@ -11,6 +11,7 @@ import { Observable } from 'rxjs';
 import { ProductInterface } from '@state-management-app/types';
 import { ProductsService } from '../../services/products.service';
 import { HttpClient } from '@angular/common/http';
+import { ReactiveFormsModule } from '@angular/forms';
 
 export interface MockLocation {
   back: () => void;
@@ -41,7 +42,7 @@ describe('ProductsListComponent', () => {
     };
 
     await TestBed.configureTestingModule({
-      imports: [...CLAPP_MODULES, RouterTestingModule],
+      imports: [RouterTestingModule, ReactiveFormsModule, ...CLAPP_MODULES],
       declarations: [ProductsListComponent, ProductsCardComponent],
       providers: [
         HttpClient,
@@ -79,5 +80,22 @@ describe('ProductsListComponent', () => {
     expect(mockProductsService.getProductsByName).toHaveBeenCalledWith(
       SEARCH_NAME
     );
+  });
+
+  it('should call the onSearchByName method once the search value changes', async () => {
+    jest.spyOn(component, 'onSearchByName');
+    const inputControl = component.searchForm.controls['input'];
+    const SEARCH_NAME = 'name';
+    inputControl.setValue(SEARCH_NAME);
+    fixture.detectChanges();
+    await new Promise((resolve) => {
+      setTimeout(() => {
+        resolve('');
+      }, 800);
+    });
+    await fixture.whenStable();
+
+    expect(component.onSearchByName).toHaveBeenCalledTimes(1);
+    expect(component.onSearchByName).toHaveBeenCalledWith(SEARCH_NAME);
   });
 });
