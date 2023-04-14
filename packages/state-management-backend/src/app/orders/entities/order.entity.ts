@@ -8,9 +8,10 @@ import {
 import { v4 } from 'uuid';
 import { BusinessHq } from '../../business/entities/business.entity';
 import { Courier } from '../../couriers/entities/courier.entity';
-import { Customer } from '../../customer/entities/customer.entity';
+
 import { Payment } from '../../payment/entities/payment.entity';
 import { OrderStatus } from './order-status.entity';
+import { Customer } from '../../customers/entities/customer.entity';
 
 @Entity()
 export class Order {

@@ -1,6 +1,6 @@
 import { Entity, ManyToOne, PrimaryKey, Property } from '@mikro-orm/core';
 import { v4 } from 'uuid';
-import { Customer } from '../../customer/entities/customer.entity';
+import { Customer } from '../../customers/entities/customer.entity';
 
 @Entity()
 export class Payment {
