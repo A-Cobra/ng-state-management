@@ -192,14 +192,17 @@ describe('ReviewsService', () => {
       ];
       const courierReviews: CourierReview[] = [
         {
+          courierReviewId: '1',
           courier: mockCourier,
           review: reviews[0],
         },
         {
+          courierReviewId: '2',
           courier: mockCourier,
           review: reviews[1],
         },
         {
+          courierReviewId: '3',
           courier: mockCourierTwo,
           review: reviews[2],
         },
