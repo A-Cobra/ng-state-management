@@ -1,26 +1,40 @@
 import { Location } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ProductInterface } from '@state-management-app/types';
-import { Observable, of } from 'rxjs';
-import { MOCK_PRODUCTS_DATA } from '../../test/mocks';
+import { Observable } from 'rxjs';
+import { ProductsService } from '../../services/products.service';
 
 @Component({
   selector: 'app-products-list',
   templateUrl: './products-list.component.html',
   styleUrls: ['./products-list.component.scss'],
 })
-export class ProductsListComponent {
-  productsList$: Observable<ProductInterface[]> =
-    // of([]);
-    of(MOCK_PRODUCTS_DATA);
+export class ProductsListComponent implements OnInit {
+  productsList$: Observable<ProductInterface[]>;
   paginationConfiguration = {
     recordsPerPage: 40,
     totalRecords: 201,
   };
+  // searchForm =
 
-  constructor(private location: Location) {}
+  constructor(
+    private location: Location,
+    private productsService: ProductsService
+  ) {}
+
+  ngOnInit(): void {
+    this.productsList$ = this.productsService.getProducts();
+  }
 
   onGoBack(): void {
     this.location.back();
+  }
+
+  // onInputSearch(searchName: string):void{
+
+  // }
+
+  onSearchByName(searchName: string): void {
+    this.productsList$ = this.productsService.getProductsByName(searchName);
   }
 }

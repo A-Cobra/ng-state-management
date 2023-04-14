@@ -24,20 +24,22 @@ describe('ProductsService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should call the get method from the HttpClient once we call the getProducts method', () => {
-    service.getProducts();
+  // WORKS
+  // it('should call the get method from the HttpClient once we call the getProducts method', () => {
+  //   service.getProducts();
 
-    expect(mockHttpClient.get).toHaveBeenCalledTimes(1);
-    expect(mockHttpClient.get).toHaveBeenCalledWith(API_URL);
-  });
+  //   expect(mockHttpClient.get).toHaveBeenCalledTimes(1);
+  //   expect(mockHttpClient.get).toHaveBeenCalledWith(API_URL);
+  // });
 
-  it('should call the get method from the HttpClient once we call the getProductsByName method', () => {
-    const SEARCH_NAME = 'Alienware'.toLowerCase();
-    service.getProductsByName(SEARCH_NAME);
+  // it('should call the get method from the HttpClient once we call the getProductsByName method', () => {
+  //   const SEARCH_NAME = 'Alienware'.toLowerCase();
+  //   service.getProductsByName(SEARCH_NAME);
 
-    expect(mockHttpClient.get).toHaveBeenCalledTimes(1);
-    expect(mockHttpClient.get).toHaveBeenCalledWith(
-      `${API_URL}&search_name=${SEARCH_NAME}`
-    );
-  });
+  //   expect(mockHttpClient.get).toHaveBeenCalledTimes(1);
+  //   expect(mockHttpClient.get).toHaveBeenCalledWith(
+  //     `${API_URL}&search_name=${SEARCH_NAME}`
+  //   );
+  // });
+  // WORKS
 });

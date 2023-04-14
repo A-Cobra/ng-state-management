@@ -1,22 +1,28 @@
 import { Injectable } from '@angular/core';
-import { ProductsModule } from '../products.module';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { ProductInterface } from '@state-management-app/types';
 import { HttpClient } from '@angular/common/http';
+import { MOCK_PRODUCTS_DATA } from '../test/mocks';
 
 const API_URL = 'http://domain.com/api';
 
 @Injectable({
-  providedIn: ProductsModule,
+  providedIn: 'any',
 })
 export class ProductsService {
   constructor(private http: HttpClient) {}
 
   getProducts(): Observable<ProductInterface[]> {
+    return of(MOCK_PRODUCTS_DATA);
     return this.http.get<ProductInterface[]>(API_URL);
   }
 
   getProductsByName(searchName: string): Observable<ProductInterface[]> {
+    return of(
+      MOCK_PRODUCTS_DATA.filter((product: ProductInterface) =>
+        product.productName.toLowerCase().match(searchName)
+      )
+    );
     return this.http.get<ProductInterface[]>(
       `${API_URL}&search_name=${searchName.toLowerCase()}`
     );

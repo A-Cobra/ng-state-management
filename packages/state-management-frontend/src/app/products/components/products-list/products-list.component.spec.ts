@@ -7,6 +7,10 @@ import { By } from '@angular/platform-browser';
 import { CLAPP_MODULES } from '../../test/mocks';
 import { ProductsCardComponent } from '../products-card/products-card.component';
 import { RouterTestingModule } from '@angular/router/testing';
+import { Observable } from 'rxjs';
+import { ProductInterface } from '@state-management-app/types';
+import { ProductsService } from '../../services/products.service';
+import { HttpClient } from '@angular/common/http';
 
 export interface MockLocation {
   back: () => void;
@@ -16,11 +20,20 @@ export interface MockRouterLink {
   back: () => void;
 }
 
+export interface MockProductsService {
+  getProducts: () => Observable<ProductInterface[]>;
+  getProductsByName: (searchName: string) => Observable<ProductInterface[]>;
+}
+
 describe('ProductsListComponent', () => {
   let component: ProductsListComponent;
   let fixture: ComponentFixture<ProductsListComponent>;
   let debugElement: DebugElement;
   let mockLocation: MockLocation;
+  const mockProductsService: MockProductsService = {
+    getProducts: jest.fn(),
+    getProductsByName: jest.fn(),
+  };
 
   beforeEach(async () => {
     mockLocation = {
@@ -30,7 +43,11 @@ describe('ProductsListComponent', () => {
     await TestBed.configureTestingModule({
       imports: [...CLAPP_MODULES, RouterTestingModule],
       declarations: [ProductsListComponent, ProductsCardComponent],
-      providers: [{ provide: Location, useValue: mockLocation }],
+      providers: [
+        HttpClient,
+        { provide: Location, useValue: mockLocation },
+        { provide: ProductsService, useValue: mockProductsService },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ProductsListComponent);
@@ -48,5 +65,19 @@ describe('ProductsListComponent', () => {
     backButton.triggerEventHandler('click', null);
 
     expect(mockLocation.back).toHaveBeenCalledTimes(1);
+  });
+
+  it("should have called the service's method getProducts onInit", () => {
+    expect(mockProductsService.getProducts).toHaveBeenCalled();
+  });
+
+  it("should have called the service's method getProductsByName once we call the onSearchByName method", () => {
+    const SEARCH_NAME = 'Alienware'.toLowerCase();
+    component.onSearchByName(SEARCH_NAME);
+
+    expect(mockProductsService.getProductsByName).toHaveBeenCalledTimes(1);
+    expect(mockProductsService.getProductsByName).toHaveBeenCalledWith(
+      SEARCH_NAME
+    );
   });
 });
