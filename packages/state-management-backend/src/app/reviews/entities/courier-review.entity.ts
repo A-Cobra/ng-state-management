@@ -6,7 +6,7 @@ import { Review } from './review.entity';
 @Entity()
 export class CourierReview {
   @PrimaryKey()
-  courierReviewId?: string = v4();
+  courierReviewId: string = v4();
 
   @ManyToOne(() => Courier)
   courier: Courier;
