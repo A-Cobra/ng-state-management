@@ -7,6 +7,7 @@ import { PaginatedData } from '../interfaces/pagination.interface';
 import { ProductReview } from '../entities/product-review.entity';
 import { CourierReview } from '../entities/courier-review.entity';
 import { CreateCourierReviewDto } from '../dto/create-courier-review';
+import { Courier } from '../../couriers/entities/courier.entity';
 @Injectable()
 export class ReviewsService {
   constructor(
@@ -15,7 +16,9 @@ export class ReviewsService {
     @InjectRepository(ProductReview)
     private readonly productReviewRepository: EntityRepository<ProductReview>,
     @InjectRepository(CourierReview)
-    private readonly courierReviewRepository: EntityRepository<CourierReview>
+    private readonly courierReviewRepository: EntityRepository<CourierReview>,
+    @InjectRepository(Courier)
+    private readonly courierRepository: EntityRepository<Courier>
   ) {}
 
   async getProductsReviews(
@@ -64,8 +67,11 @@ export class ReviewsService {
     limit: number,
     courierId: string
   ): Promise<PaginatedData<Review>> {
+    const courier = await this.courierRepository.findOne({ userId: courierId });
     const courierReview = await this.courierReviewRepository.findAndCount(
-      { courierId },
+      {
+        courier,
+      },
       {
         offset: (page - 1) * limit,
         limit,
@@ -88,10 +94,13 @@ export class ReviewsService {
   }
 
   async createCourierReview(body: CreateCourierReviewDto): Promise<Review> {
+    const courier = await this.courierRepository.findOne({
+      userId: body.courierId,
+    });
     const review = this.reviewRepository.create(body);
 
     const courierReview = this.courierReviewRepository.create({
-      courierId: body.courierId,
+      courier: courier,
       review: review,
     });
 

@@ -7,6 +7,7 @@ import { ProductReview } from '../entities/product-review.entity';
 import { Review } from '../entities/review.entity';
 import { ReviewsService } from '../services/reviews.service';
 import { CreateCourierReviewDto } from '../dto/create-courier-review';
+import { Courier } from '../../couriers/entities/courier.entity';
 
 describe('ReviewsService', () => {
   let reviewsService: ReviewsService;
@@ -17,7 +18,6 @@ describe('ReviewsService', () => {
     create: jest.fn(),
     persistAndFlush: jest.fn(),
   };
-
   const mockProductReviewRepository = {
     findAndCount: jest.fn(),
     persistAndFlush: jest.fn(),
@@ -27,6 +27,20 @@ describe('ReviewsService', () => {
     findAndCount: jest.fn(),
     create: jest.fn(),
     persistAndFlush: jest.fn(),
+  };
+  const mockCourierRepository = {
+    findOne: jest.fn(),
+  };
+
+  const mockCourier: Courier = {
+    userId: 'courier-id',
+    username: 'courier',
+    email: 'email',
+    name: 'Courier Name',
+    contactNumber: '+50312345678',
+    status: 'active',
+    driversLicense: '123140128427',
+    vehicle: null,
   };
 
   beforeEach(async () => {
@@ -44,6 +58,10 @@ describe('ReviewsService', () => {
         {
           provide: getRepositoryToken(CourierReview),
           useValue: mockCourierReviewRepository,
+        },
+        {
+          provide: getRepositoryToken(Courier),
+          useValue: mockCourierRepository,
         },
       ],
     }).compile();
@@ -64,7 +82,6 @@ describe('ReviewsService', () => {
         reviewId: '1',
         comment: 'Review 1',
         customerId: '1',
-        productReviews: new Collection<ProductReview>(this),
       };
 
       const productsReviews: ProductReview[] = [{ productId, review }];
@@ -114,7 +131,6 @@ describe('ReviewsService', () => {
         customerId: '123',
         comment: 'Test comment',
         reviewId: '789',
-        productReviews: new Collection<ProductReview>(this),
       };
       mockReviewRepository.create.mockReturnValueOnce(mockReview);
       const mockProductReview: ProductReview = {
@@ -146,7 +162,16 @@ describe('ReviewsService', () => {
 
   describe('getCourierReviews', () => {
     it('should return a paginated list of courier reviews', async () => {
-      const courierId = '123';
+      const mockCourierTwo: Courier = {
+        userId: 'courier-id2',
+        username: 'courier2',
+        email: 'email2',
+        name: 'Courier Name2',
+        contactNumber: '+503123456782',
+        status: 'active',
+        driversLicense: '1231401284272',
+        vehicle: null,
+      };
       const limit = 2;
       const reviews: Review[] = [
         {
@@ -167,37 +192,34 @@ describe('ReviewsService', () => {
       ];
       const courierReviews: CourierReview[] = [
         {
-          courierId: courierId,
+          courier: mockCourier,
           review: reviews[0],
         },
         {
-          courierId: courierId,
+          courier: mockCourier,
           review: reviews[1],
         },
         {
-          courierId: '456',
+          courier: mockCourierTwo,
           review: reviews[2],
         },
       ];
 
-      jest
-        .spyOn(mockCourierReviewRepository, 'findAndCount')
-        .mockResolvedValueOnce([
-          courierReviews.filter((cr) => cr.courierId === courierId),
-          2,
-        ]);
-      jest
-        .spyOn(mockReviewRepository, 'find')
-        .mockResolvedValueOnce([reviews[0], reviews[1]]);
+      mockCourierRepository.findOne.mockResolvedValueOnce(mockCourier);
+      mockCourierReviewRepository.findAndCount.mockResolvedValueOnce([
+        courierReviews.filter((cr) => cr.courier.userId === mockCourier.userId),
+        2,
+      ]);
+      mockReviewRepository.find.mockResolvedValueOnce([reviews[0], reviews[1]]);
 
       const result = await reviewsService.getCourierReviews(
         1,
         limit,
-        courierId
+        mockCourier.userId
       );
 
       expect(mockCourierReviewRepository.findAndCount).toHaveBeenCalledWith(
-        { courierId },
+        { courier: mockCourier },
         { offset: 0, limit: limit }
       );
       expect(mockReviewRepository.find).toHaveBeenCalledWith([
@@ -217,11 +239,9 @@ describe('ReviewsService', () => {
       const limit = 10;
       const courierId = '1';
 
-      jest
-        .spyOn(mockCourierReviewRepository, 'findAndCount')
-        .mockResolvedValueOnce([[], 0]);
-
-      jest.spyOn(mockReviewRepository, 'find').mockResolvedValueOnce([]);
+      mockCourierRepository.findOne.mockReturnValue(mockCourier);
+      mockCourierReviewRepository.findAndCount.mockResolvedValueOnce([[], 0]);
+      mockReviewRepository.find.mockResolvedValueOnce([]);
 
       const result = await reviewsService.getCourierReviews(
         page,
@@ -230,7 +250,7 @@ describe('ReviewsService', () => {
       );
 
       expect(mockCourierReviewRepository.findAndCount).toBeCalledWith(
-        { courierId },
+        { courier: mockCourier },
         { offset: 0, limit: 10 }
       );
       expect(result).toEqual({
@@ -245,11 +265,10 @@ describe('ReviewsService', () => {
   describe('createCourierReview', () => {
     it('should create a new courier review', async () => {
       const customerId = 'cusomter-id';
-      const courierId = 'courier-id';
       const comment = 'Great service!';
       const createCourierReviewDto: CreateCourierReviewDto = {
         customerId,
-        courierId,
+        courierId: mockCourier.userId,
         comment,
       };
 
@@ -258,17 +277,12 @@ describe('ReviewsService', () => {
         reviewId,
         customerId,
         comment,
-        productReviews: [],
-        courierReviews: [
-          {
-            courierId,
-          },
-        ],
       };
 
+      mockCourierRepository.findOne.mockReturnValue(mockCourier);
       mockReviewRepository.create.mockReturnValueOnce(review);
       mockCourierReviewRepository.create.mockReturnValueOnce({
-        courierId,
+        mockCourier,
         review,
       });
 
@@ -280,7 +294,7 @@ describe('ReviewsService', () => {
         createCourierReviewDto
       );
       expect(mockCourierReviewRepository.create).toHaveBeenCalledWith({
-        courierId,
+        courier: mockCourier,
         review,
       });
       expect(mockReviewRepository.persistAndFlush).toHaveBeenCalledTimes(1);

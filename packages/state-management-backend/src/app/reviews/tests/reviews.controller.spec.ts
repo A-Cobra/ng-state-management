@@ -9,6 +9,7 @@ import { ProductReview } from '../entities/product-review.entity';
 import { CourierReview } from '../entities/courier-review.entity';
 import { getRepositoryToken } from '@mikro-orm/nestjs';
 import { CreateCourierReviewDto } from '../dto/create-courier-review';
+import { Courier } from '../../couriers/entities/courier.entity';
 
 describe('ReviewsController', () => {
   let reviewsController: ReviewsController;
@@ -27,6 +28,9 @@ describe('ReviewsController', () => {
     create: jest.fn(),
     persistAndFlush: jest.fn(),
   };
+  const mockCourierRepository = {
+    findOne: jest.fn(),
+  };
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -44,6 +48,10 @@ describe('ReviewsController', () => {
         {
           provide: getRepositoryToken(CourierReview),
           useValue: mockCourierReviewRepository,
+        },
+        {
+          provide: getRepositoryToken(Courier),
+          useValue: mockCourierRepository,
         },
       ],
     }).compile();
@@ -90,7 +98,6 @@ describe('ReviewsController', () => {
         reviewId: 'review-id',
         customerId: createReviewDto.customerId,
         comment: createReviewDto.comment,
-        productReviews: new Collection<ProductReview>(this),
       };
       jest
         .spyOn(reviewsService, 'createProductReview')
@@ -151,7 +158,6 @@ describe('ReviewsController', () => {
         reviewId: 'review-id',
         customerId: createReviewDto.customerId,
         comment: createReviewDto.comment,
-        courierReviews: new Collection<CourierReview>(this),
       };
       jest
         .spyOn(reviewsService, 'createCourierReview')

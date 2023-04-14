@@ -1,13 +1,12 @@
-import { ProductReview } from './product-review.entity';
 import {
-  Property,
-  PrimaryKey,
+  Collection,
   Entity,
   OneToMany,
-  Collection,
+  PrimaryKey,
+  Property,
 } from '@mikro-orm/core';
 import { v4 } from 'uuid';
-import { CourierReview } from './courier-review.entity';
+import { ProductReview } from './product-review.entity';
 
 @Entity()
 export class Review {
@@ -19,10 +18,4 @@ export class Review {
 
   @Property()
   comment: string;
-
-  @OneToMany(() => ProductReview, (productReview) => productReview.review)
-  productReviews? = new Collection<ProductReview>(this);
-
-  @OneToMany(() => CourierReview, (courierReview) => courierReview.review)
-  courierReviews? = new Collection<CourierReview>(this);
 }
