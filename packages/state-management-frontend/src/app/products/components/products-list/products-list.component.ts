@@ -16,12 +16,6 @@ import { Pagination } from '@clapp1/clapp-angular/lib/pagination/interfaces/pagi
 })
 export class ProductsListComponent implements OnInit, OnDestroy {
   productsList$: Observable<ProductInterface[]>;
-  paginationData: Pagination = {
-    previousPage: null,
-    currentPage: 1,
-    nextPage: null,
-    lastPage: 0,
-  };
   searchForm = this.formBuilder.group({
     input: [''],
   });
@@ -52,7 +46,10 @@ export class ProductsListComponent implements OnInit, OnDestroy {
   }
 
   onPageChange(paginationData: Pagination): void {
-    console.log(paginationData);
+    this.onSearchByQueries(
+      this.searchForm.value.input ?? '',
+      paginationData.currentPage
+    );
   }
 
   onSearchByName(searchName: string): void {
@@ -65,10 +62,10 @@ export class ProductsListComponent implements OnInit, OnDestroy {
       page
     );
     this.productsList$ = paginatedData$.pipe(
-      map(
-        (paginatedData: PaginationResult<ProductInterface>) =>
-          paginatedData.data
-      )
+      map((paginatedData: PaginationResult<ProductInterface>) => {
+        this.paginationConfiguration.totalRecords = paginatedData.totalResults;
+        return paginatedData.data;
+      })
     );
   }
 
@@ -85,10 +82,10 @@ export class ProductsListComponent implements OnInit, OnDestroy {
   getAllProducts(): void {
     const paginatedData$ = this.productsService.getProducts();
     this.productsList$ = paginatedData$.pipe(
-      map(
-        (paginatedData: PaginationResult<ProductInterface>) =>
-          paginatedData.data
-      )
+      map((paginatedData: PaginationResult<ProductInterface>) => {
+        this.paginationConfiguration.totalRecords = paginatedData.totalResults;
+        return paginatedData.data;
+      })
     );
   }
 }
