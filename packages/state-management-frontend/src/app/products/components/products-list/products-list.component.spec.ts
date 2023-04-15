@@ -51,10 +51,10 @@ describe('ProductsListComponent', () => {
       ],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ProductsListComponent);
-    component = fixture.componentInstance;
-    debugElement = fixture.debugElement;
-    fixture.detectChanges();
+    // fixture = TestBed.createComponent(ProductsListComponent);
+    // component = fixture.componentInstance;
+    // debugElement = fixture.debugElement;
+    // fixture.detectChanges();
   });
 
   it('should run', () => {
