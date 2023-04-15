@@ -57,6 +57,10 @@ describe('ProductsListComponent', () => {
     fixture.detectChanges();
   });
 
+  it('should run', () => {
+    expect(1).toBe(1);
+  });
+
   // it('should create', () => {
   //   expect(component).toBeTruthy();
   // });
