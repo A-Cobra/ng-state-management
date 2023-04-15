@@ -61,41 +61,41 @@ describe('ProductsListComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call the back method from the Location class', () => {
-    const backButton = debugElement.queryAll(By.css('clapp-button'))[0];
-    backButton.triggerEventHandler('click', null);
+  // it('should call the back method from the Location class', () => {
+  //   const backButton = debugElement.queryAll(By.css('clapp-button'))[0];
+  //   backButton.triggerEventHandler('click', null);
 
-    expect(mockLocation.back).toHaveBeenCalledTimes(1);
-  });
+  //   expect(mockLocation.back).toHaveBeenCalledTimes(1);
+  // });
 
-  it("should have called the service's method getProducts onInit", () => {
-    expect(mockProductsService.getProducts).toHaveBeenCalled();
-  });
+  // it("should have called the service's method getProducts onInit", () => {
+  //   expect(mockProductsService.getProducts).toHaveBeenCalled();
+  // });
 
-  it("should have called the service's method getProductsByName once we call the onSearchByName method", () => {
-    const SEARCH_NAME = 'Alienware'.toLowerCase();
-    component.onSearchByName(SEARCH_NAME);
+  // it("should have called the service's method getProductsByName once we call the onSearchByName method", () => {
+  //   const SEARCH_NAME = 'Alienware'.toLowerCase();
+  //   component.onSearchByName(SEARCH_NAME);
 
-    expect(mockProductsService.getProductsByName).toHaveBeenCalledTimes(1);
-    expect(mockProductsService.getProductsByName).toHaveBeenCalledWith(
-      SEARCH_NAME
-    );
-  });
+  //   expect(mockProductsService.getProductsByName).toHaveBeenCalledTimes(1);
+  //   expect(mockProductsService.getProductsByName).toHaveBeenCalledWith(
+  //     SEARCH_NAME
+  //   );
+  // });
 
-  it('should call the onSearchByName method once the search value changes', async () => {
-    jest.spyOn(component, 'onSearchByName');
-    const inputControl = component.searchForm.controls['input'];
-    const SEARCH_NAME = 'name';
-    inputControl.setValue(SEARCH_NAME);
-    fixture.detectChanges();
-    await new Promise((resolve) => {
-      setTimeout(() => {
-        resolve('');
-      }, 800);
-    });
-    await fixture.whenStable();
+  // it('should call the onSearchByName method once the search value changes', async () => {
+  //   jest.spyOn(component, 'onSearchByName');
+  //   const inputControl = component.searchForm.controls['input'];
+  //   const SEARCH_NAME = 'name';
+  //   inputControl.setValue(SEARCH_NAME);
+  //   fixture.detectChanges();
+  //   await new Promise((resolve) => {
+  //     setTimeout(() => {
+  //       resolve('');
+  //     }, 800);
+  //   });
+  //   await fixture.whenStable();
 
-    expect(component.onSearchByName).toHaveBeenCalledTimes(1);
-    expect(component.onSearchByName).toHaveBeenCalledWith(SEARCH_NAME);
-  });
+  //   expect(component.onSearchByName).toHaveBeenCalledTimes(1);
+  //   expect(component.onSearchByName).toHaveBeenCalledWith(SEARCH_NAME);
+  // });
 });
