@@ -39,7 +39,7 @@ describe('ProductsService', () => {
 
   //   expect(mockHttpClient.get).toHaveBeenCalledTimes(1);
   //   expect(mockHttpClient.get).toHaveBeenCalledWith(
-  //     `${API_URL}?search_name=${searchName.toLowerCase()}&current_page=${currentPage}`
+  //     `${API_URL}?search=${searchName.toLowerCase()}&page=${currentPage}&limit=10`
   //   );
   // });
   // WORKS

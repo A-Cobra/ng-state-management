@@ -1,7 +1,10 @@
 import { Location } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ProductInterface } from '@state-management-app/types';
-import { Observable, Subject, debounceTime, takeUntil } from 'rxjs';
+import {
+  PaginationResult,
+  ProductInterface,
+} from '@state-management-app/types';
+import { Observable, Subject, debounceTime, map, takeUntil } from 'rxjs';
 import { ProductsService } from '../../services/products.service';
 import { NonNullableFormBuilder } from '@angular/forms';
 import { Pagination } from '@clapp1/clapp-angular/lib/pagination/interfaces/pagination.interface';
@@ -13,10 +16,6 @@ import { Pagination } from '@clapp1/clapp-angular/lib/pagination/interfaces/pagi
 })
 export class ProductsListComponent implements OnInit, OnDestroy {
   productsList$: Observable<ProductInterface[]>;
-  paginationConfiguration = {
-    recordsPerPage: 40,
-    totalRecords: 201,
-  };
   paginationData: Pagination = {
     previousPage: null,
     currentPage: 1,
@@ -28,6 +27,11 @@ export class ProductsListComponent implements OnInit, OnDestroy {
   });
   searchInput = this.formBuilder.control(['']);
   unsubscribeAll$ = new Subject<string>();
+  private pageLimit = 10;
+  paginationConfiguration = {
+    recordsPerPage: this.pageLimit,
+    totalRecords: 201,
+  };
 
   constructor(
     private location: Location,
@@ -35,7 +39,7 @@ export class ProductsListComponent implements OnInit, OnDestroy {
     private formBuilder: NonNullableFormBuilder
   ) {}
   ngOnInit(): void {
-    this.productsList$ = this.productsService.getProducts();
+    this.getAllProducts();
     this.setupInputDebounce();
   }
   ngOnDestroy(): void {
@@ -52,7 +56,20 @@ export class ProductsListComponent implements OnInit, OnDestroy {
   }
 
   onSearchByName(searchName: string): void {
-    this.productsList$ = this.productsService.getProductsByName(searchName);
+    this.onSearchByQueries(searchName, 1);
+  }
+
+  onSearchByQueries(searchName: string, page: number): void {
+    const paginatedData$ = this.productsService.getProductsByQueries(
+      searchName,
+      page
+    );
+    this.productsList$ = paginatedData$.pipe(
+      map(
+        (paginatedData: PaginationResult<ProductInterface>) =>
+          paginatedData.data
+      )
+    );
   }
 
   setupInputDebounce(): void {
@@ -63,5 +80,15 @@ export class ProductsListComponent implements OnInit, OnDestroy {
           this.onSearchByName(searchName);
         },
       });
+  }
+
+  getAllProducts(): void {
+    const paginatedData$ = this.productsService.getProducts();
+    this.productsList$ = paginatedData$.pipe(
+      map(
+        (paginatedData: PaginationResult<ProductInterface>) =>
+          paginatedData.data
+      )
+    );
   }
 }
