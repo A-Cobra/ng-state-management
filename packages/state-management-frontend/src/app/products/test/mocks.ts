@@ -4,6 +4,7 @@ import {
   ClappPaginationModule,
   ClappSearchModule,
 } from '@clapp1/clapp-angular';
+import { Pagination } from '@clapp1/clapp-angular/lib/pagination/interfaces/pagination.interface';
 import {
   PaginationResult,
   ProductInterface,
@@ -19,6 +20,19 @@ export const CLAPP_MODULES = [
 
 export interface MockHttpClient {
   get: () => Observable<any>;
+}
+
+export interface MockLocation {
+  back: () => void;
+}
+
+export interface MockProductsService {
+  getProducts: () => Observable<PaginationResult<ProductInterface>>;
+  getProductsByQueries: (
+    searchName: string,
+    currentPage: number,
+    pageLimit?: 10
+  ) => Observable<PaginationResult<ProductInterface>>;
 }
 
 export const API_URL = 'http://domain.com/api';
@@ -56,4 +70,11 @@ export const MOCK_PRODUCTS_DATA: PaginationResult<ProductInterface> = {
   totalResults: 20,
   page: 1,
   totalPages: 1,
+};
+
+export const PAGINATION_DATA: Pagination = {
+  previousPage: null,
+  currentPage: 1,
+  nextPage: null,
+  lastPage: 0,
 };

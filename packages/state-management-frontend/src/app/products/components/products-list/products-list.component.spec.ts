@@ -1,46 +1,21 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { ProductsListComponent } from './products-list.component';
 import { Location } from '@angular/common';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
-import { CLAPP_MODULES } from '../../test/mocks';
+import {
+  CLAPP_MODULES,
+  MockLocation,
+  MockProductsService,
+  PAGINATION_DATA,
+  MOCK_PRODUCTS_DATA,
+} from '../../test/mocks';
 import { ProductsCardComponent } from '../products-card/products-card.component';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Observable, of } from 'rxjs';
-import {
-  PaginationResult,
-  ProductInterface,
-} from '@state-management-app/types';
+import { of } from 'rxjs';
 import { ProductsService } from '../../services/products.service';
 import { HttpClient } from '@angular/common/http';
-import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { MOCK_PRODUCTS_DATA } from '../../test/mocks';
-import { Pagination } from '@clapp1/clapp-angular/lib/pagination/interfaces/pagination.interface';
-
-export interface MockLocation {
-  back: () => void;
-}
-
-export interface MockRouterLink {
-  back: () => void;
-}
-
-export interface MockProductsService {
-  getProducts: () => Observable<PaginationResult<ProductInterface>>;
-  getProductsByQueries: (
-    searchName: string,
-    currentPage: number,
-    pageLimit?: 10
-  ) => Observable<PaginationResult<ProductInterface>>;
-}
-
-export const PAGINATION_DATA: Pagination = {
-  previousPage: null,
-  currentPage: 1,
-  nextPage: null,
-  lastPage: 0,
-};
+import { ReactiveFormsModule } from '@angular/forms';
 
 describe('ProductsListComponent', () => {
   let component: ProductsListComponent;
