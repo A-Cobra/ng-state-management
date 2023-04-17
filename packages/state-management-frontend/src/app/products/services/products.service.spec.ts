@@ -1,7 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { ProductsService } from './products.service';
 import { HttpClient } from '@angular/common/http';
-import { API_URL, MockHttpClient } from '../test/mocks';
+import { MockHttpClient } from '../test/mocks';
+import { PRODUCTS_CONTROLLER_VERSION } from './products-controller-version';
+import { environment } from '../../environments/environment';
 
 describe('ProductsService', () => {
   let service: ProductsService;
@@ -25,22 +27,33 @@ describe('ProductsService', () => {
   });
 
   // WORKS
-  // it('should call the get method from the HttpClient once we call the getProducts method', () => {
+  // it('should call the get method getProductsByQueries once we call the getProducts method', () => {
+  //   jest.spyOn(service, 'getProductsByQueries');
   //   service.getProducts();
 
-  //   expect(mockHttpClient.get).toHaveBeenCalledTimes(1);
-  //   expect(mockHttpClient.get).toHaveBeenCalledWith(API_URL);
+  //   expect(service.getProductsByQueries).toHaveBeenCalledTimes(1);
+  //   expect(service.getProductsByQueries).toHaveBeenCalledWith('', 1);
   // });
 
-  // it('should call the get method from the HttpClient once we call the getProductsByName method', () => {
-  //   const SEARCH_NAME = 'Alienware'.toLowerCase();
-  //   const CURRENT_PAGE = 2
+  // it('should call the get method from the HttpClient once we call the getProductsByQueries method', () => {
+  //   const SEARCH_NAME = 'Alienware';
+  //   const CURRENT_PAGE = 2;
   //   service.getProductsByQueries(SEARCH_NAME, CURRENT_PAGE);
 
   //   expect(mockHttpClient.get).toHaveBeenCalledTimes(1);
-  //   expect(mockHttpClient.get).toHaveBeenCalledWith(
-  //     `${API_URL}?search=${searchName.toLowerCase()}&page=${currentPage}&limit=10`
-  //   );
+  //   if (!service.productsControllerVersion) {
+  //     expect(mockHttpClient.get).toHaveBeenCalledWith(
+  //       `${
+  //         environment.apiBaseUrl
+  //       }?search=${SEARCH_NAME.toLowerCase()}&page=${CURRENT_PAGE}&limit=10`
+  //     );
+  //   } else {
+  //     expect(mockHttpClient.get).toHaveBeenCalledWith(
+  //       `${
+  //         environment.apiBaseUrl
+  //       }/v${PRODUCTS_CONTROLLER_VERSION}?search=${SEARCH_NAME.toLowerCase()}&page=${CURRENT_PAGE}&limit=10`
+  //     );
+  //   }
   // });
   // WORKS
 });

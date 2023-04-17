@@ -35,8 +35,6 @@ export interface MockProductsService {
   ) => Observable<PaginationResult<ProductInterface>>;
 }
 
-export const API_URL = 'http://domain.com/api';
-
 export const MOCK_PRODUCTS_DATA: PaginationResult<ProductInterface> = {
   data: [
     {

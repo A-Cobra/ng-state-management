@@ -1,0 +1,1 @@
+export const PRODUCTS_CONTROLLER_VERSION = 1;
