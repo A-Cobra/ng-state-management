@@ -1,0 +1,193 @@
+<div class="form__main">
+  <h1>Business Edit Form</h1>
+  <form class="form" [formGroup]="businessFormEdit">
+    <div class="left-column">
+      <div class="business-img">
+        <clapp-image-display
+          [src]="currentBusinessImgUrl ? currentBusinessImgUrl : defaultImgUrl"
+          [alt]="businessData.businessName + '.png'"
+          type="avatar"
+          size="large"
+        >
+        </clapp-image-display>
+      </div>
+
+      <div
+        *ngIf="businessData"
+        [ngClass]="{
+          disabled: !editing
+        }"
+      >
+        Total branches: {{ businessData.totalBranches }}
+      </div>
+
+      <app-reactive-form-control-text-input
+        [parentForm]="businessFormEdit"
+        controlName="imgUrl"
+        displayText="Please enter the image URL"
+        [required]="false"
+        label="Image URL"
+      ></app-reactive-form-control-text-input>
+
+      <app-reactive-form-control-text-input
+        [parentForm]="businessFormEdit"
+        controlName="contactPhoneNumber"
+        displayText="Please enter the contact number"
+        label="Contact Number"
+        stateManagementAppOnlyNumber
+        [reactiveFormControl]="businessFormEdit.controls['contactPhoneNumber']"
+      ></app-reactive-form-control-text-input>
+
+      <app-reactive-form-control-text-input
+        [parentForm]="businessFormEdit"
+        controlName="contactEmail"
+        displayText="Please enter the contact email"
+        label="Contact Email"
+      ></app-reactive-form-control-text-input>
+    </div>
+
+    <div class="right-column">
+      <app-reactive-form-control-text-input
+        [parentForm]="businessFormEdit"
+        controlName="displayName"
+        displayText="Please enter the display name"
+        label="Display Name"
+      ></app-reactive-form-control-text-input>
+
+      <app-reactive-form-control-text-input
+        [parentForm]="businessFormEdit"
+        controlName="businessName"
+        displayText="Please enter the business name"
+        label="Business Name"
+      ></app-reactive-form-control-text-input>
+
+      <div class="form__group" *ngIf="editing; else disabledInputSelect">
+        <clapp-select
+          [formControl]="businessFormEdit.controls['businessClassification']"
+          [selectedValue]="
+            businessFormEdit.controls['businessClassification'].value
+          "
+          label="Business Classification"
+          [borderless]="false"
+          [displayLabel]="false"
+          inputName="businessClassification"
+          [pagination]="false"
+          placeholder="Classification *"
+          [hasFilter]="true"
+        >
+          <clapp-search
+            (keyup)="onSearchKeyUp($event)"
+            (valueDeleted)="onSearchValueDeleted()"
+          ></clapp-search>
+          <clapp-select-option
+            *ngFor="let classification of mockClassificationList"
+            [key]="classification.key"
+            [value]="classification.key"
+          ></clapp-select-option>
+        </clapp-select>
+        <div
+          class="error"
+          *ngIf="
+            businessFormEdit.controls['businessClassification'].invalid &&
+            businessFormEdit.controls['businessClassification'].touched
+          "
+        >
+          <clapp-helper-text
+            [textState]="
+              businessFormEdit.controls['businessClassification'].disabled
+                ? 'disabled'
+                : 'error'
+            "
+          >
+            {{
+              businessFormEdit.controls['businessClassification'].errors
+                | fullErrorName
+            }}
+          </clapp-helper-text>
+        </div>
+      </div>
+      <ng-template #disabledInputSelect>
+        <app-reactive-form-control-text-input
+          [parentForm]="businessFormEdit"
+          controlName="businessClassification"
+          displayText="Please enter the business classification"
+        ></app-reactive-form-control-text-input>
+      </ng-template>
+
+      <app-reactive-form-control-text-input
+        [parentForm]="businessFormEdit"
+        controlName="contactAddress"
+        displayText="Please enter the contact address"
+        label="Contact Address"
+      ></app-reactive-form-control-text-input>
+
+      <div class="coordinates">
+        <app-reactive-form-control-text-input
+          [parentForm]="businessFormEdit"
+          controlName="longitude"
+          displayText="Please enter the longitude"
+          label="Longitude"
+          stateManagementAppFloatNumberOrNumberRange
+          [reactiveFormControl]="businessFormEdit.controls['longitude']"
+          [maxValue]="180"
+          [minValue]="-180"
+        ></app-reactive-form-control-text-input>
+
+        <app-reactive-form-control-text-input
+          [parentForm]="businessFormEdit"
+          controlName="latitude"
+          displayText="Please enter the latitude"
+          label="Latitude"
+          stateManagementAppFloatNumberOrNumberRange
+          [reactiveFormControl]="businessFormEdit.controls['latitude']"
+          [maxValue]="90"
+          [minValue]="-90"
+        ></app-reactive-form-control-text-input>
+      </div>
+    </div>
+  </form>
+
+  <div class="buttons">
+    <div class="buttons__left">
+      <clapp-button
+        color="secondary"
+        plusIcon="ri-arrow-left-s-line"
+        (click)="onGoToBusinessesList()"
+        >Businesses list</clapp-button
+      >
+    </div>
+    <div class="buttons__right" *ngIf="businessData && !hasActiveRequest">
+      <clapp-button
+        *ngIf="!editing; else saveButton"
+        (click)="onEditClick()"
+        color="tertiary-white"
+        size="small"
+        type="button"
+        plusIcon="ri-edit-2-fill"
+      >
+        Edit
+      </clapp-button>
+      <ng-template #saveButton>
+        <clapp-button
+          (click)="onSaveClick()"
+          color="secondary"
+          size="small"
+          type="button"
+          plusIcon="ri-save-line"
+          [disabled]="businessFormEdit.invalid"
+        >
+          Save
+        </clapp-button>
+      </ng-template>
+      <clapp-button
+        (click)="onDeleteBusiness()"
+        color="primary"
+        size="small"
+        type="button"
+        plusIcon="ri-delete-bin-2-fill"
+      >
+        Delete
+      </clapp-button>
+    </div>
+  </div>
+</div>

@@ -1,4 +1,4 @@
-import { FormControlsData } from '../models/create-form.interface';
+import { FormControlsData } from '../models/create-form.model';
 
 export const FORM_CONTROLS_DATA: FormControlsData = {
   name: {

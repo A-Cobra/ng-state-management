@@ -22,7 +22,7 @@ export class UserCredentials {
   @Property({ unique: true })
   email: string;
 
-  @Property()
+  @Property({ hidden: true })
   password: string;
 
   @Property()
