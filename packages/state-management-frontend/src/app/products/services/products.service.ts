@@ -6,19 +6,25 @@ import { HttpClient } from '@angular/common/http';
 import { MOCK_PRODUCTS_DATA } from '../test/mocks';
 import { environment } from '../../environments/environment';
 
-const API_URL = environment.apiBaseUrl;
-
 @Injectable({
   providedIn: 'any',
 })
 export class ProductsService {
   productsControllerVersion: string;
+  baseUrl: string;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    this.baseUrl =
+      environment.apiBaseUrl + this.productsControllerVersion
+        ? '/' + this.productsControllerVersion
+        : '';
+  }
 
   getProducts(): Observable<PaginationResult<ProductInterface>> {
     return of({ ...MOCK_PRODUCTS_DATA });
-    return this.http.get<PaginationResult<ProductInterface>>(API_URL);
+    return this.http.get<PaginationResult<ProductInterface>>(
+      `${this.baseUrl}/products`
+    );
     return this.getProductsByQueries('', 1);
   }
 
@@ -34,10 +40,8 @@ export class ProductsService {
       ),
     });
     return this.http.get<PaginationResult<ProductInterface>>(
-      `${API_URL}${
-        this.productsControllerVersion
-          ? '/' + this.productsControllerVersion
-          : ''
+      `${
+        this.baseUrl
       }?search=${searchName.toLowerCase()}&page=${currentPage}&limit=${pageLimit}`
     );
   }
