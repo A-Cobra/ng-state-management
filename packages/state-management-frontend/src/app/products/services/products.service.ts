@@ -4,13 +4,16 @@ import { ProductInterface } from '@state-management-app/types';
 import { PaginationResult } from '@state-management-app/types';
 import { HttpClient } from '@angular/common/http';
 import { MOCK_PRODUCTS_DATA } from '../test/mocks';
+import { environment } from '../../environments/environment';
 
-const API_URL = 'http://domain.com/api';
+const API_URL = environment.apiBaseUrl;
 
 @Injectable({
   providedIn: 'any',
 })
 export class ProductsService {
+  productsControllerVersion: string;
+
   constructor(private http: HttpClient) {}
 
   getProducts(): Observable<PaginationResult<ProductInterface>> {
@@ -18,17 +21,6 @@ export class ProductsService {
     return this.http.get<PaginationResult<ProductInterface>>(API_URL);
     return this.getProductsByQueries('', 1);
   }
-
-  // getProductsByName(searchName: string): Observable<ProductInterface[]> {
-  //   return of(
-  //     [...MOCK_PRODUCTS_DATA].filter((product: ProductInterface) =>
-  //       product.productName.toLowerCase().match(searchName.toLowerCase())
-  //     )
-  //   );
-  //   return this.http.get<ProductInterface[]>(
-  //     `${API_URL}&search_name=${searchName.toLowerCase()}`
-  //   );
-  // }
 
   getProductsByQueries(
     searchName: string,
@@ -42,7 +34,11 @@ export class ProductsService {
       ),
     });
     return this.http.get<PaginationResult<ProductInterface>>(
-      `${API_URL}?search=${searchName.toLowerCase()}&page=${currentPage}&limit=${pageLimit}`
+      `${API_URL}${
+        this.productsControllerVersion
+          ? '/' + this.productsControllerVersion
+          : ''
+      }?search=${searchName.toLowerCase()}&page=${currentPage}&limit=${pageLimit}`
     );
   }
 }

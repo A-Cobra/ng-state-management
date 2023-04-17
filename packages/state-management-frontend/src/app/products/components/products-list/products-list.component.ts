@@ -53,7 +53,7 @@ export class ProductsListComponent implements OnInit, OnDestroy {
   }
 
   onSearchByName(searchName: string): void {
-    this.onSearchByQueries(searchName, 1);
+    this.onSearchByQueries(searchName.trim(), 1);
   }
 
   onSearchByQueries(searchName: string, page: number): void {
