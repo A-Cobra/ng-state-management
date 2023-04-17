@@ -26,7 +26,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   roles!: RoleLayout[];
   isExpanded = false;
   userData$!: Observable<UserLayout>;
-  unsubscribe$: Subject<void> = new Subject<void>();
+  unsubscribe$ = new Subject<void>();
 
   uuidToNumber = this.layoutService.uuidToNumber;
 
@@ -35,14 +35,14 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.layoutService.getRoles().subscribe({
       next: (res) => {
         // TODO: add roleIDs depending on each route (now every route has all the roles)
-        (this.roles = res),
-          this.roles.forEach((el) =>
-            this.navigationConfig.forEach((elem) =>
-              elem.allowedRoleIds.push(
-                this.layoutService.uuidToNumber(el.roleId)
-              )
+        this.roles = res;
+        this.roles.forEach((role) =>
+          this.navigationConfig.forEach((elem) =>
+            elem.allowedRoleIds.push(
+              this.layoutService.uuidToNumber(role.roleId)
             )
-          );
+          )
+        );
       },
       error: () =>
         this.notificationService.error(
@@ -51,11 +51,11 @@ export class SidebarComponent implements OnInit, OnDestroy {
         ),
     });
   }
-  logoOut(): void {
+  onLogOut(): void {
     // TODO: call LogOut function on auth service
   }
 
-  navbarExpands(): void {
+  onNavbarExpand(): void {
     this.isExpanded = !this.isExpanded;
   }
 

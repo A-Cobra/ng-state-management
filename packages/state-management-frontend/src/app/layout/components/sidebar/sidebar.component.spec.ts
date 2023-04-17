@@ -66,7 +66,7 @@ describe('SidebarComponent', () => {
   });
 
   it('should toggle isExpanded to true', () => {
-    component.navbarExpands();
+    component.onNavbarExpand();
     expect(component.isExpanded).toBe(true);
   });
 

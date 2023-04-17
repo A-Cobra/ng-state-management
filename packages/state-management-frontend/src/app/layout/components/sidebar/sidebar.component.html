@@ -5,7 +5,7 @@
     [logOutConfig]="logOutConfiguration"
     [expanded]="isExpanded"
     [currentUserRole]="uuidToNumber(user.roleId)"
-    (logout)="logoOut()"
-    (navbarExpands)="navbarExpands()"
+    (logout)="onLogOut()"
+    (navbarExpands)="onNavbarExpand()"
   ></clapp-sidebar>
 </ng-container>

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Router, Routes } from '@angular/router';
-import { of, throwError } from 'rxjs';
+import { of, Observable, throwError } from 'rxjs';
 import {
   ClappTopbarModule,
   ClappImageDisplayModule,
@@ -13,6 +13,7 @@ import {
 import { TopbarComponent } from './topbar.component';
 import { LayoutService } from '../../services/layout.service';
 import { MOCK_USER_LAYOUT } from '../../tests/layout-mocks';
+import { UserLayout } from '../../models/layout.model';
 
 @Component({
   selector: 'app-mock-user-profile',
