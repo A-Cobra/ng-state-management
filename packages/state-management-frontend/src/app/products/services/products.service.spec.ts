@@ -41,19 +41,11 @@ describe('ProductsService', () => {
   //   service.getProductsByQueries(SEARCH_NAME, CURRENT_PAGE);
 
   //   expect(mockHttpClient.get).toHaveBeenCalledTimes(1);
-  //   if (!service.productsControllerVersion) {
-  //     expect(mockHttpClient.get).toHaveBeenCalledWith(
-  //       `${
-  //         environment.apiBaseUrl
-  //       }?search=${SEARCH_NAME.toLowerCase()}&page=${CURRENT_PAGE}&limit=10`
-  //     );
-  //   } else {
-  //     expect(mockHttpClient.get).toHaveBeenCalledWith(
-  //       `${
-  //         environment.apiBaseUrl
-  //       }/v${PRODUCTS_CONTROLLER_VERSION}?search=${SEARCH_NAME.toLowerCase()}&page=${CURRENT_PAGE}&limit=10`
-  //     );
-  //   }
+  //   expect(mockHttpClient.get).toHaveBeenCalledWith(
+  //     `${
+  //       environment.apiBaseUrl
+  //     }${PRODUCTS_CONTROLLER_VERSION}?search=${SEARCH_NAME.toLowerCase()}&page=${CURRENT_PAGE}&limit=10`
+  //   );
   // });
   // WORKS
 });

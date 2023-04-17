@@ -11,13 +11,10 @@ import { PRODUCTS_CONTROLLER_VERSION } from './products-controller-version';
   providedIn: 'any',
 })
 export class ProductsService {
-  productsControllerVersion = PRODUCTS_CONTROLLER_VERSION;
   baseUrl: string;
 
   constructor(private http: HttpClient) {
-    this.baseUrl = this.productsControllerVersion
-      ? `${environment.apiBaseUrl}/v${this.productsControllerVersion}`
-      : `${environment.apiBaseUrl}`;
+    this.baseUrl = `${environment.apiBaseUrl}${PRODUCTS_CONTROLLER_VERSION}`;
   }
 
   getProducts(): Observable<PaginationResult<ProductInterface>> {
