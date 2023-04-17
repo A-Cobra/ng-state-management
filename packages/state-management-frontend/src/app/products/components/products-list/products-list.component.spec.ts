@@ -7,11 +7,16 @@ import { By } from '@angular/platform-browser';
 import { CLAPP_MODULES } from '../../test/mocks';
 import { ProductsCardComponent } from '../products-card/products-card.component';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Observable } from 'rxjs';
-import { ProductInterface } from '@state-management-app/types';
+import { Observable, of } from 'rxjs';
+import {
+  PaginationResult,
+  ProductInterface,
+} from '@state-management-app/types';
 import { ProductsService } from '../../services/products.service';
 import { HttpClient } from '@angular/common/http';
-import { ReactiveFormsModule } from '@angular/forms';
+import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { MOCK_PRODUCTS_DATA } from '../../test/mocks';
+import { Pagination } from '@clapp1/clapp-angular/lib/pagination/interfaces/pagination.interface';
 
 export interface MockLocation {
   back: () => void;
@@ -22,9 +27,20 @@ export interface MockRouterLink {
 }
 
 export interface MockProductsService {
-  getProducts: () => Observable<ProductInterface[]>;
-  getProductsByName: (searchName: string) => Observable<ProductInterface[]>;
+  getProducts: () => Observable<PaginationResult<ProductInterface>>;
+  getProductsByQueries: (
+    searchName: string,
+    currentPage: number,
+    pageLimit?: 10
+  ) => Observable<PaginationResult<ProductInterface>>;
 }
+
+export const PAGINATION_DATA: Pagination = {
+  previousPage: null,
+  currentPage: 1,
+  nextPage: null,
+  lastPage: 0,
+};
 
 describe('ProductsListComponent', () => {
   let component: ProductsListComponent;
@@ -32,8 +48,8 @@ describe('ProductsListComponent', () => {
   let debugElement: DebugElement;
   let mockLocation: MockLocation;
   const mockProductsService: MockProductsService = {
-    getProducts: jest.fn(),
-    getProductsByName: jest.fn(),
+    getProducts: jest.fn(() => of(MOCK_PRODUCTS_DATA)),
+    getProductsByQueries: jest.fn(() => of(MOCK_PRODUCTS_DATA)),
   };
 
   beforeEach(async () => {
@@ -51,55 +67,82 @@ describe('ProductsListComponent', () => {
       ],
     }).compileComponents();
 
-    // fixture = TestBed.createComponent(ProductsListComponent);
-    // component = fixture.componentInstance;
-    // debugElement = fixture.debugElement;
-    // fixture.detectChanges();
+    fixture = TestBed.createComponent(ProductsListComponent);
+    component = fixture.componentInstance;
+    debugElement = fixture.debugElement;
+    fixture.detectChanges();
   });
 
-  it('should run', () => {
-    expect(1).toBe(1);
+  it('should create', () => {
+    expect(component).toBeTruthy();
   });
 
-  // it('should create', () => {
-  //   expect(component).toBeTruthy();
-  // });
+  it('should call the back method from the Location class', () => {
+    const backButton = debugElement.queryAll(By.css('clapp-button'))[0];
+    backButton.triggerEventHandler('click', null);
 
-  // it('should call the back method from the Location class', () => {
-  //   const backButton = debugElement.queryAll(By.css('clapp-button'))[0];
-  //   backButton.triggerEventHandler('click', null);
+    expect(mockLocation.back).toHaveBeenCalledTimes(1);
+  });
 
-  //   expect(mockLocation.back).toHaveBeenCalledTimes(1);
-  // });
+  it("should have called the service's method getProducts onInit", () => {
+    expect(mockProductsService.getProducts).toHaveBeenCalled();
+  });
 
-  // it("should have called the service's method getProducts onInit", () => {
-  //   expect(mockProductsService.getProducts).toHaveBeenCalled();
-  // });
+  it("should have called the service's method getProductsByName once we call the onSearchByName method", () => {
+    jest.spyOn(component, 'onSearchByQueries');
+    const SEARCH_NAME = 'Alienware      ';
+    component.onSearchByName(SEARCH_NAME);
 
-  // it("should have called the service's method getProductsByName once we call the onSearchByName method", () => {
-  //   const SEARCH_NAME = 'Alienware'.toLowerCase();
-  //   component.onSearchByName(SEARCH_NAME);
+    expect(component.onSearchByQueries).toHaveBeenCalledTimes(1);
+    expect(component.onSearchByQueries).toHaveBeenCalledWith(
+      SEARCH_NAME.trim(),
+      1
+    );
+  });
 
-  //   expect(mockProductsService.getProductsByName).toHaveBeenCalledTimes(1);
-  //   expect(mockProductsService.getProductsByName).toHaveBeenCalledWith(
-  //     SEARCH_NAME
-  //   );
-  // });
+  it('should call the onSearchByName method once the search value changes', async () => {
+    jest.spyOn(component, 'onSearchByName');
+    const inputControl = component.searchForm.controls['input'];
+    const SEARCH_NAME = 'name';
+    inputControl.setValue(SEARCH_NAME);
+    fixture.detectChanges();
+    await new Promise((resolve) => {
+      setTimeout(() => {
+        resolve('');
+      }, 800);
+    });
+    await fixture.whenStable();
 
-  // it('should call the onSearchByName method once the search value changes', async () => {
-  //   jest.spyOn(component, 'onSearchByName');
-  //   const inputControl = component.searchForm.controls['input'];
-  //   const SEARCH_NAME = 'name';
-  //   inputControl.setValue(SEARCH_NAME);
-  //   fixture.detectChanges();
-  //   await new Promise((resolve) => {
-  //     setTimeout(() => {
-  //       resolve('');
-  //     }, 800);
-  //   });
-  //   await fixture.whenStable();
+    expect(component.onSearchByName).toHaveBeenCalledTimes(1);
+    expect(component.onSearchByName).toHaveBeenCalledWith(SEARCH_NAME);
+  });
 
-  //   expect(component.onSearchByName).toHaveBeenCalledTimes(1);
-  //   expect(component.onSearchByName).toHaveBeenCalledWith(SEARCH_NAME);
-  // });
+  it('should call the onSearchByQueries method once the pagination changes', () => {
+    jest.spyOn(component, 'onSearchByQueries');
+    const inputControl = component.searchForm.controls['input'];
+    const SEARCH_NAME = 'name';
+    inputControl.setValue(SEARCH_NAME);
+    fixture.detectChanges();
+    component.onPageChange(PAGINATION_DATA);
+
+    expect(component.onSearchByQueries).toHaveBeenCalledTimes(1);
+    expect(component.onSearchByQueries).toHaveBeenCalledWith(
+      component.searchForm.value.input,
+      PAGINATION_DATA.currentPage
+    );
+  });
+
+  it('should change the pagination data once once we call the onSearchByQueries method', () => {
+    const SEARCH_NAME = 'name';
+    const PAGE_NUMBER = 3;
+    component.paginationConfiguration.totalRecords = 100;
+    fixture.detectChanges();
+    expect(component.paginationConfiguration.totalRecords).toBe(100);
+    component.onSearchByQueries(SEARCH_NAME, PAGE_NUMBER);
+    fixture.detectChanges();
+
+    expect(component.paginationConfiguration.totalRecords).toBe(
+      MOCK_PRODUCTS_DATA.totalResults
+    );
+  });
 });
