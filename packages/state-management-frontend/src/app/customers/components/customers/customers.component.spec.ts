@@ -1,22 +1,21 @@
+import { ApiResponse } from '../../../branches/models/api-response.model';
 import { By } from '@angular/platform-browser';
+import { Customer } from '../../models/customer.model';
+import { CustomersComponent } from './customers.component';
+import { CustomersService } from '../../services/customers.service';
+import { HttpClient } from '@angular/common/http';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { MOCK_CUSTOMERS } from '../../test/mocks';
+import { MOCK_PAGINATION } from '../../../shared/test/constants/mocks';
+import { MockCustomerCardComponent } from '../../../shared/test/mocks/mock-customer-card';
+import { Observable, of, take } from 'rxjs';
+import { ReactiveFormsModule } from '@angular/forms';
 import {
   ComponentFixture,
   fakeAsync,
   TestBed,
   tick,
 } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
-
-import { MOCK_CUSTOMERS } from '../../test/mocks';
-import { MOCK_PAGINATION } from '../../../shared/test/constants/mocks';
-import { ApiResponse } from '../../../branches/models/api-response.model';
-import { Customer } from '../../models/customer.model';
-import { CustomersComponent } from './customers.component';
-import { CustomersService } from '../../services/customers.service';
-import { MockCustomerCardComponent } from '../../../shared/test/mocks/mock-customer-card';
-
-import { Observable, of, take } from 'rxjs';
-
 import {
   ClappButtonModule,
   ClappCardModule,
@@ -46,6 +45,7 @@ const mockCustomersService = {
 describe('CustomersComponent', () => {
   let component: CustomersComponent;
   let fixture: ComponentFixture<CustomersComponent>;
+  let httpClient: HttpClient;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -56,6 +56,7 @@ describe('CustomersComponent', () => {
         ClappPaginationModule,
         ClappSearchModule,
         ReactiveFormsModule,
+        HttpClientTestingModule,
       ],
       providers: [
         {
@@ -67,6 +68,7 @@ describe('CustomersComponent', () => {
 
     fixture = TestBed.createComponent(CustomersComponent);
     component = fixture.componentInstance;
+    httpClient = TestBed.inject(HttpClient);
     fixture.detectChanges();
   });
 
