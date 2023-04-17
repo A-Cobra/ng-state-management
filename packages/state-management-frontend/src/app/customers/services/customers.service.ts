@@ -1,15 +1,18 @@
-import { Injectable } from '@angular/core';
-import { delay, Observable, of } from 'rxjs';
-
 import { ApiResponse } from '../../branches/models/api-response.model';
-import { CUSTOMERS } from '../data/customers';
 import { Customer } from '../models/customer.model';
+import { CUSTOMERS } from '../data/customers';
+import { delay, Observable, of } from 'rxjs';
+import { env } from '../../environment/env.development';
+import { HttpClient } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CustomersService {
   readonly #customers = CUSTOMERS;
+
+  readonly #http = inject(HttpClient);
 
   getCustomers(
     page = 1,
@@ -41,20 +44,17 @@ export class CustomersService {
   }
 
   getCustomer(id: string): Observable<Customer> {
-    // TODO: Replace with real implementation when BE will be ready. Some logic will be removed since BE will handle it.
-
-    // return throwError(new Error('Not implemented yet'));
-    return of(
-      this.#customers.filter((customer: Customer) => customer.id === id)[0]
-    ).pipe(delay(2000));
+    // TODO: Check if url is correct.
+    return this.#http.get<Customer>(`${env.apiUrl}/customers/${id}`);
   }
 
-  deleteCustomer(id: string): Observable<void> {
-    // TODO: Replace with real implementation when BE will be ready. Some logic will be removed since BE will handle it.
-    return of(undefined);
+  deleteCustomer(id: string): Observable<string> {
+    // TODO: Check if url is correct.
+    return this.#http.delete<string>(`${env.apiUrl}/customers/${id}`);
   }
 
   getIsAdminInfo(): Observable<boolean> {
+    // TODO: Replace with the actual implementation when doing interceptor or role management.
     return of(false).pipe(delay(2000));
   }
 }

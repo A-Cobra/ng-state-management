@@ -1,10 +1,14 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ActivatedRoute, Router } from '@angular/router';
-
+import { ActivatedRoute, Router, Routes } from '@angular/router';
 import { activatedRouteMock, MOCK_CUSTOMER } from '../../test/mocks';
+import { backModalConfig, deleteModalConfig } from '../../utils/modal-config';
+import { Component } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ConfirmationModalComponent } from '../../../shared/components/confirmation-modal/confirmation-modal.component';
 import { CustomerDetailsComponent } from './customer-details.component';
 import { CustomersService } from '../../services/customers.service';
 import { of } from 'rxjs';
+import { RouterTestingModule } from '@angular/router/testing';
+
 import {
   ClappButtonModule,
   ClappCardModule,
@@ -14,9 +18,6 @@ import {
   ClappSearchModule,
   ModalService,
 } from '@clapp1/clapp-angular';
-import { RouterTestingModule } from '@angular/router/testing';
-import { backModalConfig, deleteModalConfig } from '../../utils/modal-config';
-import { ConfirmationModalComponent } from '../../../shared/components/confirmation-modal/confirmation-modal.component';
 
 const customerServiceMock = {
   getCustomer: jest.fn().mockReturnValue(of(MOCK_CUSTOMER)),
@@ -29,6 +30,18 @@ const modalServiceMock = {
     afterClosed: of(true),
   })),
 };
+
+@Component({
+  selector: 'app-customer-component',
+  template: '<span> Mock Component </span>',
+})
+class MockCustomerComponent {}
+const routes: Routes = [
+  {
+    path: 'customers',
+    component: MockCustomerComponent,
+  },
+];
 
 describe('CustomerDetailsComponent', () => {
   let component: CustomerDetailsComponent;
@@ -47,7 +60,7 @@ describe('CustomerDetailsComponent', () => {
         ClappNoResultsModule,
         ClappImageDisplayModule,
         ClappPaginationModule,
-        RouterTestingModule,
+        RouterTestingModule.withRoutes(routes),
       ],
       providers: [
         {
@@ -65,8 +78,8 @@ describe('CustomerDetailsComponent', () => {
       ],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(CustomerDetailsComponent);
     router = TestBed.inject(Router);
+    fixture = TestBed.createComponent(CustomerDetailsComponent);
     component = fixture.componentInstance;
     customersService = TestBed.inject(CustomersService);
     modalService = TestBed.inject(ModalService);
@@ -78,19 +91,15 @@ describe('CustomerDetailsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should initialize the variables customer, hasCustomer, isLoading, and isAdmin correctly.', () => {
+  it('should retrieve customer details successfully.', () => {
     expect(component.customer).toEqual(MOCK_CUSTOMER);
     expect(component.hasCustomer).toBeTruthy();
     expect(component.isLoading).toBeFalsy();
-    expect(component.isAdmin).toBeTruthy();
   });
 
-  it('should get customer', () => {
-    expect(customersService.getCustomer).toHaveBeenCalled();
-  });
-
-  it('should get isAdmin information', () => {
+  it('should retrieve admin status successfully.', () => {
     expect(customersService.getIsAdminInfo).toHaveBeenCalled();
+    expect(component.isAdmin).toBeTruthy();
   });
 
   it('should navigate to customers page', () => {

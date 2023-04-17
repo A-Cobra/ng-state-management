@@ -1,6 +1,5 @@
-import { of } from 'rxjs';
-
 import { Customer } from '../models/customer.model';
+import { of } from 'rxjs';
 
 export const MOCK_CUSTOMER: Customer = {
   id: '1',
@@ -37,5 +36,5 @@ export const MOCK_CUSTOMERS: Customer[] = [
 ];
 
 export const activatedRouteMock = {
-  params: of({ userId: '123' }),
+  params: of({ customerId: '1' }),
 };
