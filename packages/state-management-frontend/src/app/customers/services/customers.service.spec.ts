@@ -1,16 +1,18 @@
-import { TestBed } from '@angular/core/testing';
-
 import { CUSTOMERS } from '../data/customers';
 import { CustomersService } from './customers.service';
-
+import { HttpClient } from '@angular/common/http';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { map, take } from 'rxjs';
+import { TestBed } from '@angular/core/testing';
 
 describe('CustomersService', () => {
   let service: CustomersService;
+  let httpClient: HttpClient;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({ imports: [HttpClientTestingModule] });
     service = TestBed.inject(CustomersService);
+    httpClient = TestBed.inject(HttpClient);
   });
 
   it('should be created', () => {
