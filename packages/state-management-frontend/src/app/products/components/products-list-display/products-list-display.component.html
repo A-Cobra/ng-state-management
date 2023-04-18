@@ -1,0 +1,25 @@
+<div class="main">
+  <div
+    class="cardsContainer"
+    *ngIf="productsList.length > 0; else emptyProducts"
+  >
+    <app-product-card
+      *ngFor="let product of productsList"
+      [product]="product"
+    ></app-product-card>
+  </div>
+  <div></div>
+  <ng-template #emptyProducts>
+    <div class="empty-products">
+      <h1>No products</h1>
+      <p>Please add new ones</p>
+      <clapp-button
+        color="secondary"
+        plusIcon="ri-add-fill"
+        [routerLink]="['/products', 'create']"
+      >
+        Add Product</clapp-button
+      >
+    </div>
+  </ng-template>
+</div>

@@ -16,26 +16,20 @@
       Add Product</clapp-button
     >
   </div>
-  <div class="main-wrapper" *ngIf="productsList$ | async as productsList">
-    <div class="main" *ngIf="productsList.length > 0; else emptyProducts">
-      <div class="cardsContainer">
-        <app-product-card
-          *ngFor="let product of productsList"
-          [product]="product"
-        ></app-product-card>
-      </div>
-      <div>
-        <clapp-pagination
-          *ngIf="
-            paginationConfiguration.totalRecords >
-            paginationConfiguration.recordsPerPage
-          "
-          [totalRecords]="paginationConfiguration.totalRecords"
-          [pageSize]="paginationConfiguration.recordsPerPage"
-          (pageChange)="onPageChange($event)"
-        ></clapp-pagination>
-      </div>
-    </div>
+  <div class="main" *ngIf="productsList$ | async as productsList">
+    <app-products-list-display
+      [productsList]="productsList"
+    ></app-products-list-display>
+    <clapp-pagination
+      *ngIf="
+        productsList.length > 0 &&
+        paginationConfiguration.totalRecords >
+          paginationConfiguration.recordsPerPage
+      "
+      [totalRecords]="paginationConfiguration.totalRecords"
+      [pageSize]="paginationConfiguration.recordsPerPage"
+      (pageChange)="onPageChange($event)"
+    ></clapp-pagination>
   </div>
   <ng-template #emptyProducts>
     <div class="no-products">

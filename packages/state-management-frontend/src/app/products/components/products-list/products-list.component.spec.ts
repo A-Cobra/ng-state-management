@@ -16,6 +16,7 @@ import { of } from 'rxjs';
 import { ProductsService } from '../../services/products.service';
 import { HttpClient } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ProductsListDisplayComponent } from '../products-list-display/products-list-display.component';
 
 describe('ProductsListComponent', () => {
   let component: ProductsListComponent;
@@ -34,7 +35,11 @@ describe('ProductsListComponent', () => {
 
     await TestBed.configureTestingModule({
       imports: [RouterTestingModule, ReactiveFormsModule, ...CLAPP_MODULES],
-      declarations: [ProductsListComponent, ProductCardComponent],
+      declarations: [
+        ProductsListComponent,
+        ProductCardComponent,
+        ProductsListDisplayComponent,
+      ],
       providers: [
         HttpClient,
         { provide: Location, useValue: mockLocation },

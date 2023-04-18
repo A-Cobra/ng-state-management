@@ -12,6 +12,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ProductCardComponent } from './components/product-card/product-card.component';
 import { ProductsService } from './services/products.service';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ProductsListDisplayComponent } from './components/products-list-display/products-list-display.component';
 
 const CLAPP_MODULES = [
   ClappPaginationModule,
@@ -21,7 +22,11 @@ const CLAPP_MODULES = [
 ];
 
 @NgModule({
-  declarations: [ProductsListComponent, ProductCardComponent],
+  declarations: [
+    ProductsListComponent,
+    ProductCardComponent,
+    ProductsListDisplayComponent,
+  ],
   imports: [
     CommonModule,
     ProductsRoutingModule,

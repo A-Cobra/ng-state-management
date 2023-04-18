@@ -7,9 +7,7 @@ import { MOCK_PRODUCTS_DATA } from '../test/mocks';
 import { environment } from '../../environments/environment';
 import { PRODUCTS_CONTROLLER_VERSION } from './products-controller-version';
 
-@Injectable({
-  providedIn: 'any',
-})
+@Injectable()
 export class ProductsService {
   baseUrl: string;
 
