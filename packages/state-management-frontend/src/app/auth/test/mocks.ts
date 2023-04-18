@@ -1,4 +1,4 @@
-import { User, UserLogin } from '../interfaces/user.interface';
+import { User, UserLogin } from '../interfaces/user.model';
 
 export const MOCK_USER: User = {
   name: 'John',

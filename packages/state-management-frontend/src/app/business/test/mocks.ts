@@ -1,5 +1,8 @@
-import { Business } from '../models/business.interface';
-import { Classification } from '../models/classification.interface';
+import { Params } from '@angular/router';
+import { Business } from '../models/business.model';
+import { Classification } from '../models/classification.model';
+import { ModalConfig } from '@clapp1/clapp-angular';
+import { Observable, Subject } from 'rxjs';
 
 export const MOCK_CLASSIFICATIONS: Classification[] = [
   {
@@ -77,3 +80,31 @@ export const MOCK_BUSINESS: Business = {
   fullname: 'John Doe',
   documentId: '1234567890',
 };
+
+export const TEST_DELETE_BUSINESS_MODAL_CONFIG: ModalConfig = {
+  data: {
+    title: 'Delete business',
+    message: "Are you sure you want to delete the 'MY_BUSINESS' business?",
+    affirmativeButtonLabel: 'Yes',
+    negativeButtonLabel: 'Cancel',
+  },
+  width: '300px',
+  height: 'fit-content',
+};
+
+export class MockActivatedRoute {
+  private params$ = new Subject<Params>();
+  private defaultParams = { id: '5' };
+
+  constructor(params?: Params) {
+    params ? this.params$.next(params) : this.params$.next(this.defaultParams);
+  }
+
+  get params() {
+    return this.params$ as Observable<Params>;
+  }
+
+  set params(params: Params) {
+    this.params$.next(params);
+  }
+}
