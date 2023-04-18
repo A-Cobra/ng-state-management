@@ -1,6 +1,6 @@
 import { getRepositoryToken } from '@mikro-orm/nestjs';
 import { Test, TestingModule } from '@nestjs/testing';
-import { Courier } from '../../couriers/entities/courier.entity';
+import { CouriersService } from '../../couriers/services/couriers.service';
 import { ReviewsController } from '../controllers/reviews.controller';
 import { CreateCourierReviewDto } from '../dto/create-courier-review.dto';
 import { CreateReviewDto } from '../dto/create-product-review.dto';
@@ -29,8 +29,8 @@ describe('ReviewsController', () => {
     create: jest.fn(),
     persistAndFlush: jest.fn(),
   };
-  const mockCourierRepository = {
-    findOne: jest.fn(),
+  const mockCourierService = {
+    findById: jest.fn(),
   };
 
   beforeEach(async () => {
@@ -39,6 +39,7 @@ describe('ReviewsController', () => {
       providers: [
         ProductReviewsService,
         CourierReviewsService,
+        CouriersService,
         {
           provide: getRepositoryToken(Review),
           useValue: mockReviewRepository,
@@ -52,8 +53,8 @@ describe('ReviewsController', () => {
           useValue: mockCourierReviewRepository,
         },
         {
-          provide: getRepositoryToken(Courier),
-          useValue: mockCourierRepository,
+          provide: CouriersService,
+          useValue: mockCourierService,
         },
       ],
     }).compile();
@@ -81,7 +82,10 @@ describe('ReviewsController', () => {
         .spyOn(reviewsService, 'getProductsReviews')
         .mockResolvedValue(paginatedData);
 
-      const result = await reviewsController.getReviews(productId, page, limit);
+      const result = await reviewsController.getReviews(productId, {
+        page,
+        limit,
+      });
 
       expect(result).toEqual(paginatedData);
       expect(reviewsService.getProductsReviews).toHaveBeenCalledWith(
@@ -133,15 +137,15 @@ describe('ReviewsController', () => {
         totalItems: reviews.length,
         totalPages: Math.ceil(reviews.length / limit),
       };
+
       jest
         .spyOn(courierReviewsService, 'getCourierReviews')
         .mockResolvedValue(paginatedData);
 
-      const result = await reviewsController.getCourierReviews(
-        courierId,
+      const result = await reviewsController.getCourierReviews(courierId, {
         page,
-        limit
-      );
+        limit,
+      });
 
       expect(result).toEqual(paginatedData);
       expect(courierReviewsService.getCourierReviews).toHaveBeenCalledWith(

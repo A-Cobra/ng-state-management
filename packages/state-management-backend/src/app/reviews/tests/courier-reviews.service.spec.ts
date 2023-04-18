@@ -5,6 +5,7 @@ import { CreateCourierReviewDto } from '../dto/create-courier-review.dto';
 import { CourierReview } from '../entities/courier-review.entity';
 import { Review } from '../entities/review.entity';
 import { CourierReviewsService } from '../services/courier-review.service';
+import { CouriersService } from '../../couriers/services/couriers.service';
 
 describe('ReviewsService', () => {
   let courierReviewsService: CourierReviewsService;
@@ -20,8 +21,8 @@ describe('ReviewsService', () => {
     create: jest.fn(),
     persistAndFlush: jest.fn(),
   };
-  const mockCourierRepository = {
-    findOne: jest.fn(),
+  const mockCourierService = {
+    findById: jest.fn(),
   };
 
   const mockCourier: Courier = {
@@ -48,8 +49,8 @@ describe('ReviewsService', () => {
           useValue: mockCourierReviewRepository,
         },
         {
-          provide: getRepositoryToken(Courier),
-          useValue: mockCourierRepository,
+          provide: CouriersService,
+          useValue: mockCourierService,
         },
       ],
     }).compile();
@@ -111,7 +112,8 @@ describe('ReviewsService', () => {
         },
       ];
 
-      mockCourierRepository.findOne.mockResolvedValueOnce(mockCourier);
+      mockCourierService.findById.mockResolvedValueOnce(mockCourier);
+
       mockCourierReviewRepository.findAndCount.mockResolvedValueOnce([
         courierReviews.filter((cr) => cr.courier.userId === mockCourier.userId),
         2,
@@ -145,7 +147,7 @@ describe('ReviewsService', () => {
       const limit = 10;
       const courierId = '1';
 
-      mockCourierRepository.findOne.mockReturnValue(mockCourier);
+      mockCourierService.findById.mockResolvedValueOnce(mockCourier);
       mockCourierReviewRepository.findAndCount.mockResolvedValueOnce([[], 0]);
       mockReviewRepository.find.mockResolvedValueOnce([]);
 
@@ -185,7 +187,7 @@ describe('ReviewsService', () => {
         comment,
       };
 
-      mockCourierRepository.findOne.mockReturnValue(mockCourier);
+      mockCourierService.findById.mockResolvedValueOnce(mockCourier);
       mockReviewRepository.create.mockReturnValueOnce(review);
       mockCourierReviewRepository.create.mockReturnValueOnce({
         mockCourier,
