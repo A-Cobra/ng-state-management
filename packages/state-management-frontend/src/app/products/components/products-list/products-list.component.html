@@ -19,10 +19,10 @@
   <div class="main-wrapper" *ngIf="productsList$ | async as productsList">
     <div class="main" *ngIf="productsList.length > 0; else emptyProducts">
       <div class="cardsContainer">
-        <app-products-card
+        <app-product-card
           *ngFor="let product of productsList"
-          [productData]="product"
-        ></app-products-card>
+          [product]="product"
+        ></app-product-card>
       </div>
       <div>
         <clapp-pagination

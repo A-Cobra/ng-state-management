@@ -1,9 +1,0 @@
-<clapp-card *ngIf="productData">
-  <img src="assets/template-image.png" alt="" srcset="" />
-  <clapp-card-header>{{ productData.productName }}</clapp-card-header>
-  <clapp-card-content>{{ productData.description }}</clapp-card-content>
-  <clapp-card-content>{{
-    productData.price
-      | currency : countryCode : currencyDisplay : currencyDigits
-  }}</clapp-card-content>
-</clapp-card>

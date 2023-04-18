@@ -10,7 +10,7 @@ import {
   PAGINATION_DATA,
   MOCK_PRODUCTS_DATA,
 } from '../../test/mocks';
-import { ProductsCardComponent } from '../products-card/products-card.component';
+import { ProductCardComponent } from '../product-card/product-card.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
 import { ProductsService } from '../../services/products.service';
@@ -34,7 +34,7 @@ describe('ProductsListComponent', () => {
 
     await TestBed.configureTestingModule({
       imports: [RouterTestingModule, ReactiveFormsModule, ...CLAPP_MODULES],
-      declarations: [ProductsListComponent, ProductsCardComponent],
+      declarations: [ProductsListComponent, ProductCardComponent],
       providers: [
         HttpClient,
         { provide: Location, useValue: mockLocation },

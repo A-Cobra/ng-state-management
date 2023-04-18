@@ -9,7 +9,7 @@ import {
   ClappSearchModule,
 } from '@clapp1/clapp-angular';
 import { HttpClientModule } from '@angular/common/http';
-import { ProductsCardComponent } from './components/products-card/products-card.component';
+import { ProductCardComponent } from './components/product-card/product-card.component';
 import { ProductsService } from './services/products.service';
 import { ReactiveFormsModule } from '@angular/forms';
 
@@ -21,7 +21,7 @@ const CLAPP_MODULES = [
 ];
 
 @NgModule({
-  declarations: [ProductsListComponent, ProductsCardComponent],
+  declarations: [ProductsListComponent, ProductCardComponent],
   imports: [
     CommonModule,
     ProductsRoutingModule,
