@@ -8,8 +8,8 @@ import { inject, Injectable } from '@angular/core';
 
 @Injectable()
 export class CustomersService {
-  readonly #customers = CUSTOMERS;
-  readonly #http = inject(HttpClient);
+  private readonly customers = CUSTOMERS;
+  private readonly http = inject(HttpClient);
 
   getCustomers(
     page = 1,
@@ -20,9 +20,9 @@ export class CustomersService {
     let filteredCustomers: Customer[];
     const formattedQuery = query.toLowerCase().trim();
     if (query === '') {
-      filteredCustomers = this.#customers;
+      filteredCustomers = this.customers;
     } else {
-      filteredCustomers = this.#customers.filter(
+      filteredCustomers = this.customers.filter(
         (customer) =>
           customer.name.toLowerCase().includes(formattedQuery) ||
           customer.lastName.toLowerCase().includes(formattedQuery) ||
@@ -42,12 +42,12 @@ export class CustomersService {
 
   getCustomer(id: string): Observable<Customer> {
     // TODO: Check if url is correct.
-    return this.#http.get<Customer>(`${env.apiUrl}/customers/${id}`);
+    return this.http.get<Customer>(`${env.apiUrl}/customers/${id}`);
   }
 
   deleteCustomer(id: string): Observable<{ message: string }> {
     // TODO: Check if url is correct.
-    return this.#http.delete<{ message: string }>(
+    return this.http.delete<{ message: string }>(
       `${env.apiUrl}/customers/${id}`
     );
   }
