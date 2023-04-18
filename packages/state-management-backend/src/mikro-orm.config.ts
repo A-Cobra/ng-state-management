@@ -18,6 +18,7 @@ import { UserCredentials } from './app/users/entities/user-credentials.entity';
 import { Customer } from './app/customers/entities/customer.entity';
 import { Courier } from './app/couriers/entities/courier.entity';
 import { CourierVehicle } from './app/couriers/entities/courier-vehicle.entity';
+import { CourierReview } from './app/reviews/entities/courier-review.entity';
 
 dotenvExpand.expand(dotenv.config());
 
@@ -42,6 +43,7 @@ const MikroOrmConfig: Options = {
     Customer,
     Courier,
     CourierVehicle,
+    CourierReview,
   ],
   migrations: {
     path: './database/migrations',
