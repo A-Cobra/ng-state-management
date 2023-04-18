@@ -6,12 +6,9 @@ import { env } from '../../environment/env.development';
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class CustomersService {
   readonly #customers = CUSTOMERS;
-
   readonly #http = inject(HttpClient);
 
   getCustomers(
@@ -48,9 +45,11 @@ export class CustomersService {
     return this.#http.get<Customer>(`${env.apiUrl}/customers/${id}`);
   }
 
-  deleteCustomer(id: string): Observable<string> {
+  deleteCustomer(id: string): Observable<{ message: string }> {
     // TODO: Check if url is correct.
-    return this.#http.delete<string>(`${env.apiUrl}/customers/${id}`);
+    return this.#http.delete<{ message: string }>(
+      `${env.apiUrl}/customers/${id}`
+    );
   }
 
   getIsAdminInfo(): Observable<boolean> {
