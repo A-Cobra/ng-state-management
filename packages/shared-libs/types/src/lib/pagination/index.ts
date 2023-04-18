@@ -1,1 +1,1 @@
-export * from './pagination-result.interface';
+export * from './pagination-result.model';
