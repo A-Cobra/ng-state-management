@@ -13,7 +13,9 @@ import { JwtAuthGuard } from '../../auth/guard/jwt-auth.guard';
 import { PaginatedData } from '../interfaces/pagination.interface';
 import { Review } from '../entities/review.entity';
 import { ProductReview } from '../entities/product-review.entity';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Product reviews')
 @Controller({
   path: 'reviews',
   version: '1',

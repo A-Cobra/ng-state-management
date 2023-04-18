@@ -3,7 +3,9 @@ import { JwtAuthGuard } from '../../auth/guard/jwt-auth.guard';
 import { GetUser } from '../../auth/decorator/get-user.decorator';
 import { JwtInfo } from '../../auth/interfaces/jwtinfo.type';
 import { UsersDirectoryService } from '../services/users-directory.service';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Users')
 @Controller({
   path: 'users',
   version: '1',
