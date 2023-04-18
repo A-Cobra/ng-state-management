@@ -23,10 +23,7 @@ import { Pagination } from '@clapp1/clapp-angular/lib/pagination/interfaces/pagi
 })
 export class ProductsListComponent implements OnInit, OnDestroy {
   productsList$: Observable<ProductInterface[]>;
-  searchForm = this.formBuilder.group({
-    input: [''],
-  });
-  searchInput = this.formBuilder.control(['']);
+  searchInput = this.formBuilder.control('');
   unsubscribeAll$ = new Subject<void>();
   private pageLimit = 10;
   paginationConfiguration = {
@@ -54,13 +51,13 @@ export class ProductsListComponent implements OnInit, OnDestroy {
 
   onPageChange(paginationData: Pagination): void {
     this.onSearchByQueries(
-      this.searchForm.value.input ?? '',
+      this.searchInput.value ?? '',
       paginationData.currentPage
     );
   }
 
-  onSearchByName(searchName: string): void {
-    this.onSearchByQueries(searchName.trim(), 1);
+  onSearchByName(): void {
+    this.onSearchByQueries(this.searchInput.value.trim(), 1);
   }
 
   onSearchByQueries(searchName: string, page: number): void {
@@ -77,15 +74,15 @@ export class ProductsListComponent implements OnInit, OnDestroy {
   }
 
   setupInputDebounce(): void {
-    this.searchForm.controls['input'].valueChanges
+    this.searchInput.valueChanges
       .pipe(
         debounceTime(700),
         takeUntil(this.unsubscribeAll$),
         distinctUntilChanged()
       )
       .subscribe({
-        next: (searchName: string) => {
-          this.onSearchByName(searchName);
+        next: () => {
+          this.onSearchByName();
         },
       });
   }

@@ -66,7 +66,9 @@ describe('ProductsListComponent', () => {
   it("should have called the service's method getProductsByName once we call the onSearchByName method", () => {
     jest.spyOn(component, 'onSearchByQueries');
     const SEARCH_NAME = 'Alienware      ';
-    component.onSearchByName(SEARCH_NAME);
+    component.searchInput.setValue(SEARCH_NAME);
+    fixture.detectChanges();
+    component.onSearchByName();
 
     expect(component.onSearchByQueries).toHaveBeenCalledTimes(1);
     expect(component.onSearchByQueries).toHaveBeenCalledWith(
@@ -77,9 +79,8 @@ describe('ProductsListComponent', () => {
 
   it('should call the onSearchByName method once the search value changes', async () => {
     jest.spyOn(component, 'onSearchByName');
-    const inputControl = component.searchForm.controls['input'];
     const SEARCH_NAME = 'name';
-    inputControl.setValue(SEARCH_NAME);
+    component.searchInput.setValue(SEARCH_NAME);
     fixture.detectChanges();
     await new Promise((resolve) => {
       setTimeout(() => {
@@ -89,20 +90,18 @@ describe('ProductsListComponent', () => {
     await fixture.whenStable();
 
     expect(component.onSearchByName).toHaveBeenCalledTimes(1);
-    expect(component.onSearchByName).toHaveBeenCalledWith(SEARCH_NAME);
   });
 
   it('should call the onSearchByQueries method once the pagination changes', () => {
     jest.spyOn(component, 'onSearchByQueries');
-    const inputControl = component.searchForm.controls['input'];
     const SEARCH_NAME = 'name';
-    inputControl.setValue(SEARCH_NAME);
+    component.searchInput.setValue(SEARCH_NAME);
     fixture.detectChanges();
     component.onPageChange(PAGINATION_DATA);
 
     expect(component.onSearchByQueries).toHaveBeenCalledTimes(1);
     expect(component.onSearchByQueries).toHaveBeenCalledWith(
-      component.searchForm.value.input,
+      component.searchInput.value,
       PAGINATION_DATA.currentPage
     );
   });
