@@ -16,7 +16,7 @@ import { notSpaces } from '../../validators/not-spaces.validators';
 export class ClassificationLayoutFormComponent {
   classificationForm: FormGroup;
   currentStatus: string;
-  imgDefault = 'assets/img/placeholder-image.png';
+  imgDefault = 'assets/images/placeholder-image.png';
   idClassification: string;
   iconButton: string;
 
