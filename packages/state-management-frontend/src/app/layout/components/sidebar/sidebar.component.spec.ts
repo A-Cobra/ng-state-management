@@ -71,7 +71,7 @@ describe('SidebarComponent', () => {
   });
 
   it('should unsubscribe from subscriptions on destroy', () => {
-    const unsubscribeSpy = jest.spyOn(component.unsubscribe$, 'next');
+    const unsubscribeSpy = jest.spyOn(component['unsubscribe$'], 'next');
     component.ngOnDestroy();
     expect(unsubscribeSpy).toHaveBeenCalled();
   });

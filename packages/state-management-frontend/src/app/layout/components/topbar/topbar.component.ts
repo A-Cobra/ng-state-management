@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subject } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { NotificationService } from '@clapp1/clapp-angular';
 import { UserLayout } from '../../models/layout.model';
 import { LayoutService } from '../../services/layout.service';
@@ -16,20 +16,23 @@ export class TopbarComponent implements OnInit, OnDestroy {
     private route: Router,
     private notificationService: NotificationService
   ) {}
+  private readonly unsubscribe$ = new Subject<void>();
   userData: UserLayout;
-  unsubscribe$: Subject<void> = new Subject<void>();
 
   ngOnInit(): void {
-    this.layoutService.getUserData().subscribe({
-      next: (res) => {
-        this.userData = res;
-      },
-      error: () =>
-        this.notificationService.error(
-          'Error loading user data, please try again later',
-          'Error! '
-        ),
-    });
+    this.layoutService
+      .getUserData()
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe({
+        next: (res) => {
+          this.userData = res;
+        },
+        error: () =>
+          this.notificationService.error(
+            'Error loading user data, please try again later',
+            'Error! '
+          ),
+      });
   }
 
   goToProfile() {

@@ -13,7 +13,7 @@ import {
 import { TopbarComponent } from './topbar.component';
 import { LayoutService } from '../../services/layout.service';
 import { MOCK_USER_LAYOUT } from '../../tests/layout-mocks';
-import { UserLayout } from '../../models/layout.model';
+import { RoleLayout, UserLayout } from '../../models/layout.model';
 
 @Component({
   selector: 'app-mock-user-profile',
@@ -31,14 +31,20 @@ const routes: Routes = [
 describe('TopbarComponent', () => {
   let component: TopbarComponent;
   let fixture: ComponentFixture<TopbarComponent>;
-  let mockLayoutService: LayoutService;
   let mockNotificationService: NotificationService;
   let router: Router;
+  let mockLayoutService: {
+    getUserData: () => Observable<UserLayout>;
+    getRoles: () => Observable<RoleLayout[]>;
+    uuidToNumber: (uuid: string) => number;
+  };
 
   beforeEach(async () => {
     mockLayoutService = {
       getUserData: jest.fn(() => of(MOCK_USER_LAYOUT)),
-    } as unknown as LayoutService;
+      getRoles: jest.fn(),
+      uuidToNumber: jest.fn(),
+    };
     mockNotificationService = {
       error: jest.fn(),
     } as unknown as NotificationService;
@@ -69,7 +75,7 @@ describe('TopbarComponent', () => {
   });
   describe('when component is destroyed', () => {
     it('should unsubscribe from subscriptions on destroy', () => {
-      const unsubscribeSpy = jest.spyOn(component.unsubscribe$, 'next');
+      const unsubscribeSpy = jest.spyOn(component['unsubscribe$'], 'next');
       component.ngOnDestroy();
       expect(unsubscribeSpy).toHaveBeenCalled();
     });
