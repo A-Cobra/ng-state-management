@@ -1,19 +1,20 @@
+import { getRepositoryToken } from '@mikro-orm/nestjs';
 import { Test, TestingModule } from '@nestjs/testing';
-import { ReviewsService } from '../services/reviews.service';
-import { CreateReviewDto } from '../dto/create-review.dto';
+import { Courier } from '../../couriers/entities/courier.entity';
+import { ReviewsController } from '../controllers/reviews.controller';
+import { CreateCourierReviewDto } from '../dto/create-courier-review.dto';
+import { CreateReviewDto } from '../dto/create-product-review.dto';
+import { CourierReview } from '../entities/courier-review.entity';
+import { ProductReview } from '../entities/product-review.entity';
 import { Review } from '../entities/review.entity';
 import { PaginatedData } from '../interfaces/pagination.interface';
-import { ReviewsController } from '../controllers/reviews.controller';
-import { Collection } from '@mikro-orm/core';
-import { ProductReview } from '../entities/product-review.entity';
-import { CourierReview } from '../entities/courier-review.entity';
-import { getRepositoryToken } from '@mikro-orm/nestjs';
-import { CreateCourierReviewDto } from '../dto/create-courier-review';
-import { Courier } from '../../couriers/entities/courier.entity';
+import { CourierReviewsService } from '../services/courier-review.service';
+import { ProductReviewsService } from '../services/product-reviews.service';
 
 describe('ReviewsController', () => {
   let reviewsController: ReviewsController;
-  let reviewsService: ReviewsService;
+  let reviewsService: ProductReviewsService;
+  let courierReviewsService: CourierReviewsService;
 
   const mockReviewRepository = {
     findAndCount: jest.fn(),
@@ -36,7 +37,8 @@ describe('ReviewsController', () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [ReviewsController],
       providers: [
-        ReviewsService,
+        ProductReviewsService,
+        CourierReviewsService,
         {
           provide: getRepositoryToken(Review),
           useValue: mockReviewRepository,
@@ -57,7 +59,10 @@ describe('ReviewsController', () => {
     }).compile();
 
     reviewsController = module.get<ReviewsController>(ReviewsController);
-    reviewsService = module.get<ReviewsService>(ReviewsService);
+    reviewsService = module.get<ProductReviewsService>(ProductReviewsService);
+    courierReviewsService = module.get<CourierReviewsService>(
+      CourierReviewsService
+    );
   });
 
   describe('getReviews', () => {
@@ -129,7 +134,7 @@ describe('ReviewsController', () => {
         totalPages: Math.ceil(reviews.length / limit),
       };
       jest
-        .spyOn(reviewsService, 'getCourierReviews')
+        .spyOn(courierReviewsService, 'getCourierReviews')
         .mockResolvedValue(paginatedData);
 
       const result = await reviewsController.getCourierReviews(
@@ -139,7 +144,7 @@ describe('ReviewsController', () => {
       );
 
       expect(result).toEqual(paginatedData);
-      expect(reviewsService.getCourierReviews).toHaveBeenCalledWith(
+      expect(courierReviewsService.getCourierReviews).toHaveBeenCalledWith(
         page,
         limit,
         courierId
@@ -159,8 +164,9 @@ describe('ReviewsController', () => {
         customerId: createReviewDto.customerId,
         comment: createReviewDto.comment,
       };
+
       jest
-        .spyOn(reviewsService, 'createCourierReview')
+        .spyOn(courierReviewsService, 'createCourierReview')
         .mockResolvedValue(review);
 
       const result = await reviewsController.createCourierReview(
@@ -169,7 +175,7 @@ describe('ReviewsController', () => {
       );
 
       expect(result).toEqual(review);
-      expect(reviewsService.createCourierReview).toHaveBeenCalledWith({
+      expect(courierReviewsService.createCourierReview).toHaveBeenCalledWith({
         ...createReviewDto,
         courierId: courierId,
       });
