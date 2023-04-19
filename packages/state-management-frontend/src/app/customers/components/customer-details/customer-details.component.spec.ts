@@ -6,7 +6,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ConfirmationModalComponent } from '../../../shared/components/confirmation-modal/confirmation-modal.component';
 import { CustomerDetailsComponent } from './customer-details.component';
 import { CustomersService } from '../../services/customers.service';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import {
@@ -14,9 +14,11 @@ import {
   ClappCardModule,
   ClappImageDisplayModule,
   ClappNoResultsModule,
+  ClappNotificationModule,
   ClappPaginationModule,
   ClappSearchModule,
   ModalService,
+  NotificationService,
 } from '@clapp1/clapp-angular';
 
 const customerServiceMock = {
@@ -29,6 +31,11 @@ const modalServiceMock = {
   open: jest.fn(() => ({
     afterClosed: of(true),
   })),
+};
+
+const notificationServiceMock = {
+  success: jest.fn(),
+  error: jest.fn(),
 };
 
 @Component({
@@ -50,6 +57,7 @@ describe('CustomerDetailsComponent', () => {
   let modalService: ModalService;
   let activatedRoute: ActivatedRoute;
   let router: Router;
+  let notificationService: NotificationService;
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [CustomerDetailsComponent],
@@ -60,6 +68,7 @@ describe('CustomerDetailsComponent', () => {
         ClappNoResultsModule,
         ClappImageDisplayModule,
         ClappPaginationModule,
+        ClappNotificationModule,
         RouterTestingModule.withRoutes(routes),
       ],
       providers: [
@@ -75,6 +84,10 @@ describe('CustomerDetailsComponent', () => {
           provide: ModalService,
           useValue: modalServiceMock,
         },
+        {
+          provide: NotificationService,
+          useValue: notificationServiceMock,
+        },
       ],
     }).compileComponents();
 
@@ -82,6 +95,7 @@ describe('CustomerDetailsComponent', () => {
     fixture = TestBed.createComponent(CustomerDetailsComponent);
     component = fixture.componentInstance;
     customersService = TestBed.inject(CustomersService);
+    notificationService = TestBed.inject(NotificationService);
     modalService = TestBed.inject(ModalService);
     activatedRoute = TestBed.inject(ActivatedRoute);
     fixture.detectChanges();
@@ -124,6 +138,31 @@ describe('CustomerDetailsComponent', () => {
     component.navigateToCustomers();
     expect(navigateSpy).toHaveBeenCalled();
     expect(navigateSpy).toHaveBeenCalledWith(['/customers']);
+  });
+
+  describe('notifications', () => {
+    it('should show success notification when deleting customer', () => {
+      const successSpy = jest.spyOn(notificationService, 'success');
+      component.deleteCustomer();
+      expect(successSpy).toHaveBeenCalled();
+      expect(successSpy).toHaveBeenCalledWith(
+        'Customer deleted successfully',
+        'Success!'
+      );
+    });
+
+    it('should show error notification when deleting customer', () => {
+      const errorSpy = jest.spyOn(notificationService, 'error');
+      jest
+        .spyOn(customersService, 'deleteCustomer')
+        .mockReturnValue(throwError({}));
+      component.deleteCustomer();
+      expect(errorSpy).toHaveBeenCalled();
+      expect(errorSpy).toHaveBeenCalledWith(
+        'Customer could not be deleted',
+        'Unexpected error!'
+      );
+    });
   });
 
   describe('modals', () => {

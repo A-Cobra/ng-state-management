@@ -66,11 +66,11 @@ export class CustomerDetailsComponent implements OnInit, OnDestroy {
   }
 
   onClickDelete(): void {
+    if (!this.customer) return;
     const deleteModalRef = this.deleteModal();
 
     deleteModalRef.afterClosed.pipe(take(1)).subscribe((result) => {
       if (!result) return;
-      if (!this.customer) return;
       this.deleteCustomer();
     });
   }
