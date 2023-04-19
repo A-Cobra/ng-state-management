@@ -16,7 +16,7 @@ import {
   ClappNotificationModule,
 } from '@clapp1/clapp-angular';
 import { BusinessEditComponent } from './components/business-edit/business-edit.component';
-import { BusinessListComponent } from './components/business-list/business-list.component';
+import { BusinessesListComponent } from './components/businesses-list/businesses-list.component';
 import { BusinessCardComponent } from './components/business-card/business-card.component';
 import { BusinessEditFormComponent } from './components/business-edit-form/business-edit-form.component';
 import { ReactiveFormControlTextInputComponent } from '../shared/components/reactive-form-control-text-input/reactive-form-control-text-input.component';
@@ -30,7 +30,7 @@ import { BusinessCreateFormComponent } from './components/business-create-form/b
 
 @NgModule({
   declarations: [
-    BusinessListComponent,
+    BusinessesListComponent,
     BusinessCardComponent,
     BusinessEditComponent,
     BusinessCreateFormComponent,
