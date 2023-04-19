@@ -23,13 +23,13 @@
     <div class="customer__header">
       <clapp-image-display
         [alt]="customer.name + ' profile image'"
-        [src]="customer.image || null || 'https://via.placeholder.com/500'"
+        [src]="customer.picture || null || 'https://via.placeholder.com/500'"
         class="customer__image"
         type="thumbnail"
       >
       </clapp-image-display>
       <h2 class="customer__name">
-        {{ customer.name }} {{ customer.lastName }}
+        {{ customer.name }} {{ customer.lastname }}
       </h2>
       <span class="customer__tag">@{{ customer.username }}</span>
     </div>
@@ -41,11 +41,11 @@
       </p>
       <p class="customer__info">
         Phone number:
-        <span class="customer__detail">{{ customer.phoneNumber }}</span>
+        <span class="customer__detail">{{ customer.contactNumber }}</span>
       </p>
       <p class="customer__info">
         Favorite payment method:
-        <span class="customer__detail">{{ customer.paymentMethod }}</span>
+        <span class="customer__detail">Payment</span>
       </p>
     </div>
     <div class="customer__actions">

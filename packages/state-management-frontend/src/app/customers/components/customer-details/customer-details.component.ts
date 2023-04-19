@@ -2,7 +2,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { backModalConfig, deleteModalConfig } from '../../utils/modal-config';
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { ConfirmationModalComponent } from '../../../shared/components/confirmation-modal/confirmation-modal.component';
-import { Customer } from '../../models/customer.model';
+import { CustomerInterface } from '@state-management-app/types';
 import { CustomersService } from '../../services/customers.service';
 import { finalize } from 'rxjs/operators';
 import { Subject, take, takeUntil } from 'rxjs';
@@ -18,7 +18,7 @@ import {
   styleUrls: ['./customer-details.component.scss'],
 })
 export class CustomerDetailsComponent implements OnInit, OnDestroy {
-  customer: Customer;
+  customer: CustomerInterface;
   hasCustomer = true;
   isLoading = true;
   isAdmin = false;
@@ -88,7 +88,7 @@ export class CustomerDetailsComponent implements OnInit, OnDestroy {
     this.isLoading = true;
 
     this.customersService
-      .deleteCustomer(this.customer.id)
+      .deleteCustomer(this.customer.customerId)
       .pipe(
         finalize(() => {
           this.isLoading = false;

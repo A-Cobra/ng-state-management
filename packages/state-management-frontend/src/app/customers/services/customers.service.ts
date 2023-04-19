@@ -1,5 +1,5 @@
 import { ApiResponse } from '../../branches/models/api-response.model';
-import { Customer } from '../models/customer.model';
+import { CustomerInterface } from '@state-management-app/types';
 import { CUSTOMERS } from '../data/customers';
 import { delay, Observable, of } from 'rxjs';
 import { env } from '../../environment/env.development';
@@ -9,16 +9,16 @@ import { MOCK_CUSTOMER } from '../test/mocks';
 
 @Injectable()
 export class CustomersService {
-  private readonly customers = CUSTOMERS;
+  private readonly customers: CustomerInterface[] = CUSTOMERS;
   private readonly http = inject(HttpClient);
 
   getCustomers(
     page = 1,
     pageSize = 10,
     query = ''
-  ): Observable<ApiResponse<Customer[]>> {
+  ): Observable<ApiResponse<CustomerInterface[]>> {
     // TODO: Replace with real implementation when BE will be ready. Some logic will be removed since BE will handle it.
-    let filteredCustomers: Customer[];
+    let filteredCustomers: CustomerInterface[];
     const formattedQuery = query.toLowerCase().trim();
     if (query === '') {
       filteredCustomers = this.customers;
@@ -26,7 +26,7 @@ export class CustomersService {
       filteredCustomers = this.customers.filter(
         (customer) =>
           customer.name.toLowerCase().includes(formattedQuery) ||
-          customer.lastName.toLowerCase().includes(formattedQuery) ||
+          customer.lastname?.toLowerCase().includes(formattedQuery) ||
           customer.username.toLowerCase().includes(formattedQuery)
       );
     }
@@ -41,10 +41,10 @@ export class CustomersService {
     });
   }
 
-  getCustomer(id: string): Observable<Customer> {
+  getCustomer(id: string): Observable<CustomerInterface> {
     // TODO: Check if url is correct.
     // return of(MOCK_CUSTOMER);
-    return this.http.get<Customer>(`${env.apiUrl}/customers/${id}`);
+    return this.http.get<CustomerInterface>(`${env.apiUrl}/customers/${id}`);
   }
 
   deleteCustomer(id: string): Observable<{ message: string }> {
