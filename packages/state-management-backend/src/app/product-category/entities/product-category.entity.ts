@@ -13,6 +13,9 @@ export class ProductCategory {
   @Property({ nullable: true })
   description?: string;
 
+  @Property({ type: 'boolean', default: false, hidden: true })
+  deleted = false;
+
   @ManyToOne(() => BusinessHq, { hidden: true })
   businesses!: BusinessHq;
 }
