@@ -1,26 +1,14 @@
-import { IsBoolean, IsDate, IsOptional, IsString } from 'class-validator';
+import { IsBoolean, IsDate, IsIn, IsOptional, IsString } from 'class-validator';
 import { PaginationDto } from '../../common/dtos/pagination.dto';
 
-export class businessOrdersAnalyticsDto extends PaginationDto {
+export class BusinessOrdersAnalyticsDto extends PaginationDto {
   @IsOptional()
   @IsString()
-  productName?: string;
-
-  @IsOptional()
-  @IsString()
-  username?: string;
-
-  @IsOptional()
-  @IsString()
-  status?: string;
-
-  @IsOptional()
-  @IsString()
-  sortBy?: string;
+  searchValue?: string;
 
   @IsOptional()
   @IsBoolean()
-  sortAsc?: boolean;
+  sortAsc?: boolean = true;
 
   @IsOptional()
   @IsDate()
@@ -28,5 +16,5 @@ export class businessOrdersAnalyticsDto extends PaginationDto {
 
   @IsOptional()
   @IsDate()
-  endTime?: Date;
+  endTime?: Date = new Date();
 }
