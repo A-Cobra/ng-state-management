@@ -35,9 +35,9 @@ export class SidebarComponent implements OnInit, OnDestroy {
       .getRoles()
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
-        next: (res) => {
+        next: (roleResponse) => {
           // TODO: add roleIDs depending on each route (now every route has all the roles)
-          this.roles = res;
+          this.roles = roleResponse;
           this.roles.forEach((role) =>
             this.navigationConfig.forEach((elem) =>
               elem.allowedRoleIds.push(

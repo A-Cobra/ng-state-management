@@ -24,8 +24,8 @@ export class TopbarComponent implements OnInit, OnDestroy {
       .getUserData()
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
-        next: (res) => {
-          this.userData = res;
+        next: (dataResponse) => {
+          this.userData = dataResponse;
         },
         error: () =>
           this.notificationService.error(

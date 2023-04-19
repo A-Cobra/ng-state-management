@@ -61,7 +61,6 @@ describe('SidebarComponent', () => {
   });
 
   it('should show an error message if roles fails to load', () => {
-    // Arrange
     component.ngOnInit();
     expect(mockNotificationService.error).toHaveBeenCalledWith(
       'Error trying to get roles, please try again later',
