@@ -35,7 +35,7 @@ export class BusinessCreateFormComponent implements OnInit, OnDestroy {
   isLoading = false;
   goingBackConfirmed = false;
   currentBusinessImgUrl = '';
-  defaultImgUrl = 'assets/template-image.png';
+  defaultImgUrl = 'assets/images/template-image.png';
   unsubscribeAll$ = new Subject<string>();
 
   ngOnInit(): void {
@@ -78,7 +78,7 @@ export class BusinessCreateFormComponent implements OnInit, OnDestroy {
         title: 'Create business',
         message: 'Are you sure you want to leave? Changes have not been saved',
         confirmButtonLabel: 'LEAVE',
-        cancelButtonLabel: 'CANCEL',
+        negativeButtonLabel: 'CANCEL',
       },
       width: 'fit-content',
       height: 'fit-content',
