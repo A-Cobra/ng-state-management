@@ -43,8 +43,8 @@ export class CustomersService {
 
   getCustomer(id: string): Observable<Customer> {
     // TODO: Check if url is correct.
-    return of(MOCK_CUSTOMER);
-    // return this.http.get<Customer>(`${env.apiUrl}/customers/${id}`);
+    // return of(MOCK_CUSTOMER);
+    return this.http.get<Customer>(`${env.apiUrl}/customers/${id}`);
   }
 
   deleteCustomer(id: string): Observable<{ message: string }> {
