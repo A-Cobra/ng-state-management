@@ -20,7 +20,11 @@ export class ProductReviewsService {
     productId: string
   ): Promise<PaginatedData<Review>> {
     const productsReviews = await this.productReviewRepository.findAndCount(
-      { productId },
+      {
+        product: {
+          productId: productId,
+        },
+      },
       {
         offset: (page - 1) * limit,
         limit,
@@ -46,7 +50,10 @@ export class ProductReviewsService {
     const review = this.reviewRepository.create(body);
 
     const productReview = this.productReviewRepository.create({
-      productId: body.productId,
+      /* productId: body.productId, */
+      product: {
+        productId: body.productId,
+      },
       review: review,
     });
 

@@ -6,23 +6,23 @@ import { ProductInterface } from '@state-management-app/types';
 @Entity()
 export class Product implements ProductInterface {
   @PrimaryKey()
-  idProduct: string = v4();
+  productId: string = v4();
 
-  @Property()
+  @Property({ type: 'string', length: 50 })
   productName: string;
 
-  @Property()
+  @Property({ type: 'string', length: 150 })
   description: string;
 
-  @Property()
+  @Property({ type: 'decimal' })
   price: number;
 
-  @Property()
+  @Property({ type: 'decimal' })
   discount: number;
 
-  @Property()
+  @Property({ type: 'int' })
   stock: number;
 
-  @Property()
+  @Property({ type: 'string', length: 25 })
   status: string;
 }

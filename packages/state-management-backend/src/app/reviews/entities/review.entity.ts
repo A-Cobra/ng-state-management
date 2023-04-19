@@ -1,12 +1,5 @@
-import {
-  Collection,
-  Entity,
-  OneToMany,
-  PrimaryKey,
-  Property,
-} from '@mikro-orm/core';
+import { Property, PrimaryKey, Entity } from '@mikro-orm/core';
 import { v4 } from 'uuid';
-import { ProductReview } from './product-review.entity';
 
 @Entity()
 export class Review {
