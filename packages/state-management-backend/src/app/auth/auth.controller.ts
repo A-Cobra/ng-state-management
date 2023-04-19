@@ -17,6 +17,7 @@ import { JwtInfo } from './interfaces/jwtinfo.type';
 import { Request } from 'express';
 import { Tokens } from './interfaces/tokens';
 import { ApiTags } from '@nestjs/swagger';
+import { CreateCustomerDto } from '../customers/dto/create-customer.dto';
 
 @ApiTags('Auth')
 @Controller({
@@ -38,7 +39,7 @@ export class AuthController {
   }
 
   @Post('/local/signup')
-  async signUp(@Body() userInfo: CreateUserDto) {
+  async signUp(@Body() userInfo: CreateCustomerDto) {
     return this.authService.signUp(userInfo);
   }
 

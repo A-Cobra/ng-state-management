@@ -6,9 +6,10 @@ import { JwtStrategy } from './strategy/jwt.strategy';
 import { User } from '../users/entities/user.entity';
 import { UsersModule } from '../users/users.module';
 import { RefreshTokenStrategy } from './strategy/refresh-token.strategy';
+import { CustomersModule } from '../customers/customers.module';
 
 @Module({
-  imports: [JwtModule.register({}), UsersModule],
+  imports: [JwtModule.register({}), UsersModule, CustomersModule],
   controllers: [AuthController],
   providers: [AuthService, JwtStrategy, RefreshTokenStrategy],
   exports: [AuthService],

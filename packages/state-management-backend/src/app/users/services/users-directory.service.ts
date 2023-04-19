@@ -1,21 +1,53 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  OnApplicationBootstrap,
+  OnModuleInit,
+} from '@nestjs/common';
 import { UserCredentials } from '../entities/user-credentials.entity';
-import { EntityRepository } from '@mikro-orm/core';
+import {
+  EntityManager,
+  EntityRepository,
+  UseRequestContext,
+} from '@mikro-orm/core';
 import { createUserCredentialsDto } from '../dto/create-user-credentials.dto';
 import { hashData } from '../../auth/utils/jwt.util';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { RolesService } from './role.service';
 import { UsersService } from './users.service';
 import { ValidRoles } from '../../auth/interfaces/valid-roles.type';
+import { v4 } from 'uuid';
+import { Role } from '../entities/role.entity';
 
 @Injectable()
-export class UsersDirectoryService {
+export class UsersDirectoryService implements OnApplicationBootstrap {
   constructor(
     @InjectRepository(UserCredentials)
     private readonly repository: EntityRepository<UserCredentials>,
     private readonly roleService: RolesService,
-    private readonly usersService: UsersService
+    private readonly usersService: UsersService,
+    private readonly em: EntityManager
   ) {}
+
+  async onApplicationBootstrap() {
+    const fork = this.em.fork();
+    const admin = await fork.findOne(UserCredentials, {
+      email: 'admin@email.com',
+    });
+
+    const role = fork.create(Role, { roleName: ValidRoles.admin });
+
+    if (!admin) {
+      const credentials = fork.create(UserCredentials, {
+        userId: v4(),
+        email: process.env.ADMIN_EMAIL,
+        password: await hashData(process.env.ADMIN_PASSWORD),
+        role: role,
+      });
+
+      fork.persistAndFlush(credentials);
+    }
+  }
 
   async createUserCredentials(dto: createUserCredentialsDto) {
     const role = await this.roleService.findRole(dto.role);
