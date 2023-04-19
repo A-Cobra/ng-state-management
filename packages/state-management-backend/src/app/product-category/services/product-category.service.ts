@@ -29,6 +29,11 @@ export class ProductCategoryService {
       { businesses: business, deleted: false },
       { offset: (page - 1) * limit, limit: limit }
     );
+
+    if (!data.length) {
+      throw new NotFoundException('Categories not found');
+    }
+
     const totalPages = Math.ceil(total / limit);
     return {
       data,
@@ -52,6 +57,11 @@ export class ProductCategoryService {
       { businesses: business, deleted: false, name: { $ilike: `%${name}%` } },
       { offset: (page - 1) * limit, limit: limit }
     );
+
+    if (!data.length) {
+      throw new NotFoundException('Category not found');
+    }
+
     const totalPages = Math.ceil(total / limit);
     return {
       data,
