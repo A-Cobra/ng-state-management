@@ -5,7 +5,7 @@ import { Customer } from '../../customers/entities/customer.entity';
 @Entity()
 export class Payment {
   @PrimaryKey()
-  idPayment: string = v4();
+  paymentId: string = v4();
 
   @Property({ type: 'string', length: 100 })
   fullName: string;

@@ -20,7 +20,7 @@ export class RolesService {
   }
 
   async modify(idRole: string, dto: CreateRoleDto) {
-    const role = await this.roleRepository.findOne({ idRole });
+    const role = await this.roleRepository.findOne({ roleId: idRole });
 
     if (!role) throw new NotFoundException();
 
@@ -32,7 +32,7 @@ export class RolesService {
   }
 
   async delete(idRole: string) {
-    const role = await this.roleRepository.findOne({ idRole });
+    const role = await this.roleRepository.findOne({ roleId: idRole });
 
     if (!role) throw new NotFoundException();
 

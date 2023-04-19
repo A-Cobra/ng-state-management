@@ -4,7 +4,7 @@ import { v4 } from 'uuid';
 @Entity()
 export class CourierVehicle {
   @PrimaryKey()
-  idVehicle: string = v4();
+  vehicleId: string = v4();
 
   @Property({ type: 'string', length: 25 })
   vehicleType: string;

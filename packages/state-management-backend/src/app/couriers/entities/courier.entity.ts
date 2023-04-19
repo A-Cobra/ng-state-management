@@ -14,7 +14,7 @@ import { Role } from '../../users/entities/role.entity';
 @Entity()
 export class Courier extends User {
   @PrimaryKey()
-  idCourier: string = v4();
+  courierId: string = v4();
 
   @Property()
   status: boolean;

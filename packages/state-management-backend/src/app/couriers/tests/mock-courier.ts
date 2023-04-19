@@ -15,7 +15,7 @@ export const mockCourier: Courier = {
   name: 'name',
   email: 'email@example.com',
   contactNumber: '+166113121',
-  idCourier: '',
+  courierId: '',
   payroll: undefined,
   user: undefined,
   role: new Role(),

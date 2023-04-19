@@ -22,7 +22,7 @@ export class ReviewsService {
     const productsReviews = await this.productReviewRepository.findAndCount(
       {
         product: {
-          idProduct: productId,
+          productId: productId,
         },
       },
       {
@@ -52,7 +52,7 @@ export class ReviewsService {
     const productReview = this.productReviewRepository.create({
       /* productId: body.productId, */
       product: {
-        idProduct: body.productId,
+        productId: body.productId,
       },
       review: review,
     });

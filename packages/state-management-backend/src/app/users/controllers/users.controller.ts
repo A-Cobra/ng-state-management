@@ -18,7 +18,7 @@ export class UsersController {
     return {
       user: data.user,
       role: data.role.roleName,
-      roleId: data.role.idRole,
+      roleId: data.role.roleId,
     };
   }
 }

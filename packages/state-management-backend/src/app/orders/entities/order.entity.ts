@@ -16,7 +16,7 @@ import { Customer } from '../../customers/entities/customer.entity';
 @Entity()
 export class Order {
   @PrimaryKey()
-  idOrder: string = v4();
+  orderId: string = v4();
 
   @Property()
   placedAt: Date = new Date();

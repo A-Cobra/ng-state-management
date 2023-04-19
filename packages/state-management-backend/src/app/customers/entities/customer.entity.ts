@@ -5,7 +5,7 @@ import { v4 } from 'uuid';
 @Entity()
 export class Customer extends User {
   @PrimaryKey()
-  idCustomer: string = v4();
+  customerId: string = v4();
   @OneToOne(() => Address)
   address: Address;
 }

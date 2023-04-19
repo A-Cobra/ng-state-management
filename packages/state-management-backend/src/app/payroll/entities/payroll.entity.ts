@@ -5,7 +5,7 @@ import { AccountType } from '../../account/entities/account-type.entity';
 @Entity()
 export class Payroll {
   @PrimaryKey()
-  idPayroll: string = v4();
+  payrollId: string = v4();
 
   @Property({ type: 'string', length: 20 })
   accountNumber: string;

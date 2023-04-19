@@ -6,7 +6,7 @@ import { BusinessBranch } from '../../branches/entities/business-branch.entity';
 @Entity()
 export class BusinessBranchReview {
   @PrimaryKey()
-  idBranchReview: string = v4();
+  branchReviewId: string = v4();
 
   @ManyToOne(() => BusinessBranch)
   businessbranch: BusinessBranch;

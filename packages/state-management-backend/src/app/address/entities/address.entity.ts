@@ -4,7 +4,7 @@ import { v4 } from 'uuid';
 @Entity()
 export class Address {
   @PrimaryKey()
-  idAddress: string = v4();
+  addressId: string = v4();
 
   @Property()
   tagName: string;

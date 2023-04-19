@@ -46,7 +46,9 @@ export class ProductsService {
   }
 
   async findOneProduct(idProduct: string): Promise<Product> {
-    const product = await this.productRepository.findOne({ idProduct });
+    const product = await this.productRepository.findOne({
+      productId: idProduct,
+    });
     if (!product) {
       throw new NotFoundException('product not found');
     }
@@ -63,7 +65,9 @@ export class ProductsService {
     idProduct: string,
     updateProductInfo: Partial<CreateProductDto> | CreateProductDto
   ): Promise<Product> {
-    const product = await this.productRepository.findOne({ idProduct });
+    const product = await this.productRepository.findOne({
+      productId: idProduct,
+    });
     this.productRepository.assign(product, updateProductInfo);
     await this.productRepository.flush();
     return product;
