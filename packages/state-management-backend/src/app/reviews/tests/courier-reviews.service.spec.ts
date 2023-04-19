@@ -6,6 +6,8 @@ import { CourierReview } from '../entities/courier-review.entity';
 import { Review } from '../entities/review.entity';
 import { CourierReviewsService } from '../services/courier-review.service';
 import { CouriersService } from '../../couriers/services/couriers.service';
+import { Payroll } from '../../payroll/entities/payroll.entity';
+import { Role } from '../../users/entities/role.entity';
 
 describe('ReviewsService', () => {
   let courierReviewsService: CourierReviewsService;
@@ -31,9 +33,15 @@ describe('ReviewsService', () => {
     email: 'email',
     name: 'Courier Name',
     contactNumber: '+50312345678',
-    status: 'active',
+    status: false,
     driversLicense: '123140128427',
     vehicle: null,
+    courierId: '',
+    payroll: new Payroll(),
+    user: undefined,
+    role: new Role(),
+    password: '',
+    isLoggedIn: false,
   };
 
   beforeEach(async () => {
@@ -72,9 +80,15 @@ describe('ReviewsService', () => {
         email: 'email2',
         name: 'Courier Name2',
         contactNumber: '+503123456782',
-        status: 'active',
+        status: false,
         driversLicense: '1231401284272',
         vehicle: null,
+        courierId: '',
+        payroll: new Payroll(),
+        user: undefined,
+        role: new Role(),
+        password: '',
+        isLoggedIn: false,
       };
       const limit = 2;
       const reviews: Review[] = [

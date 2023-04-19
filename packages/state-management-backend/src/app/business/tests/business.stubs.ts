@@ -1,6 +1,9 @@
-export const businessStub = {
+import { Payroll } from '../../payroll/entities/payroll.entity';
+import { Role } from '../../users/entities/role.entity';
+import { BusinessHq } from '../entities/business.entity';
+
+export const businessStub: BusinessHq = {
   userId: 'a',
-  role: 'business',
   username: 'a',
   name: 'a',
   lastname: 'a',
@@ -18,6 +21,10 @@ export const businessStub = {
   latitude: '1',
   contactAddress: 'a',
   deleted: false,
+  businessPicture: '',
+  contactEmail: '',
+  payroll: new Payroll(),
+  role: new Role(),
 };
 
 export const businessModificationDtoStub = {
