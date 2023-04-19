@@ -48,7 +48,7 @@ describe('ReviewsService', () => {
   describe('getProductsReviews', () => {
     it('should return paginated reviews for a given product ID', async () => {
       const product: Product = {
-        idProduct: '123',
+        productId: '123',
         productName: 'test',
         description: 'test',
         price: 0,
@@ -80,13 +80,13 @@ describe('ReviewsService', () => {
       const result = await reviewsService.getProductsReviews(
         page,
         limit,
-        product.idProduct
+        product.productId
       );
 
       expect(mockProductReviewRepository.findAndCount).toHaveBeenCalledWith(
         {
           product: {
-            idProduct: '123',
+            productId: '123',
           },
         },
         {
@@ -120,7 +120,7 @@ describe('ReviewsService', () => {
       };
       mockReviewRepository.create.mockReturnValueOnce(mockReview);
       const product: Product = {
-        idProduct: '123',
+        productId: '123',
         productName: 'test',
         description: 'test',
         price: 0,
@@ -144,7 +144,7 @@ describe('ReviewsService', () => {
       );
       expect(mockProductReviewRepository.create).toHaveBeenCalledWith({
         product: {
-          idProduct: '123',
+          productId: '123',
         },
         review: mockReview,
       });

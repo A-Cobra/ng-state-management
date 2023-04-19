@@ -36,7 +36,7 @@ export class RolesService {
 
     if (!role) throw new NotFoundException();
 
-    this.roleRepository.remove({ idRole });
+    this.roleRepository.remove({ roleId: idRole });
   }
 
   async findRole(roleName: string) {
