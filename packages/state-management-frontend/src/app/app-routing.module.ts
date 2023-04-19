@@ -32,6 +32,13 @@ const routes: Routes = [
     path: 'users',
     loadChildren: () => import('./user/user.module').then((m) => m.UserModule),
   },
+  {
+    path: 'product-categories',
+    loadChildren: () =>
+      import('./product-categories/product-categories.module').then(
+        (m) => m.ProductCategoriesModule
+      ),
+  },
 ];
 
 @NgModule({

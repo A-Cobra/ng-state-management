@@ -1,0 +1,19 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+
+  &__action-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+  }
+
+  clapp-text-input {
+    position: relative;
+  }
+
+  clapp-helper-text {
+    position: absolute;
+  }
+}
