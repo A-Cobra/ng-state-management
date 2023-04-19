@@ -1,4 +1,4 @@
-import { Entity, OneToOne, PrimaryKey } from '@mikro-orm/core';
+import { Entity, ManyToOne, OneToOne, PrimaryKey } from '@mikro-orm/core';
 import { Address } from '../../address/entities/address.entity';
 import { User } from '../../users/entities/user.entity';
 import { v4 } from 'uuid';
@@ -6,6 +6,6 @@ import { v4 } from 'uuid';
 export class Customer extends User {
   @PrimaryKey()
   customerId: string = v4();
-  @OneToOne(() => Address)
+  @ManyToOne(() => Address)
   address: Address;
 }
