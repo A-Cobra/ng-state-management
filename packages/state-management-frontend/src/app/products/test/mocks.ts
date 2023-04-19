@@ -38,7 +38,7 @@ export interface MockProductsService {
 export const MOCK_PRODUCTS_DATA: PaginationResult<ProductInterface> = {
   data: [
     {
-      idProduct: '1',
+      productId: '1',
       productName: 'name1',
       description: 'description1',
       price: 1,
@@ -47,7 +47,7 @@ export const MOCK_PRODUCTS_DATA: PaginationResult<ProductInterface> = {
       status: 'available',
     },
     {
-      idProduct: '2',
+      productId: '2',
       productName: 'name2',
       description: 'description2',
       price: 6,
@@ -56,7 +56,7 @@ export const MOCK_PRODUCTS_DATA: PaginationResult<ProductInterface> = {
       status: 'available',
     },
     {
-      idProduct: '3',
+      productId: '3',
       productName: 'name3',
       description: 'description3',
       price: 30,
