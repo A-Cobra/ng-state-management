@@ -9,6 +9,9 @@ import { Review } from '../entities/review.entity';
 import { CourierReviewsService } from '../services/courier-review.service';
 import { ProductReviewsService } from '../services/product-reviews.service';
 import { CouriersService } from '../../couriers/services/couriers.service';
+import { Payroll } from '../../payroll/entities/payroll.entity';
+import { Role } from '../../users/entities/role.entity';
+import { Product } from '../../products/entities/product.entity';
 
 describe('ReviewsService', () => {
   let reviewsService: ProductReviewsService;
@@ -40,9 +43,15 @@ describe('ReviewsService', () => {
     email: 'email',
     name: 'Courier Name',
     contactNumber: '+50312345678',
-    status: 'active',
+    status: false,
     driversLicense: '123140128427',
     vehicle: null,
+    courierId: '',
+    payroll: new Payroll(),
+    user: undefined,
+    role: new Role(),
+    password: '',
+    isLoggedIn: false,
   };
 
   beforeEach(async () => {
@@ -81,7 +90,7 @@ describe('ReviewsService', () => {
 
   describe('getProductsReviews', () => {
     it('should return paginated reviews for a given product ID', async () => {
-      const productId = '123';
+      const productReviewId = '123';
       const page = 1;
       const limit = 10;
       const review: Review = {
@@ -89,8 +98,18 @@ describe('ReviewsService', () => {
         comment: 'Review 1',
         customerId: '1',
       };
-
-      const productsReviews: ProductReview[] = [{ productId, review }];
+      const product: Product = {
+        productId: '',
+        productName: '',
+        description: '',
+        price: 0,
+        discount: 0,
+        stock: 0,
+        status: '',
+      };
+      const productsReviews: ProductReview[] = [
+        { productReviewId, review, product },
+      ];
 
       const reviews = [review];
 
@@ -104,11 +123,15 @@ describe('ReviewsService', () => {
       const result = await reviewsService.getProductsReviews(
         page,
         limit,
-        productId
+        productReviewId
       );
 
       expect(mockProductReviewRepository.findAndCount).toHaveBeenCalledWith(
-        { productId },
+        {
+          product: {
+            productId: productReviewId,
+          },
+        },
         {
           offset: (page - 1) * limit,
           limit,
@@ -140,8 +163,9 @@ describe('ReviewsService', () => {
       };
       mockReviewRepository.create.mockReturnValueOnce(mockReview);
       const mockProductReview: ProductReview = {
-        productId: '456',
         review: mockReview,
+        productReviewId: '',
+        product: new Product(),
       };
       mockProductReviewRepository.create.mockReturnValueOnce(mockProductReview);
 
@@ -153,7 +177,7 @@ describe('ReviewsService', () => {
         mockCreateReviewDto
       );
       expect(mockProductReviewRepository.create).toHaveBeenCalledWith({
-        productId: '456',
+        product: { productId: '456' },
         review: mockReview,
       });
       expect(mockReviewRepository.persistAndFlush).toHaveBeenCalledWith(
@@ -174,9 +198,15 @@ describe('ReviewsService', () => {
         email: 'email2',
         name: 'Courier Name2',
         contactNumber: '+503123456782',
-        status: 'active',
+        status: false,
         driversLicense: '1231401284272',
         vehicle: null,
+        courierId: '',
+        payroll: new Payroll(),
+        user: undefined,
+        role: new Role(),
+        password: '',
+        isLoggedIn: false,
       };
       const limit = 2;
       const reviews: Review[] = [

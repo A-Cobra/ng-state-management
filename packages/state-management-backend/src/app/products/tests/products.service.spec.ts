@@ -44,8 +44,8 @@ describe('ProductsService', () => {
       const productName = 'Product';
 
       const products = [
-        { idProduct: 'uuid', productName: 'Product 1' },
-        { idProduct: 'uuid2', productName: 'Product 2' },
+        { productId: 'uuid', productName: 'Product 1' },
+        { productId: 'uuid2', productName: 'Product 2' },
       ];
       const total = 2;
 
@@ -75,26 +75,30 @@ describe('ProductsService', () => {
 
   describe('findOneProduct', () => {
     it('should return a product', async () => {
-      const idProduct = 'uuid';
-      const product = { idProduct, productName: 'Product' };
+      const productId = 'uuid';
+      const product = { productId: productId, productName: 'Product' };
 
       mockProductRepository.findOne.mockReturnValue(product);
 
-      const result = await service.findOneProduct(idProduct);
+      const result = await service.findOneProduct(productId);
 
       expect(result).toEqual(product);
-      expect(productRepository.findOne).toHaveBeenCalledWith({ idProduct });
+      expect(productRepository.findOne).toHaveBeenCalledWith({
+        productId: productId,
+      });
     });
 
     it('should throw NotFoundException if product is not found', async () => {
-      const idProduct = 'uuid';
+      const productId = 'uuid';
 
       mockProductRepository.findOne.mockReturnValue(undefined);
 
-      await expect(service.findOneProduct(idProduct)).rejects.toThrowError(
+      await expect(service.findOneProduct(productId)).rejects.toThrowError(
         'product not found'
       );
-      expect(productRepository.findOne).toHaveBeenCalledWith({ idProduct });
+      expect(productRepository.findOne).toHaveBeenCalledWith({
+        productId: productId,
+      });
     });
   });
 
@@ -108,7 +112,7 @@ describe('ProductsService', () => {
         stock: 0,
         status: 'test',
       };
-      const product = { idProduct: 'uuid', ...productDto };
+      const product = { productId: 'uuid', ...productDto };
 
       mockProductRepository.create.mockReturnValue(product);
 
@@ -134,13 +138,13 @@ describe('ProductsService', () => {
         stock: 0,
         status: 'test',
       };
-      const productBefore = { idProduct: 'uuid', ...productDto };
+      const productBefore = { productId: 'uuid', ...productDto };
       const updateProductDto: Partial<CreateProductDto> = {
         productName: 'Product Updated',
       };
       mockProductRepository.findOne.mockReturnValue(productBefore);
-      const idProduct = 'uuid';
-      const result = await service.UpdateProduct(idProduct, updateProductDto);
+      const productId = 'uuid';
+      const result = await service.UpdateProduct(productId, updateProductDto);
       expect(result.productName).toEqual(updateProductDto.productName);
     });
   });

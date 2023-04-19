@@ -6,6 +6,6 @@ export class Role {
   @PrimaryKey()
   roleId: string = v4();
 
-  @Property()
+  @Property({ type: 'string', length: 20 })
   roleName: string;
 }

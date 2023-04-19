@@ -6,7 +6,7 @@ export const MOCK_ARRAY_CLASSIFICATION: Classification[] = [
   {
     description: 'mock description',
     id: '1uuid',
-    image: 'assets/img/placeholder-image.png',
+    image: 'assets/images/placeholder-image.png',
     name: 'mock name',
     numberOfBusinesses: 0,
   },
@@ -15,14 +15,14 @@ export const MOCK_ARRAY_CLASSIFICATION: Classification[] = [
 export const MOCK_CLASSIFICATION: Classification = {
   description: 'mock description',
   id: '1uuid',
-  image: 'assets/img/placeholder-image.png',
+  image: 'assets/images/placeholder-image.png',
   name: 'mock name',
   numberOfBusinesses: 0,
 };
 
 export const MOCK_CLASSIFICATION_TO_CREATE: Classification = {
   description: 'mock description',
-  image: 'assets/img/placeholder-image.png',
+  image: 'assets/images/placeholder-image.png',
   name: 'mock name',
   numberOfBusinesses: 0,
 };
