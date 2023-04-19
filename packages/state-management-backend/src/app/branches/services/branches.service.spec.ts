@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@mikro-orm/nestjs';
 import { BusinessService } from '../../business/services/business.service';
-import { BusinessBranch } from '../entities/businessBranch.entity';
+import { BusinessBranch } from '../entities/business-branch.entity';
 import { BranchesService } from './branches.service';
 import { mockBranchesResponse } from '../test/mocks/branch-response.mock';
 import { PaginationDto } from '../../common/dtos/pagination.dto';

@@ -64,9 +64,14 @@ export class UsersDirectoryService {
   }
 
   async findUserByEmail(email: string) {
-    const user = await this.repository.findOne({
-      email: email,
-    });
+    const user = await this.repository.findOne(
+      {
+        email: email,
+      },
+      {
+        populate: ['role'],
+      }
+    );
 
     if (!user) throw new NotFoundException('User not found');
 

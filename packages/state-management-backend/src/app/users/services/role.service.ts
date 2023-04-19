@@ -19,8 +19,8 @@ export class RolesService {
     return role;
   }
 
-  async modify(roleId: string, dto: CreateRoleDto) {
-    const role = await this.roleRepository.findOne({ roleId });
+  async modify(idRole: string, dto: CreateRoleDto) {
+    const role = await this.roleRepository.findOne({ roleId: idRole });
 
     if (!role) throw new NotFoundException();
 
@@ -31,12 +31,12 @@ export class RolesService {
     return role;
   }
 
-  async delete(roleId: string) {
-    const role = await this.roleRepository.findOne({ roleId });
+  async delete(idRole: string) {
+    const role = await this.roleRepository.findOne({ roleId: idRole });
 
     if (!role) throw new NotFoundException();
 
-    this.roleRepository.remove({ roleId });
+    this.roleRepository.remove({ roleId: idRole });
   }
 
   async findRole(roleName: string) {
