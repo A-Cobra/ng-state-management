@@ -5,6 +5,7 @@ import { delay, Observable, of } from 'rxjs';
 import { env } from '../../environment/env.development';
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
+import { MOCK_CUSTOMER } from '../test/mocks';
 
 @Injectable()
 export class CustomersService {
@@ -42,7 +43,8 @@ export class CustomersService {
 
   getCustomer(id: string): Observable<Customer> {
     // TODO: Check if url is correct.
-    return this.http.get<Customer>(`${env.apiUrl}/customers/${id}`);
+    return of(MOCK_CUSTOMER);
+    // return this.http.get<Customer>(`${env.apiUrl}/customers/${id}`);
   }
 
   deleteCustomer(id: string): Observable<{ message: string }> {
@@ -54,6 +56,6 @@ export class CustomersService {
 
   getIsAdminInfo(): Observable<boolean> {
     // TODO: Replace with the actual implementation when doing interceptor or role management.
-    return of(false).pipe(delay(2000));
+    return of(true).pipe(delay(2000));
   }
 }

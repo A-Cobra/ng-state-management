@@ -5,8 +5,12 @@ import { ConfirmationModalComponent } from '../../../shared/components/confirmat
 import { Customer } from '../../models/customer.model';
 import { CustomersService } from '../../services/customers.service';
 import { finalize } from 'rxjs/operators';
-import { ModalRef, ModalService } from '@clapp1/clapp-angular';
 import { Subject, take, takeUntil } from 'rxjs';
+import {
+  ModalRef,
+  ModalService,
+  NotificationService,
+} from '@clapp1/clapp-angular';
 
 @Component({
   selector: 'app-customer-details',
@@ -18,12 +22,12 @@ export class CustomerDetailsComponent implements OnInit, OnDestroy {
   hasCustomer = true;
   isLoading = true;
   isAdmin = false;
+  readonly activatedRoute = inject(ActivatedRoute);
+  readonly router = inject(Router);
   private readonly unsubscribe$ = new Subject<void>();
   private readonly customersService = inject(CustomersService);
   private readonly modalService = inject(ModalService);
-  private readonly activatedRoute = inject(ActivatedRoute);
-
-  private readonly router = inject(Router);
+  private readonly notificationService = inject(NotificationService);
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe({
@@ -71,14 +75,6 @@ export class CustomerDetailsComponent implements OnInit, OnDestroy {
     });
   }
 
-  deleteCustomer(): void {
-    this.customersService.deleteCustomer(this.customer.id).subscribe({
-      next: () => {
-        this.navigateToCustomers();
-      },
-    });
-  }
-
   onClickBack(): void {
     const backModalRef = this.backModal();
 
@@ -86,6 +82,27 @@ export class CustomerDetailsComponent implements OnInit, OnDestroy {
       if (!result) return;
       this.navigateToCustomers();
     });
+  }
+
+  deleteCustomer(): void {
+    this.isLoading = true;
+
+    this.customersService
+      .deleteCustomer(this.customer.id)
+      .pipe(
+        finalize(() => {
+          this.isLoading = false;
+        })
+      )
+      .subscribe({
+        next: () => {
+          this.showNotificationSuccess();
+          this.navigateToCustomers();
+        },
+        error: () => {
+          this.showNotificationError();
+        },
+      });
   }
 
   backModal(): ModalRef {
@@ -96,6 +113,20 @@ export class CustomerDetailsComponent implements OnInit, OnDestroy {
     return this.modalService.open(
       ConfirmationModalComponent,
       deleteModalConfig
+    );
+  }
+
+  showNotificationSuccess(): void {
+    this.notificationService.success(
+      'Customer deleted successfully',
+      'Success!'
+    );
+  }
+
+  showNotificationError(): void {
+    this.notificationService.error(
+      'Customer could not be deleted',
+      'Unexpected error!'
     );
   }
 

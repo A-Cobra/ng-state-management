@@ -13,6 +13,7 @@ import {
   ClappCardModule,
   ClappImageDisplayModule,
   ClappNoResultsModule,
+  ClappNotificationModule,
   ClappPaginationModule,
   ClappSearchModule,
   ModalService,
@@ -25,6 +26,7 @@ const clappModules = [
   ClappNoResultsModule,
   ClappImageDisplayModule,
   ClappPaginationModule,
+  ClappNotificationModule,
 ];
 
 @NgModule({

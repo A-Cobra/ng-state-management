@@ -57,6 +57,7 @@
         *ngIf="isAdmin"
         color="tertiary"
         plusIcon="ri-delete-bin-fill"
+        [disabled]="isLoading"
       >
         Delete
       </clapp-button>
