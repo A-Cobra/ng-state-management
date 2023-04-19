@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BusinessListComponent } from './business-list.component';
+import { BusinessesListComponent } from './businesses-list.component';
 import {
   ClappButtonModule,
   ClappCardModule,
@@ -18,12 +18,12 @@ class MockBusinessCardComponent {
 }
 
 describe('BusinessListComponent', () => {
-  let component: BusinessListComponent;
-  let fixture: ComponentFixture<BusinessListComponent>;
+  let component: BusinessesListComponent;
+  let fixture: ComponentFixture<BusinessesListComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [BusinessListComponent, MockBusinessCardComponent],
+      declarations: [BusinessesListComponent, MockBusinessCardComponent],
       imports: [
         ClappButtonModule,
         ClappSearchModule,
@@ -32,7 +32,7 @@ describe('BusinessListComponent', () => {
       ],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(BusinessListComponent);
+    fixture = TestBed.createComponent(BusinessesListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,12 +1,12 @@
-import { Injectable } from '@nestjs/common';
-import { CreateReviewDto } from '../dto/create-review.dto';
-import { InjectRepository } from '@mikro-orm/nestjs';
-import { Review } from '../entities/review.entity';
 import { EntityRepository } from '@mikro-orm/core';
-import { PaginatedData } from '../interfaces/pagination.interface';
+import { InjectRepository } from '@mikro-orm/nestjs';
+import { Injectable } from '@nestjs/common';
+import { CreateReviewDto } from '../dto/create-product-review.dto';
 import { ProductReview } from '../entities/product-review.entity';
+import { Review } from '../entities/review.entity';
+import { PaginatedData } from '../interfaces/pagination.interface';
 @Injectable()
-export class ReviewsService {
+export class ProductReviewsService {
   constructor(
     @InjectRepository(Review)
     private readonly reviewRepository: EntityRepository<Review>,
@@ -20,7 +20,11 @@ export class ReviewsService {
     productId: string
   ): Promise<PaginatedData<Review>> {
     const productsReviews = await this.productReviewRepository.findAndCount(
-      { productId },
+      {
+        product: {
+          productId: productId,
+        },
+      },
       {
         offset: (page - 1) * limit,
         limit,
@@ -46,7 +50,10 @@ export class ReviewsService {
     const review = this.reviewRepository.create(body);
 
     const productReview = this.productReviewRepository.create({
-      productId: body.productId,
+      /* productId: body.productId, */
+      product: {
+        productId: body.productId,
+      },
       review: review,
     });
 
