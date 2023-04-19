@@ -127,7 +127,11 @@ describe('ReviewsService', () => {
       );
 
       expect(mockProductReviewRepository.findAndCount).toHaveBeenCalledWith(
-        { productReviewId },
+        {
+          product: {
+            productId: productReviewId,
+          },
+        },
         {
           offset: (page - 1) * limit,
           limit,
@@ -173,7 +177,7 @@ describe('ReviewsService', () => {
         mockCreateReviewDto
       );
       expect(mockProductReviewRepository.create).toHaveBeenCalledWith({
-        productId: '456',
+        product: { productId: '456' },
         review: mockReview,
       });
       expect(mockReviewRepository.persistAndFlush).toHaveBeenCalledWith(
