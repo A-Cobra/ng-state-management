@@ -1,23 +1,20 @@
-export const businessStub = {
+import { BusinessHq } from '../entities/business.entity';
+
+export const businessStub: BusinessHq = {
   userId: 'a',
-  role: 'business',
   username: 'a',
   name: 'a',
   lastname: 'a',
   picture: 'a',
   email: 'a',
-  password: 'a',
-  isLoggedIn: false,
   contactNumber: 'a',
-  businessId: 'a',
   businessName: 'a',
-  refreshToken: 'a',
   rating: 2,
-  contactPhoneNumber: 'a',
   longitude: '1',
   latitude: '1',
   contactAddress: 'a',
   deleted: false,
+  categories: {} as any as BusinessHq['categories'],
 };
 
 export const businessModificationDtoStub = {
