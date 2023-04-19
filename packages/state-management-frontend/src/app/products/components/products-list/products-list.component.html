@@ -1,0 +1,47 @@
+<div class="stateContainer">
+  <div class="topMenu">
+    <clapp-button plusIcon="ri-arrow-left-s-line" (click)="onGoBack()">
+      Go back</clapp-button
+    >
+    <clapp-search
+      [formControl]="searchInput"
+      class="search"
+      placeholder="Search by Product Name"
+    ></clapp-search>
+    <clapp-button
+      color="secondary"
+      plusIcon="ri-add-fill"
+      [routerLink]="['/products', 'create']"
+    >
+      Add Product</clapp-button
+    >
+  </div>
+  <div class="main" *ngIf="productsList$ | async as productsList">
+    <app-products-list-display
+      [productsList]="productsList"
+    ></app-products-list-display>
+    <clapp-pagination
+      *ngIf="
+        productsList.length > 0 &&
+        paginationConfiguration.totalRecords >
+          paginationConfiguration.recordsPerPage
+      "
+      [totalRecords]="paginationConfiguration.totalRecords"
+      [pageSize]="paginationConfiguration.recordsPerPage"
+      (pageChange)="onPageChange($event)"
+    ></clapp-pagination>
+  </div>
+  <ng-template #emptyProducts>
+    <div class="no-products">
+      <h1>No products</h1>
+      <p>Please add new ones</p>
+      <clapp-button
+        color="secondary"
+        plusIcon="ri-add-fill"
+        [routerLink]="['/products', 'create']"
+      >
+        Add Product</clapp-button
+      >
+    </div>
+  </ng-template>
+</div>

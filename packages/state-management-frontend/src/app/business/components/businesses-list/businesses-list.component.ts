@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-business-list',
-  templateUrl: './business-list.component.html',
-  styleUrls: ['./business-list.component.scss'],
+  selector: 'app-businesses-list',
+  templateUrl: './businesses-list.component.html',
+  styleUrls: ['./businesses-list.component.scss'],
 })
-export class BusinessListComponent {
+export class BusinessesListComponent {
   mockRecords = [
     {
       id: 1,
