@@ -3,11 +3,15 @@ import {
   Controller,
   Get,
   Param,
+  UseGuards,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
 import { BusinessOrdersAnalyticsDto } from '../dtos/business-orders-analytics.dto';
 import { BusinessOrderAnalyticsService } from '../services/business-orders-analytics.service';
+import { GetUser } from '../../auth/decorator/get-user.decorator';
+import { JwtInfo } from '../../auth/interfaces/jwtinfo.type';
+import { JwtAuthGuard } from '../../auth/guard/jwt-auth.guard';
 
 @Controller('businessess')
 @UsePipes(new ValidationPipe({ transform: true }))
@@ -16,11 +20,12 @@ export class BusinessOrderAnalyticsController {
     private readonly businessOrdersAnalyticsService: BusinessOrderAnalyticsService
   ) {}
 
-  @Get(':businessId/ordersAnalytics')
+  @Get('ordersAnalytics/me')
+  @UseGuards(JwtAuthGuard)
   getBusinessOrdersAnalytics(
     @Body() dto: BusinessOrdersAnalyticsDto,
-    @Param('businessId') businessId: string
+    @GetUser() userInfo: JwtInfo
   ) {
-    return this.businessOrdersAnalyticsService.getAnalytics(dto, businessId);
+    return this.businessOrdersAnalyticsService.getAnalytics(dto, userInfo.sub);
   }
 }
