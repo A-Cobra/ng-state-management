@@ -1,7 +1,7 @@
 import { ApiResponse } from '../../branches/models/api-response.model';
 import { CustomerInterface } from '@state-management-app/types';
 import { CUSTOMERS } from '../data/customers';
-import { delay, Observable, of } from 'rxjs';
+import { delay, Observable, of, throwError } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
@@ -45,13 +45,15 @@ export class CustomersService {
       `${environment.apiBaseUrl}/customers/${id}`
     );
     //  If you want test it locally, you can use this code:
-    // return of(
-    //   this.customers.filter((customer) => customer.customerId === id)[0]
-    // );
+    // const customerFiltered: CustomerInterface = this.customers.filter(
+    //   (customer) => customer.customerId === id
+    // )[0];
+
+    // if (!customerFiltered) return throwError('Customer not found');
+    // return of(customerFiltered);
   }
 
   deleteCustomer(id: string): Observable<{ message: string }> {
-    // TODO: Check if url is correct.
     return this.http.delete<{ message: string }>(
       `${environment.apiBaseUrl}/customers/${id}`
     );
