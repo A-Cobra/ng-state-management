@@ -1,7 +1,7 @@
-import { Customer } from '../models/customer.model';
+import { CustomerInterface } from '@state-management-app/types';
 import { CUSTOMERS } from '../data/customers';
 import { CustomersService } from './customers.service';
-import { env } from '../../environment/env.development';
+import { environment } from '../../environments/environment';
 import { map, take } from 'rxjs';
 import { MOCK_CUSTOMER } from '../test/mocks';
 import { TestBed } from '@angular/core/testing';
@@ -39,7 +39,7 @@ describe('CustomersService', () => {
 
   it('should return a list of customers filtered by query', (done) => {
     customersService
-      .getCustomers(1, 10, 'marksmith')
+      .getCustomers(1, 5, 'john')
       .pipe(
         take(1),
         map((response) => response.data)
@@ -50,38 +50,36 @@ describe('CustomersService', () => {
       });
   });
 
-  describe('getCustomer', () => {
-    it('should return an Observable<Customer>', () => {
-      const customerId = '1';
-      const response: Customer = MOCK_CUSTOMER;
-      customersService.getCustomer(customerId).subscribe((data) => {
-        expect(data).toEqual(response);
-      });
-      const req = httpMock.expectOne(`${env.apiUrl}/customers/${customerId}`);
-      expect(req.request.method).toBe('GET');
-      req.flush(response);
+  it('should return a customer searched by id', () => {
+    const customerId = '1';
+    const response: CustomerInterface = MOCK_CUSTOMER;
+    customersService.getCustomer(customerId).subscribe((data) => {
+      expect(data).toEqual(response);
     });
+    const req = httpMock.expectOne(
+      `${environment.apiBaseUrl}/customers/${customerId}`
+    );
+    expect(req.request.method).toBe('GET');
+    req.flush(response);
   });
 
-  describe('deleteCustomer', () => {
-    it('should return an Observable<string>', () => {
-      const customerId = '1';
-      const response = 'Customer deleted successfully';
-      customersService.deleteCustomer(customerId).subscribe((data) => {
-        expect(data).toEqual(response);
-      });
-      const req = httpMock.expectOne(`${env.apiUrl}/customers/${customerId}`);
-      expect(req.request.method).toBe('DELETE');
-      req.flush(response);
+  it('should return a string base on the resquest state', () => {
+    const customerId = '1';
+    const response = 'Customer deleted successfully';
+    customersService.deleteCustomer(customerId).subscribe((data) => {
+      expect(data).toEqual(response);
     });
+    const req = httpMock.expectOne(
+      `${environment.apiBaseUrl}/customers/${customerId}`
+    );
+    expect(req.request.method).toBe('DELETE');
+    req.flush(response);
   });
 
-  describe('getIsAdminInfo', () => {
-    it('should return an Observable<boolean>', () => {
-      const response = false;
-      customersService.getIsAdminInfo().subscribe((data) => {
-        expect(data).toEqual(response);
-      });
+  it('should return if user is admin', () => {
+    const response = false;
+    customersService.getIsAdminInfo().subscribe((data) => {
+      expect(data).toEqual(response);
     });
   });
 });

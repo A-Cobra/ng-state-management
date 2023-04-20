@@ -2,14 +2,13 @@ import { ApiResponse } from '../../branches/models/api-response.model';
 import { CustomerInterface } from '@state-management-app/types';
 import { CUSTOMERS } from '../data/customers';
 import { delay, Observable, of } from 'rxjs';
-import { env } from '../../environment/env.development';
+import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { MOCK_CUSTOMER } from '../test/mocks';
 
 @Injectable()
 export class CustomersService {
-  private readonly customers: CustomerInterface[] = CUSTOMERS;
+  private customers: CustomerInterface[] = CUSTOMERS;
   private readonly http = inject(HttpClient);
 
   getCustomers(
@@ -42,20 +41,29 @@ export class CustomersService {
   }
 
   getCustomer(id: string): Observable<CustomerInterface> {
-    // TODO: Check if url is correct.
-    // return of(MOCK_CUSTOMER);
-    return this.http.get<CustomerInterface>(`${env.apiUrl}/customers/${id}`);
+    return this.http.get<CustomerInterface>(
+      `${environment.apiBaseUrl}/customers/${id}`
+    );
+    //  If you want test it locally, you can use this code:
+    // return of(
+    //   this.customers.filter((customer) => customer.customerId === id)[0]
+    // );
   }
 
   deleteCustomer(id: string): Observable<{ message: string }> {
     // TODO: Check if url is correct.
     return this.http.delete<{ message: string }>(
-      `${env.apiUrl}/customers/${id}`
+      `${environment.apiBaseUrl}/customers/${id}`
     );
+    //  If you want test it locally, you can use this code:
+    // this.customers = this.customers.filter(
+    //   (customer) => customer.customerId !== id
+    // );
+    // return of({ message: 'Customer deleted successfully' });
   }
 
   getIsAdminInfo(): Observable<boolean> {
-    // TODO: Replace with the actual implementation when doing interceptor or role management.
+    // TODO: Replace with the actual implementation when the interceptor or role management will be done.
     return of(true).pipe(delay(2000));
   }
 }

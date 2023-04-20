@@ -129,7 +129,7 @@ describe('CustomerDetailsComponent', () => {
 
     component.deleteCustomer();
 
-    expect(deleteCustomerSpy).toHaveBeenCalledWith(MOCK_CUSTOMER.id);
+    expect(deleteCustomerSpy).toHaveBeenCalledWith(MOCK_CUSTOMER.customerId);
     expect(navigateSpy).toHaveBeenCalledWith(['/customers']);
   });
 
