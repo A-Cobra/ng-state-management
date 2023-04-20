@@ -23,7 +23,7 @@
     <div class="customer__header">
       <clapp-image-display
         [alt]="customer.name + ' profile image'"
-        [src]="customer.picture || null"
+        [src]="customer.picture || null || 'assets/images/template-image.png'"
         class="customer__image"
         type="thumbnail"
       >

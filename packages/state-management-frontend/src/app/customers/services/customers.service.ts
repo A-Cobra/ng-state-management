@@ -41,16 +41,16 @@ export class CustomersService {
   }
 
   getCustomer(id: string): Observable<CustomerInterface> {
-    return this.http.get<CustomerInterface>(
-      `${environment.apiBaseUrl}/customers/${id}`
-    );
+    // return this.http.get<CustomerInterface>(
+    //   `${environment.apiBaseUrl}/customers/${id}`
+    // );
     //  If you want test it locally, you can use this code:
-    // const customerFiltered: CustomerInterface = this.customers.filter(
-    //   (customer) => customer.customerId === id
-    // )[0];
+    const customerFiltered: CustomerInterface = this.customers.filter(
+      (customer) => customer.customerId === id
+    )[0];
 
-    // if (!customerFiltered) return throwError('Customer not found');
-    // return of(customerFiltered);
+    if (!customerFiltered) return throwError('Customer not found');
+    return of(customerFiltered);
   }
 
   deleteCustomer(id: string): Observable<{ message: string }> {
