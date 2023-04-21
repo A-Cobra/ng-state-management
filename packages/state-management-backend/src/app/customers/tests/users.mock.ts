@@ -13,7 +13,6 @@ export const mockUser: User = {
   contactNumber: '1313412341',
   userId: 'userid',
   password: '',
-  role: new Role(),
   isLoggedIn: false,
 };
 

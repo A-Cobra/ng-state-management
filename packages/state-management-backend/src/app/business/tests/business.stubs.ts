@@ -20,7 +20,6 @@ export const businessStub: BusinessHq = {
   businessPicture: '',
   contactEmail: '',
   payroll: new Payroll(),
-  role: new Role(),
   businessId: '',
   contactPhoneNumber: '',
   password: '',

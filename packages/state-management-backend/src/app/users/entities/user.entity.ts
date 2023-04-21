@@ -34,9 +34,6 @@ export abstract class User {
   @Property({ type: 'string', length: 15 })
   contactNumber: string;
 
-  @ManyToOne(() => Role)
-  role: Role;
-
   @Property({ default: false })
   isLoggedIn: boolean;
 

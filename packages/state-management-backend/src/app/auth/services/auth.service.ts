@@ -7,13 +7,16 @@ import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { UsersDirectoryService } from '../../users/services/users-directory.service';
 import { Tokens } from '../interfaces/tokens';
+import { CustomersService } from '../../customers/services/customers.service';
+import { CreateCustomerDto } from '../../customers/dto/create-customer.dto';
 
 @Injectable()
 export class AuthService {
   constructor(
     private jwtService: JwtService,
     private configService: ConfigService,
-    private directoryService: UsersDirectoryService
+    private directoryService: UsersDirectoryService,
+    private customerService: CustomersService
   ) {}
 
   async signIn(credentials: SignInDto): Promise<Tokens> {
@@ -53,9 +56,8 @@ export class AuthService {
     };
   }
 
-  async signUp(userInfo: CreateUserDto) {
-    userInfo.password = await hashData(userInfo.password);
-    //return this.userService.create(userInfo);
+  async signUp(userInfo: CreateCustomerDto) {
+    return this.customerService.create(userInfo);
   }
 
   async updateRefreshToken(userId: string, refreshToken: string) {

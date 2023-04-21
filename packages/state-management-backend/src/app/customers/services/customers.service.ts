@@ -30,6 +30,8 @@ export class CustomersService {
   async create(createCustomerDto: CreateCustomerDto): Promise<Customer> {
     const customer = this.customerRepository.create(createCustomerDto);
 
+    await this.customerRepository.persistAndFlush(customer);
+
     this.eventEmitter.emit('user.created', {
       userId: customer.userId,
       email: customer.email,
@@ -37,7 +39,6 @@ export class CustomersService {
       password: createCustomerDto.password,
     });
 
-    await this.customerRepository.persistAndFlush(customer);
     return customer;
   }
 

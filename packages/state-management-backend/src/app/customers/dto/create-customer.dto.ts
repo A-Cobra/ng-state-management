@@ -3,7 +3,6 @@ import {
   IsEmail,
   IsNotEmpty,
   IsOptional,
-  IsPhoneNumber,
   IsString,
   MinLength,
 } from 'class-validator';
@@ -17,7 +16,7 @@ export class CreateCustomerDto {
   @ApiProperty()
   @IsString()
   @IsOptional()
-  picture: string;
+  picture?: string;
 
   @ApiProperty()
   @IsString()
@@ -41,6 +40,6 @@ export class CreateCustomerDto {
   password: string;
 
   @ApiProperty()
-  @IsPhoneNumber()
+  @IsString()
   contactNumber: string;
 }

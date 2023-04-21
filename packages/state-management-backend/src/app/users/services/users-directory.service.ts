@@ -6,8 +6,8 @@ import {
 } from '@nestjs/common';
 import { UserCredentials } from '../entities/user-credentials.entity';
 import {
-  EntityRepository,
   EntityManager,
+  EntityRepository,
   UseRequestContext,
 } from '@mikro-orm/core';
 import { createUserCredentialsDto } from '../dto/create-user-credentials.dto';
@@ -16,8 +16,8 @@ import { InjectRepository } from '@mikro-orm/nestjs';
 import { RolesService } from './role.service';
 import { UsersService } from './users.service';
 import { ValidRoles } from '../../auth/interfaces/valid-roles.type';
-import { Role } from '../entities/role.entity';
 import { v4 } from 'uuid';
+import { Role } from '../entities/role.entity';
 
 @Injectable()
 export class UsersDirectoryService implements OnApplicationBootstrap {
@@ -25,13 +25,12 @@ export class UsersDirectoryService implements OnApplicationBootstrap {
     @InjectRepository(UserCredentials)
     private readonly repository: EntityRepository<UserCredentials>,
     private readonly roleService: RolesService,
-    private readonly em: EntityManager,
-    private readonly usersService: UsersService
+    private readonly usersService: UsersService,
+    private readonly em: EntityManager
   ) {}
 
   async onApplicationBootstrap() {
     const fork = this.em.fork();
-
     const admin = await fork.findOne(UserCredentials, {
       email: 'admin@email.com',
     });
@@ -41,11 +40,8 @@ export class UsersDirectoryService implements OnApplicationBootstrap {
     if (!admin) {
       const credentials = fork.create(UserCredentials, {
         userId: v4(),
-
         email: process.env.ADMIN_EMAIL,
-
         password: await hashData(process.env.ADMIN_PASSWORD),
-
         role: role,
       });
 
