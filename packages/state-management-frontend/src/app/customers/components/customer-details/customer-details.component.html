@@ -5,7 +5,6 @@
       <p class="error__paragraph">
         Sorry, the customer you were looking for, hasn't been found.
       </p>
-
       <clapp-button
         [routerLink]="['/customers']"
         color="primary"
@@ -33,36 +32,38 @@
       </h2>
       <span class="customer-details__tag">@{{ customer.username }}</span>
     </div>
-    <div class="customer-details__contact">
-      <h2 class="customer-details__subtitle">Contact Information</h2>
-      <p class="customer-details__info">
-        Email:
-        <span class="customer-details__detail">{{ customer.email }}</span>
-      </p>
-      <p class="customer-details__info">
-        Phone number:
-        <span class="customer-details__detail">{{
-          customer.contactNumber
-        }}</span>
-      </p>
-      <p class="customer-details__info">
-        Favorite payment method:
-        <span class="customer-details__detail">Payment</span>
-      </p>
-    </div>
-    <div class="customer-details__actions">
-      <clapp-button (click)="onClickBack()" plusIcon="ri-arrow-left-s-line">
-        Go back
-      </clapp-button>
-      <clapp-button
-        (click)="onClickDelete()"
-        *ngIf="isAdmin"
-        color="tertiary"
-        plusIcon="ri-delete-bin-fill"
-        [disabled]="isLoading"
-      >
-        Delete
-      </clapp-button>
+    <div class="customer-details__wrapper">
+      <div class="customer-details__contact">
+        <h2 class="customer-details__subtitle">Contact Information</h2>
+        <p class="customer-details__info">
+          Email:
+          <span class="customer-details__detail">{{ customer.email }}</span>
+        </p>
+        <p class="customer-details__info">
+          Phone number:
+          <span class="customer-details__detail">{{
+            customer.contactNumber
+          }}</span>
+        </p>
+        <p class="customer-details__info">
+          Favorite payment method:
+          <span class="customer-details__detail">Payment</span>
+        </p>
+      </div>
+      <div class="customer-details__actions">
+        <clapp-button (click)="onClickBack()" plusIcon="ri-arrow-left-s-line">
+          Go back
+        </clapp-button>
+        <clapp-button
+          (click)="onClickDelete()"
+          *ngIf="isAdmin"
+          color="tertiary"
+          plusIcon="ri-delete-bin-fill"
+          [disabled]="isLoading"
+        >
+          Delete
+        </clapp-button>
+      </div>
     </div>
   </div>
 </div>

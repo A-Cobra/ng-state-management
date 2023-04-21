@@ -1,10 +1,10 @@
+import { TestBed } from '@angular/core/testing';
 import { CustomerInterface } from '@state-management-app/types';
-import { CUSTOMERS } from '../data/customers';
+import { map, take } from 'rxjs';
 import { CustomersService } from './customers.service';
 import { environment } from '../../environments/environment';
-import { map, take } from 'rxjs';
-import { MOCK_CUSTOMER } from '../test/mocks';
-import { TestBed } from '@angular/core/testing';
+import { CUSTOMERS } from '../data/customers';
+import { MOCK_CUSTOMER } from '../test/customers.mocks';
 import {
   HttpClientTestingModule,
   HttpTestingController,

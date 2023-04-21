@@ -1,11 +1,11 @@
-import { ActivatedRoute, Router } from '@angular/router';
-import { backModalConfig, deleteModalConfig } from '../../utils/modal-config';
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
-import { ConfirmationModalComponent } from '../../../shared/components/confirmation-modal/confirmation-modal.component';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CustomerInterface } from '@state-management-app/types';
-import { CustomersService } from '../../services/customers.service';
-import { finalize } from 'rxjs/operators';
 import { Subject, take, takeUntil } from 'rxjs';
+import { finalize } from 'rxjs/operators';
+import { ConfirmationModalComponent } from '../../../shared/components/confirmation-modal/confirmation-modal.component';
+import { CustomersService } from '../../services/customers.service';
+import { backModalConfig, deleteModalConfig } from '../../utils/modal-config';
 import {
   ModalRef,
   ModalService,
@@ -67,7 +67,7 @@ export class CustomerDetailsComponent implements OnInit, OnDestroy {
 
   onClickDelete(): void {
     if (!this.customer) return;
-    const deleteModalRef = this.deleteModal();
+    const deleteModalRef = this.getDeleteModal();
 
     deleteModalRef.afterClosed.pipe(take(1)).subscribe((result) => {
       if (!result) return;
@@ -76,7 +76,7 @@ export class CustomerDetailsComponent implements OnInit, OnDestroy {
   }
 
   onClickBack(): void {
-    const backModalRef = this.backModal();
+    const backModalRef = this.getBackModal();
 
     backModalRef.afterClosed.pipe(take(1)).subscribe((result) => {
       if (!result) return;
@@ -105,11 +105,11 @@ export class CustomerDetailsComponent implements OnInit, OnDestroy {
       });
   }
 
-  backModal(): ModalRef {
+  getBackModal(): ModalRef {
     return this.modalService.open(ConfirmationModalComponent, backModalConfig);
   }
 
-  deleteModal(): ModalRef {
+  getDeleteModal(): ModalRef {
     return this.modalService.open(
       ConfirmationModalComponent,
       deleteModalConfig

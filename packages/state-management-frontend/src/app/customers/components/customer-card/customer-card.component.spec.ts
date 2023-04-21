@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { MOCK_CUSTOMER } from '../../test/mocks';
 import { CustomerCardComponent } from './customer-card.component';
+import { MOCK_CUSTOMER } from '../../test/customers.mocks';
 
 import {
   ClappCardModule,

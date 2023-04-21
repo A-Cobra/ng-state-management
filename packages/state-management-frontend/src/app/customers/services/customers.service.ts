@@ -1,14 +1,13 @@
-import { ApiResponse } from '../../branches/models/api-response.model';
-import { CustomerInterface } from '@state-management-app/types';
-import { CUSTOMERS } from '../data/customers';
-import { delay, Observable, of, throwError } from 'rxjs';
-import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-
+import { CustomerInterface } from '@state-management-app/types';
+import { delay, Observable, of, throwError } from 'rxjs';
+import { ApiResponse } from '../../branches/models/api-response.model';
+import { environment } from '../../environments/environment';
+import { MOCK_CUSTOMERS } from '../test/customers.mocks';
 @Injectable()
 export class CustomersService {
-  private customers: CustomerInterface[] = CUSTOMERS;
+  private customers: CustomerInterface[] = MOCK_CUSTOMERS;
   private readonly http = inject(HttpClient);
 
   getCustomers(
@@ -40,26 +39,26 @@ export class CustomersService {
     });
   }
 
-  getCustomer(id: string): Observable<CustomerInterface> {
+  getCustomer(customerId: string): Observable<CustomerInterface> {
     return this.http.get<CustomerInterface>(
-      `${environment.apiBaseUrl}/customers/${id}`
+      `${environment.apiBaseUrl}/customers/${customerId}`
     );
     //  If you want test it locally, you can use this code:
     // const customerFiltered: CustomerInterface = this.customers.filter(
-    //   (customer) => customer.customerId === id
+    //   (customer) => customer.customerId === customerId
     // )[0];
 
     // if (!customerFiltered) return throwError('Customer not found');
     // return of(customerFiltered);
   }
 
-  deleteCustomer(id: string): Observable<{ message: string }> {
+  deleteCustomer(customerId: string): Observable<{ message: string }> {
     return this.http.delete<{ message: string }>(
-      `${environment.apiBaseUrl}/customers/${id}`
+      `${environment.apiBaseUrl}/customers/${customerId}`
     );
     //  If you want test it locally, you can use this code:
     // this.customers = this.customers.filter(
-    //   (customer) => customer.customerId !== id
+    //   (customer) => customer.customerId !== customerId
     // );
     // return of({ message: 'Customer deleted successfully' });
   }

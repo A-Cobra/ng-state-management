@@ -1,13 +1,13 @@
-import { ApiResponse } from '../../../branches/models/api-response.model';
+import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { CustomerInterface } from '@state-management-app/types';
+import { Observable, of, take } from 'rxjs';
 import { CustomersComponent } from './customers.component';
-import { CustomersService } from '../../services/customers.service';
-import { MOCK_CUSTOMERS } from '../../test/mocks';
+import { ApiResponse } from '../../../branches/models/api-response.model';
 import { MOCK_PAGINATION } from '../../../shared/test/constants/mocks';
 import { MockCustomerCardComponent } from '../../../shared/test/mocks/mock-customer-card';
-import { Observable, of, take } from 'rxjs';
-import { ReactiveFormsModule } from '@angular/forms';
+import { CustomersService } from '../../services/customers.service';
+import { MOCK_CUSTOMERS } from '../../test/customers.mocks';
 import {
   ComponentFixture,
   fakeAsync,

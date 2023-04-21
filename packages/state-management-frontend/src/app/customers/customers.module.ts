@@ -1,13 +1,13 @@
 import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
+import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { CustomerCardComponent } from './components/customer-card/customer-card.component';
 import { CustomerDetailsComponent } from './components/customer-details/customer-details.component';
 import { CustomersComponent } from './components/customers/customers.component';
 import { CustomersRoutingModule } from './customers-routing.module';
 import { CustomersService } from './services/customers.service';
-import { HttpClientModule } from '@angular/common/http';
 import { LoaderComponent } from '../shared/components/loader/loader.component';
-import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
 import {
   ClappButtonModule,
   ClappCardModule,

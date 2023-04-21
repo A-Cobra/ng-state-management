@@ -1,4 +1,4 @@
-@use '../../../../sass/base/variables' as *;
+@use 'styles.scss' as *;
 
 .container {
   display: grid;
@@ -14,10 +14,15 @@
   align-content: center;
   min-height: 100%;
 
+  &__wrapper {
+    display: grid;
+    gap: 1em;
+  }
+
   &__header {
     display: grid;
     gap: 0.5em;
-    justify-items: flex-start;
+    justify-items: center;
   }
 
   &__subtitle {
@@ -26,7 +31,7 @@
 
   &__image {
     display: block;
-    width: min(100% - 3em, 400px);
+    width: min(100% - 3em, 300px);
     margin-inline: auto;
     border-radius: 0.3em;
   }
@@ -55,19 +60,21 @@
     gap: 1em;
     grid-column: 1 / -1;
     flex-wrap: wrap;
+    align-self: flex-end;
   }
 
   &__contact {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    gap: 0.5em;
+    justify-content: flex-start;
+    gap: 2em;
   }
 
   &__info {
     display: flex;
     flex-direction: column;
 
+    font-size: 1.1rem;
     font-weight: 700;
   }
 

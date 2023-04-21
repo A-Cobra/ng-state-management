@@ -1,13 +1,13 @@
-import { ActivatedRoute, Router, Routes } from '@angular/router';
-import { activatedRouteMock, MOCK_CUSTOMER } from '../../test/mocks';
-import { backModalConfig, deleteModalConfig } from '../../utils/modal-config';
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ConfirmationModalComponent } from '../../../shared/components/confirmation-modal/confirmation-modal.component';
-import { CustomerDetailsComponent } from './customer-details.component';
-import { CustomersService } from '../../services/customers.service';
-import { of, throwError } from 'rxjs';
+import { ActivatedRoute, Router, Routes } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { of, throwError } from 'rxjs';
+import { CustomerDetailsComponent } from './customer-details.component';
+import { ConfirmationModalComponent } from '../../../shared/components/confirmation-modal/confirmation-modal.component';
+import { CustomersService } from '../../services/customers.service';
+import { activatedRouteMock, MOCK_CUSTOMER } from '../../test/customers.mocks';
+import { backModalConfig, deleteModalConfig } from '../../utils/modal-config';
 
 import {
   ClappButtonModule,
