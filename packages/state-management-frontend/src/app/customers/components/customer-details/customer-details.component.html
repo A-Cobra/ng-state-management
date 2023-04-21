@@ -19,36 +19,38 @@
   <ng-container *ngIf="isLoading">
     <app-loader></app-loader>
   </ng-container>
-  <div *ngIf="customer" class="customer">
-    <div class="customer__header">
+  <div *ngIf="customer" class="customer-details">
+    <div class="customer-details__header">
       <clapp-image-display
         [alt]="customer.name + ' profile image'"
-        [src]="customer.picture || null || 'assets/images/template-image.png'"
-        class="customer__image"
+        [src]="customer.picture || 'assets/images/template-image.png'"
+        class="customer-details__image"
         type="thumbnail"
       >
       </clapp-image-display>
-      <h2 class="customer__name">
+      <h2 class="customer-details__name">
         {{ customer.name }} {{ customer.lastname }}
       </h2>
-      <span class="customer__tag">@{{ customer.username }}</span>
+      <span class="customer-details__tag">@{{ customer.username }}</span>
     </div>
-    <div class="customer__contact">
-      <h2 class="customer__subtitle">Contact Information</h2>
-      <p class="customer__info">
+    <div class="customer-details__contact">
+      <h2 class="customer-details__subtitle">Contact Information</h2>
+      <p class="customer-details__info">
         Email:
-        <span class="customer__detail">{{ customer.email }}</span>
+        <span class="customer-details__detail">{{ customer.email }}</span>
       </p>
-      <p class="customer__info">
+      <p class="customer-details__info">
         Phone number:
-        <span class="customer__detail">{{ customer.contactNumber }}</span>
+        <span class="customer-details__detail">{{
+          customer.contactNumber
+        }}</span>
       </p>
-      <p class="customer__info">
+      <p class="customer-details__info">
         Favorite payment method:
-        <span class="customer__detail">Payment</span>
+        <span class="customer-details__detail">Payment</span>
       </p>
     </div>
-    <div class="customer__actions">
+    <div class="customer-details__actions">
       <clapp-button (click)="onClickBack()" plusIcon="ri-arrow-left-s-line">
         Go back
       </clapp-button>
