@@ -24,7 +24,6 @@ export const businessStub: BusinessHq = {
   businessPicture: '',
   contactEmail: '',
   payroll: new Payroll(),
-  role: new Role(),
 };
 
 export const businessModificationDtoStub = {

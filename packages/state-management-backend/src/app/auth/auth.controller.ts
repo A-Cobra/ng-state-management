@@ -15,7 +15,11 @@ import { JwtAuthGuard } from './guard/jwt-auth.guard';
 import { RefreshTokenGuard } from './guard/refrest-token.guard';
 import { JwtInfo } from './interfaces/jwtinfo.type';
 import { Request } from 'express';
+import { Tokens } from './interfaces/tokens';
+import { ApiTags } from '@nestjs/swagger';
+import { CreateCustomerDto } from '../customers/dto/create-customer.dto';
 
+@ApiTags('Auth')
 @Controller({
   path: 'auth',
   version: '1',
@@ -24,7 +28,7 @@ export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post('/local/signin')
-  async signIn(@Body() credentials: SignInDto) {
+  async signIn(@Body() credentials: SignInDto): Promise<Tokens> {
     return this.authService.signIn(credentials);
   }
 
@@ -35,7 +39,7 @@ export class AuthController {
   }
 
   @Post('/local/signup')
-  async signUp(@Body() userInfo: CreateUserDto) {
+  async signUp(@Body() userInfo: CreateCustomerDto) {
     return this.authService.signUp(userInfo);
   }
 

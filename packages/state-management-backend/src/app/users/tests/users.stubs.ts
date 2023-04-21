@@ -12,7 +12,6 @@ export const userDto: User = {
   contactNumber: '3239239',
   deleted: false,
   password: '',
-  role: new Role(),
   isLoggedIn: false,
 };
 
