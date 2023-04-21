@@ -3,8 +3,8 @@ import { CustomerInterface } from '@state-management-app/types';
 import { map, take } from 'rxjs';
 import { CustomersService } from './customers.service';
 import { environment } from '../../environments/environment';
-import { CUSTOMERS } from '../data/customers';
-import { MOCK_CUSTOMER } from '../test/customers.mocks';
+import { MOCK_CUSTOMER, MOCK_CUSTOMERS } from '../test/customers.mocks';
+
 import {
   HttpClientTestingModule,
   HttpTestingController,
@@ -32,7 +32,7 @@ describe('CustomersService', () => {
       .getCustomers()
       .pipe(take(1))
       .subscribe((response) => {
-        expect(response.data).toEqual(CUSTOMERS.slice(0, 10));
+        expect(response.data).toEqual(MOCK_CUSTOMERS.slice(0, 10));
         done();
       });
   });
