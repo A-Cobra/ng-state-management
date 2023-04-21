@@ -2,12 +2,12 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { BusinessCreateFormComponent } from './components/business-create-form/business-create-form.component';
 import { BusinessEditComponent } from './components/business-edit/business-edit.component';
-import { BusinessListComponent } from './components/business-list/business-list.component';
+import { BusinessesListComponent } from './components/businesses-list/businesses-list.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: BusinessListComponent,
+    component: BusinessesListComponent,
   },
   {
     path: 'create',

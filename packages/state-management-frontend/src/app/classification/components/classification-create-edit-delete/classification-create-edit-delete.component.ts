@@ -153,8 +153,8 @@ export class ClassificationCreateEditDeleteComponent
       data: {
         title: 'Delete classification',
         message: `Are you sure to delete the ${this.classification.name} classification`,
-        confirmButtonLabel: 'Yes',
-        cancelButtonLabel: 'Cancel',
+        affirmativeButtonLabel: 'Yes',
+        negativeButtonLabel: 'Cancel',
       },
       width: '400px',
       height: 'fit-content',

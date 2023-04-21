@@ -56,7 +56,7 @@ export class BusinessEditFormComponent implements OnInit, OnDestroy {
   }[] = [];
   editing = false;
   currentBusinessImgUrl = '';
-  defaultImgUrl = 'assets/template-image.png';
+  defaultImgUrl = 'assets/images/template-image.png';
   unsubscribeAll$ = new Subject<string>();
   businessFormEdit = this.formBuilder.group(editFormControlFields);
 

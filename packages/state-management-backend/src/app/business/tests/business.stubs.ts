@@ -1,3 +1,5 @@
+import { Payroll } from '../../payroll/entities/payroll.entity';
+import { Role } from '../../users/entities/role.entity';
 import { BusinessHq } from '../entities/business.entity';
 
 export const businessStub: BusinessHq = {
@@ -15,6 +17,14 @@ export const businessStub: BusinessHq = {
   contactAddress: 'a',
   deleted: false,
   categories: {} as any as BusinessHq['categories'],
+  businessPicture: '',
+  contactEmail: '',
+  payroll: new Payroll(),
+  role: new Role(),
+  businessId: '',
+  contactPhoneNumber: '',
+  password: '',
+  isLoggedIn: false,
 };
 
 export const businessModificationDtoStub = {
