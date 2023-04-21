@@ -28,7 +28,6 @@ export class CustomersService {
   ) {}
 
   async create(createCustomerDto: CreateCustomerDto): Promise<Customer> {
-    console.log(createCustomerDto);
     const customer = this.customerRepository.create(createCustomerDto);
 
     await this.customerRepository.persistAndFlush(customer);
