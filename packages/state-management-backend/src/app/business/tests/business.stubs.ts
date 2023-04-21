@@ -16,13 +16,11 @@ export const businessStub: BusinessHq = {
   businessName: 'a',
   refreshToken: 'a',
   rating: 2,
-  contactPhoneNumber: 'a',
   longitude: '1',
   latitude: '1',
   contactAddress: 'a',
   deleted: false,
   businessPicture: '',
-  contactEmail: '',
   payroll: new Payroll(),
 };
 

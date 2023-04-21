@@ -25,12 +25,6 @@ export class BusinessHq extends User {
   @Property({ nullable: true })
   rating?: number;
 
-  @Property({ type: 'string', length: 100 })
-  contactEmail: string;
-
-  @Property({ type: 'string', length: 100 })
-  contactPhoneNumber: string;
-
   @Property({ type: 'string', length: 20 })
   longitude: string;
 
@@ -43,8 +37,8 @@ export class BusinessHq extends User {
   @Property({ default: false })
   approvedRegistration?: boolean;
 
-  @OneToOne()
-  payroll: Payroll;
+  @OneToOne({ nullable: true })
+  payroll?: Payroll;
 
   @Property({ default: false })
   deleted?: boolean;
