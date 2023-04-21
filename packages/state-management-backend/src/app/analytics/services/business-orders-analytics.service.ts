@@ -10,9 +10,7 @@ export class BusinessOrderAnalyticsService {
   ) {}
 
   async getAnalytics(dto: BusinessOrdersAnalyticsDto, businessId: string) {
-    let queryOptions: FilterQuery<Order> = {};
-
-    queryOptions = {
+    const queryOptions: FilterQuery<Order> = {
       $and: [{ business: { businessId } }],
     };
 
