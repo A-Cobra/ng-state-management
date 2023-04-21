@@ -30,7 +30,7 @@ export class ProductCategoryController {
   ) {}
 
   @Get(':businessId')
-  @Authorized(ValidRoles.admin)
+  @Authorized(ValidRoles.business)
   getAll(
     @Query() paginationDto: PaginationDto,
     @Param('businessId') businessId: string
@@ -39,6 +39,7 @@ export class ProductCategoryController {
   }
 
   @Get('/search/:businessId')
+  @Authorized(ValidRoles.business)
   search(
     @Query() paginationDto: PaginationDto,
     @Param('businessId') businessId: string,
@@ -48,12 +49,14 @@ export class ProductCategoryController {
   }
 
   @Get('category/:categoryId')
+  @Authorized(ValidRoles.business)
   getById(@Param('categoryId') categoryId: string): Promise<ProductCategory> {
     return this.productCategoryService.getById(categoryId);
   }
 
   @Post(':businessId')
   @HttpCode(201)
+  @Authorized(ValidRoles.business)
   create(
     @Body() productCategory: CreateProductCategoryDto,
     @Param('businessId') businessId: string
@@ -62,6 +65,7 @@ export class ProductCategoryController {
   }
 
   @Patch(':categoryId')
+  @Authorized(ValidRoles.business)
   update(
     @Body() updateProductCategory: UpdateProductCategoryDto,
     @Param('categoryId') categoryId: string
@@ -74,6 +78,7 @@ export class ProductCategoryController {
 
   @Delete(':categoryId')
   @HttpCode(204)
+  @Authorized(ValidRoles.business)
   delete(@Param('categoryId') categoryId: string): Promise<void> {
     return this.productCategoryService.delete(categoryId);
   }
