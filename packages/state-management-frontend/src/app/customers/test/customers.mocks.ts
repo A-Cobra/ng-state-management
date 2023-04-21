@@ -424,3 +424,20 @@ export const MOCK_CUSTOMERS: CustomerInterface[] = [
 export const activatedRouteMock = {
   params: of({ customerId: '1' }),
 };
+
+export const customerServiceMock = {
+  getCustomer: jest.fn().mockReturnValue(of(MOCK_CUSTOMER)),
+  getIsAdminInfo: jest.fn().mockReturnValue(of(true)),
+  deleteCustomer: jest.fn().mockReturnValue(of(undefined)),
+};
+
+export const modalServiceMock = {
+  open: jest.fn(() => ({
+    afterClosed: of(true),
+  })),
+};
+
+export const notificationServiceMock = {
+  success: jest.fn(),
+  error: jest.fn(),
+};
