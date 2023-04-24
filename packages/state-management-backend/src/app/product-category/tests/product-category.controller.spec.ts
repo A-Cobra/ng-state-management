@@ -88,15 +88,19 @@ describe('ProductCategoryController', () => {
 
   describe('Get category by id', () => {
     it('should return category by id', async () => {
-      const result = singleCategory;
+      const category = {
+        categoryId: '1',
+        name: 'Category 2',
+        description: 'Category 1 description',
+      };
       jest
-        .spyOn(productCategoryController, 'getById')
+        .spyOn(productCategoryService, 'getById')
         .mockImplementation(
-          () => Promise.resolve(result) as Promise<ProductCategory>
+          () => Promise.resolve(singleCategory) as Promise<ProductCategory>
         );
       const categoryId = '1';
-      const category = await productCategoryController.getById(categoryId);
-      expect(category.categoryId).toEqual(categoryId);
+      const getCategory = await productCategoryController.getById(categoryId);
+      expect(getCategory).toEqual(category);
     });
   });
 
@@ -104,7 +108,7 @@ describe('ProductCategoryController', () => {
     it('should create a category', async () => {
       const result = singleCategory;
       jest
-        .spyOn(productCategoryController, 'create')
+        .spyOn(productCategoryService, 'create')
         .mockImplementation(
           () => Promise.resolve(result) as Promise<ProductCategory>
         );
@@ -129,7 +133,7 @@ describe('ProductCategoryController', () => {
     it('should update a category', async () => {
       const result = categoryUpdated;
       jest
-        .spyOn(productCategoryController, 'update')
+        .spyOn(productCategoryService, 'update')
         .mockImplementation(
           () => Promise.resolve(result) as Promise<ProductCategory>
         );
@@ -155,10 +159,13 @@ describe('ProductCategoryController', () => {
   describe('Delete category', () => {
     it('should delete a category', async () => {
       jest
-        .spyOn(productCategoryController, 'delete')
+        .spyOn(productCategoryService, 'delete')
         .mockImplementation(() => Promise.resolve() as Promise<void>);
-      await productCategoryController.delete('1');
-      expect(productCategoryController.delete).toBeCalled();
+      const categoryId = '1';
+      const deletedCategory = await productCategoryController.delete(
+        categoryId
+      );
+      expect(deletedCategory).toEqual(undefined);
     });
   });
 });

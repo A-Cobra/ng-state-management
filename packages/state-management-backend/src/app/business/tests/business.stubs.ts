@@ -21,7 +21,6 @@ export const businessStub: BusinessHq = {
   businessPicture: '',
   payroll: new Payroll(),
   businessId: '',
-  contactPhoneNumber: '',
   password: '',
   isLoggedIn: false,
 };
