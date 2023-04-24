@@ -16,6 +16,6 @@ export class ProductCategory {
   @Property({ type: 'boolean', default: false, hidden: true })
   deleted = false;
 
-  @ManyToOne(() => BusinessHq, { hidden: true })
+  @ManyToOne(() => BusinessHq)
   businesses!: BusinessHq;
 }
