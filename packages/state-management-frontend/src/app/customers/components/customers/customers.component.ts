@@ -1,8 +1,8 @@
-import { Component, inject } from '@angular/core';
-import { FormControl } from '@angular/forms';
-
-import { Customer } from '../../models/customer.model';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { CustomerInterface } from '@state-management-app/types';
 import { CustomersService } from '../../services/customers.service';
+import { FormControl } from '@angular/forms';
+import { Pagination } from '@clapp1/clapp-angular/lib/pagination/interfaces/pagination.interface';
 
 import {
   debounceTime,
@@ -14,18 +14,16 @@ import {
   tap,
 } from 'rxjs';
 
-import { Pagination } from '@clapp1/clapp-angular/lib/pagination/interfaces/pagination.interface';
-
 @Component({
   selector: 'app-customers',
   templateUrl: './customers.component.html',
   styleUrls: ['./customers.component.scss'],
 })
-export class CustomersComponent {
+export class CustomersComponent implements OnInit, OnDestroy {
   readonly #customersService = inject(CustomersService);
   readonly #unsubscribe$ = new Subject<void>();
   searchCustomerControl = new FormControl('', { nonNullable: true });
-  customers$: Observable<Customer[]>;
+  customers$: Observable<CustomerInterface[]>;
   totalRecords = 0;
   pageSize = 12;
 
