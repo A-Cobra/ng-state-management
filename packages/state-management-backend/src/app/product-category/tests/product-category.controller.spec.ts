@@ -110,7 +110,7 @@ describe('ProductCategoryController', () => {
         );
       const categoryId = '1';
       const createCategoryDto = {
-        name: 'Category 1',
+        name: 'Category 2',
         description: 'Category 1 description',
       };
       const newCategory = {

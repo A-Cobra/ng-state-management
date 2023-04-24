@@ -30,9 +30,11 @@ export const categorySearch = {
 
 export const singleCategory = {
   categoryId: '1',
-  name: 'Category 1',
+  name: 'Category 2',
   description: 'Category 1 description',
 };
+
+export const categories = [singleCategory];
 
 export const categoryUpdated = {
   categoryId: '1',
