@@ -43,7 +43,7 @@ export class ProductCategoryFormComponent implements OnChanges {
   };
 
   get name(): AbstractControl {
-    return this.form.get('name') as AbstractControl;
+    return this.form.controls.name;
   }
 
   ngOnChanges(simpleChanges: SimpleChanges): void {

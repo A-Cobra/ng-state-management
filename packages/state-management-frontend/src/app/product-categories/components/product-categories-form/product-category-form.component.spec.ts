@@ -49,7 +49,7 @@ const commonImports = [
 
 const commonDeclarations = [ProductCategoryFormComponent];
 
-fdescribe('ProductCategoriesFormComponent', () => {
+describe('ProductCategoriesFormComponent', () => {
   describe('without a host component', () => {
     let component: ProductCategoryFormComponent;
     let fixture: ComponentFixture<ProductCategoryFormComponent>;

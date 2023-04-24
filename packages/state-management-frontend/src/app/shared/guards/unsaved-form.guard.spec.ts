@@ -15,7 +15,7 @@ import { ModalService } from '@clapp1/clapp-angular';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 
-fdescribe('unsavedFormGuard', () => {
+describe('unsavedFormGuard', () => {
   let route: ActivatedRoute;
   let modalService: ModalService;
   const executeGuard: CanDeactivateFn<UnsavedForm> = (
