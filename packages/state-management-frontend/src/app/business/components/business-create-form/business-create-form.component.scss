@@ -1,0 +1,58 @@
+@use 'styles.scss' as *;
+
+.createForm {
+  @include flex($direction: column, $gap: 5px, $align-items: center);
+  form {
+    @include gridColumnsCentered(2, 1fr, 30px);
+    margin: 0 30px;
+    h4 {
+      margin: 10px 0 25px 0;
+    }
+  }
+  &__input-container {
+    height: 90px;
+    width: 400px;
+    &-double {
+      @include flex($justify-content: flex-start, $gap: 5%);
+      .individual-input {
+        height: 90px;
+        width: 45%;
+      }
+    }
+    &-optional {
+      height: 80px;
+    }
+  }
+  &__select-container {
+    height: 70px;
+    width: 400px;
+    &-optional {
+      height: 60px;
+    }
+  }
+
+  &__picture-input-container {
+    height: 70px;
+    width: 98%;
+  }
+  &__picture-container {
+    margin: 0 15px 15px;
+    text-align: center;
+  }
+  &__buttons-container {
+    @include flex($gap: 5%);
+  }
+}
+@media (max-width: 768px) {
+  .createForm {
+    form {
+      grid-template-columns: 1fr;
+    }
+    &__input-container {
+      width: 250px;
+    }
+    &__select-container {
+      width: 250px;
+    }
+  }
+}

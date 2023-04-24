@@ -1,0 +1,53 @@
+<div *ngIf="parentForm" [formGroup]="parentForm" class="form__group">
+  <clapp-text-input
+    [formControlName]="controlName"
+    autocomplete=""
+    [error]="
+      parentForm.controls[controlName].invalid &&
+      (parentForm.controls[controlName].touched ||
+        parentForm.controls[controlName].dirty)
+    "
+    [success]="
+      parentForm.controls[controlName].valid &&
+      (parentForm.controls[controlName].touched ||
+        parentForm.controls[controlName].dirty)
+    "
+    [label]="label ? (required ? label + ' *' : label) : ''"
+    [maxLength]="maxLength"
+    [minLength]="minLength"
+    [type]="inputType"
+    [id]="elementId"
+  ></clapp-text-input>
+  <clapp-helper-text
+    *ngIf="
+      displayText &&
+      (staticDisplayText ||
+        (parentForm.controls[controlName].untouched &&
+          parentForm.controls[controlName].value === ''))
+    "
+    [textState]="
+      parentForm.controls[controlName].disabled ? 'disabled' : 'default'
+    "
+  >
+    {{ displayText }}<span *ngIf="required"> {{ '(required*)' }}</span>
+  </clapp-helper-text>
+  <div
+    class="error"
+    *ngIf="
+      parentForm.controls[controlName].errors &&
+      (parentForm.controls[controlName].dirty ||
+        parentForm.controls[controlName].touched)
+    "
+  >
+    <clapp-helper-text
+      [textState]="
+        parentForm.controls[controlName].disabled ? 'disabled' : 'error'
+      "
+    >
+      {{
+        parentForm.controls[controlName].errors
+          | fullErrorName : minLength : maxLength
+      }}
+    </clapp-helper-text>
+  </div>
+</div>

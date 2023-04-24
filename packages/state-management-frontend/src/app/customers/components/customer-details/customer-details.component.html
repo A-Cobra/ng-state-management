@@ -1,0 +1,69 @@
+<div class="container">
+  <ng-container *ngIf="!hasCustomer">
+    <div class="error__container">
+      <h2 class="error__title">Customer not found</h2>
+      <p class="error__paragraph">
+        Sorry, the customer you were looking for, hasn't been found.
+      </p>
+      <clapp-button
+        [routerLink]="['/customers']"
+        color="primary"
+        size="small"
+        type="button"
+      >
+        Go to customers
+      </clapp-button>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="isLoading">
+    <app-loader></app-loader>
+  </ng-container>
+  <div *ngIf="customer" class="customer-details">
+    <div class="customer-details__header">
+      <clapp-image-display
+        [alt]="customer.name + ' profile image'"
+        [src]="customer.picture || 'assets/images/template-image.png'"
+        class="customer-details__image"
+        type="thumbnail"
+      >
+      </clapp-image-display>
+      <h2 class="customer-details__name">
+        {{ customer.name }} {{ customer.lastname }}
+      </h2>
+      <span class="customer-details__tag">@{{ customer.username }}</span>
+    </div>
+    <div class="customer-details__wrapper">
+      <div class="customer-details__contact">
+        <h2 class="customer-details__subtitle">Contact Information</h2>
+        <p class="customer-details__info">
+          Email:
+          <span class="customer-details__detail">{{ customer.email }}</span>
+        </p>
+        <p class="customer-details__info">
+          Phone number:
+          <span class="customer-details__detail">{{
+            customer.contactNumber
+          }}</span>
+        </p>
+        <p class="customer-details__info">
+          Favorite payment method:
+          <span class="customer-details__detail">Payment</span>
+        </p>
+      </div>
+      <div class="customer-details__actions">
+        <clapp-button (click)="onClickBack()" plusIcon="ri-arrow-left-s-line">
+          Go back
+        </clapp-button>
+        <clapp-button
+          (click)="onClickDelete()"
+          *ngIf="isAdmin"
+          color="tertiary"
+          plusIcon="ri-delete-bin-fill"
+          [disabled]="isLoading"
+        >
+          Delete
+        </clapp-button>
+      </div>
+    </div>
+  </div>
+</div>

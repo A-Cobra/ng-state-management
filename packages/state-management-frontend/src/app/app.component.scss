@@ -1,9 +1,19 @@
-.container {
-  margin: 0 auto;
-  width: 90%;
-  max-width: 1200px;
-  padding: 20px 0;
+@use 'styles.scss' as *;
+
+.main-app {
+  @include flex();
   height: 100vh;
   height: 100svh;
+  min-height: 80vh;
   box-sizing: border-box;
+  &__page-container {
+    max-height: 100vh;
+    width: calc(100vw - 64px);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+  }
+  &__router-outlet-container {
+    margin: 15px;
+  }
 }

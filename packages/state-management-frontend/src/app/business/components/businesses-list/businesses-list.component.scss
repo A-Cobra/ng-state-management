@@ -1,0 +1,19 @@
+.topMenu {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.search {
+  width: 60%;
+}
+
+.cardContainer {
+  display: grid;
+  grid-gap: 10px;
+  justify-content: center;
+  grid-template-columns: repeat(auto-fill, 250px);
+  column-gap: 8rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}

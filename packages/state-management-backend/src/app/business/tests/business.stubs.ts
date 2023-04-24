@@ -1,6 +1,10 @@
-export const businessStub = {
+import { Payroll } from '../../payroll/entities/payroll.entity';
+import { Role } from '../../users/entities/role.entity';
+import { InitialBusinessCreationDto } from '../dto/initial-creation.dto';
+import { BusinessHq } from '../entities/business.entity';
+
+export const businessStub: BusinessHq = {
   userId: 'a',
-  role: 'business',
   username: 'a',
   name: 'a',
   lastname: 'a',
@@ -13,11 +17,12 @@ export const businessStub = {
   businessName: 'a',
   refreshToken: 'a',
   rating: 2,
-  contactPhoneNumber: 'a',
   longitude: '1',
   latitude: '1',
   contactAddress: 'a',
   deleted: false,
+  businessPicture: '',
+  payroll: new Payroll(),
 };
 
 export const businessModificationDtoStub = {
@@ -30,7 +35,7 @@ export const businessModificationDtoStub = {
   businessPicture: 'b',
 };
 
-export const initialBusinessCreationDtoStub = {
+export const initialBusinessCreationDtoStub: InitialBusinessCreationDto = {
   businessName: 'b',
   representativeName: 'b',
   email: 'a',
@@ -39,6 +44,7 @@ export const initialBusinessCreationDtoStub = {
   contactNumber: '3',
   password: '123',
   picture: 'a',
+  businessPicture: 'a',
   contactAddress: 'a',
 };
 
@@ -60,4 +66,34 @@ export const paginatedBusinessessData = {
   page: 1,
   totalResults: businessesStub.length,
   totalPages: Math.ceil(businessesStub.length / 10),
+};
+
+export const classificationStub = {
+  BusinessClassificationId: '9',
+  name: 'food',
+  description: 'tasty',
+};
+
+export const classificationsStub = [classificationStub];
+
+export const classificationDtoStub = {
+  name: 'food',
+  description: 'tasty',
+};
+
+export const paginatedClassificationData = {
+  data: classificationsStub,
+  page: 1,
+  totalResults: classificationsStub.length,
+  totalPages: Math.ceil(classificationsStub.length / 10),
+};
+
+export const modifyClassificationDtoStub = {
+  name: 'pizza',
+  description: 'spicy',
+};
+
+export const modifiedClassificationStub = {
+  ...classificationDtoStub,
+  ...modifyClassificationDtoStub,
 };

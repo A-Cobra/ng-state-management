@@ -17,31 +17,28 @@ import { UsersDirectoryService } from '../../users/services/users-directory.serv
 import { AuthService } from '../../auth/services/auth.service';
 import { paginationParameters } from '../../common/methods/pagination-parameters';
 import { extractUser } from '../../common/methods/extract-user';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 
 @Injectable()
 export class CustomersService {
   constructor(
     @InjectRepository(Customer)
     private readonly customerRepository: EntityRepository<Customer>,
-    private readonly authService: AuthService,
-    private readonly directoryService: UsersDirectoryService
+    private eventEmitter: EventEmitter2
   ) {}
 
   async create(createCustomerDto: CreateCustomerDto): Promise<Customer> {
-    // todo Fix method when authService is ready
-    // createCustomerDto.password = await hashData(createCustomerDto.password);
     const customer = this.customerRepository.create(createCustomerDto);
 
-    const { user } = extractUser(customer);
+    await this.customerRepository.persistAndFlush(customer);
 
-    await this.directoryService.createUserCredentials({
-      user: user,
-      email: createCustomerDto.email,
-      password: createCustomerDto.password,
+    this.eventEmitter.emit('user.created', {
+      userId: customer.userId,
+      email: customer.email,
       role: ValidRoles.customer,
+      password: createCustomerDto.password,
     });
 
-    await this.customerRepository.persistAndFlush(customer);
     return customer;
   }
 

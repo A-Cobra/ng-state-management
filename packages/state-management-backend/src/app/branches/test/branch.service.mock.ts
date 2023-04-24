@@ -3,7 +3,7 @@ import { PaginationDto } from '../../common/dtos/pagination.dto';
 import { PaginationResult } from '../../common/interfaces/pagination-result.interface';
 import { CreateBranchDto } from '../dto/create-branch.dto';
 import { UpdateBranchDto } from '../dto/update-branch.dto';
-import { BusinessBranch } from '../entities/businessBranch.entity';
+import { BusinessBranch } from '../entities/business-branch.entity';
 import { mockBranchesResponse } from './mocks/branch-response.mock';
 
 export class BranchesServiceMock {

@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 
-import { Classification } from '../models/classification.interface';
+import { Classification } from '../models/classification.model';
 import { MOCK_CLASSIFICATIONS } from '../test/mocks';
-import { Business } from '../models/business.interface';
+import { Business } from '../models/business.model';
 
 @Injectable()
 export class BusinessService {

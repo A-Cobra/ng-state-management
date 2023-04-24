@@ -15,7 +15,7 @@ describe('ProductsController', () => {
       discount: 0,
       stock: 0,
       status: 'test',
-      idProduct: 'uuid',
+      productId: 'uuid',
     },
     {
       productName: 'Test Product2',
@@ -24,7 +24,7 @@ describe('ProductsController', () => {
       discount: 0,
       stock: 0,
       status: 'test2',
-      idProduct: 'uuid2',
+      productId: 'uuid2',
     },
   ];
   const mockProductsService = {
@@ -35,11 +35,11 @@ describe('ProductsController', () => {
       totalPages: 1,
     }),
     findOneProduct: jest.fn((id) => {
-      return mockProducts.find((product) => product.idProduct === id);
+      return mockProducts.find((product) => product.productId === id);
     }),
     createProduct: jest.fn((product) => {
       return {
-        idProduct: product.idProduct,
+        productId: product.productId,
         productName: product.productName,
         description: product.description,
         price: product.price,
@@ -50,7 +50,7 @@ describe('ProductsController', () => {
     }),
     UpdateProduct: jest.fn((id, product) => {
       const productToUpdate = mockProducts.find(
-        (productFinded) => productFinded.idProduct === id
+        (productFinded) => productFinded.productId === id
       );
       return { ...productToUpdate, ...product };
     }),
@@ -91,7 +91,7 @@ describe('ProductsController', () => {
   describe('createProduct', () => {
     it('should create a product', async () => {
       const createProductDto: Product = {
-        idProduct: 'uuid1',
+        productId: 'uuid1',
         productName: 'Test Product',
         description: 'Test Product Description',
         price: 10,
@@ -113,7 +113,7 @@ describe('ProductsController', () => {
         discount: 0,
         stock: 0,
         status: 'test',
-        idProduct: 'uuid',
+        productId: 'uuid',
       };
       const result = await controller.updateProduct('uuid', productInfo);
       expect(result).toEqual(productInfo);

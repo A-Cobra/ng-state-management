@@ -1,0 +1,123 @@
+@use 'styles.scss' as *;
+
+.container {
+  display: grid;
+  place-items: center;
+
+  min-height: 100%;
+}
+
+.customer-details {
+  display: grid;
+  gap: 1em;
+
+  align-content: center;
+  min-height: 100%;
+
+  &__wrapper {
+    display: grid;
+    gap: 1em;
+  }
+
+  &__header {
+    display: grid;
+    gap: 0.5em;
+    justify-items: center;
+  }
+
+  &__subtitle {
+    color: $primary-color;
+  }
+
+  &__image {
+    display: block;
+    width: min(100% - 3em, 300px);
+    margin-inline: auto;
+    border-radius: 0.3em;
+  }
+
+  &__name,
+  &__tag {
+    display: block;
+  }
+
+  &__tag {
+    padding: 0.5em 1em;
+
+    font-weight: 500;
+
+    background-color: $secondary-color;
+    border-radius: 0.3em;
+  }
+
+  &__name {
+    color: $primary-color;
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1em;
+    grid-column: 1 / -1;
+    flex-wrap: wrap;
+    align-self: flex-end;
+  }
+
+  &__contact {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 2em;
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+
+    font-size: 1.1rem;
+    font-weight: 700;
+  }
+
+  &__detail {
+    font-weight: 400;
+  }
+}
+
+.error {
+  &__container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 1em;
+    height: 100%;
+  }
+
+  &__title {
+    font-size: 2.5rem;
+    font-weight: 700;
+  }
+
+  &__paragraph {
+    font-size: 1.5rem;
+    font-weight: 500;
+  }
+
+  &__title,
+  &__paragraph {
+    width: 100%;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .customer-details {
+    grid-template-columns: 1fr 1fr;
+    gap: 1em;
+
+    &__info {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5em;
+    }
+  }
+}

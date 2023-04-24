@@ -1,9 +1,15 @@
 import { Test } from '@nestjs/testing';
 import { UsersDirectoryService } from '../services/users-directory.service';
-import { createCredentialsDtoStub, credentialsStub } from './users.stubs';
+import {
+  createCredentialsDtoStub,
+  credentialsStub,
+  userDto,
+} from './users.stubs';
 import { UserCredentials } from '../entities/user-credentials.entity';
 import { getRepositoryToken } from '@mikro-orm/nestjs';
 import { RolesService } from '../services/role.service';
+import { UsersService } from '../services/users.service';
+import { createMock } from '@golevelup/ts-jest';
 
 describe('UsersDirectoryService', () => {
   let directoryService: UsersDirectoryService;
@@ -31,8 +37,17 @@ describe('UsersDirectoryService', () => {
             }),
           },
         },
+        UsersService,
+        {
+          provide: UsersService,
+          useValue: {
+            findUser: jest.fn().mockReturnValue(userDto),
+          },
+        },
       ],
-    }).compile();
+    })
+      .useMocker(createMock)
+      .compile();
 
     directoryService = moduleRef.get<UsersDirectoryService>(
       UsersDirectoryService

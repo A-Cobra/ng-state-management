@@ -1,11 +1,4 @@
-import { ProductReview } from './product-review.entity';
-import {
-  Property,
-  PrimaryKey,
-  Entity,
-  OneToMany,
-  Collection,
-} from '@mikro-orm/core';
+import { Property, PrimaryKey, Entity } from '@mikro-orm/core';
 import { v4 } from 'uuid';
 
 @Entity()
@@ -18,7 +11,4 @@ export class Review {
 
   @Property()
   comment: string;
-
-  @OneToMany(() => ProductReview, (productReview) => productReview.review)
-  productReviews = new Collection<ProductReview>(this);
 }

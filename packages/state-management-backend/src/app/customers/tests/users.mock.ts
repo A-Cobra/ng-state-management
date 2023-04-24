@@ -1,4 +1,6 @@
 import { JwtInfo } from '../../auth/interfaces/jwtinfo.type';
+import { Role } from '../../users/entities/role.entity';
+import { UserCredentials } from '../../users/entities/user-credentials.entity';
 import { User } from '../../users/entities/user.entity';
 import { CreateCustomerDto } from '../dto/create-customer.dto';
 
@@ -10,6 +12,8 @@ export const mockUser: User = {
   username: 'test',
   contactNumber: '1313412341',
   userId: 'userid',
+  password: '',
+  isLoggedIn: false,
 };
 
 export const mockCurrentCustomer: JwtInfo = {

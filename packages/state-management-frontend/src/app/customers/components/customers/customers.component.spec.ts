@@ -1,21 +1,19 @@
+import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { CustomerInterface } from '@state-management-app/types';
+import { Observable, of, take } from 'rxjs';
+import { CustomersComponent } from './customers.component';
+import { ApiResponse } from '../../../branches/models/api-response.model';
+import { MOCK_PAGINATION } from '../../../shared/test/constants/mocks';
+import { MockCustomerCardComponent } from '../../../shared/test/mocks/mock-customer-card';
+import { CustomersService } from '../../services/customers.service';
+import { MOCK_CUSTOMERS } from '../../test/customers.mocks';
 import {
   ComponentFixture,
   fakeAsync,
   TestBed,
   tick,
 } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
-
-import { MOCK_CUSTOMERS } from '../../test/mocks';
-import { MOCK_PAGINATION } from '../../../shared/test/constants/mocks';
-import { ApiResponse } from '../../../branches/models/api-response.model';
-import { Customer } from '../../models/customer.model';
-import { CustomersComponent } from './customers.component';
-import { CustomersService } from '../../services/customers.service';
-import { MockCustomerCardComponent } from '../../../shared/test/mocks/mock-customer-card';
-
-import { Observable, of, take } from 'rxjs';
 
 import {
   ClappButtonModule,
@@ -30,7 +28,7 @@ const mockCustomersService = {
       page = 1,
       pageSize = 10,
       _query = ''
-    ): Observable<ApiResponse<Customer[]>> => {
+    ): Observable<ApiResponse<CustomerInterface[]>> => {
       return of({
         data: MOCK_CUSTOMERS,
         meta: {

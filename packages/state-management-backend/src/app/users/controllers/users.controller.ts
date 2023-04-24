@@ -3,7 +3,9 @@ import { JwtAuthGuard } from '../../auth/guard/jwt-auth.guard';
 import { GetUser } from '../../auth/decorator/get-user.decorator';
 import { JwtInfo } from '../../auth/interfaces/jwtinfo.type';
 import { UsersDirectoryService } from '../services/users-directory.service';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Users')
 @Controller({
   path: 'users',
   version: '1',
@@ -13,12 +15,12 @@ export class UsersController {
 
   @Get('profile')
   @UseGuards(JwtAuthGuard)
-  async update(@GetUser() userInfo: JwtInfo) {
-    const { user, role } = await this.directory.findUser(userInfo.sub);
+  async get(@GetUser() userInfo: JwtInfo) {
+    const data = await this.directory.findUser(userInfo.sub);
     return {
-      ...user,
-      role: role.roleName,
-      roleId: role.roleId,
+      user: data.user,
+      role: data.role.roleName,
+      roleId: data.role.roleId,
     };
   }
 }

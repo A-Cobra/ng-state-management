@@ -6,15 +6,16 @@ import { BusinessClassification } from './entities/business-classification.entit
 import { BusinessService } from './services/business.service';
 import { NotificationsModule } from '../notifications/notifications.module';
 import { UsersModule } from '../users/users.module';
+import { BusinessClassificationController } from './controllers/classification.controller';
+import { ClassificationService } from './services/classification.service';
 
 @Module({
   imports: [
     MikroOrmModule.forFeature([BusinessHq, BusinessClassification]),
     NotificationsModule,
-    UsersModule,
   ],
-  providers: [BusinessService],
-  controllers: [BusinessController],
+  providers: [BusinessService, ClassificationService],
+  controllers: [BusinessController, BusinessClassificationController],
   exports: [BusinessService],
 })
 export class BusinessModule {}

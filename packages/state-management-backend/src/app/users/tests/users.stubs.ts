@@ -1,3 +1,5 @@
+import { Role } from '../entities/role.entity';
+import { UserCredentials } from '../entities/user-credentials.entity';
 import { User } from '../entities/user.entity';
 
 export const userDto: User = {
@@ -9,6 +11,8 @@ export const userDto: User = {
   email: 'user@mail.com',
   contactNumber: '3239239',
   deleted: false,
+  password: '',
+  isLoggedIn: false,
 };
 
 export const credentialsStub = {
@@ -21,7 +25,7 @@ export const credentialsStub = {
 };
 
 export const createCredentialsDtoStub = {
-  user: userDto,
+  userId: '1',
   email: 'user@mail.com',
   role: 'ADMIN',
   password: '123',

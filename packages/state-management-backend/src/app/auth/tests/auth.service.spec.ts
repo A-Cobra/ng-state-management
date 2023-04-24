@@ -4,6 +4,7 @@ import { createMock } from '@golevelup/ts-jest';
 import { JwtService } from '@nestjs/jwt';
 import { UsersDirectoryService } from '../../users/services/users-directory.service';
 import { User } from '../../users/entities/user.entity';
+import { Role } from '../../users/entities/role.entity';
 
 describe('AuthService', () => {
   let authService: AuthService;
@@ -22,6 +23,8 @@ describe('AuthService', () => {
     email: 'user@mail.com',
     contactNumber: '3239239',
     deleted: false,
+    password: '',
+    isLoggedIn: false,
   };
 
   const credentialsStub = {

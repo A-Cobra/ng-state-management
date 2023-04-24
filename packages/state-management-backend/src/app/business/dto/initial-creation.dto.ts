@@ -32,6 +32,10 @@ export class InitialBusinessCreationDto {
 
   @ApiProperty()
   @IsString()
+  businessPicture: string;
+
+  @ApiProperty()
+  @IsString()
   password: string;
 
   @ApiProperty()

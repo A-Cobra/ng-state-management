@@ -13,7 +13,9 @@ import { RolesService } from '../services/role.service';
 import { Authorized } from '../../auth/decorator/authorized.decorator';
 import { ValidRoles } from '../../auth/interfaces/valid-roles.type';
 import { JwtAuthGuard } from '../../auth/guard/jwt-auth.guard';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Roles')
 @Controller({
   path: 'roles',
   version: '1',
