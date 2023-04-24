@@ -1,5 +1,6 @@
 import { Payroll } from '../../payroll/entities/payroll.entity';
 import { Role } from '../../users/entities/role.entity';
+import { InitialBusinessCreationDto } from '../dto/initial-creation.dto';
 import { BusinessHq } from '../entities/business.entity';
 
 export const businessStub: BusinessHq = {
@@ -18,7 +19,6 @@ export const businessStub: BusinessHq = {
   deleted: false,
   categories: {} as any as BusinessHq['categories'],
   businessPicture: '',
-  contactEmail: '',
   payroll: new Payroll(),
   businessId: '',
   contactPhoneNumber: '',
@@ -36,7 +36,7 @@ export const businessModificationDtoStub = {
   businessPicture: 'b',
 };
 
-export const initialBusinessCreationDtoStub = {
+export const initialBusinessCreationDtoStub: InitialBusinessCreationDto = {
   businessName: 'b',
   representativeName: 'b',
   email: 'a',
@@ -45,6 +45,7 @@ export const initialBusinessCreationDtoStub = {
   contactNumber: '3',
   password: '123',
   picture: 'a',
+  businessPicture: 'a',
   contactAddress: 'a',
 };
 

@@ -32,7 +32,7 @@ exports[`CustomerCardComponent should render customer information 1`] = `
                 John Doe
               </h3>
               <p>
-                @johndoe1
+                @johndoe
               </p>
             </div>
           </div>

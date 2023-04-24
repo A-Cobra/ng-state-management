@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-
-import { Customer } from '../../models/customer.model';
+import { CustomerInterface } from '@state-management-app/types';
 
 @Component({
   selector: 'app-customer-card',
@@ -9,5 +8,5 @@ import { Customer } from '../../models/customer.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CustomerCardComponent {
-  @Input() customer: Customer;
+  @Input() customer: CustomerInterface;
 }

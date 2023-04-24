@@ -1,32 +1,30 @@
-import { Injectable } from '@angular/core';
-
-import { CUSTOMERS } from '../data/customers';
+import { HttpClient } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
+import { CustomerInterface } from '@state-management-app/types';
+import { delay, Observable, of, throwError } from 'rxjs';
 import { ApiResponse } from '../../branches/models/api-response.model';
-import { Customer } from '../models/customer.model';
-
-import { Observable, of } from 'rxjs';
-
-@Injectable({
-  providedIn: 'root',
-})
+import { environment } from '../../environments/environment';
+import { MOCK_CUSTOMERS } from '../test/customers.mocks';
+@Injectable()
 export class CustomersService {
-  readonly #customers = CUSTOMERS;
+  private customers: CustomerInterface[] = MOCK_CUSTOMERS;
+  private readonly http = inject(HttpClient);
 
   getCustomers(
     page = 1,
     pageSize = 10,
     query = ''
-  ): Observable<ApiResponse<Customer[]>> {
+  ): Observable<ApiResponse<CustomerInterface[]>> {
     // TODO: Replace with real implementation when BE will be ready. Some logic will be removed since BE will handle it.
-    let filteredCustomers: Customer[];
+    let filteredCustomers: CustomerInterface[];
     const formattedQuery = query.toLowerCase().trim();
     if (query === '') {
-      filteredCustomers = this.#customers;
+      filteredCustomers = this.customers;
     } else {
-      filteredCustomers = this.#customers.filter(
+      filteredCustomers = this.customers.filter(
         (customer) =>
           customer.name.toLowerCase().includes(formattedQuery) ||
-          customer.lastName.toLowerCase().includes(formattedQuery) ||
+          customer.lastname?.toLowerCase().includes(formattedQuery) ||
           customer.username.toLowerCase().includes(formattedQuery)
       );
     }
@@ -39,5 +37,34 @@ export class CustomersService {
         pageSize,
       },
     });
+  }
+
+  getCustomer(customerId: string): Observable<CustomerInterface> {
+    return this.http.get<CustomerInterface>(
+      `${environment.apiBaseUrl}/customers/${customerId}`
+    );
+    //  If you want test it locally, you can use this code:
+    // const customerFiltered: CustomerInterface = this.customers.filter(
+    //   (customer) => customer.customerId === customerId
+    // )[0];
+
+    // if (!customerFiltered) return throwError('Customer not found');
+    // return of(customerFiltered);
+  }
+
+  deleteCustomer(customerId: string): Observable<{ message: string }> {
+    return this.http.delete<{ message: string }>(
+      `${environment.apiBaseUrl}/customers/${customerId}`
+    );
+    //  If you want test it locally, you can use this code:
+    // this.customers = this.customers.filter(
+    //   (customer) => customer.customerId !== customerId
+    // );
+    // return of({ message: 'Customer deleted successfully' });
+  }
+
+  getIsAdminInfo(): Observable<boolean> {
+    // TODO: Replace with the actual implementation when the interceptor or role management will be done.
+    return of(true).pipe(delay(2000));
   }
 }

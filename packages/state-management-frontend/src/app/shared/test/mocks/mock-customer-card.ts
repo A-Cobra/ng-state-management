@@ -1,11 +1,10 @@
 import { Component, Input } from '@angular/core';
-
-import { Customer } from '../../../customers/models/customer.model';
+import { CustomerInterface } from '@state-management-app/types';
 
 @Component({
   selector: 'app-customer-card',
   template: `Mock Customer Card Component`,
 })
 export class MockCustomerCardComponent {
-  @Input() customer: Customer;
+  @Input() customer: CustomerInterface;
 }

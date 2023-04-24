@@ -14,6 +14,7 @@ import { NotificationsModule } from './notifications/notifications.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { CouriersModule } from './couriers/couriers.module';
 import { ProductCategoryModule } from './product-category/product-category.module';
+import { AnalyticsModule } from './analytics/analytics.module';
 
 const envFilePath = getEnvPath(process.env.WORKDIR);
 
@@ -35,6 +36,7 @@ const envFilePath = getEnvPath(process.env.WORKDIR);
     CustomersModule,
     CouriersModule,
     ProductCategoryModule,
+    AnalyticsModule,
   ],
   controllers: [],
   providers: [],
