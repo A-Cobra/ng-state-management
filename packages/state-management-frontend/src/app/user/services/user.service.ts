@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { delay, Observable, of } from 'rxjs';
-
 import { UserProfile } from '../models/user.model';
 import { mockUser } from '../test/mocks';
 

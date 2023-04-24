@@ -1,26 +1,28 @@
+import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router, Routes } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { NotificationService } from '@clapp1/clapp-angular';
+import { of, throwError } from 'rxjs';
+import { UserProfileComponent } from './user-profile.component';
+import { ConfirmationModalComponent } from '../../../shared/components/confirmation-modal/confirmation-modal.component';
+import { LoaderComponent } from '../../../shared/components/loader/loader.component';
+import { UserService } from '../../services/user.service';
+import { mockUser } from '../../test/mocks';
 import {
   ClappButtonModule,
   ClappInputHelpersModule,
   ClappTextInputModule,
   ModalService,
 } from '@clapp1/clapp-angular';
-import { of } from 'rxjs';
 
-import { ConfirmationModalComponent } from '../../../shared/components/confirmation-modal/confirmation-modal.component';
-import { LoaderComponent } from '../../../shared/components/loader/loader.component';
-import { UserService } from '../../services/user.service';
-import { mockUser } from '../../test/mocks';
 import {
   backModalConfig,
   cancelModalConfig,
   saveChangesModalConfig,
 } from '../../utils/modal-config';
-import { UserProfileComponent } from './user-profile.component';
 
 const userServiceMock = {
   getUserProfile: jest.fn().mockReturnValue(of(mockUser)),
@@ -33,16 +35,34 @@ const modalServiceMock = {
   })),
 };
 
+const notificationServiceMock = {
+  success: jest.fn(),
+  error: jest.fn(),
+};
+
+@Component({
+  selector: 'app-home-component',
+  template: '<span> Mock Component </span>',
+})
+class MockCustomerComponent {}
+const routes: Routes = [
+  {
+    path: '',
+    component: MockCustomerComponent,
+  },
+];
 describe('UserProfileComponent', () => {
   let component: UserProfileComponent;
   let fixture: ComponentFixture<UserProfileComponent>;
   let userService: UserService;
   let modalService: ModalService;
+  let notificationService: NotificationService;
+  let router: Router;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule,
+        RouterTestingModule.withRoutes(routes),
         ReactiveFormsModule,
         LoaderComponent,
         ClappTextInputModule,
@@ -51,7 +71,6 @@ describe('UserProfileComponent', () => {
       ],
       declarations: [UserProfileComponent],
       providers: [
-        RouterTestingModule,
         {
           provide: UserService,
           useValue: userServiceMock,
@@ -60,13 +79,19 @@ describe('UserProfileComponent', () => {
           provide: ModalService,
           useValue: modalServiceMock,
         },
+        {
+          provide: NotificationService,
+          useValue: notificationServiceMock,
+        },
       ],
     }).compileComponents();
 
+    router = TestBed.inject(Router);
     fixture = TestBed.createComponent(UserProfileComponent);
     component = fixture.componentInstance;
     userService = TestBed.inject(UserService);
     modalService = TestBed.inject(ModalService);
+    notificationService = TestBed.inject(NotificationService);
     TestBed.inject(ActivatedRoute);
     fixture.detectChanges();
   });
@@ -314,9 +339,10 @@ describe('UserProfileComponent', () => {
   });
 
   describe('backModal', () => {
-    it('should open a confirmation modal with the correct parameters', () => {
+    it('should open a confirmation modal with the correct parameters and navigate to home', () => {
       const openSpy = jest.spyOn(modalService, 'open');
-      const backModalSpy = jest.spyOn(component, 'backModal');
+      const backModalSpy = jest.spyOn(component, 'getBackModal');
+      const navigateSpy = jest.spyOn(router, 'navigate');
       component.onClickBack();
 
       expect(openSpy).toHaveBeenCalledWith(
@@ -324,13 +350,14 @@ describe('UserProfileComponent', () => {
         backModalConfig
       );
       expect(backModalSpy).toHaveBeenCalled();
+      expect(navigateSpy).toHaveBeenCalledWith(['']);
     });
   });
 
   describe('cancelModal', () => {
     it('should open a confirmation modal with the correct parameters for cancel button', () => {
       const openSpy = jest.spyOn(modalService, 'open');
-      const cancelModalSpy = jest.spyOn(component, 'cancelModal');
+      const cancelModalSpy = jest.spyOn(component, 'getCancelModal');
       component.onClickCancel();
 
       expect(openSpy).toHaveBeenCalledWith(
@@ -338,6 +365,43 @@ describe('UserProfileComponent', () => {
         cancelModalConfig
       );
       expect(cancelModalSpy).toHaveBeenCalled();
+    });
+  });
+
+  describe('NotificationService', () => {
+    it('should show success notification', () => {
+      const successSpy = jest.spyOn(notificationService, 'success');
+      component.onClickEdit();
+      component.profileForm.patchValue({
+        phoneNumber: '1234567890',
+      });
+      component.onClickSave();
+
+      expect(successSpy).toHaveBeenCalledWith(
+        'User profile updated successfully',
+        'Success!'
+      );
+    });
+
+    it('should show error notification', () => {
+      jest
+        .spyOn(userService, 'saveUserProfile')
+        .mockReturnValue(
+          throwError('An error has occurred while updating the user profile')
+        );
+
+      const errorSpy = jest.spyOn(notificationService, 'error');
+
+      component.onClickEdit();
+      component.profileForm.patchValue({
+        phoneNumber: '1234567890',
+      });
+      component.onClickSave();
+
+      expect(errorSpy).toHaveBeenCalledWith(
+        'An error has occurred while updating the user profile',
+        'Unexpected error!'
+      );
     });
   });
 });

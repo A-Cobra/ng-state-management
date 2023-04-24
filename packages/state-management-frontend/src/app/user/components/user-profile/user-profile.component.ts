@@ -1,24 +1,27 @@
-import { Component, NgZone, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { finalize, take } from 'rxjs/operators';
+import { UserProfile } from './../../models/user.model';
+import { ConfirmationModalComponent } from '../../../shared/components/confirmation-modal/confirmation-modal.component';
+import { UserService } from '../../services/user.service';
+import { emailRegex, onlyNumberRegex, onlyTextRegex } from '../../utils/regex';
+import {
+  ModalRef,
+  ModalService,
+  NotificationService,
+} from '@clapp1/clapp-angular';
 import {
   AbstractControl,
   FormBuilder,
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { Router } from '@angular/router';
-import { ModalRef, ModalService } from '@clapp1/clapp-angular';
-import { finalize, take } from 'rxjs/operators';
 
-import { ConfirmationModalComponent } from '../../../shared/components/confirmation-modal/confirmation-modal.component';
-import { UserService } from '../../services/user.service';
 import {
   backModalConfig,
   cancelModalConfig,
   saveChangesModalConfig,
 } from '../../utils/modal-config';
-import { emailRegex, onlyNumberRegex, onlyTextRegex } from '../../utils/regex';
-import { UserProfile } from './../../models/user.model';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-user-profile',
@@ -28,8 +31,7 @@ import { Observable } from 'rxjs';
 export class UserProfileComponent implements OnInit {
   profileForm: FormGroup;
 
-  userProfile$: Observable<UserProfile | undefined>;
-  userProfile: UserProfile | undefined;
+  userProfile?: UserProfile;
 
   isEditing = false;
   isSending = false;
@@ -41,7 +43,7 @@ export class UserProfileComponent implements OnInit {
     private userService: UserService,
     private modalService: ModalService,
     private router: Router,
-    private ngZone: NgZone
+    private notificationService: NotificationService
   ) {}
 
   ngOnInit(): void {
@@ -87,7 +89,7 @@ export class UserProfileComponent implements OnInit {
   }
 
   onClickCancel(): void {
-    const cancelModalRef = this.cancelModal();
+    const cancelModalRef = this.getCancelModal();
     cancelModalRef.afterClosed.pipe(take(1)).subscribe((result) => {
       if (!result) return;
       this.initForm();
@@ -96,14 +98,12 @@ export class UserProfileComponent implements OnInit {
   }
 
   onClickBack(): void {
-    const backModalRef = this.backModal();
+    const backModalRef = this.getBackModal();
     backModalRef.afterClosed.pipe(take(1)).subscribe((result) => {
       if (!result) return;
 
       this.isEditing = false;
-      this.ngZone.run(() => {
-        this.router.navigate(['']);
-      });
+      this.router.navigate(['']);
     });
   }
 
@@ -135,14 +135,22 @@ export class UserProfileComponent implements OnInit {
         ...userInfo,
         id: this.userProfile?.id,
       })
+      .pipe(
+        finalize(() => {
+          this.initForm();
+          this.isSending = false;
+          this.isEditing = false;
+        })
+      )
       .subscribe({
         next: (userProfile) => {
           this.userProfile = userProfile;
         },
         complete: () => {
-          this.initForm();
-          this.isSending = false;
-          this.isEditing = false;
+          this.showNotificationSuccess();
+        },
+        error: (error) => {
+          this.showNotificationError(error);
         },
       });
   }
@@ -154,15 +162,28 @@ export class UserProfileComponent implements OnInit {
     );
   }
 
-  backModal(): ModalRef {
+  getBackModal(): ModalRef {
     return this.modalService.open(ConfirmationModalComponent, backModalConfig);
   }
 
-  cancelModal(): ModalRef {
+  getCancelModal(): ModalRef {
     return this.modalService.open(
       ConfirmationModalComponent,
       cancelModalConfig
     );
+  }
+
+  showNotificationSuccess(): void {
+    this.notificationService.success(
+      'User profile updated successfully',
+      'Success!'
+    );
+  }
+
+  showNotificationError(
+    error = 'An error has occurred while updating the user profile'
+  ): void {
+    this.notificationService.error(error, 'Unexpected error!');
   }
 
   getControl(controlName: string): AbstractControl {
