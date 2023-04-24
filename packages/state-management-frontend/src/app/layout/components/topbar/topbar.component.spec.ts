@@ -1,19 +1,18 @@
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { Router, Routes } from '@angular/router';
-import { of, Observable, throwError } from 'rxjs';
+import { RouterTestingModule } from '@angular/router/testing';
+import { Observable, of, throwError } from 'rxjs';
+import { TopbarComponent } from './topbar.component';
+import { RoleLayout, UserLayout } from '../../models/layout.model';
+import { LayoutService } from '../../services/layout.service';
+import { MOCK_USER_LAYOUT } from '../../tests/layout-mocks';
 import {
   ClappTopbarModule,
   ClappImageDisplayModule,
   ClappNotificationModule,
   NotificationService,
 } from '@clapp1/clapp-angular';
-
-import { TopbarComponent } from './topbar.component';
-import { LayoutService } from '../../services/layout.service';
-import { MOCK_USER_LAYOUT } from '../../tests/layout-mocks';
-import { RoleLayout, UserLayout } from '../../models/layout.model';
 
 @Component({
   selector: 'app-mock-user-profile',
@@ -100,7 +99,7 @@ describe('TopbarComponent', () => {
     it('should navigate to the user profile when clicking on the profile picture', () => {
       const navigateSpy = jest.spyOn(router, 'navigate');
       component.goToProfile();
-      expect(navigateSpy).toHaveBeenCalledWith(['/users/profile']);
+      expect(navigateSpy).toHaveBeenCalledWith(['/profile']);
     });
 
     it('should call goToProfile() when the image container is clicked', () => {
