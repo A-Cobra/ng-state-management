@@ -1,10 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { UserInterface } from '@state-management-app/types';
 import { finalize, take } from 'rxjs/operators';
-import { UserProfile } from './../../models/user.model';
 import { ConfirmationModalComponent } from '../../../shared/components/confirmation-modal/confirmation-modal.component';
 import { UserService } from '../../services/user.service';
-import { emailRegex, onlyNumberRegex, onlyTextRegex } from '../../utils/regex';
+import {
+  emailRegex,
+  onlyNumberRegex,
+  onlyTextRegex,
+} from '../../utils/user.regex';
 import {
   ModalRef,
   ModalService,
@@ -21,7 +25,7 @@ import {
   backModalConfig,
   cancelModalConfig,
   saveChangesModalConfig,
-} from '../../utils/modal-config';
+} from '../../utils/user.modal-config';
 
 @Component({
   selector: 'app-user-profile',
@@ -31,7 +35,7 @@ import {
 export class UserProfileComponent implements OnInit {
   profileForm: FormGroup;
 
-  userProfile?: UserProfile;
+  userProfile?: UserInterface;
 
   isEditing = false;
   isSending = false;
@@ -55,7 +59,7 @@ export class UserProfileComponent implements OnInit {
         })
       )
       .subscribe({
-        next: (userProfile: UserProfile | undefined) => {
+        next: (userProfile: UserInterface | undefined) => {
           this.userProfile = userProfile;
           this.initForm();
         },
@@ -72,11 +76,11 @@ export class UserProfileComponent implements OnInit {
         [Validators.required, Validators.pattern(onlyTextRegex)],
       ],
       lastName: [
-        this.userProfile?.lastName,
+        this.userProfile?.lastname,
         [Validators.required, Validators.pattern(onlyTextRegex)],
       ],
       phoneNumber: [
-        this.userProfile?.phoneNumber,
+        this.userProfile?.contactNumber,
         [Validators.required, Validators.pattern(onlyNumberRegex)],
       ],
       email: [
@@ -123,17 +127,20 @@ export class UserProfileComponent implements OnInit {
   }
 
   saveChanges(): void {
-    const userInfo: UserProfile = {
-      name: this.getControl('name').value.trim(),
-      lastName: this.getControl('lastName').value.trim(),
-      phoneNumber: this.getControl('phoneNumber').value.trim(),
-      email: this.getControl('email').value.trim(),
+    if (!this.userProfile) return;
+
+    const userInfo: UserInterface = {
+      ...this.userProfile,
+      name: this.profileForm.get('name')?.value.trim(),
+      lastname: this.profileForm.get('lastName')?.value.trim(),
+      contactNumber: this.profileForm.get('phoneNumber')?.value.trim(),
+      email: this.profileForm.get('email')?.value.trim(),
     };
 
     this.userService
       .saveUserProfile({
         ...userInfo,
-        id: this.userProfile?.id,
+        userId: this.userProfile.userId,
       })
       .pipe(
         finalize(() => {

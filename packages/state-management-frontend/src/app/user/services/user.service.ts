@@ -1,19 +1,19 @@
 import { Injectable } from '@angular/core';
+import { UserInterface } from '@state-management-app/types';
 import { delay, Observable, of } from 'rxjs';
-import { UserProfile } from '../models/user.model';
-import { mockUser } from '../test/mocks';
+import { userMock } from '../test/user.mocks';
 
 @Injectable()
 export class UserService {
-  #usersProfileData: UserProfile = mockUser;
+  #usersProfileData: UserInterface = userMock;
 
-  getUserProfile(): Observable<UserProfile | undefined> {
+  getUserProfile(): Observable<UserInterface | undefined> {
     // TODO: Replace with real implementation when BE be ready.
 
     return of(this.#usersProfileData).pipe(delay(2000));
   }
 
-  saveUserProfile(userProfile: UserProfile): Observable<UserProfile> {
+  saveUserProfile(userProfile: UserInterface): Observable<UserInterface> {
     // TODO: Replace with real implementation when BE be ready.
     return of(userProfile);
   }

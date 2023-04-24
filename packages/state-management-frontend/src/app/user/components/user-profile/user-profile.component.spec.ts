@@ -10,7 +10,7 @@ import { UserProfileComponent } from './user-profile.component';
 import { ConfirmationModalComponent } from '../../../shared/components/confirmation-modal/confirmation-modal.component';
 import { LoaderComponent } from '../../../shared/components/loader/loader.component';
 import { UserService } from '../../services/user.service';
-import { mockUser } from '../../test/mocks';
+import { userMock } from '../../test/user.mocks';
 import {
   ClappButtonModule,
   ClappInputHelpersModule,
@@ -22,11 +22,11 @@ import {
   backModalConfig,
   cancelModalConfig,
   saveChangesModalConfig,
-} from '../../utils/modal-config';
+} from '../../utils/user.modal-config';
 
 const userServiceMock = {
-  getUserProfile: jest.fn().mockReturnValue(of(mockUser)),
-  saveUserProfile: jest.fn().mockReturnValue(of(mockUser)),
+  getUserProfile: jest.fn().mockReturnValue(of(userMock)),
+  saveUserProfile: jest.fn().mockReturnValue(of(userMock)),
 };
 
 const modalServiceMock = {
@@ -108,10 +108,15 @@ describe('UserProfileComponent', () => {
   });
 
   it('should initialize the form', () => {
-    expect({
-      ...component.profileForm.value,
-      id: component.userProfile?.id,
-    }).toStrictEqual(mockUser);
+    const userInfo = {
+      ...component.userProfile,
+      name: component.profileForm.get('name')?.value.trim(),
+      lastname: component.profileForm.get('lastName')?.value.trim(),
+      contactNumber: component.profileForm.get('phoneNumber')?.value.trim(),
+      email: component.profileForm.get('email')?.value.trim(),
+    };
+
+    expect(userInfo).toStrictEqual(userMock);
     expect(component.profileForm.disabled).toBe(true);
   });
 
@@ -133,7 +138,7 @@ describe('UserProfileComponent', () => {
     expect(component.isSending).toBe(false);
     expect(component.isEditing).toBe(false);
     expect(component.profileForm.disabled).toBe(true);
-    expect(component.userProfile).toEqual(mockUser);
+    expect(component.userProfile).toEqual(userMock);
   });
 
   describe('should display inputs', () => {
