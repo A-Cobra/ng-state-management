@@ -21,6 +21,7 @@
         formControlName="name"
         label="Name*"
         [error]="name.invalid && (name.touched || name.dirty)"
+        [success]="name.valid"
       ></clapp-text-input>
       <clapp-helper-text
         *ngIf="name.invalid && (name.touched || name.dirty)"
@@ -38,35 +39,50 @@
 
     <div class="form__action-buttons">
       <clapp-button
-        buttonWidth="130px"
         color="secondary"
         type="button"
         plusIcon="ri-arrow-left-s-line"
-        routerLink="/"
+        routerLink="/product-categories"
         >Go back</clapp-button
       >
       <clapp-button
         *ngIf="form.enabled; else editButton"
         [disabled]="form.invalid"
-        buttonWidth="130px"
         color="primary"
         type="submit"
+        [plusIcon]="
+          isCreate ? submitButtonIcons['create'] : submitButtonIcons['save']
+        "
       >
         {{ isCreate ? 'Create' : 'Save' }}
       </clapp-button>
       <ng-template #editButton>
         <clapp-button
-          buttonWidth="130px"
           color="primary"
           type="button"
           (click)="form.enable()"
+          [plusIcon]="submitButtonIcons['edit']"
           >Edit</clapp-button
         >
       </ng-template>
     </div>
   </form>
 
-  <ng-template #error>{{ productCategoryError?.message }}</ng-template>
+  <ng-template #error>
+    <div class="not-found-message">
+      <clapp-no-results-found
+        [customText]="
+          productCategoryError?.message ||
+          'The product category you were looking for does not exist.'
+        "
+      ></clapp-no-results-found>
+      <clapp-button
+        routerLink="/product-categories"
+        plusIcon="ri-arrow-left-s-line"
+        >Go to product category list</clapp-button
+      >
+    </div>
+  </ng-template>
 </ng-container>
 
 <ng-template #loading>

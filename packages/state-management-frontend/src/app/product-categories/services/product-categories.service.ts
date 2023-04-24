@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
 
 import { PRODUCT_CATEGORIES } from '../data/product-categories';
+import { ProductCategoryInterface } from '@state-management-app/types';
 
 import { delay, Observable, of, throwError } from 'rxjs';
-
-import { ProductCategoryInterface } from '@state-management-app/types';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductCategoriesService {
+  //TODO: replace all methods with http requests when backend is ready
   #productCategories: ProductCategoryInterface[] = PRODUCT_CATEGORIES;
   getProductCategory(id: string): Observable<ProductCategoryInterface> {
     const productCategory = this.#productCategories.find(
@@ -25,12 +25,6 @@ export class ProductCategoriesService {
   createProductCategory(
     productCategory: ProductCategoryInterface
   ): Observable<ProductCategoryInterface> {
-    if (productCategory.name === 'error') {
-      return throwError(
-        () =>
-          new Error('There was an error while creating your product category')
-      );
-    }
     const productCategoryWithId = {
       id: String(this.#productCategories.length + 1),
       ...productCategory,
@@ -43,13 +37,6 @@ export class ProductCategoriesService {
     id: string,
     updatedProductCategory: Partial<ProductCategoryInterface>
   ): Observable<ProductCategoryInterface> {
-    if (updatedProductCategory.name === 'error') {
-      return throwError(
-        () =>
-          new Error('There was an error while updating your product category')
-      );
-    }
-
     this.#productCategories = this.#productCategories.map((productCategory) =>
       productCategory.id === id
         ? { id, ...productCategory, ...updatedProductCategory }

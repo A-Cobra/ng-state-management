@@ -20,9 +20,9 @@ import {
   tap,
 } from 'rxjs';
 
-import { ProductCategoryInterface } from '@state-management-app/types';
-import { ProductCategoryFormComponent } from '../product-categories-form/product-category-form.component';
 import { FormSubmitEvent } from '../../models/form-submit-event.model';
+import { ProductCategoryFormComponent } from '../product-categories-form/product-category-form.component';
+import { ProductCategoryInterface } from '@state-management-app/types';
 
 @Component({
   selector: 'app-product-categories',

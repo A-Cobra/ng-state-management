@@ -2,14 +2,15 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 
+import { LoaderComponent } from '../shared/components/loader/loader.component';
 import { ProductCategoriesRoutingModule } from './product-categories-routing.module';
 import { ProductCategoryComponent } from './components/product-categories/product-category.component';
 import { ProductCategoryFormComponent } from './components/product-categories-form/product-category-form.component';
-import { LoaderComponent } from '../shared/components/loader/loader.component';
 
 import {
   ClappButtonModule,
   ClappInputHelpersModule,
+  ClappNoResultsModule,
   ClappNotificationModule,
   ClappTextInputModule,
   ModalModule,
@@ -20,6 +21,7 @@ const clappModules = [
   ClappButtonModule,
   ClappNotificationModule,
   ClappInputHelpersModule,
+  ClappNoResultsModule,
 ];
 
 @NgModule({

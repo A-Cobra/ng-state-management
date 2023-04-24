@@ -1,12 +1,12 @@
 import { inject } from '@angular/core';
 import { CanDeactivateFn } from '@angular/router';
 
+import { ConfirmationModalComponent } from '../components/confirmation-modal/confirmation-modal.component';
 import { UnsavedForm } from '../models/unsaved-form.model';
 
 import { ModalService } from '@clapp1/clapp-angular';
 
 import { Observable, of } from 'rxjs';
-import { ConfirmationModalComponent } from '../components/confirmation-modal/confirmation-modal.component';
 
 export const unsavedFormGuard: CanDeactivateFn<UnsavedForm> = (
   component: UnsavedForm

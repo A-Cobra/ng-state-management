@@ -1,5 +1,4 @@
 import {
-  ChangeDetectorRef,
   Component,
   EventEmitter,
   inject,
@@ -32,13 +31,16 @@ export class ProductCategoryFormComponent implements OnChanges {
   @Output() formSubmit = new EventEmitter<FormSubmitEvent>();
   readonly #fb = inject(NonNullableFormBuilder);
   readonly #notificationService = inject(NotificationService);
-  readonly #cdr = inject(ChangeDetectorRef);
   form = this.#fb.group({
     name: ['', Validators.required],
     description: [''],
   });
   productCategoryId: string;
-  isSwitchChecked = false;
+  submitButtonIcons = {
+    create: 'ri-add-fill',
+    edit: 'ri-edit-fill',
+    save: 'ri-save-fill',
+  };
 
   get name(): AbstractControl {
     return this.form.get('name') as AbstractControl;
@@ -56,7 +58,7 @@ export class ProductCategoryFormComponent implements OnChanges {
       if (productCategorySubmitError.currentValue) {
         this.#notificationService.error(
           productCategorySubmitError.currentValue.message,
-          'Unexpected error',
+          'Error',
           {
             position: 'bottom-right',
             duration: 5000,

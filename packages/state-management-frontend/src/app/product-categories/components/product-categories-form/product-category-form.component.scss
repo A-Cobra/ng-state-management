@@ -1,3 +1,19 @@
+@use 'styles.scss' as *;
+
+:host::ng-deep {
+  .form__action-buttons {
+    clapp-button {
+      button {
+        width: 140px;
+
+        @include for-phone {
+          width: 100%;
+        }
+      }
+    }
+  }
+}
+
 .form {
   display: flex;
   flex-direction: column;
@@ -7,6 +23,10 @@
     display: flex;
     justify-content: flex-end;
     gap: 1rem;
+
+    @include for-phone {
+      flex-direction: column-reverse;
+    }
   }
 
   clapp-text-input {
@@ -16,4 +36,10 @@
   clapp-helper-text {
     position: absolute;
   }
+}
+
+.not-found-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
