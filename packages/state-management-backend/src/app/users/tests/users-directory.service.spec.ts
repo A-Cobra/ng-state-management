@@ -9,6 +9,7 @@ import { UserCredentials } from '../entities/user-credentials.entity';
 import { getRepositoryToken } from '@mikro-orm/nestjs';
 import { RolesService } from '../services/role.service';
 import { UsersService } from '../services/users.service';
+import { createMock } from '@golevelup/ts-jest';
 
 describe('UsersDirectoryService', () => {
   let directoryService: UsersDirectoryService;
@@ -44,7 +45,9 @@ describe('UsersDirectoryService', () => {
           },
         },
       ],
-    }).compile();
+    })
+      .useMocker(createMock)
+      .compile();
 
     directoryService = moduleRef.get<UsersDirectoryService>(
       UsersDirectoryService

@@ -1,6 +1,8 @@
 import {
+  Collection,
   Entity,
   ManyToOne,
+  OneToMany,
   OneToOne,
   PrimaryKey,
   Property,
@@ -12,6 +14,7 @@ import { Courier } from '../../couriers/entities/courier.entity';
 import { Payment } from '../../payment/entities/payment.entity';
 import { OrderStatus } from './order-status.entity';
 import { Customer } from '../../customers/entities/customer.entity';
+import { OrderDetail } from './order-details.entity';
 
 @Entity()
 export class Order {
@@ -56,4 +59,7 @@ export class Order {
 
   @OneToOne(() => BusinessHq)
   business: BusinessHq;
+
+  @OneToMany(() => OrderDetail, (orderDetail) => orderDetail.order)
+  orderDetails = new Collection<OrderDetail>(this);
 }

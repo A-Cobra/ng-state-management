@@ -12,10 +12,12 @@ import { PaginationDto } from '../../common/dtos/pagination.dto';
 import { CreateCourierReviewDto } from '../dto/create-courier-review.dto';
 import { CreateReviewDto } from '../dto/create-product-review.dto';
 import { Review } from '../entities/review.entity';
+import { ApiTags } from '@nestjs/swagger';
 import { PaginatedData } from '../interfaces/pagination.interface';
 import { CourierReviewsService } from '../services/courier-review.service';
 import { ProductReviewsService } from '../services/product-reviews.service';
 
+@ApiTags('Product reviews')
 @Controller({
   path: 'reviews',
   version: '1',
