@@ -1,8 +1,8 @@
-import { IsBoolean, IsDate, IsIn, IsOptional, IsString } from 'class-validator';
+import { IsDate, IsOptional, IsString } from 'class-validator';
 import { PaginationDto } from '../../common/dtos/pagination.dto';
 import { ApiProperty } from '@nestjs/swagger';
 
-export class BusinessOrdersAnalyticsDto extends PaginationDto {
+export class BusinessSalesAnalyticsDto extends PaginationDto {
   @ApiProperty()
   @IsOptional()
   @IsString()
@@ -10,8 +10,13 @@ export class BusinessOrdersAnalyticsDto extends PaginationDto {
 
   @ApiProperty()
   @IsOptional()
-  @IsBoolean()
-  sortAsc?: boolean = true;
+  @IsString()
+  businessId?: string;
+
+  @ApiProperty()
+  @IsOptional()
+  @IsString()
+  category?: string;
 
   @ApiProperty()
   @IsOptional()
