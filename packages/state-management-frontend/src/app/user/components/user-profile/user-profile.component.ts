@@ -75,11 +75,11 @@ export class UserProfileComponent implements OnInit {
         this.userProfile?.name,
         [Validators.required, Validators.pattern(onlyTextRegex)],
       ],
-      lastName: [
+      lastname: [
         this.userProfile?.lastname,
         [Validators.required, Validators.pattern(onlyTextRegex)],
       ],
-      phoneNumber: [
+      contactNumber: [
         this.userProfile?.contactNumber,
         [Validators.required, Validators.pattern(onlyNumberRegex)],
       ],
@@ -132,16 +132,13 @@ export class UserProfileComponent implements OnInit {
     const userInfo: UserInterface = {
       ...this.userProfile,
       name: this.profileForm.get('name')?.value.trim(),
-      lastname: this.profileForm.get('lastName')?.value.trim(),
-      contactNumber: this.profileForm.get('phoneNumber')?.value.trim(),
+      lastname: this.profileForm.get('lastname')?.value.trim(),
+      contactNumber: this.profileForm.get('contactNumber')?.value.trim(),
       email: this.profileForm.get('email')?.value.trim(),
     };
 
     this.userService
-      .saveUserProfile({
-        ...userInfo,
-        userId: this.userProfile.userId,
-      })
+      .saveUserProfile(userInfo)
       .pipe(
         finalize(() => {
           this.initForm();
