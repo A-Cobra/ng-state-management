@@ -18,6 +18,8 @@ import { CreateBranchDto } from '../dto/create-branch.dto';
 import { UpdateBranchDto } from '../dto/update-branch.dto';
 import { BusinessBranch } from '../entities/business-branch.entity';
 import { BranchesService } from '../services/branches.service';
+import { Authorized } from '../../auth/decorator/authorized.decorator';
+import { ValidRoles } from '../../auth/interfaces/valid-roles.type';
 
 @ApiTags('Branches')
 @Controller({
@@ -27,7 +29,7 @@ import { BranchesService } from '../services/branches.service';
 export class BranchesController {
   constructor(private readonly branchesServices: BranchesService) {}
 
-  @UseGuards(JwtAuthGuard)
+  @Authorized(ValidRoles.business)
   @Get()
   getAllBranches(
     @Query() paginationDto: PaginationDto
@@ -35,7 +37,7 @@ export class BranchesController {
     return this.branchesServices.getAllBranches(paginationDto);
   }
 
-  @UseGuards(JwtAuthGuard)
+  @Authorized(ValidRoles.business)
   @Get('/search')
   searchBranches(
     @Query('name') name: string,
@@ -44,7 +46,7 @@ export class BranchesController {
     return this.branchesServices.search(name, paginationDto);
   }
 
-  @UseGuards(JwtAuthGuard)
+  @Authorized(ValidRoles.business)
   @Get('business/:businessId')
   getBranchesByBusiness(
     @Param('businessId') businessId: string,
@@ -56,13 +58,13 @@ export class BranchesController {
     );
   }
 
-  @UseGuards(JwtAuthGuard)
+  @Authorized(ValidRoles.business)
   @Get(':idBranch')
   getSingleBranch(@Param('idBranch') id: string) {
     return this.branchesServices.findById(id);
   }
 
-  @UseGuards(JwtAuthGuard)
+  @Authorized(ValidRoles.business)
   @Post(':businessId')
   @HttpCode(201)
   create(
@@ -72,13 +74,13 @@ export class BranchesController {
     return this.branchesServices.create(businessId, branch);
   }
 
-  @UseGuards(JwtAuthGuard)
+  @Authorized(ValidRoles.business)
   @Patch(':id')
   update(@Param('id') id: string, @Body() branch: UpdateBranchDto) {
     return this.branchesServices.update(id, branch);
   }
 
-  @UseGuards(JwtAuthGuard)
+  @Authorized(ValidRoles.business)
   @Delete(':id')
   @HttpCode(204)
   async delete(@Param('id') id: string) {
