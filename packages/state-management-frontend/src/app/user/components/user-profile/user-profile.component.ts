@@ -20,7 +20,6 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-
 import {
   backModalConfig,
   cancelModalConfig,
@@ -131,10 +130,7 @@ export class UserProfileComponent implements OnInit {
 
     const userInfo: UserInterface = {
       ...this.userProfile,
-      name: this.profileForm.get('name')?.value.trim(),
-      lastname: this.profileForm.get('lastname')?.value.trim(),
-      contactNumber: this.profileForm.get('contactNumber')?.value.trim(),
-      email: this.profileForm.get('email')?.value.trim(),
+      ...this.profileForm.value,
     };
 
     this.userService

@@ -42,6 +42,8 @@
         label="Name*"
         name="nameInput"
         type="text"
+        stateManagementAppTrimText
+        [reactiveFormControl]="getControl('name')"
       ></clapp-text-input>
       <clapp-helper-text
         *ngIf="
@@ -83,6 +85,8 @@
         label="Last name*"
         name="lastnameInput"
         type="text"
+        stateManagementAppTrimText
+        [reactiveFormControl]="getControl('lastname')"
       ></clapp-text-input>
       <clapp-helper-text
         *ngIf="
@@ -126,7 +130,9 @@
         id="emailInput"
         label="Email*"
         name="emailInput"
-        type="email"
+        type="text"
+        stateManagementAppTrimText
+        [reactiveFormControl]="getControl('email')"
       ></clapp-text-input>
       <clapp-helper-text
         *ngIf="
@@ -169,6 +175,8 @@
         label="Phone number*"
         name="contactNumberInput"
         type="tel"
+        stateManagementAppTrimText
+        [reactiveFormControl]="getControl('contactNumber')"
       ></clapp-text-input>
       <clapp-helper-text
         *ngIf="
