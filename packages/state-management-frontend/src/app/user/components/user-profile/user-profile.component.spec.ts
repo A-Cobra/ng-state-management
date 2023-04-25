@@ -8,6 +8,7 @@ import { of, throwError } from 'rxjs';
 import { UserProfileComponent } from './user-profile.component';
 import { ConfirmationModalComponent } from '../../../shared/components/confirmation-modal/confirmation-modal.component';
 import { LoaderComponent } from '../../../shared/components/loader/loader.component';
+import { TrimTextDirective } from '../../../shared/directives/trim-text.directive';
 import { UserService } from '../../services/user.service';
 import { routes, userMock } from '../../test/user.mocks';
 import {
@@ -55,6 +56,7 @@ describe('UserProfileComponent', () => {
         ClappTextInputModule,
         ClappInputHelpersModule,
         ClappButtonModule,
+        TrimTextDirective,
       ],
       declarations: [UserProfileComponent],
       providers: [
