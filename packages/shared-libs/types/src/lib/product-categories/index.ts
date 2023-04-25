@@ -1,1 +1,1 @@
-export * from './product-category.interface';
+export * from './product-category.model';
