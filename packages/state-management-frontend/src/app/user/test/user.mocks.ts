@@ -1,3 +1,5 @@
+import { Component } from '@angular/core';
+import { Routes } from '@angular/router';
 import { UserInterface } from '@state-management-app/types';
 
 export const userMock: UserInterface = {
@@ -17,3 +19,15 @@ export const userMock: UserInterface = {
   picture: '',
   refreshToken: '',
 };
+
+@Component({
+  selector: 'app-home-component',
+  template: '<span> Mock Component </span>',
+})
+export class MockCustomerComponent {}
+export const routes: Routes = [
+  {
+    path: '',
+    component: MockCustomerComponent,
+  },
+];

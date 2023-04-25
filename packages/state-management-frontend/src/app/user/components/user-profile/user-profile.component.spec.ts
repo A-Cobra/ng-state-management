@@ -1,8 +1,7 @@
-import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { ActivatedRoute, Router, Routes } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NotificationService } from '@clapp1/clapp-angular';
 import { of, throwError } from 'rxjs';
@@ -10,14 +9,13 @@ import { UserProfileComponent } from './user-profile.component';
 import { ConfirmationModalComponent } from '../../../shared/components/confirmation-modal/confirmation-modal.component';
 import { LoaderComponent } from '../../../shared/components/loader/loader.component';
 import { UserService } from '../../services/user.service';
-import { userMock } from '../../test/user.mocks';
+import { routes, userMock } from '../../test/user.mocks';
 import {
   ClappButtonModule,
   ClappInputHelpersModule,
   ClappTextInputModule,
   ModalService,
 } from '@clapp1/clapp-angular';
-
 import {
   backModalConfig,
   cancelModalConfig,
@@ -40,17 +38,6 @@ const notificationServiceMock = {
   error: jest.fn(),
 };
 
-@Component({
-  selector: 'app-home-component',
-  template: '<span> Mock Component </span>',
-})
-class MockCustomerComponent {}
-const routes: Routes = [
-  {
-    path: '',
-    component: MockCustomerComponent,
-  },
-];
 describe('UserProfileComponent', () => {
   let component: UserProfileComponent;
   let fixture: ComponentFixture<UserProfileComponent>;
@@ -111,8 +98,8 @@ describe('UserProfileComponent', () => {
     const userInfo = {
       ...component.userProfile,
       name: component.profileForm.get('name')?.value.trim(),
-      lastname: component.profileForm.get('lastName')?.value.trim(),
-      contactNumber: component.profileForm.get('phoneNumber')?.value.trim(),
+      lastname: component.profileForm.get('lastname')?.value.trim(),
+      contactNumber: component.profileForm.get('contactNumber')?.value.trim(),
       email: component.profileForm.get('email')?.value.trim(),
     };
 
@@ -129,8 +116,8 @@ describe('UserProfileComponent', () => {
     component.onClickEdit();
     component.profileForm.setValue({
       name: 'Jane',
-      lastName: 'Doe',
-      phoneNumber: '987654321',
+      lastname: 'Doe',
+      contactNumber: '987654321',
       email: 'janedoe@test.com',
     });
     component.onClickSave();
@@ -148,10 +135,10 @@ describe('UserProfileComponent', () => {
     });
 
     it('should display the last name input', () => {
-      const lastNameInput = fixture.debugElement.query(
-        By.css('#lastNameInput')
+      const lastnameInput = fixture.debugElement.query(
+        By.css('#lastnameInput')
       );
-      expect(lastNameInput).toBeTruthy();
+      expect(lastnameInput).toBeTruthy();
     });
 
     it('should display the email input', () => {
@@ -159,11 +146,11 @@ describe('UserProfileComponent', () => {
       expect(emailInput).toBeTruthy();
     });
 
-    it('should display the phone number input', () => {
-      const phoneNumberInput = fixture.debugElement.query(
-        By.css('#phoneNumberInput')
+    it('should display the contact number input', () => {
+      const contactNumberInput = fixture.debugElement.query(
+        By.css('#contactNumberInput')
       );
-      expect(phoneNumberInput).toBeTruthy();
+      expect(contactNumberInput).toBeTruthy();
     });
   });
 
@@ -210,14 +197,14 @@ describe('UserProfileComponent', () => {
       expect(nameControl.hasError('pattern')).toBe(true);
     });
 
-    it('should display the lastName required error', () => {
-      const lastName = component.getControl('lastName');
+    it('should display the lastname required error', () => {
+      const lastName = component.getControl('lastname');
       lastName.setValue('');
       lastName.markAsDirty();
       fixture.detectChanges();
 
       const lastNameInputRequiredError = fixture.debugElement.query(
-        By.css('#lastNameInputRequiredError')
+        By.css('#lastnameInputRequiredError')
       );
 
       expect(lastNameInputRequiredError).toBeTruthy();
@@ -230,13 +217,13 @@ describe('UserProfileComponent', () => {
     });
 
     it('should display the lastName pattern error', () => {
-      const lastNameControl = component.getControl('lastName');
+      const lastNameControl = component.getControl('lastname');
       lastNameControl.setValue('1234');
       lastNameControl.markAsDirty();
       fixture.detectChanges();
 
       const lastNamePatternError = fixture.debugElement.query(
-        By.css('#lastNameInputPatternError')
+        By.css('#lastnameInputPatternError')
       );
 
       expect(lastNamePatternError).toBeTruthy();
@@ -287,42 +274,42 @@ describe('UserProfileComponent', () => {
       expect(emailControl.hasError('email')).toBe(true);
     });
 
-    it('should display the phone number required error', () => {
-      const phoneNumber = component.getControl('phoneNumber');
-      phoneNumber.setValue('');
-      phoneNumber.markAsDirty();
+    it('should display the contactNumber required error', () => {
+      const contactNumber = component.getControl('contactNumber');
+      contactNumber.setValue('');
+      contactNumber.markAsDirty();
       fixture.detectChanges();
 
       const phoneNumberInputRequiredError = fixture.debugElement.query(
-        By.css('#phoneNumberInputRequiredError')
+        By.css('#contactNumberInputRequiredError')
       );
 
       expect(phoneNumberInputRequiredError).toBeTruthy();
       expect(
         phoneNumberInputRequiredError.nativeElement.textContent.trim()
       ).toBe('This field is required.');
-      expect(phoneNumber.pristine).toBe(false);
+      expect(contactNumber.pristine).toBe(false);
       expect(component.profileForm.disabled).toBe(false);
-      expect(phoneNumber.hasError('required')).toBe(true);
+      expect(contactNumber.hasError('required')).toBe(true);
     });
 
-    it('should display the phoneNumber pattern error', () => {
-      const phoneNumberControl = component.getControl('phoneNumber');
-      phoneNumberControl.setValue('invalidphoneNumber');
-      phoneNumberControl.markAsDirty();
+    it('should display the contactNumber pattern error', () => {
+      const contactNumberControl = component.getControl('contactNumber');
+      contactNumberControl.setValue('invalidcontactNumber');
+      contactNumberControl.markAsDirty();
       fixture.detectChanges();
 
-      const phoneNumberPatternError = fixture.debugElement.query(
-        By.css('#phoneNumberInputPatternError')
+      const contactNumberPatternError = fixture.debugElement.query(
+        By.css('#contactNumberInputPatternError')
       );
 
-      expect(phoneNumberPatternError).toBeTruthy();
-      expect(phoneNumberPatternError.nativeElement.textContent.trim()).toBe(
+      expect(contactNumberPatternError).toBeTruthy();
+      expect(contactNumberPatternError.nativeElement.textContent.trim()).toBe(
         'This field must contain only numbers. 0-9'
       );
-      expect(phoneNumberControl.pristine).toBe(false);
+      expect(contactNumberControl.pristine).toBe(false);
       expect(component.profileForm.disabled).toBe(false);
-      expect(phoneNumberControl.hasError('pattern')).toBe(true);
+      expect(contactNumberControl.hasError('pattern')).toBe(true);
     });
   });
 
