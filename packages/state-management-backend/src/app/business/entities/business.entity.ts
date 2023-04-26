@@ -12,7 +12,7 @@ import { v4 } from 'uuid';
 import { Payroll } from '../../payroll/entities/payroll.entity';
 import { User } from '../../users/entities/user.entity';
 import { BusinessClassification } from './business-classification.entity';
-import { ProductCategory } from '../../product-category/entities/product-category.entity';
+import { ProductCategory } from '../../products/entities/product-category.entity';
 
 @Entity()
 export class BusinessHq extends User {
