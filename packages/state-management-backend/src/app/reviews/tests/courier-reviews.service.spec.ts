@@ -40,8 +40,6 @@ describe('ReviewsService', () => {
     payroll: new Payroll(),
     user: undefined,
     role: new Role(),
-    password: '',
-    isLoggedIn: false,
   };
 
   beforeEach(async () => {
@@ -87,8 +85,6 @@ describe('ReviewsService', () => {
         payroll: new Payroll(),
         user: undefined,
         role: new Role(),
-        password: '',
-        isLoggedIn: false,
       };
       const limit = 2;
       const reviews: Review[] = [

@@ -23,8 +23,6 @@ describe('AuthService', () => {
     email: 'user@mail.com',
     contactNumber: '3239239',
     deleted: false,
-    password: '',
-    isLoggedIn: false,
   };
 
   const credentialsStub = {
