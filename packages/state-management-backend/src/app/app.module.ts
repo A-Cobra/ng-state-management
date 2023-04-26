@@ -33,6 +33,7 @@ const envFilePath = getEnvPath(process.env.WORKDIR);
     BranchesModule,
     ReviewsModule,
     CustomersModule,
+    ProductsModule,
     CouriersModule,
     AnalyticsModule,
   ],

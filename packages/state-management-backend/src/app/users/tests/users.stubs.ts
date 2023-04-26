@@ -11,8 +11,6 @@ export const userDto: User = {
   email: 'user@mail.com',
   contactNumber: '3239239',
   deleted: false,
-  password: '',
-  isLoggedIn: false,
 };
 
 export const credentialsStub = {
