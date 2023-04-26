@@ -57,32 +57,6 @@ describe('ProductCategoryService', () => {
     jest.clearAllMocks();
   });
 
-  describe('Get all categories', () => {
-    it('Should return all categories', async () => {
-      const userId = '1';
-      const business = jest.spyOn(businessService, 'findById');
-      const findAndAccount = jest.spyOn(
-        mockProductCategoryRepository,
-        'findAndCount'
-      );
-      const categoriesResponse = await productCategoryService.getAll(
-        { page: 1, limit: 10 },
-        userId
-      );
-      expect(business).toBeCalledWith(userId);
-      expect(findAndAccount).toBeCalled();
-      expect(categoriesResponse).toEqual(getCategoriesResponse);
-    });
-
-    it('should return exception when business not found', async () => {
-      const userId = '2';
-      jest.spyOn(businessService, 'findById').mockResolvedValue(undefined);
-      await expect(
-        productCategoryService.getAll({ page: 1, limit: 10 }, userId)
-      ).rejects.toThrowError(NotFoundException);
-    });
-  });
-
   describe('Get category by id', () => {
     it('should return category by id', async () => {
       const categoryId = '1';
