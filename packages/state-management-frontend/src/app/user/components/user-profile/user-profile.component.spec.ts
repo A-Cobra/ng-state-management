@@ -1,30 +1,31 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { NotificationService } from '@clapp1/clapp-angular';
+import { of, throwError } from 'rxjs';
+import { UserProfileComponent } from './user-profile.component';
+import { ConfirmationModalComponent } from '../../../shared/components/confirmation-modal/confirmation-modal.component';
+import { LoaderComponent } from '../../../shared/components/loader/loader.component';
+import { TrimTextDirective } from '../../../shared/directives/trim-text.directive';
+import { UserService } from '../../services/user.service';
+import { routes, userMock } from '../../test/user.mocks';
 import {
   ClappButtonModule,
   ClappInputHelpersModule,
   ClappTextInputModule,
   ModalService,
 } from '@clapp1/clapp-angular';
-import { of } from 'rxjs';
-
-import { ConfirmationModalComponent } from '../../../shared/components/confirmation-modal/confirmation-modal.component';
-import { LoaderComponent } from '../../../shared/components/loader/loader.component';
-import { UserService } from '../../services/user.service';
-import { mockUser } from '../../test/mocks';
 import {
   backModalConfig,
   cancelModalConfig,
   saveChangesModalConfig,
-} from '../../utils/modal-config';
-import { UserProfileComponent } from './user-profile.component';
+} from '../../utils/user.modal-config';
 
 const userServiceMock = {
-  getUserProfile: jest.fn().mockReturnValue(of(mockUser)),
-  saveUserProfile: jest.fn().mockReturnValue(of(mockUser)),
+  getUserProfile: jest.fn().mockReturnValue(of(userMock)),
+  saveUserProfile: jest.fn().mockReturnValue(of(userMock)),
 };
 
 const modalServiceMock = {
@@ -33,25 +34,32 @@ const modalServiceMock = {
   })),
 };
 
+const notificationServiceMock = {
+  success: jest.fn(),
+  error: jest.fn(),
+};
+
 describe('UserProfileComponent', () => {
   let component: UserProfileComponent;
   let fixture: ComponentFixture<UserProfileComponent>;
   let userService: UserService;
   let modalService: ModalService;
+  let notificationService: NotificationService;
+  let router: Router;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule,
+        RouterTestingModule.withRoutes(routes),
         ReactiveFormsModule,
         LoaderComponent,
         ClappTextInputModule,
         ClappInputHelpersModule,
         ClappButtonModule,
+        TrimTextDirective,
       ],
       declarations: [UserProfileComponent],
       providers: [
-        RouterTestingModule,
         {
           provide: UserService,
           useValue: userServiceMock,
@@ -60,13 +68,19 @@ describe('UserProfileComponent', () => {
           provide: ModalService,
           useValue: modalServiceMock,
         },
+        {
+          provide: NotificationService,
+          useValue: notificationServiceMock,
+        },
       ],
     }).compileComponents();
 
+    router = TestBed.inject(Router);
     fixture = TestBed.createComponent(UserProfileComponent);
     component = fixture.componentInstance;
     userService = TestBed.inject(UserService);
     modalService = TestBed.inject(ModalService);
+    notificationService = TestBed.inject(NotificationService);
     TestBed.inject(ActivatedRoute);
     fixture.detectChanges();
   });
@@ -83,10 +97,15 @@ describe('UserProfileComponent', () => {
   });
 
   it('should initialize the form', () => {
-    expect({
-      ...component.profileForm.value,
-      id: component.userProfile?.id,
-    }).toStrictEqual(mockUser);
+    const userInfo = {
+      ...component.userProfile,
+      name: component.profileForm.get('name')?.value.trim(),
+      lastname: component.profileForm.get('lastname')?.value.trim(),
+      contactNumber: component.profileForm.get('contactNumber')?.value.trim(),
+      email: component.profileForm.get('email')?.value.trim(),
+    };
+
+    expect(userInfo).toStrictEqual(userMock);
     expect(component.profileForm.disabled).toBe(true);
   });
 
@@ -99,8 +118,8 @@ describe('UserProfileComponent', () => {
     component.onClickEdit();
     component.profileForm.setValue({
       name: 'Jane',
-      lastName: 'Doe',
-      phoneNumber: '987654321',
+      lastname: 'Doe',
+      contactNumber: '987654321',
       email: 'janedoe@test.com',
     });
     component.onClickSave();
@@ -108,7 +127,7 @@ describe('UserProfileComponent', () => {
     expect(component.isSending).toBe(false);
     expect(component.isEditing).toBe(false);
     expect(component.profileForm.disabled).toBe(true);
-    expect(component.userProfile).toEqual(mockUser);
+    expect(component.userProfile).toEqual(userMock);
   });
 
   describe('should display inputs', () => {
@@ -118,10 +137,10 @@ describe('UserProfileComponent', () => {
     });
 
     it('should display the last name input', () => {
-      const lastNameInput = fixture.debugElement.query(
-        By.css('#lastNameInput')
+      const lastnameInput = fixture.debugElement.query(
+        By.css('#lastnameInput')
       );
-      expect(lastNameInput).toBeTruthy();
+      expect(lastnameInput).toBeTruthy();
     });
 
     it('should display the email input', () => {
@@ -129,11 +148,11 @@ describe('UserProfileComponent', () => {
       expect(emailInput).toBeTruthy();
     });
 
-    it('should display the phone number input', () => {
-      const phoneNumberInput = fixture.debugElement.query(
-        By.css('#phoneNumberInput')
+    it('should display the contact number input', () => {
+      const contactNumberInput = fixture.debugElement.query(
+        By.css('#contactNumberInput')
       );
-      expect(phoneNumberInput).toBeTruthy();
+      expect(contactNumberInput).toBeTruthy();
     });
   });
 
@@ -180,14 +199,14 @@ describe('UserProfileComponent', () => {
       expect(nameControl.hasError('pattern')).toBe(true);
     });
 
-    it('should display the lastName required error', () => {
-      const lastName = component.getControl('lastName');
+    it('should display the lastname required error', () => {
+      const lastName = component.getControl('lastname');
       lastName.setValue('');
       lastName.markAsDirty();
       fixture.detectChanges();
 
       const lastNameInputRequiredError = fixture.debugElement.query(
-        By.css('#lastNameInputRequiredError')
+        By.css('#lastnameInputRequiredError')
       );
 
       expect(lastNameInputRequiredError).toBeTruthy();
@@ -200,13 +219,13 @@ describe('UserProfileComponent', () => {
     });
 
     it('should display the lastName pattern error', () => {
-      const lastNameControl = component.getControl('lastName');
+      const lastNameControl = component.getControl('lastname');
       lastNameControl.setValue('1234');
       lastNameControl.markAsDirty();
       fixture.detectChanges();
 
       const lastNamePatternError = fixture.debugElement.query(
-        By.css('#lastNameInputPatternError')
+        By.css('#lastnameInputPatternError')
       );
 
       expect(lastNamePatternError).toBeTruthy();
@@ -257,42 +276,42 @@ describe('UserProfileComponent', () => {
       expect(emailControl.hasError('email')).toBe(true);
     });
 
-    it('should display the phone number required error', () => {
-      const phoneNumber = component.getControl('phoneNumber');
-      phoneNumber.setValue('');
-      phoneNumber.markAsDirty();
+    it('should display the contactNumber required error', () => {
+      const contactNumber = component.getControl('contactNumber');
+      contactNumber.setValue('');
+      contactNumber.markAsDirty();
       fixture.detectChanges();
 
       const phoneNumberInputRequiredError = fixture.debugElement.query(
-        By.css('#phoneNumberInputRequiredError')
+        By.css('#contactNumberInputRequiredError')
       );
 
       expect(phoneNumberInputRequiredError).toBeTruthy();
       expect(
         phoneNumberInputRequiredError.nativeElement.textContent.trim()
       ).toBe('This field is required.');
-      expect(phoneNumber.pristine).toBe(false);
+      expect(contactNumber.pristine).toBe(false);
       expect(component.profileForm.disabled).toBe(false);
-      expect(phoneNumber.hasError('required')).toBe(true);
+      expect(contactNumber.hasError('required')).toBe(true);
     });
 
-    it('should display the phoneNumber pattern error', () => {
-      const phoneNumberControl = component.getControl('phoneNumber');
-      phoneNumberControl.setValue('invalidphoneNumber');
-      phoneNumberControl.markAsDirty();
+    it('should display the contactNumber pattern error', () => {
+      const contactNumberControl = component.getControl('contactNumber');
+      contactNumberControl.setValue('invalidcontactNumber');
+      contactNumberControl.markAsDirty();
       fixture.detectChanges();
 
-      const phoneNumberPatternError = fixture.debugElement.query(
-        By.css('#phoneNumberInputPatternError')
+      const contactNumberPatternError = fixture.debugElement.query(
+        By.css('#contactNumberInputPatternError')
       );
 
-      expect(phoneNumberPatternError).toBeTruthy();
-      expect(phoneNumberPatternError.nativeElement.textContent.trim()).toBe(
+      expect(contactNumberPatternError).toBeTruthy();
+      expect(contactNumberPatternError.nativeElement.textContent.trim()).toBe(
         'This field must contain only numbers. 0-9'
       );
-      expect(phoneNumberControl.pristine).toBe(false);
+      expect(contactNumberControl.pristine).toBe(false);
       expect(component.profileForm.disabled).toBe(false);
-      expect(phoneNumberControl.hasError('pattern')).toBe(true);
+      expect(contactNumberControl.hasError('pattern')).toBe(true);
     });
   });
 
@@ -314,9 +333,10 @@ describe('UserProfileComponent', () => {
   });
 
   describe('backModal', () => {
-    it('should open a confirmation modal with the correct parameters', () => {
+    it('should open a confirmation modal with the correct parameters and navigate to home', () => {
       const openSpy = jest.spyOn(modalService, 'open');
-      const backModalSpy = jest.spyOn(component, 'backModal');
+      const backModalSpy = jest.spyOn(component, 'getBackModal');
+      const navigateSpy = jest.spyOn(router, 'navigate');
       component.onClickBack();
 
       expect(openSpy).toHaveBeenCalledWith(
@@ -324,13 +344,14 @@ describe('UserProfileComponent', () => {
         backModalConfig
       );
       expect(backModalSpy).toHaveBeenCalled();
+      expect(navigateSpy).toHaveBeenCalledWith(['']);
     });
   });
 
   describe('cancelModal', () => {
     it('should open a confirmation modal with the correct parameters for cancel button', () => {
       const openSpy = jest.spyOn(modalService, 'open');
-      const cancelModalSpy = jest.spyOn(component, 'cancelModal');
+      const cancelModalSpy = jest.spyOn(component, 'getCancelModal');
       component.onClickCancel();
 
       expect(openSpy).toHaveBeenCalledWith(
@@ -338,6 +359,43 @@ describe('UserProfileComponent', () => {
         cancelModalConfig
       );
       expect(cancelModalSpy).toHaveBeenCalled();
+    });
+  });
+
+  describe('NotificationService', () => {
+    it('should show success notification', () => {
+      const successSpy = jest.spyOn(notificationService, 'success');
+      component.onClickEdit();
+      component.profileForm.patchValue({
+        phoneNumber: '1234567890',
+      });
+      component.onClickSave();
+
+      expect(successSpy).toHaveBeenCalledWith(
+        'User profile updated successfully',
+        'Success!'
+      );
+    });
+
+    it('should show error notification', () => {
+      jest
+        .spyOn(userService, 'saveUserProfile')
+        .mockReturnValue(
+          throwError('An error has occurred while updating the user profile')
+        );
+
+      const errorSpy = jest.spyOn(notificationService, 'error');
+
+      component.onClickEdit();
+      component.profileForm.patchValue({
+        phoneNumber: '1234567890',
+      });
+      component.onClickSave();
+
+      expect(errorSpy).toHaveBeenCalledWith(
+        'An error has occurred while updating the user profile',
+        'Unexpected error!'
+      );
     });
   });
 });

@@ -2,18 +2,12 @@ import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, Router, Routes } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { throwError } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { CustomerDetailsComponent } from './customer-details.component';
 import { ConfirmationModalComponent } from '../../../shared/components/confirmation-modal/confirmation-modal.component';
 import { CustomersService } from '../../services/customers.service';
+import { activatedRouteMock, MOCK_CUSTOMER } from '../../test/customers.mocks';
 import { backModalConfig, deleteModalConfig } from '../../utils/modal-config';
-import {
-  activatedRouteMock,
-  customerServiceMock,
-  MOCK_CUSTOMER,
-  modalServiceMock,
-  notificationServiceMock,
-} from '../../test/customers.mocks';
 
 import {
   ClappButtonModule,
@@ -26,6 +20,23 @@ import {
   ModalService,
   NotificationService,
 } from '@clapp1/clapp-angular';
+
+const customerServiceMock = {
+  getCustomer: jest.fn().mockReturnValue(of(MOCK_CUSTOMER)),
+  getIsAdminInfo: jest.fn().mockReturnValue(of(true)),
+  deleteCustomer: jest.fn().mockReturnValue(of(undefined)),
+};
+
+const modalServiceMock = {
+  open: jest.fn(() => ({
+    afterClosed: of(true),
+  })),
+};
+
+const notificationServiceMock = {
+  success: jest.fn(),
+  error: jest.fn(),
+};
 
 @Component({
   selector: 'app-customer-component',

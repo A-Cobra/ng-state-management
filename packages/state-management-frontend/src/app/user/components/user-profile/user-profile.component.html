@@ -42,6 +42,8 @@
         label="Name*"
         name="nameInput"
         type="text"
+        stateManagementAppTrimText
+        [reactiveFormControl]="getControl('name')"
       ></clapp-text-input>
       <clapp-helper-text
         *ngIf="
@@ -69,39 +71,41 @@
     <div class="profile__form__control">
       <clapp-text-input
         [error]="
-          getControl('lastName').invalid &&
-          !getControl('lastName').disabled &&
-          !getControl('lastName').pristine
+          getControl('lastname').invalid &&
+          !getControl('lastname').disabled &&
+          !getControl('lastname').pristine
         "
         [success]="
-          getControl('lastName').valid &&
-          !getControl('lastName').disabled &&
-          !getControl('lastName').pristine
+          getControl('lastname').valid &&
+          !getControl('lastname').disabled &&
+          !getControl('lastname').pristine
         "
-        formControlName="lastName"
-        id="lastNameInput"
+        formControlName="lastname"
+        id="lastnameInput"
         label="Last name*"
-        name="lastNameInput"
+        name="lastnameInput"
         type="text"
+        stateManagementAppTrimText
+        [reactiveFormControl]="getControl('lastname')"
       ></clapp-text-input>
       <clapp-helper-text
         *ngIf="
-          !getControl('lastName').disabled &&
-          getControl('lastName').hasError('required') &&
-          !getControl('lastName').pristine
+          !getControl('lastname').disabled &&
+          getControl('lastname').hasError('required') &&
+          !getControl('lastname').pristine
         "
-        id="lastNameInputRequiredError"
+        id="lastnameInputRequiredError"
         textState="error"
       >
         This field is required.
       </clapp-helper-text>
       <clapp-helper-text
         *ngIf="
-          !getControl('lastName').disabled &&
-          getControl('lastName').hasError('pattern') &&
-          !getControl('lastName').pristine
+          !getControl('lastname').disabled &&
+          getControl('lastname').hasError('pattern') &&
+          !getControl('lastname').pristine
         "
-        id="lastNameInputPatternError"
+        id="lastnameInputPatternError"
         textState="error"
       >
         This field must contain only letters.
@@ -126,7 +130,9 @@
         id="emailInput"
         label="Email*"
         name="emailInput"
-        type="email"
+        type="text"
+        stateManagementAppTrimText
+        [reactiveFormControl]="getControl('email')"
       ></clapp-text-input>
       <clapp-helper-text
         *ngIf="
@@ -155,37 +161,39 @@
     <div class="profile__form__control">
       <clapp-text-input
         [error]="
-          getControl('phoneNumber').invalid &&
-          !getControl('phoneNumber').disabled &&
-          !getControl('phoneNumber').pristine
+          getControl('contactNumber').invalid &&
+          !getControl('contactNumber').disabled &&
+          !getControl('contactNumber').pristine
         "
         [success]="
-          getControl('phoneNumber').valid &&
-          !getControl('phoneNumber').disabled &&
-          !getControl('phoneNumber').pristine
+          getControl('contactNumber').valid &&
+          !getControl('contactNumber').disabled &&
+          !getControl('contactNumber').pristine
         "
-        formControlName="phoneNumber"
-        id="phoneNumberInput"
+        formControlName="contactNumber"
+        id="contactNumberInput"
         label="Phone number*"
-        name="phoneNumberInput"
+        name="contactNumberInput"
         type="tel"
+        stateManagementAppTrimText
+        [reactiveFormControl]="getControl('contactNumber')"
       ></clapp-text-input>
       <clapp-helper-text
         *ngIf="
-          getControl('phoneNumber').hasError('required') &&
-          !getControl('phoneNumber').pristine
+          getControl('contactNumber').hasError('required') &&
+          !getControl('contactNumber').pristine
         "
-        id="phoneNumberInputRequiredError"
+        id="contactNumberInputRequiredError"
         textState="error"
       >
         This field is required.
       </clapp-helper-text>
       <clapp-helper-text
         *ngIf="
-          getControl('phoneNumber').hasError('pattern') &&
-          !getControl('phoneNumber').pristine
+          getControl('contactNumber').hasError('pattern') &&
+          !getControl('contactNumber').pristine
         "
-        id="phoneNumberInputPatternError"
+        id="contactNumberInputPatternError"
         textState="error"
       >
         This field must contain only numbers. 0-9
