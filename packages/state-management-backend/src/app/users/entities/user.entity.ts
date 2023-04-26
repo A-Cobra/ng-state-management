@@ -1,12 +1,5 @@
-import {
-  Entity,
-  ManyToOne,
-  OneToOne,
-  PrimaryKey,
-  Property,
-} from '@mikro-orm/core';
+import { Entity, PrimaryKey, Property } from '@mikro-orm/core';
 import { v4 } from 'uuid';
-import { Role } from '../entities/role.entity';
 
 @Entity()
 export abstract class User {
@@ -28,17 +21,8 @@ export abstract class User {
   @Property({ type: 'string', length: 20 })
   username: string;
 
-  @Property({ type: 'string', length: 50 })
-  password: string;
-
   @Property({ type: 'string', length: 15 })
   contactNumber: string;
-
-  @Property({ default: false })
-  isLoggedIn: boolean;
-
-  @Property({ nullable: true })
-  refreshToken?: string;
 
   @Property({ default: false })
   deleted?: boolean;
