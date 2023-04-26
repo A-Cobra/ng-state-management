@@ -16,33 +16,6 @@ export class ProductCategoryService {
     private readonly businessService: BusinessService
   ) {}
 
-  async getAll(
-    paginationDto: PaginationDto,
-    businessId: string
-  ): Promise<PaginationResult<ProductCategory>> {
-    const business = await this.businessService.findById(businessId);
-    if (!business) {
-      throw new NotFoundException('Business not found');
-    }
-    const { page, limit } = paginationDto;
-    const [data, total] = await this.productCategoryRepository.findAndCount(
-      { businesses: business, deleted: false },
-      { offset: (page - 1) * limit, limit: limit }
-    );
-
-    if (!data.length) {
-      throw new NotFoundException('Categories not found');
-    }
-
-    const totalPages = Math.ceil(total / limit);
-    return {
-      data,
-      totalResults: total,
-      page: Number(page),
-      totalPages,
-    };
-  }
-
   async search(
     paginationDto: PaginationDto,
     businessId: string,
