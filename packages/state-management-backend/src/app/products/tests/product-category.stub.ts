@@ -1,3 +1,5 @@
+import { businessStub } from '../../business/tests/business.stubs';
+
 export const getCategoriesResponse = {
   data: [
     {
@@ -32,6 +34,11 @@ export const singleCategory = {
   categoryId: '1',
   name: 'Category 2',
   description: 'Category 1 description',
+};
+
+export const newCategoryMock = {
+  ...singleCategory,
+  businesses: businessStub,
 };
 
 export const categories = [singleCategory];

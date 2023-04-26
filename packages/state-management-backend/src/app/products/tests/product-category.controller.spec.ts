@@ -2,10 +2,10 @@ import { Test } from '@nestjs/testing';
 import { ProductCategoryController } from '../controllers/product-category.controller';
 import { ProductCategoryService } from '../services/product-category.service';
 import {
-  getCategoriesResponse,
   categorySearch,
   singleCategory,
   categoryUpdated,
+  newCategoryMock,
 } from './product-category.stub';
 import { PaginationResult } from '@state-management-app/types';
 import { ProductCategory } from '../entities/product-category.entity';
@@ -13,11 +13,12 @@ import { BusinessService } from '../../business/services/business.service';
 import { EntityRepository } from '@mikro-orm/core';
 import { BusinessHq } from '../../business/entities/business.entity';
 import { businessStub } from '../../business/tests/business.stubs';
+import { JwtInfo } from '../../auth/interfaces/jwtinfo.type';
 
 describe('ProductCategoryController', () => {
   let productCategoryController: ProductCategoryController;
   let productCategoryService: ProductCategoryService;
-
+  const userId: JwtInfo = { exp: 1, iat: 1, sub: '1', role: 'business' };
   beforeEach(async () => {
     const mockBusinessService = {
       findById: jest
@@ -47,23 +48,6 @@ describe('ProductCategoryController', () => {
     );
   });
 
-  describe('Get all categories', () => {
-    it('Should return all categories', async () => {
-      const result = getCategoriesResponse;
-      jest
-        .spyOn(productCategoryService, 'getAll')
-        .mockImplementation(
-          () =>
-            Promise.resolve(result) as Promise<
-              PaginationResult<ProductCategory>
-            >
-        );
-      expect(
-        await productCategoryController.getAll({ page: 1, limit: 10 }, '1')
-      ).toEqual(result);
-    });
-  });
-
   describe('Search categories', () => {
     it('should return category by name', async () => {
       const result = categorySearch;
@@ -77,9 +61,9 @@ describe('ProductCategoryController', () => {
         );
       const paginationDto = { page: 1, limit: 10 };
       const name = 'Category 1';
-      const search = await productCategoryController.search(
+      const search = await productCategoryController.getAll(
         paginationDto,
-        '1',
+        userId,
         name
       );
       expect(search.data[0].name).toEqual(name);
@@ -106,7 +90,7 @@ describe('ProductCategoryController', () => {
 
   describe('Create category', () => {
     it('should create a category', async () => {
-      const result = singleCategory;
+      const result = newCategoryMock;
       jest
         .spyOn(productCategoryService, 'create')
         .mockImplementation(
@@ -120,10 +104,11 @@ describe('ProductCategoryController', () => {
       const newCategory = {
         categoryId,
         ...createCategoryDto,
+        businesses: businessStub,
       };
       const category = await productCategoryController.create(
         createCategoryDto,
-        '1'
+        userId
       );
       expect(category).toEqual(newCategory);
     });
