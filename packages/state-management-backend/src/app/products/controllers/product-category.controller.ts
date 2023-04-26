@@ -3,14 +3,12 @@ import {
   Controller,
   Delete,
   Get,
-  Headers,
   HttpCode,
   Param,
   Patch,
   Post,
   Query,
 } from '@nestjs/common';
-import * as jwt from 'jsonwebtoken';
 import { ApiTags } from '@nestjs/swagger';
 import { ProductCategoryService } from '../services/product-category.service';
 import { PaginationDto } from '../../common/dtos/pagination.dto';
@@ -33,15 +31,6 @@ export class ProductCategoryController {
     private readonly productCategoryService: ProductCategoryService
   ) {}
 
-  // @Get()
-  // @Authorized(ValidRoles.business)
-  // getAll(
-  //   @Query() paginationDto: PaginationDto,
-  //   @GetUser() userInfo: JwtInfo,
-  // ): Promise<PaginationResult<ProductCategory>> {
-  //   return this.productCategoryService.getAll(paginationDto, userInfo.sub);
-  // }
-
   @Get()
   @Authorized(ValidRoles.business)
   getAll(
@@ -56,20 +45,20 @@ export class ProductCategoryController {
     );
   }
 
-  @Get('category/:categoryId')
+  @Get(':categoryId')
   @Authorized(ValidRoles.business)
   getById(@Param('categoryId') categoryId: string): Promise<ProductCategory> {
     return this.productCategoryService.getById(categoryId);
   }
 
-  @Post(':businessId')
+  @Post()
   @HttpCode(201)
   @Authorized(ValidRoles.business)
   create(
     @Body() productCategory: CreateProductCategoryDto,
-    @Param('businessId') businessId: string
+    @GetUser() userInfo: JwtInfo
   ): Promise<ProductCategory> {
-    return this.productCategoryService.create(businessId, productCategory);
+    return this.productCategoryService.create(userInfo.sub, productCategory);
   }
 
   @Patch(':categoryId')
