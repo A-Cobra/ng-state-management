@@ -8,7 +8,7 @@ import { NotificationsModule } from '../notifications/notifications.module';
 import { UsersModule } from '../users/users.module';
 import { BusinessClassificationController } from './controllers/classification.controller';
 import { ClassificationService } from './services/classification.service';
-import { ProductCategory } from '../product-category/entities/product-category.entity';
+import { ProductCategory } from '../products/entities/product-category.entity';
 
 @Module({
   imports: [
