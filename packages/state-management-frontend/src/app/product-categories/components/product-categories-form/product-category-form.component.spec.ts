@@ -24,7 +24,7 @@ import {
       [productCategory]="productCategory"
       [productCategoryError]="productCategoryError"
       [productCategorySubmitError]="productCategorySubmitError"
-      [isCreate]="isCreate"
+      [isCreateMode]="isCreateMode"
     >
     </app-product-category-form>
   `,
@@ -35,7 +35,7 @@ class HostComponent {
   productCategory: ProductCategoryInterface | null;
   productCategoryError: Error | null;
   productCategorySubmitError: Error | null;
-  isCreate = false;
+  isCreateMode = false;
 }
 
 const commonImports = [
@@ -85,7 +85,7 @@ describe('ProductCategoriesFormComponent', () => {
       const emitSpy = jest
         .spyOn(component.formSubmit, 'emit')
         .mockImplementation();
-      component.isCreate = true;
+      component.isCreateMode = true;
       fixture.detectChanges();
       const form = fixture.debugElement.query(By.css('form'));
       //eslint-disable-next-line @typescript-eslint/no-non-null-assertion

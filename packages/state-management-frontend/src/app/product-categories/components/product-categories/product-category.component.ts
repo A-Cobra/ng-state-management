@@ -39,7 +39,7 @@ export class ProductCategoryComponent implements OnInit, UnsavedForm {
   productCategory$: Observable<ProductCategoryInterface>;
   productCategoryError$: Observable<Error>;
   productCategorySubmitError$: Observable<Error>;
-  isCreate = false;
+  isCreateMode = false;
   skipConfirmation = false;
 
   ngOnInit(): void {
@@ -47,7 +47,7 @@ export class ProductCategoryComponent implements OnInit, UnsavedForm {
       switchMap((paramMap) => {
         const productCategoryId = paramMap.get('id');
         if (!productCategoryId) {
-          this.isCreate = true;
+          this.isCreateMode = true;
           return EMPTY;
         }
 
@@ -64,8 +64,8 @@ export class ProductCategoryComponent implements OnInit, UnsavedForm {
 
   onFormSubmit(event: FormSubmitEvent): void {
     const { id, productCategory } = event;
-    if (this.isCreate) {
-      this.isCreate = false;
+    if (this.isCreateMode) {
+      this.isCreateMode = false;
       this.productCategory$ = this.#productCategoriesService
         .createProductCategory(productCategory)
         .pipe(
@@ -78,12 +78,12 @@ export class ProductCategoryComponent implements OnInit, UnsavedForm {
               ]);
             },
             error: () => {
-              this.isCreate = true;
+              this.isCreateMode = true;
               this.skipConfirmation = false;
             },
           })
         );
-    } else if (!this.isCreate && id) {
+    } else if (!this.isCreateMode && id) {
       this.productCategory$ =
         this.#productCategoriesService.updateProductCategory(
           id,

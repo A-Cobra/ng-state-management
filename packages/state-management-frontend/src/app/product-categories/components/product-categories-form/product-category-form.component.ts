@@ -27,7 +27,7 @@ export class ProductCategoryFormComponent implements OnChanges {
   @Input() productCategory: ProductCategoryInterface | null;
   @Input() productCategoryError: Error | null;
   @Input() productCategorySubmitError: Error | null;
-  @Input() isCreate: boolean;
+  @Input() isCreateMode: boolean;
   @Output() formSubmit = new EventEmitter<FormSubmitEvent>();
   readonly #fb = inject(NonNullableFormBuilder);
   readonly #notificationService = inject(NotificationService);
@@ -54,17 +54,15 @@ export class ProductCategoryFormComponent implements OnChanges {
       this.productCategoryId = productCategory.currentValue.id;
     }
 
-    if (productCategorySubmitError) {
-      if (productCategorySubmitError.currentValue) {
-        this.#notificationService.error(
-          productCategorySubmitError.currentValue.message,
-          'Error',
-          {
-            position: 'bottom-right',
-            duration: 5000,
-          }
-        );
-      }
+    if (productCategorySubmitError && productCategorySubmitError.currentValue) {
+      this.#notificationService.error(
+        productCategorySubmitError.currentValue.message,
+        'Error',
+        {
+          position: 'bottom-right',
+          duration: 5000,
+        }
+      );
     }
   }
 

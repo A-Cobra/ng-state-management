@@ -50,7 +50,7 @@ describe('ProductCategoryComponent', () => {
 
     it('should enable create mode if no id is provided', async () => {
       await fixture.whenStable();
-      expect(component.isCreate).toBe(true);
+      expect(component.isCreateMode).toBe(true);
     });
 
     it('should check if the form is saved', () => {
@@ -99,7 +99,7 @@ describe('ProductCategoryComponent', () => {
 
     it('should get a product category if a valid id is provided', async () => {
       await fixture.whenStable();
-      expect(component.isCreate).toBe(false);
+      expect(component.isCreateMode).toBe(false);
       component.productCategory$.pipe(take(1)).subscribe((productCategory) => {
         expect(productCategory).toEqual(PRODUCT_CATEGORIES[0]);
       });
@@ -138,7 +138,7 @@ describe('ProductCategoryComponent', () => {
 
     it('should emit an error in the product category error stream', (done) => {
       fixture.whenStable().then(() => {
-        expect(component.isCreate).toBe(false);
+        expect(component.isCreateMode).toBe(false);
         component.productCategoryError$.pipe(take(1)).subscribe((error) => {
           expect(error.message).toBe('Get product category test error');
           done();
@@ -147,14 +147,14 @@ describe('ProductCategoryComponent', () => {
     });
 
     it('should emit an error in the product category submit error stream if creating a product category fails', (done) => {
-      component.isCreate = true;
+      component.isCreateMode = true;
       component.onFormSubmit({
         id: '1',
         productCategory: { name: 'Test', description: 'Test description' },
       });
       component.productCategory$.pipe(take(1)).subscribe({
         error: () => {
-          expect(component.isCreate).toBe(true);
+          expect(component.isCreateMode).toBe(true);
           expect(component.skipConfirmation).toBe(false);
           done();
         },

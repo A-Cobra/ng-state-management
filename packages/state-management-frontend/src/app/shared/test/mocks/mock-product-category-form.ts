@@ -19,7 +19,7 @@ export class ProductCategoryFormStubComponent {
   @Input() productCategory: ProductCategoryInterface | null;
   @Input() productCategoryError: Error | null;
   @Input() productCategorySubmitError: Error | null;
-  @Input() isCreate: boolean;
+  @Input() isCreateMode: boolean;
   @Output() formSubmit = new EventEmitter<FormSubmitEvent>();
 
   form = new FormGroup({

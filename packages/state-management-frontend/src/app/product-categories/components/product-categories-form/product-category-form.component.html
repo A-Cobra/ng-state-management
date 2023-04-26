@@ -1,6 +1,6 @@
 <ng-container
   *ngIf="
-    isCreate ||
+    isCreateMode ||
       productCategory ||
       productCategoryError ||
       productCategorySubmitError;
@@ -11,7 +11,7 @@
     class="form"
     [formGroup]="form"
     *ngIf="
-      isCreate || productCategory || productCategorySubmitError;
+      isCreateMode || productCategory || productCategorySubmitError;
       else error
     "
     (ngSubmit)="onFormSubmit()"
@@ -51,10 +51,10 @@
         color="primary"
         type="submit"
         [plusIcon]="
-          isCreate ? submitButtonIcons['create'] : submitButtonIcons['save']
+          isCreateMode ? submitButtonIcons['create'] : submitButtonIcons['save']
         "
       >
-        {{ isCreate ? 'Create' : 'Save' }}
+        {{ isCreateMode ? 'Create' : 'Save' }}
       </clapp-button>
       <ng-template #editButton>
         <clapp-button
