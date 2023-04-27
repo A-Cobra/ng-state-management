@@ -16,6 +16,7 @@ import { UserCredentials } from './app/users/entities/user-credentials.entity';
 import { Customer } from './app/customers/entities/customer.entity';
 import { Courier } from './app/couriers/entities/courier.entity';
 import { CourierVehicle } from './app/couriers/entities/courier-vehicle.entity';
+import { ProductCategory } from './app/products/entities/product-category.entity';
 import { AccountType } from './app/account/entities/account-type.entity';
 import { Address } from './app/address/entities/address.entity';
 import { OrderStatus } from './app/orders/entities/order-status.entity';
@@ -48,6 +49,7 @@ const MikroOrmConfig: Options = {
     Customer,
     Courier,
     CourierVehicle,
+    ProductCategory,
     AccountType,
     Address,
     OrderStatus,

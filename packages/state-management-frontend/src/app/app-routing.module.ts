@@ -30,12 +30,12 @@ const routes: Routes = [
       import('./products/products.module').then((m) => m.ProductsModule),
   },
   {
-    path: '',
-    loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
+    path: 'profile',
+    loadChildren: () => import('./user/user.module').then((m) => m.UserModule),
   },
   {
-    path: 'users',
-    loadChildren: () => import('./user/user.module').then((m) => m.UserModule),
+    path: '',
+    loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
   },
   {
     path: 'product-categories',

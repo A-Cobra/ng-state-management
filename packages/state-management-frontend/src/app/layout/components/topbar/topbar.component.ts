@@ -1,7 +1,7 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subject, takeUntil } from 'rxjs';
 import { NotificationService } from '@clapp1/clapp-angular';
+import { Subject, takeUntil } from 'rxjs';
 import { UserLayout } from '../../models/layout.model';
 import { LayoutService } from '../../services/layout.service';
 
@@ -36,7 +36,7 @@ export class TopbarComponent implements OnInit, OnDestroy {
   }
 
   goToProfile() {
-    this.route.navigate(['/users/profile']);
+    this.route.navigate(['/profile']);
   }
 
   ngOnDestroy(): void {

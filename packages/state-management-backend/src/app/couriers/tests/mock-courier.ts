@@ -19,8 +19,6 @@ export const mockCourier: Courier = {
   payroll: undefined,
   user: undefined,
   role: new Role(),
-  password: '',
-  isLoggedIn: false,
 };
 
 export const mockCreateCourierDto: CreateCourierDto = {

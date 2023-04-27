@@ -10,17 +10,13 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
   }
 
   canActivate(
-    context: ExecutionContext,
+    context: ExecutionContext
   ): boolean | Promise<boolean> | Observable<boolean> {
-    const noAuth = this.reflector.get<boolean>(
-      'no-auth',
-      context.getHandler(),
-    );
+    const noAuth = this.reflector.get<boolean>('no-auth', context.getHandler());
 
     if (noAuth) {
       return true;
     }
-
     return super.canActivate(context);
   }
 }

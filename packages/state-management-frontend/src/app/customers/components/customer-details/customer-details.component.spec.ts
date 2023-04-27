@@ -21,19 +21,6 @@ import {
   NotificationService,
 } from '@clapp1/clapp-angular';
 
-@Component({
-  selector: 'app-customer-component',
-  template: '<span> Mock Component </span>',
-})
-class MockCustomerComponent {}
-
-const routes: Routes = [
-  {
-    path: 'customers',
-    component: MockCustomerComponent,
-  },
-];
-
 const customerServiceMock = {
   getCustomer: jest.fn().mockReturnValue(of(MOCK_CUSTOMER)),
   getIsAdminInfo: jest.fn().mockReturnValue(of(true)),
@@ -50,6 +37,19 @@ const notificationServiceMock = {
   success: jest.fn(),
   error: jest.fn(),
 };
+
+@Component({
+  selector: 'app-customer-component',
+  template: '<span> Mock Component </span>',
+})
+class MockCustomerComponent {}
+
+const routes: Routes = [
+  {
+    path: 'customers',
+    component: MockCustomerComponent,
+  },
+];
 
 describe('CustomerDetailsComponent', () => {
   let component: CustomerDetailsComponent;
