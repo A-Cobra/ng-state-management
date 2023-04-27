@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { CustomerDetailsComponent } from './components/customer-details/customer-details.component';
 import { CustomersComponent } from './components/customers/customers.component';
+import { CustomerOrderSelectAddressComponent } from './components/customer-order-select-address/customer-order-select-address.component';
 
 const routes: Routes = [
   {
@@ -12,6 +13,15 @@ const routes: Routes = [
   {
     path: ':customerId',
     component: CustomerDetailsComponent,
+  },
+  {
+    path: 'order',
+    children: [
+      {
+        path: 'select-address',
+        component: CustomerOrderSelectAddressComponent,
+      },
+    ],
   },
 ];
 
