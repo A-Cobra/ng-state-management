@@ -16,6 +16,7 @@ import {
   ClappNotificationModule,
   ClappPaginationModule,
   ClappSearchModule,
+  ClappTopbarModule,
   ModalService,
 } from '@clapp1/clapp-angular';
 import { CustomerOrderSelectAddressComponent } from './components/customer-order-select-address/customer-order-select-address.component';
@@ -28,6 +29,7 @@ const clappModules = [
   ClappImageDisplayModule,
   ClappPaginationModule,
   ClappNotificationModule,
+  ClappTopbarModule,
 ];
 
 @NgModule({

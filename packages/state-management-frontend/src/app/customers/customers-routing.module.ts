@@ -16,9 +16,14 @@ const routes: Routes = [
   },
   {
     path: 'order',
+    data: { title: 'Order' },
     children: [
       {
         path: 'select-address',
+        component: CustomerOrderSelectAddressComponent,
+      },
+      {
+        path: 'create-address',
         component: CustomerOrderSelectAddressComponent,
       },
     ],

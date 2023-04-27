@@ -5,4 +5,6 @@ import { Component } from '@angular/core';
   templateUrl: './customer-order-select-address.component.html',
   styleUrls: ['./customer-order-select-address.component.scss'],
 })
-export class CustomerOrderSelectAddressComponent {}
+export class CustomerOrderSelectAddressComponent {
+  title = 'Select your delivery address';
+}
