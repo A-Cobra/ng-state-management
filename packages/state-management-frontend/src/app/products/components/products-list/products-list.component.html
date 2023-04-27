@@ -31,17 +31,4 @@
       (pageChange)="onPageChange($event)"
     ></clapp-pagination>
   </div>
-  <ng-template #emptyProducts>
-    <div class="no-products">
-      <h1>No products</h1>
-      <p>Please add new ones</p>
-      <clapp-button
-        color="secondary"
-        plusIcon="ri-add-fill"
-        [routerLink]="['/products', 'create']"
-      >
-        Add Product</clapp-button
-      >
-    </div>
-  </ng-template>
 </div>

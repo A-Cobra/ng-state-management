@@ -20,6 +20,7 @@ import {
   ModalService,
 } from '@clapp1/clapp-angular';
 import { CustomerOrderSelectAddressComponent } from './components/customer-order-select-address/customer-order-select-address.component';
+import { CustomerAddressCardComponent } from './components/customer-address-card/customer-address-card.component';
 
 const clappModules = [
   ClappCardModule,
@@ -38,6 +39,7 @@ const clappModules = [
     CustomerCardComponent,
     CustomerDetailsComponent,
     CustomerOrderSelectAddressComponent,
+    CustomerAddressCardComponent,
   ],
   imports: [
     HttpClientModule,

@@ -11,10 +11,6 @@ const routes: Routes = [
     component: CustomersComponent,
   },
   {
-    path: ':customerId',
-    component: CustomerDetailsComponent,
-  },
-  {
     path: 'order',
     data: { title: 'Order' },
     children: [
@@ -27,6 +23,10 @@ const routes: Routes = [
         component: CustomerOrderSelectAddressComponent,
       },
     ],
+  },
+  {
+    path: ':customerId',
+    component: CustomerDetailsComponent,
   },
 ];
 
