@@ -6,8 +6,8 @@ import { of, throwError } from 'rxjs';
 import { CustomerDetailsComponent } from './customer-details.component';
 import { ConfirmationModalComponent } from '../../../shared/components/confirmation-modal/confirmation-modal.component';
 import { CustomersService } from '../../services/customers.service';
-import { activatedRouteMock, MOCK_CUSTOMER } from '../../test/customers.mocks';
 import { backModalConfig, deleteModalConfig } from '../../utils/modal-config';
+import { activatedRouteMock, MOCK_CUSTOMER } from '../../test/customers.mocks';
 
 import {
   ClappButtonModule,
@@ -43,6 +43,7 @@ const notificationServiceMock = {
   template: '<span> Mock Component </span>',
 })
 class MockCustomerComponent {}
+
 const routes: Routes = [
   {
     path: 'customers',

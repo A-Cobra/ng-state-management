@@ -1,0 +1,9 @@
+<h2>Product category</h2>
+<app-product-category-form
+  [productCategory]="productCategory$ | async"
+  [productCategoryError]="productCategoryError$ | async"
+  [productCategorySubmitError]="productCategorySubmitError$ | async"
+  [isCreateMode]="isCreateMode"
+  (formSubmit)="onFormSubmit($event)"
+>
+</app-product-category-form>
