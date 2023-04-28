@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { CustomerInterface } from '@state-management-app/types';
+import { Address, CustomerInterface } from '@state-management-app/types';
 import { Observable } from 'rxjs';
 import { CustomersService } from '../../services/customers.service';
+import { AddressesService } from '../../services/addresses.service';
 
 @Component({
   selector: 'app-customer-order-select-address',
@@ -9,10 +10,10 @@ import { CustomersService } from '../../services/customers.service';
   styleUrls: ['./customer-order-select-address.component.scss'],
 })
 export class CustomerOrderSelectAddressComponent implements OnInit {
-  customer$: Observable<CustomerInterface>;
+  addresses$: Observable<Address[]>;
   title = 'Select your delivery address';
-  constructor(private customersService: CustomersService) {}
+  constructor(private addressesService: AddressesService) {}
   ngOnInit(): void {
-    this.customer$ = this.customersService.getCustomer('1');
+    this.addresses$ = this.addressesService.getAddressesByUserId('1');
   }
 }

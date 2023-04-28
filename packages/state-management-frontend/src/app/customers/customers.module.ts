@@ -21,6 +21,7 @@ import {
 } from '@clapp1/clapp-angular';
 import { CustomerOrderSelectAddressComponent } from './components/customer-order-select-address/customer-order-select-address.component';
 import { CustomerAddressCardComponent } from './components/customer-address-card/customer-address-card.component';
+import { AddressesService } from './services/addresses.service';
 
 const clappModules = [
   ClappCardModule,
@@ -32,6 +33,8 @@ const clappModules = [
   ClappNotificationModule,
   ClappTopbarModule,
 ];
+
+const services = [ModalService, CustomersService, AddressesService];
 
 @NgModule({
   declarations: [
@@ -49,6 +52,6 @@ const clappModules = [
     ...clappModules,
     LoaderComponent,
   ],
-  providers: [ModalService, CustomersService],
+  providers: [...services],
 })
 export class CustomersModule {}

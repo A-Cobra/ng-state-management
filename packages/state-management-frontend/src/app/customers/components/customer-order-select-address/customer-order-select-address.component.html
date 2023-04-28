@@ -9,7 +9,16 @@
       >
     </clapp-topbar>
   </div>
-  <div class="cards-container">
+  <div class="main" *ngIf="addresses$ | async as addresses">
+    <!-- <app-products-list-display
+      [productsList]="productsList"
+    ></app-products-list-display>   -->
+    <div>
+      <app-customer-address-card
+        *ngFor="let address of addresses"
+        [address]="address"
+      ></app-customer-address-card>
+    </div>
     <p>
       Lorem ipsum dolor sit amet consectetur adipisicing elit. At, minus. Quod
       quo consequatur impedit quidem in! Eos dignissimos inventore culpa unde
