@@ -1,0 +1,90 @@
+<ng-container
+  *ngIf="
+    isCreateMode ||
+      productCategory ||
+      productCategoryError ||
+      productCategorySubmitError;
+    else loading
+  "
+>
+  <form
+    class="form"
+    [formGroup]="form"
+    *ngIf="
+      isCreateMode || productCategory || productCategorySubmitError;
+      else error
+    "
+    (ngSubmit)="onFormSubmit()"
+  >
+    <div class="form__field">
+      <clapp-text-input
+        formControlName="name"
+        label="Name*"
+        [error]="name.invalid && (name.touched || name.dirty)"
+        [success]="name.valid"
+      ></clapp-text-input>
+      <clapp-helper-text
+        *ngIf="name.invalid && (name.touched || name.dirty)"
+        textState="error"
+      >
+        Name is required.
+      </clapp-helper-text>
+    </div>
+    <div class="form__field">
+      <clapp-text-input
+        formControlName="description"
+        label="Description"
+      ></clapp-text-input>
+    </div>
+
+    <div class="form__action-buttons">
+      <clapp-button
+        color="secondary"
+        type="button"
+        plusIcon="ri-arrow-left-s-line"
+        routerLink="/product-categories"
+        >Go back</clapp-button
+      >
+      <clapp-button
+        *ngIf="form.enabled; else editButton"
+        [disabled]="form.invalid"
+        color="primary"
+        type="submit"
+        [plusIcon]="
+          isCreateMode ? submitButtonIcons['create'] : submitButtonIcons['save']
+        "
+      >
+        {{ isCreateMode ? 'Create' : 'Save' }}
+      </clapp-button>
+      <ng-template #editButton>
+        <clapp-button
+          color="primary"
+          type="button"
+          (click)="form.enable()"
+          [plusIcon]="submitButtonIcons['edit']"
+          >Edit</clapp-button
+        >
+      </ng-template>
+    </div>
+  </form>
+
+  <ng-template #error>
+    <div class="not-found-message">
+      <clapp-no-results-found
+        [customText]="
+          productCategoryError?.message ||
+          'The product category you were looking for does not exist.'
+        "
+      ></clapp-no-results-found>
+      <clapp-button
+        routerLink="/product-categories"
+        plusIcon="ri-arrow-left-s-line"
+        >Go to product category list</clapp-button
+      >
+    </div>
+  </ng-template>
+</ng-container>
+
+<ng-template #loading>
+  <app-loader></app-loader>
+</ng-template>
