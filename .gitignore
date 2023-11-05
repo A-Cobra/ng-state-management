@@ -2,11 +2,13 @@
 
 # compiled output
 dist
+**/dist
 tmp
 /out-tsc
 
 # dependencies
 node_modules
+**/node_modules
 
 # IDEs and editors
 /.idea
@@ -19,6 +21,7 @@ node_modules
 
 # IDE - VSCode
 .vscode/*
+**/.vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
@@ -50,3 +53,4 @@ docker-compose.development.yaml
 
 ## Db-data
 db-data/
+**/db-data/
