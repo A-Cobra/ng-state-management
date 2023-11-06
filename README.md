@@ -10,6 +10,13 @@ The project follows an NX monorepo structure and involves a team of 20 individua
 
 The purpose of the application is to build an API that offers new trainees a superior alternative to the existing API. The application includes various modules such as products, authentication, branches, business, classification, etc.
 
+## Screenshots
+
+<img src="./packages/state-management-frontend/src/assets/images/businesses.PNG" width="600px">
+<img src="./packages/state-management-frontend/src/assets/images/branches.PNG" width="600px">
+<img src="./packages/state-management-frontend/src/assets/images/businesses_create.PNG" width="600px">
+<img src="./packages/state-management-frontend/src/assets/images/customers.PNG" width="600px">
+
 ## Repository Structure
 
 The repository consists of the following branches:
