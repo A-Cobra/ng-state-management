@@ -60,30 +60,34 @@ To set up the application locally, please follow the steps below:
 
 1. Clone the repository:
 
-   ```shell
+   ```bash
    git clone https://github.com/A-Cobra/ng-state-management
    ```
 
-2. Run the following code to install all the dependencies:
+2. Enter the main project folder by typiong the following command:
+   ```
+   cd ng-state-management
+   ```
+3. Run the following code to install all the dependencies:
 
    ```
-   npm install
+   npm install --force
    ```
 
-3. Run the following code to serve frontend angular app in dev mode.
+4. Run the following code to serve frontend angular app in dev mode.
 
    ```
    nx serve state-management-frontend
    ```
 
-4. The front end application will be open in port 4200
-5. Access a browser with the following link to review the front end app
+5. The front end application will be open in port 4200
+6. Access a browser with the following link to review the front end app
 
    ```
-   http://127.0.0.1:4200
+   localhost:4200
    ```
 
-6. Run the following to serve backend nestJs api in dev mode.
+7. Run the following to serve backend nestJs api in dev mode.
    ```
    nx serve state-management-backend
    ```
